@@ -11,7 +11,7 @@ use think\facade\Cache;
 class IndexServer
 {
     /**
-     * 顶部banner 换成对象
+     * banner 换成对象
      * @param int $space_id
      * @param mixed
      * @return array
@@ -85,9 +85,10 @@ class IndexServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function get_recommend_house(){//where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])->
+    public function get_recommend_house(){//
         $objs   = model('second_house');
         $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
+            ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit(6)->cache(1800)->select();
         return $second_house;
     }
