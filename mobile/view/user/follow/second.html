@@ -1,0 +1,170 @@
+{extend name='user/public/layout' /}
+
+{block name='content'}
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+
+
+<div class="main" style="background: none;">
+
+    {include file='user/follow/nav' /}
+
+
+<style type="text/css">
+    .intro-text p{color:#999;}
+</style>
+<div style="width:98%; height:40px; background:#eee; margin-left: 5px;"><span style="line-height:40px;padding: 5px;">我关注的小区</span></div>
+    <div class="house-show-box">
+
+        <ul>
+
+            {volist name='xqlists' id='vo' empty='暂无数据'}
+
+            <li>
+            <h4 style="margin-top:-10px;margin-bottom:10px;">
+                    <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">{$vo.title}</a>
+            </h4>
+
+                <div class="pic"  style="width:43%;height:4.0rem;">
+
+                    <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" />
+
+                    </a>
+
+                </div>
+
+                <div class="intro-text" style="width:55%;margin-top:-5px">
+                <p class="detail-text" style="color:#000;line-height:.9rem">地区：{:getCityName($vo['city'],'-')}</p>
+                <p class="detail-text" style="color:#000;line-height:.9rem">年代：<em>{$vo.years}</em>年建成</p>
+                <p class="detail-text" style="color:#000;line-height:.9rem">均价：<em>{$vo.price}</em>{:config('filter.second_price_unit')}</p>
+                <p class="detail-text"><span class="cancel-follow" style="float:left; margin-top:8px;" data-id="{$vo.id}" data-model="estate">取消</span></p>
+
+
+                    
+
+                </div>
+
+            </li>
+
+            {/volist}
+
+        </ul>
+
+    </div>
+    <div class="page_list">
+
+        {$xqpages|raw}
+
+    </div>
+
+
+
+
+<div style="width:98%; height:40px; background:#eee; margin-left: 5px;"><span style="line-height:40px;padding: 5px;">我关注的房源</span></div>
+    <div class="house-show-box">
+
+        <ul>
+
+            {volist name='lists' id='vo' empty='暂无数据'}
+
+            <li>
+<h4 style="margin-top:-10px;margin-bottom:10px;">
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.estate_name}">{:getCityName($vo['city'],'-')}&nbsp;&nbsp;&nbsp;{$vo.estate_name}</a>
+                </h4>
+                <div class="pic" style="width:43%;height:4.7rem;">
+
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" />
+                        {if $vo.fcstatus eq 169}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;"><img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 170}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;"><img src="/static/images/status/status1.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 171}
+                        <div class="zzjx fix abs" style="float:right;top:1.2rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 172}
+                        <div class="zzjx fix abs" style="float:right;top:1.2rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 173}
+                        <div class="zzjx fix abs" style="float:right;top:1.2rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 174}
+                        <div class="zzjx fix abs" style="float:right;top:1.2rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 175}
+                        <div class="zzjx fix abs" style="float:right;top:1.2rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+
+                    </a>
+
+                </div>
+
+                <div class="intro-text" style="width:55%;margin-top:-5px">
+
+                    <!-- <h4>
+
+                        <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                            {$vo.estate_name}
+
+                        </a>
+
+                    </h4> -->
+                    <p class="detail-text" style="color:#000;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')} {:getLinkMenuName(8,$vo['renovation'])}</p>
+                    <p class="detail-text" style="color:#000;line-height:.9rem">市场价：{if condition="$vo.price gt 0"}<em>{$vo.price}</em>万{else /}面议{/if}</p>
+                    <p class="detail-text" style="color:#000;line-height:.9rem">起拍价：<em>{$vo.qipai}</em>万</p>
+                    <p class="detail-text" style="color:#000;line-height:.9rem">开拍时间：{$vo.kptime|date='Y-m-d H:i'}</p>
+
+                    
+
+                    <p class="detail-text"><span class="cancel-follow" style="float:left; margin-top:8px;" data-id="{$vo.id}" data-model="second_house">取消</span></p>
+
+                    <p class="good">
+
+                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+
+                        {notempty name='tag'}
+
+                        {volist name='tag' id='val'}
+
+                        {if condition="is_numeric($val)"}
+
+                        <em>{:getLinkMenuName(14,$val)}</em>
+
+                        {else /}
+
+                        <em>{$val}</em>
+
+                        {/if}
+
+                        {/volist}
+
+                        {/notempty}
+
+                    </p>
+
+                </div>
+
+            </li>
+
+            {/volist}
+
+        </ul>
+
+    </div>
+
+    <div class="page_list">
+
+        {$pages|raw}
+
+    </div>
+
+</div>
+
+{/block}

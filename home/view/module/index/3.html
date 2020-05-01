@@ -1,0 +1,50 @@
+<!-- menu S -->
+    <div class="label_menu">
+        <div class="comWidth clearfix">
+            <div class="item fl">
+                <div class="tit">
+                    <h3>买房</h3>
+                    <div class="l"></div>
+                </div>
+                <div class="link">
+                    <a href="{:url('House/index')}">新房</a>
+                    <a href="{:url('Second/index')}">二手房</a>
+                    <a href="{:url('House/index',['discount'=>1])}">优惠</a>
+                </div>
+            </div>
+            <div class="item fl">
+                <div class="tit">
+                    <h3>卖房</h3>
+                    <div class="l"></div>
+                </div>
+                <div class="link">
+                    <a href="{:url('user.index/index')}">我要卖房</a>
+                    <a href="{:url('user.index/index')}">我要出租</a>
+                </div>
+            </div>
+            <div class="item fl">
+                <div class="tit">
+                    <h3>租房</h3>
+                    <div class="l"></div>
+                </div>
+                <div class="link">
+                    {volist name='rental_type' id='vo'}
+                    {if condition='$i lt 5'}
+                    <a href="{:url('Rental/index',['type'=>$vo['id']])}">{$vo.name}</a>
+                    {/if}
+                    {/volist}
+                </div>
+            </div>
+            <div class="item fl">
+                <div class="tit">
+                    <h3>工具</h3>
+                    <div class="l"></div>
+                </div>
+                <div class="link">
+                    <a href="{:url('Map/index')}">地图找房</a>
+                    <a href="{:url('Tools/index')}">房贷计算</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- menu E -->

@@ -1,0 +1,37 @@
+{notempty name='rental_house'}
+            <!-- 精品租房 S -->
+            <div class="rent_house cm_wrap">
+                <div class="head clearfix">
+                    <h2 class="fl icon-rent">精品租房</h2>
+                </div>
+                <div class="content">
+                    <!-- 楼盘列表 S -->
+                    <div class=" build_list">
+                        <ul class="clearfix">
+                            {volist name='rental_house' id='vo'}
+                            <li>
+                                <a href="{:url('Rental/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],270,180)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    <!-- 楼盘列表 E -->
+                </div>
+            </div>
+            <!-- 精品租房 E -->
+            {/notempty}

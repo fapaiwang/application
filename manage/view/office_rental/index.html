@@ -1,0 +1,149 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--二手房列表-->
+<style>
+    .layui-form-select{width:100px;}
+</style>
+<div class="layui-form">
+    <form name="layui-form" class="search-form" action="{:url('OfficeRental/index')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <select name="status">
+                            <option value="">-所有-</option>
+                            <option value="1" {eq name="search['status']" value="1"}selected="selected"{/eq}>正常</option>
+                            <option value="0" {eq name="search['status']" value="0"}selected="selected"{/eq}>待审</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" type="text" placeholder="输入关键词搜索" class="layui-input" size="25" value="{$search.keyword}" />
+                    </div>
+                    <input type="hidden" name="menuid" value="{$menuid}">
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                    <span style="color:green;">排序数字越小越靠前</span>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('OfficeRental/ajaxEdit')}">
+            <colgroup>
+                <col width="5%">
+                <col width="5%">
+                <col width="10%">
+                <col width="35%">
+                <col width="10%">
+                <col width="10%">
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>ID</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>楼盘名称</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>标题</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>面积</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>租金</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>排序</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.id}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.estate_name}
+                    </div>
+                </td>
+                <td data-field="title">
+                    <a href="{:url('OfficeRental/detail@www',['id'=>$val['id']])}" target="_blank">{$val.title}</a>
+                        {notempty name='val.img'}
+                        <a href="javascript:;" class="thumb" data-thumb="{$val.img}"><i class="layui-icon">&#xe64a;</i></a>
+                        {/notempty}
+                        {if condition='$val.rec_position eq 1'}
+                        <img src="/static/images/rec.png" alt="">
+                        {/if}
+                </td>
+
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.acreage}㎡
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.price|raw}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit" style="">{$val.ordid}</span>
+                    </div>
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|待审" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td>
+                        {:rights($options,$val['id'],$val['title'],$menuid)}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('Office/delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+{/block}

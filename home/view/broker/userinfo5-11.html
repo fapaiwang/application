@@ -1,0 +1,71 @@
+<div class="m_wrap">
+    <div class="toux">
+        <img src="{:getAvatar($brokerInfo['id'],180)}" alt={$brokerInfo.nick_name}">
+    </div>
+    <div class="phone">{$brokerInfo.mobile}</div>
+    <ul class="info_list clearfix">
+        <li>
+            <div class="tit fl">
+                <p>公司：</p>
+            </div>
+            <div class="con fr" style="width:160px;">
+               <p style="line-height: 22px;padding:7px 0;">{$brokerInfo["userInfo"]["company"]}</p>
+            </div>
+        </li>
+        <li>
+            <div class="tit fl">
+                <p>等级：</p>
+            </div>
+            <div class="con fr">
+                <ul class="star_list clearfix">
+                    {for start='1' end='6'}
+                    <li {if condition='$i elt $brokerInfo["userInfo"]["point"]'}class="on"{else /}class='off'{/if}></li>
+                    {/for}
+                </ul>
+            </div>
+        </li>
+        <li>
+            <div class="tit fl">
+                <p>区域：</p>
+            </div>
+            <div class="con fr">
+                <p>
+                    {php}$area=array_filter(explode(',',$brokerInfo["userInfo"]['service_area']));{/php}
+                    {volist name='area' id='val'}
+                    {:getCityName($val,'-')}
+                    {/volist}
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="tit fl">
+                <p>评价：</p>
+            </div>
+            <div class="con fr">
+                <p>好评率{:number_format(($brokerInfo["userInfo"]['point']/5)*100,0)}%</p>
+            </div>
+        </li>
+        <li>
+            <div class="tit fl">
+                <p>带看：</p>
+            </div>
+            <div class="con fr">
+                <p>近30天带看{$brokerInfo.userInfo.looked}次</p>
+            </div>
+        </li>
+        <li>
+            <div class="tit fl">
+                <p>成交：</p>
+            </div>
+            <div class="con fr">
+                <p>历史成交{$brokerInfo.userInfo.history_complate}套</p>
+            </div>
+        </li>
+    </ul>
+    <span class="label_list clearfix">
+         {php}$tags=array_filter(explode(',',$brokerInfo['userInfo']['tags']));{/php}
+         {volist name='tags' id='tag'}
+         <i class="item">{:getLinkMenuName(13,$tag)}</i>
+         {/volist}
+	 </span>
+</div>

@@ -1,0 +1,46 @@
+{extend name='user/public/layout' /}
+
+{block name='content'}
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+
+
+<div class="main" style="background: none;">
+
+   
+
+    <div class="house-show-box">
+
+        <ul>
+
+           {volist name='lists' id='vo' empty='暂无数据'}
+
+            <li>
+            <div style="width:50%;float:left;">称呼：{$vo.user_name}</div>
+            <div style="width:50%;float:left;">联系电话：{$vo.mobile}</div>
+            <div style="width:50%;float:left;">详细地址：{$vo.address}</div>
+            <div style="width:50%;float:left;">售价：{$vo.price}</div>
+            <div style="width:50%;float:left;">小区：{$vo.xq}</div>
+            <div style="width:50%;float:left;">面积：{$vo.mj}</div>
+
+<br>
+                
+
+            </li>
+
+           {/volist}
+
+        </ul>
+
+    </div>
+
+    <div class="page_list">
+
+        
+
+    </div>
+
+</div>
+
+{/block}

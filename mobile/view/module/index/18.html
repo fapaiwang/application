@@ -1,0 +1,46 @@
+{notempty name='house'}
+    <!-- 推荐新房 S-->
+    <div class="house-show-box mt20">
+        <div class="title">
+            <h3>推荐新房</h3>
+            <a href="{:url('House/index')}" title="新房">更多</a>
+        </div>
+        <ul>
+            {volist name='house' id='vo'}
+            <li>
+                <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                    <div class="clearfix">
+                        <div class="pic">
+                            <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                        </div>
+                        <div class="intro-text">
+                            <h4 class="saleing">
+                                {$vo.title}
+                            </h4>
+                            <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num">{if condition="$vo.price gt 0"}<em>{$vo.price}</em>{:getUnitData($vo['unit'])}{else /}待定{/if}</span></p>
+                            <p><span>{$vo.min_acreage}-{$vo.max_acreage}{:config('filter.acreage_unit')}</span><i>|</i><span>{$vo.min_type}-{$vo.max_type}室</span></p>
+                            <p class="good">
+                                {php}$tags = array_filter(explode(',',$vo['tags_id']));{/php}
+                                {notempty name='tags'}
+                                {volist name='tags' key='n' id='val'}
+                                {if condition='$n lt 4'}
+                                <em>{:getLinkMenuName(3,$val)}</em>
+                                {/if}
+                                {/volist}
+                                {/notempty}
+                            </p>
+                        </div>
+                    </div>
+                    {if condition='$vo.is_discount eq 1'}
+                    <div class="list-discount">
+                        <span>惠</span>{$vo.discount}
+                    </div>
+                    {/if}
+                </a>
+            </li>
+            {/volist}
+
+        </ul>
+    </div>
+    <!-- 推荐新房 E-->
+    {/notempty}

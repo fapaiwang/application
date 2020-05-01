@@ -1,0 +1,123 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('Article/addDo')}" method="post" enctype="multipart/form-data">
+	<div class="layui-tab layui-tab-brief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">基本信息</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>所属城市</label>
+					<input type="hidden" name="city" id="J_city_id" value="" />
+					<div class="layui-input-block">
+						<select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds')}" data-selected="{$city}">
+						</select>
+					</div>
+
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>所属分类</label>
+					<input type="hidden" name="cate_id" lay-verify="articleCate" id="J_cate_id" value="" />
+					<div class="layui-input-block">
+						<select class="J_cate_select mr10" lay-filter="J_cate_select" data-pid="0" data-uri="{:url('ArticleCate/ajaxGetchilds')}" data-selected="">
+						</select>
+					</div>
+
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>标题</label>
+					<div class="layui-input-inline">
+						<input type="text" name="title" lay-verify="title" placeholder="标题" value="" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">缩略图</label>
+					<div class="layui-input-block">
+						<div class="layui-upload">
+							<input type="hidden" name="img" id="img_txt">
+							<button type="button" class="layui-btn" id="img">上传图片</button>
+							<div id="img_preview">
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">简介</label>
+					<div class="layui-input-block" style="width:880px;">
+						<textarea placeholder="简介" name="description" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">内容</label>
+					<div class="layui-input-block">
+						<script id="info" name="info" type="text/plain"></script>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">&nbsp;</label>
+		<button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+	</div>
+</form>
+{:hook('ueditor',['id'=>'info'])}
+<script>
+	var uploadUrl = "{:url('Article/ajaxUploadImg')}",deleteImgUrl = "{:url('Article/deleteImg')}";
+	//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+	layui.use(['form','upload','linkmenu'], function(){
+		var $ = layui.jquery,form = layui.form,menu = layui.linkmenu,upload = layui.upload;
+		$(".J_city_select").select({field : 'J_city_id',id : 'J_city_select',level:1});
+		$(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
+		//自定义验证规则
+		form.verify({
+			articleCate: function (value) {
+				if (value == 0) {
+					return '请选择选择文章分类';
+				}
+			},
+			title : function (value) {
+				if(value.length < 3){
+					return '请填写文章标题,最少3个字符'
+				}
+			}
+		});
+		upload.render({
+			elem: '#img'
+			,url: ''
+			,auto:false
+			,choose: function(obj){
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result){
+					var img = "<img class='layui-upload-img' src='"+result+"' width='100'/>";
+					$('#img_preview').html(img); //图片链接（base64）
+				});
+			}
+		});
+		$(document).on('click','.deleteImg',function(){
+			var that = $(this),img = $(this).data('src'),textId = $(this).data('text');
+			layer.confirm('确定要删除图片么?', {icon: 3, title:'提示'}, function(index){
+				var param = {
+					'path' : img
+				};
+				$.post(deleteImgUrl,param,function(res){
+					layer.close(index);
+					if(res.code == 1){
+						$("#"+textId).val('');
+						that.parent().html('');
+					}else{
+						layer.msg(res.msg,{icon:2});
+					}
+				});
+			});
+
+		});
+	});
+</script>
+{/block}

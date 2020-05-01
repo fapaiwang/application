@@ -1,0 +1,29 @@
+<div class="old-house house-show-box mt20">
+        <div class="title">
+            <h3>最新出租房</h3>
+            <a href="{:url('Rental/index')}" title="出租房">更多</a>
+        </div>
+        <ul>
+            {fang:lists table='rental' filed="id,title,estate_name,img,address,room,living_room,city,price,acreage,tags,update_time" where="status = 1 and city in ($cityIds) and timeout > $time" order="ordid asc,update_time desc" limit="5" id="vo"}
+            <li>
+                <div class="pic">
+                    <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" />
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4>
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {$vo.title}
+                        </a>
+                    </h4>
+                    <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+                    <p><span>{$vo.room}室{$vo.living_room}厅</span>&nbsp;<span>{$vo.acreage}{:config('filter.acreage_unit')}</span><span>&nbsp;&nbsp;{:getTime($vo['update_time'],'mohu')}更新</span></p>
+                    <p class="good">
+                        {$vo.address}
+                    </p>
+                </div>
+            </li>
+            {/fang:lists}
+        </ul>
+    </div>

@@ -1,0 +1,147 @@
+
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+	
+</style>
+{block name='content'}
+
+<div style="width:100%;height:700px;margin:0 auto;background:url('/img/tg/1.jpg');background-size:cover;background-position:center;background-repeat:no-repeat">
+	<div style="height:155px"></div>
+	<div style="width:1000px;height:400px;margin:0 auto">
+		
+		
+		<div style="width:300px;height:350px;float:right;background: rgba(0, 0, 0, 0.5);">
+			
+			
+			<h3 style="text-align: center;line-height:40px;color:#fff; margin-top:30px">查询捡漏房源</h3>
+			
+			
+			  <form action="{:url('Tuiguang/tijiao')}"  id="form" method="post">
+
+  <input type="text" class="ipt" name="user_name" id="user_name" placeholder="请输入您的姓名" style="padding-left: 20px;width:260px;height:50px;line-height:50px;margin: 20px;">
+
+  <input type="text" class="ipt" name="mobile" id="mobile" placeholder="请输入您的手机号码" style="padding-left: 20px;width:260px;height:50px;line-height:50px;margin: 20px;">
+
+    <input type="submit" name="" value="立即查看" style="margin:20px 40px; font-size: 16px;width:220px;height:50px;line-height:50px;text-align:center;color:#fff;border:none;background:#c20e26">
+        </form>
+			
+			
+			
+		</div>
+		
+		
+		
+		
+	</div>
+	
+</div>
+<div style="width:100%;height:6330px;margin:0 auto;background:url('/img/tg/2.jpg');background-size:cover;background-position:center;background-repeat:no-repeat"></div>
+
+
+
+
+      <div style="width:100%;height:196px;background:url('/img/tg/3.png');background-size:cover;background-position:center;background-repeat:no-repeat;position:fixed;left:0px;bottom:0px">
+      	
+      	<div style="width:1100px;height:50px;margin:0 auto">
+		
+		
+		<div style="width:600px;height:50px;float:right;">
+			
+	<div style="height:110px"></div>
+			 <form action="{:url('Tuiguang/tijiao')}"  id="form" method="post">
+                    
+ 
+  <input type="text" class="ipt" style="display:none;" name="user_name" id="user_name" placeholder="请输入您的姓名" value="游客">
+
+
+  <input type="text" class="ipt" name="mobile" id="mobile" placeholder="请输入您的手机号码" style="padding-left: 20px;width:260px;height:50px;line-height:50px;margin: 20px;float:left">
+
+  <input type="submit" name="" value="立即查看" style="margin:20px 40px; font-size: 16px;width:220px;height:50px;line-height:50px;text-align:center;color:#fff;border:none;background:#c20e26;float:left">
+  
+        </form>
+			
+			
+		</div>
+		
+		
+		
+		
+	</div>
+      	
+      	
+      	
+      </div>
+
+
+
+       
+   
+   
+<script>
+$('#sub_btn').on('click',function(){
+	alert(111);
+
+            var user_name = $('#user_name').val(),mobile = $('#mobile').val(),sms_code = $('#sms_code').val(),
+
+                    send_sms = $('#send_sms').val(),reg = /^1[3456789][0-9]{9}$/;
+
+            if(!user_name)
+
+            {
+
+                layer.msg('请填写用户名',{icon:2});
+
+                return false;
+
+            }else if(!reg.test(mobile)){
+
+                layer.msg('手机号码格式不正确',{icon:2});
+
+                return false;
+
+            }else if(!sms_code && send_sms == 1){
+
+                layer.msg('请填写短信验证码',{icon:2});
+
+                return false;
+
+            }else{
+
+                $('#form').submit();
+
+            }
+
+
+
+        });
+
+        $('#form').ajaxForm({success:complate,dataType:'json'});
+
+        function complate(result){
+
+            var index = parent.layer.getFrameIndex(window.name);
+
+            if(result.code == 1){
+
+                parent.layer.msg(result.msg, {icon:1});
+
+                parent.layer.close(index);
+
+            }else {
+
+                layer.msg(result.msg, {icon:2});
+
+            }
+
+        }
+
+    });
+
+    
+
+</script>
+
+{/block}

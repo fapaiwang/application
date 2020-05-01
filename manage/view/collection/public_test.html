@@ -1,0 +1,41 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .layui-table-view .layui-table td{text-align:left;cursor:pointer;}
+</style>
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('Article/ajaxEdit')}">
+            <colgroup>
+            </colgroup>
+            <tbody>
+            {volist name="url_lists" id="val"}
+            <tr>
+                <td data-uri="{:base64_encode($val.url)}" data-id="{$id}">
+                   <div>{$val.title}</div>
+                    <div>{$val.url}</div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</form>
+<script>
+    layui.use(['form','layer'], function(){
+        var $ = layui.jquery,layer = layui.layer;
+        $("#tree-table td").on('click',function(){
+            var id = $(this).data('id'),url = $(this).data('uri');
+            parent.layer.open({
+                type : 2,
+                title : '测试内容采集',
+                area : ['800px','500px'],
+                shade : 0.2,
+                content : "{:url('publicTestContent')}?url="+url+"&id="+id,
+                iframeAuto:true
+            });
+        });
+    });
+</script>
+{/block}

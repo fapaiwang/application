@@ -1,0 +1,244 @@
+{extend name='public/layout' /}
+{block name='header'}{/block}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<div class="main">
+    <!-- 返回键 S-->
+    <a href="javascript:" class="detail-go-back"></a>
+    <!-- 返回键 E-->
+    <!-- 房子图片滚动展示 S-->
+    <div class="scroll-roomPic-box">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {notempty name='info.file'}
+                {volist name='info.file' id='vo'}
+                <div class="swiper-slide">
+                    <img src="{$vo.url}" alt="{$vo.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/volist}
+                {else /}
+                <div class="swiper-slide">
+                    <img src="{$info.img}" alt="{$info.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/notempty}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 房子图片滚动展示 E-->
+
+    <!-- 房子细节介绍 S-->
+    <div class="house-detail-intro village-detail-intro">
+        <div class="i-name-price">
+            <div class="itemName">{$info.title}{notempty name='info.pano_url'}<a href="{:url('Ajax/pano')}?pano_url={:base64_encode($info.pano_url)}" title="{$info.title}全景" class="house-pano"></a>{/notempty}</div>
+            <div class="itemPrice">均价：<em>{$info.price}</em>{:config('filter.second_price_unit')}</div>
+        </div>
+        <ul class="price-house-area mb20">
+            <li>
+                <a href="{:url('Second/index',['estate_id'=>$info['id']])}" title="{$info.title}二手房"><em><span>{$info.second_total}</span>套</em></a>
+                <p>二手房源</p>
+            </li>
+            <li>
+                <a href="{:url('Rental/index',['estate_id'=>$info['id']])}" title="{$info.title}出租房"><em><span>{$info.rental_total}</span>套</em></a>
+                <p>出租房源</p>
+            </li>
+            <li>
+                <em><span>{$info.complate_num}</span>套</em>
+                <p>最近成交</p>
+            </li>
+        </ul>
+
+    </div>
+    <!-- 房子细节介绍 E-->
+    <div class="intro-small-detail village-small-detail mb20">
+        <h2>基本信息</h2>
+        <ul id="intro">
+            <li class="top-three"><span>建筑年代：<em class="year">{$info.years}</em></span><span>建筑类型：<em>{notempty name='info.data.building_type'}{$info.data.building_type}{else /}暂无资料{/notempty}</em></span></li>
+            <li class="top-three"><span>物业类型：<em class="num-house">{:getLinkMenuName(9,$info['house_type'])}</em></span><span>物业费：<em>{notempty name='info.data.property_fee'}{$info.data.property_fee}{else /}暂无资料{/notempty}</em></span></li>
+            <li class="top-three"><span>总户数：<em>{notempty name='info.data.plan_number'}{$info.data.plan_number}{else /}暂无资料{/notempty}</em></span><span>产权年限：<em>{notempty name='info.data.property_right'}{$info.data.property_right}{else /}暂无资料{/notempty}</em></span></li>
+            <li class="after-three"><a href="javascript:;"><span>地址：<em>{$info.address}</em></span></a></li>
+            <li class="top-three" style="display:none;"><span>绿化率：<em>{notempty name='info.data.greening_rate'}{$info.data.greening_rate}{else /}暂无资料{/notempty}</em></span><span>容积率：<em>{notempty name='info.data.volume_ratio'}{$info.data.volume_ratio}{else /}暂无资料{/notempty}</em></span></li>
+            <li class="top-three" style="display:none;"><span>占地面积：<em>{notempty name='info.data.area_covered'}{$info.data.area_covered}{else /}暂无资料{/notempty}</em></span><span>建筑面积：<em>{notempty name='info.data.area_build'}{$info.data.area_build}{else /}暂无资料{/notempty}</em></span></li>
+            <li class="after-three" style="display:none;"><a href="javascript:;"><span>物业公司：<em>{notempty name='info.data.property_company'}{$info.data.property_company}{else /}暂无资料{/notempty}</em></span></a></li>
+            <li class="after-three" style="display:none;"><a href="javascript:;"><span>开发商：<em>{notempty name='info.data.developer'}{$info.data.developer}{else /}暂无资料{/notempty}</em></span></a></li>
+            <li class="after-three" style="display:none;"><a href="javascript:;"><span>停车位：<em>{notempty name='info.data.parking_space'}{$info.data.parking_space}{else /}暂无资料{/notempty}</em></span></a></li>
+            <li class="after-three" style="display:none;"><a href="javascript:;"><span>特色：
+                <em>
+                    {php}$tag = array_filter(explode(',',$info['tags']));{/php}
+                    {volist name='tag' id='val'}
+                    <i class="item item{$i}">{$val}</i>
+                    {/volist}
+                </em>
+            </span></a></li>
+
+        </ul>
+        <a href="javascript:;" id="expand">展开</a>
+    </div>
+
+    <!-- 位置周边 S-->
+    <div class="per-pos">
+        <h2>位置周边</h2>
+        {include file='public/peitao' /}
+    </div>
+    <!-- 位置周边 E-->
+
+    <!-- 同小区房源 S-->
+    <div class="same-commu-res">
+        <h2>小区二手房</h2>
+        <div class="old-house house-show-box">
+            <ul>
+                {php}$estate_id=$info['id'];{/php}
+                {fang:lists table='second_house' where='estate_id=$estate_id and status=1' field='id,title,img,city,room,living_room,tags,acreage,price' order='create_time desc' limit='4' id='data'}
+
+                <li>
+                    <div class="pic">
+                        <a href="{:url('Second/detail',['id'=>$data['id']])}" title="{$data.title}">
+                            <img src="{$data.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$data.title}">
+                        </a>
+                    </div>
+                    <div class="intro-text">
+                        <h4>
+                            <a href="{:url('Second/detail',['id'=>$data['id']])}" title="{$data.title}">
+                                {$data.title}
+                            </a>
+                        </h4>
+                        <p class="price"><span>{:getCityName($data['city'])}</span><span class="price-num"><em>{$data.price|raw}</em></span></p>
+                        <p class="detail-text">{$data.room}室{$data.living_room}厅&nbsp;&nbsp;{$data.acreage}{:config('filter.acreage_unit')}</p>
+                        <p class="good">
+                            {php}$tag = array_filter(explode(',',$data['tags']));{/php}
+                            {volist name='tag' key='n' id='val'}
+                            {if condition="is_numeric($val)"}
+                            <em>{:getLinkMenuName(14,$val)}</em>
+                            {else /}
+                            <em>{$val}</em>
+                            {/if}
+                            {/volist}
+                        </p>
+                    </div>
+                </li>
+                {/fang:lists}
+
+            </ul>
+        </div>
+        <a href="{:url('Second/index',['estate_id'=>$info['id']])}" class="more-house-btn">查看全部二手房源</a>
+    </div>
+    <!-- 小区二手房 E-->
+
+    <!-- 小区出租房 S-->
+    <div class="village-lease-room">
+        <h2>小区出租房</h2>
+        <div class="old-house house-show-box">
+            <ul>
+                {fang:lists table='rental' where='estate_id=$estate_id and status=1' field='id,title,img,city,room,living_room,tags,acreage,price' order='create_time desc' limit='4' id='data'}
+
+                <li>
+                    <div class="pic">
+                        <a href="{:url('Rental/detail',['id'=>$data['id']])}" title="{$data.title}">
+                            <img src="{$data.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$data.title}">
+                        </a>
+                    </div>
+                    <div class="intro-text">
+                        <h4>
+                            <a href="{:url('Rental/detail',['id'=>$data['id']])}" title="{$data.title}">
+                                {$data.title}
+                            </a>
+                        </h4>
+                        <p class="price"><span>{:getCityName($data['city'])}</span><span class="price-num"><em>{$data.price|raw}</em></span></p>
+                        <p class="detail-text">{$data.room}室{$data.living_room}厅&nbsp;&nbsp;{$data.acreage}{:config('filter.acreage_unit')}</p>
+                        <p class="good">
+                            {php}$tag = array_filter(explode(',',$data['tags']));{/php}
+                            {volist name='tag' id='val'}
+                            <em>{$val}</em>
+                            {/volist}
+                        </p>
+                    </div>
+                </li>
+                {/fang:lists}
+
+            </ul>
+        </div>
+        <a href="{:url('Rental/index',['estate_id'=>$info['id']])}" class="more-house-btn">查看全部出租房源</a>
+    </div>
+    <!-- 小区出租房 E-->
+    <!-- 小区成交记录 S -->
+    <div class="make-deal-record mb20">
+        <header class="title clearfix">
+            <h2 class="fl">小区成交记录</h2>
+        </header>
+        <ul class="list" id="record-list">
+            {volist name='record' id='vo'}
+            <li {if condition="$i gt 4"}style="display:none;"{/if}>
+                <a href="javascript:;" class="clearfix">
+                    <span class="fl">
+                      <span class="m_c">{$vo.title}&nbsp;{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                      <time class="time">{$vo.complate_time}</time>
+                    </span>
+                    <span class="fr">
+                      <span class="price">{$vo.price}万</span>
+                    </span>
+                </a>
+            </li>
+            {/volist}
+
+        </ul>
+        {if condition='count($record) gt 4'}<a href="javascript:;" id="more-record" class="more-house-btn">点击查看更多</a>{/if}
+    </div>
+    <!-- 小区成交记录 E -->
+
+    <!-- 附近小区 S-->
+    <div class="house-show-box village-house-box">
+        <ul>
+            {volist name='near_by_estate' id='vo'}
+            <li>
+                <div class="pic">
+                    <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img onerror="this.src='__STATIC__/images/nopic.jpg'" src="{$vo.img}" alt="{$vo.title}">
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4>
+                        <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {$vo.title}
+                        </a>
+                    </h4>
+                    <p class="price"><span>{:getCityName($vo['city'])}</span><span class="price-num"><em>{$vo.price}</em>{:config('filter.second_price_unit')}</span></p>
+                    <p>
+                        <span class="time"><em>{$vo.years}</em>年建成</span>&nbsp;&nbsp;
+                    </p>
+                </div>
+            </li>
+            {/volist}
+
+        </ul>
+    </div>
+    <!-- 附近小区 E-->
+
+
+    {include file='public/footer' /}
+</div>
+<script src="__JS__/swiper.min.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        loop : true,
+        autoplay: 4000,//可选选项，自动滑动
+        initialSlide :0,
+        pagination : '.swiper-pagination',
+        paginationType: 'fraction'
+    });
+    $(function(){
+        $('#more-record').on('click',function(){
+            $('#record-list li:gt(3)').show();
+        });
+        $('#expand').on('click',function(){
+            if($(this).hasClass('expand'))
+            {
+                $(this).text('展开').removeClass('expand');
+                $('#intro').find('li:gt(3)').hide();
+            }else{
+                $(this).text('收起').addClass('expand');
+                $('#intro').find('li:gt(3)').show();
+            }
+        });
+    });
+</script>
+{/block}

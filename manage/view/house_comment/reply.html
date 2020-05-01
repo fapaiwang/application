@@ -1,0 +1,97 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="5%">
+                <col width="10%">
+                <col width="15%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>用户</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>楼盘</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>内容</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>提交时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        {notempty name='val.user_name'}{$val.user_name}{else /}游客{/notempty}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <a href="{:url('House/detail@'.config('url_domain_root'),['id'=>$val['house_id']])}" target="_blank">{$val.house_name}</a>
+                    </div>
+                </td>
+                <td>
+                    {$val.content}
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.create_time|date='Y-m-d H:i:s'}
+                    </div>
+                </td>
+
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {:rights($options,$val['id'],$val['house_name'],$menuid)}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+
+{/block}

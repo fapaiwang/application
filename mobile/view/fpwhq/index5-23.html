@@ -1,0 +1,127 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">房拍网行情</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+    <!-- 小区项目细节 S-->
+    <div class="house-show-box" style="margin-top:60px;margin-bottom:100px;">
+        <div class="pec-relLink addhouse mb20" style="height:55px;">
+            <div style="float:left;width:33%;text-align:center;">今日新增<br>{$jrxz}</div>
+            <div style="float:left;width:33%;text-align:center;">今日成交<br>{$jrcj}</div>
+            <div style="float:left;width:33%;text-align:center;">溢价率<br>0</div>
+
+        </div>
+        <div class="pec-relLink addhouse mb20" style="height:300px;">
+        <div>月度数据</div>
+    <input type="text" name="name4" id="name4" value="{$xinzeng}" style="display:none;">
+    <input type="text" name="name5" id="name5" value="{$chengjiao}" style="display:none;">
+    <input type="text" name="name6" id="name6" value="{$cje}" style="display:none;">
+            <div id="yd" style="height: 100%"></div>
+            </div>
+        <div class="pec-relLink addhouse mb20" style="height:300px;">
+        <div>月度拍卖阶段成交</div>
+    <input type="text" name="name1" id="name1" value="{$yipai}" style="display:none;">
+    <input type="text" name="name2" id="name2" value="{$erpai}" style="display:none;">
+    <input type="text" name="name3" id="name3" value="{$bianmai}" style="display:none;">
+            <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       
+    <script type="text/javascript">
+    //月度数据
+    var dom1 = document.getElementById("yd");
+    // var names = document.getElementById("name1").value;
+    // alert(names);
+    var name4=document.getElementById("name4").value;
+    var name5=document.getElementById("name5").value;
+    var name6=document.getElementById("name6").value;
+    var myChart1 = echarts.init(dom1);
+    var app1 = {};
+    option1 = null;
+
+    option1 = {
+        xAxis: {
+            type: 'category',
+            data: ['新增', '成交', '成交额']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [name4,name5,name6],
+            type: 'bar'
+        }]
+    };
+    ;
+    if (option1 && typeof option1 === "object") {
+        myChart1.setOption(option1, true);
+    }
+    //月度拍卖阶段成交
+    var dom = document.getElementById("container");
+    // var names = document.getElementById("name1").value;
+    // alert(names);
+    var name1=document.getElementById("name1").value;
+    var name2=document.getElementById("name2").value;
+    var name3=document.getElementById("name3").value;
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['一拍', '二拍', '变卖']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [name1,name2,name3],
+            type: 'bar'
+        }]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+       </script>
+   
+
+        </div>
+    </div>
+   
+              
+	   
+	   
+
+</div>
+{/block}

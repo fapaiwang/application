@@ -1,0 +1,405 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="/static/css/jquery.bigcolorpicker.css">
+<style>
+    .layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/addDo')}" method="post">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本设置</li>
+            <li>高级设置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="data[status]" lay-filter="reson" value="1" title="开启" checked>
+                        <input type="radio" name="data[status]" lay-filter="reson" value="0" title="关闭">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide" id="tr-reson">
+                    <label class="layui-form-label">关闭原因</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[reson]" placeholder="请输入关闭原因" autocomplete="off" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">站点名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[title]" placeholder="请输入站点名称" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电脑版Logo</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[pc_logo]" id="pclogo" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="upload">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="pclogo-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电脑版白色Logo</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[pc_logo_white]" id="pclogowhite" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="uploadwhite">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="pclogowhite-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机版Logo</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[mobile_logo]" id="mobileLogo" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="uploadMobile">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="mobileLogo-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信二维码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[weixin_qrcode]" id="weixinPic" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="uploadWeixin">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="weixinPic-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">PC首页幻灯片</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[pchdp_qrcode]" id="pchdpPic" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="uploadPc">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="pchdpPic-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">APP首页幻灯片</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[apphdp_qrcode]" id="apphdpPic" placeholder="" value="" autocomplete="off" class="layui-input ajax-img-text">
+                        <div class="layui-box layui-upload-button" id="uploadApp">
+                            <span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+                        </div>
+                        <div id="apphdpPic-preview">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备案号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="data[icp]" placeholder="备案号" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[telphone]" placeholder="客服电话" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服QQ</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[qq]" placeholder="客服QQ" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">在线咨询</label>
+                    <div class="layui-input-block">
+                        <textarea name="data[online_consulting]" id="online_consulting" class="layui-input"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站主色调</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <input type="text" id="main-color-input" name="data[main_color]" placeholder="#d32f2f" value="#d32f2f" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:120px;">
+                        <button type="button" id="main-color-btn" class="layui-btn">选色</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <div id="main-color" style="width:50px;height:40px;background-color: #d32f2f;"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房源距地铁站</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="data[metro_distance]" placeholder="例：500" />
+                    </div>
+                    <div class="layui-input-inline" style="width:400px;">
+                        米，根据经纬度自动计算并关联指定范围内的站点。
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房源距学校</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="data[school_distance]" placeholder="例：500" />
+                    </div>
+                    <div class="layui-input-inline" style="width:400px;">
+                        米，根据经纬度自动计算并关联指定范围内的学校。
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主色背景文字颜色</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <input type="text" id="text-color-input" name="data[text_color]" placeholder="#fff" value="#ffffff" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:120px;">
+                        <button type="button" id="text-color-btn" class="layui-btn">选色</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <div id="text-color" style="width:50px;height:40px;line-height:40px;text-align:center;background-color: #d32f2f;color:#ffffff;">文字</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">导航菜单选中背景颜色</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <input type="text" id="selected-color-input" name="data[selected_color]" placeholder="#B71B1C" value="#B71B1C" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:120px;">
+                        <button type="button" id="selected-color-btn" class="layui-btn">选色</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <div id="selected-color" style="width:50px;height:40px;background-color: #B71B1C;"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">购房红包</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="data[red_packet]" value="1" title="开启">
+                        <input type="radio" name="data[red_packet]" value="0" title="关闭" checked>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">企业名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[company_name]" placeholder="企业名称" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">SEO 标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[seo_title]" placeholder="SEO 标题" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">SEO 关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[seo_keys]" placeholder="SEO 关键词" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">SEO 描述</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[seo_desc]" placeholder="SEO 描述" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="data[email]" placeholder="邮箱" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">公司地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="data[address]" placeholder="公司地址" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">电脑版js代码</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="js代码可在此填写" name="data[pc_js]" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">手机版js代码</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="js代码可在此填写" name="data[mobile_js]" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="name" value="{$action_name}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">&nbsp;</label>
+                <button type="submit" class="layui-btn btn-submit">提交</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element','upload','colorpicker'], function(){
+        var $ = layui.jquery,element = layui.element,form = layui.form,upload = layui.upload;
+        $("#main-color-btn").bigColorpicker(function(el,color){
+            $("#main-color-input").val(color);
+            $("#main-color").css({backgroundColor:color});
+            $("#text-color").css({backgroundColor:color});
+        });
+        $("#text-color-btn").bigColorpicker(function(el,color){
+            $("#text-color-input").val(color);
+            $("#text-color").css({color:color});
+        });
+        $("#selected-color-btn").bigColorpicker(function(el,color){
+            $("#selected-color-input").val(color);
+            $("#selected-color").css({backgroundColor:color});
+        });
+        form.on('radio(reson)',function(){
+            var value = $(this).val();
+            if(value == 1){
+                $("#tr-reson").addClass('layui-hide');
+                $("#reson").val('');
+            }else{
+                $("#tr-reson").removeClass('layui-hide');
+            }
+        });
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upload'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#pclogo").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#pclogo-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadwhite'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#pclogowhite").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#pclogowhite-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadMobile'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#mobileLogo").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#mobileLogo-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadWeixin'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#weixinPic").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#weixinPic-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadPc'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#pchdpPic").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#pchdpPic-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadApp'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#apphdpPic").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#apphdpPic-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+
+        $("#mark").on('click',function(){
+            var url = $(this).data('uri');
+            var map = $('#map').val();
+            url += '?map='+map;
+            layer.open(
+                    {
+                        type : 2,
+                        title : '地图标注',
+                        area : ['100%','100%'],
+                        shade : 0.2,
+                        content : url,
+                        iframeAuto:true
+                    }
+            );
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="__JS__/font-size.js"></script>
+    <link rel="stylesheet" href="__CSS__/base.css">
+    <link rel="stylesheet" href="__CSS__/style.css">
+</head>
+<body>
+<div class="main">
+    <div class="pec-top">
+        <h3>用户中心</h3>
+        <div class="head-pic"><img src="{:getAvatar($userInfo['id'],90)}" alt=""></div>
+        <h4>欢迎您，<em>{$userInfo['nick_name']}</em>({:getUserCate($userInfo['model'])['name']})</h4>
+    </div>
+    {if condition="$userInfo.model eq 1"}
+    <div class="pec-relLink mb20">
+        <div class="row"><a href="{:url('user.follow/second')}">我的关注</a></div>
+        <div class="row" style="display:none"><a href="{:url('user.question/index')}">我的提问</a></div>
+        <div class="row"><a href="{:url('user.comment/index')}">我的点评</a></div>
+        <div class="row"><a href="{:url('user.subscribe/second')}">预约清单</a></div>
+        <div class="row"><a href="{:url('user.weituopm/index')}">我的委托</a></div>
+        <div class="row"><a href="{:url('user.zuji/index')}">浏览足迹</a></div>
+        <div class="row"><a href="{:url('user.wddz/index')}?param=0">我的定制</a></div>
+        <div class="row"><a href="{:url('user.tjfy/index')}">推荐房源</a></div>
+        <div class="row"><a href="{:url('user.jlfy/index')}">捡漏房源</a></div>
+        <!-- <div class="row"><a href="{:url('jrcj/index')}">今日成交</a></div> -->
+
+    </div>
+    {else /}
+    <div class="pec-relLink mb20"  style="display:none">
+        <div class="row"><a href="{:url('user.answer/index')}">我的回答</a></div>
+        <div class="row"><a href="{:url('user.subscribe_manage/second')}">预约管理</a></div>
+    </div>
+    {/if}
+   <!--  <div class="pec-relLink mb20">
+    {if condition="$userInfo.model eq 4"}
+        <div class="row"><a href="http://kefu.fangpaiwang.com/app/index.php?i=3&c=entry&eid=46">我的消息</a></div>
+        {/if}
+        </div> -->
+    <div class="pec-relLink mb20">
+        <div class="row"><a href="{:url('user.send/index')}" class="fr">发布</a><a href="{:url('user.house/index')}">法拍房</a></div>
+
+    </div>
+    <div class="pec-relLink mb20">
+        <div class="row"><a href="{:url('user.account/profile')}">编辑资料</a></div>
+    </div>
+    <div style="background-color: #1aad19;color:#fff;padding:.4rem 0;font-size:.7rem;text-align:center;">
+        <a href="{:url('Login/logout')}" style="color:#fff;">退出登录</a>
+    </div>
+</div>
+
+{include file='public/footer' /}
+<div class="footer-bar">
+    <ul>
+        <li><a href="{:url('Index/index')}"><img src="/img/1.png" alt="" style="width:16px;"><div>首页</div></a></li>
+        
+        
+        <li><a href="{:url('Xiaoxi/index')}"><img src="/img/2.png" alt="" style="width:16px;"><div>消息</div></a></li>
+        
+        
+        
+        <li><a href="{:url('Second/index')}"><img src="/img/3.png" alt="" style="width:16px;"><div>今日新增</div></a></li>
+        <li><a href="{:url('Second/index')}?cj=159"><img src="/img/4.png" alt="" style="width:16px;"><div>今日成交</div></a></li>
+        <li class="active"><a href="{:url('user.index/index')}"><img src="/img/5-1.png" alt="" style="width:16px;"><div>我的</div></a></li>
+    </ul>
+</div>
+<script>
+
+</script>
+</body>
+</html>

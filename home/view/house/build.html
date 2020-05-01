@@ -1,0 +1,257 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail house_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">楼栋信息</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="con_wrap comWidth clearfix ">
+        <!-- 楼栋信息 S -->
+        {php}$sale_status = getLinkMenuCache(5);{/php}
+        <div class="buildNum_info floor">
+            <div class="title clearfix">
+                <h2>楼栋信息</h2>
+            </div>
+            <div class="con_box clearfix">
+                {notempty name='points'}
+                <div class="l_con fl" id="ldxx-img">
+                    <div class="img"  draggable="false" id="img" style="position: absolute;cursor:move;">
+                        <img src="{$points.img}" alt="">
+                        {volist name='points.data' id='vo'}
+                        {php}$point=explode(',',$vo['point']);{/php}
+                        <div class="tit ban {$sale_status[$vo['sale']]['alias']}" data-id="{$vo.id}" style="left:{$point[0]}px;top:{$point[1]}px;cursor:pointer;">
+                            {$vo.title}
+                            <div class="riangle"></div>
+                        </div>
+                        {/volist}
+                    </div>
+                    <div class="label">
+                        <div class="item clearfix">
+                            <span class="bg on"></span>
+                            <span class="txt">在售</span>
+                        </div>
+                        <div class="item clearfix">
+                            <span class="bg for"></span>
+                            <span class="txt">待售</span>
+                        </div>
+                        <div class="item clearfix">
+                            <span class="bg off"></span>
+                            <span class="txt">售罄</span>
+                        </div>
+                        <div class="opacity"></div>
+                    </div>
+
+                </div>
+                <div class="r_con fr">
+                    <div class="tab_nav">
+                        <ul class="clearfix" id="ban_lists" data-uri="{:url('Api/getBanInfoById')}">
+                            {volist name='ban_lists' id='vo'}
+                            <li><a href="javascript:;" data-id="{$vo.id}" {if condition='$i eq 1'}class="active"{/if}>{$vo.title}</a></li>
+                            {/volist}
+                        </ul>
+                        <div class="b_l"></div>
+                    </div>
+                    <div id="ban_info"></div>
+                </div>
+                {else /}
+                 暂无数据
+                {/notempty}
+            </div>
+        </div>
+        <!-- 楼栋信息 E -->
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/html" id="template">
+    <div class="m_info">
+        <ul class="clearfix">
+            <li>
+                <span class="tit">单元:</span>
+                <span class="txt">{{# if(d['ban_info']['unit']){ }}{{d.ban_info.unit}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">电梯数:</span>
+                <span class="txt">{{# if(d['ban_info']['elevator']){ }}{{d.ban_info.elevator}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">楼层:</span>
+                <span class="txt">{{# if(d['ban_info']['floor_num']){ }}{{d.ban_info.floor_num}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">户数:</span>
+                <span class="txt">{{# if(d['ban_info']['room_num']){ }}{{d.ban_info.room_num}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">开盘时间:</span>
+                <span class="txt">{{# if(d['ban_info']['open_time']){ }}{{d.ban_info.open_time}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">交房时间:</span>
+                <span class="txt">{{# if(d['ban_info']['complate_time']){ }}{{d.ban_info.complate_time}}{{# } }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="s_info">
+        <h4>{{d.ban_info.title}}</h4>
+        <ul class="table clearfix">
+            {{# if(d.type_lists.length>0){ }}
+            <li class="thd">
+                <ol>
+                    <li class="th">名称</li>
+                    <li class="th">户型</li>
+                    <li class="th">价格</li>
+                    <li class="th">状态</li>
+                </ol>
+            </li>
+            <li class="tbd">
+                {{# for(var i = 0, len = d.type_lists.length; i < len; i++){ }}
+                <a href="{{d.type_lists[i].url}}">
+                    <ol class="clearfix">
+                        <li class="td">{{d.type_lists[i].title}}</li>
+                        <li class="td">{{d.type_lists[i].room}}室{{d.type_lists[i].living_room}}厅{{d.type_lists[i].acreage}}㎡</li>
+                        <li class="td">{{d.type_lists[i].price}}万</li>
+                        <li class="td">{{d.type_lists[i].sale_status}}</li>
+                    </ol>
+                </a>
+                {{# } }}
+            </li>
+            {{# } }}
+        </ul>
+    </div>
+</script>
+<script type="text/javascript" src="/static/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //图片拖动
+        window.onload = function(){
+            var draging = false, lastPoint;
+            var body = document.body;
+            var img = document.getElementById('img') || false;
+            img.onmousedown = function(e){
+                e = e || window.event;
+                var x = e.clientX;
+                var y = e.clientY;
+                if(!lastPoint){
+                    lastPoint = {};
+                }
+                lastPoint.x = x;
+                lastPoint.y = y;
+                draging = true;
+                if(e.preventDefault){
+                    e.preventDefault();
+                }else{
+                    return false;
+                }
+            }
+            img.ondragstart = function(e){
+                e = e || window.event;
+                if(e.preventDefault){
+                    e.preventDefault();
+                }else{
+                    return false;
+                }
+            }
+            img.onmouseup = function(){
+                draging = false;
+                lastPoint = undefined;
+            }
+            if(document.addEventListener){
+                body.addEventListener('mousemove',function(e){
+                    onMouseMove(e);
+                },false);
+                body.addEventListener('mouseup',onMouseUp,false);
+            }else{
+                body.attachEvent('onmousemove',function(){
+                    var event = window.event;
+                    onMouseMove(event);
+                })
+                body.attachEvent('onmouseup',onMouseUp);
+            }
+
+            function onMouseMove(e){
+                if(!draging){
+                    return;
+                }
+                var img = document.getElementById('img');
+                var ldxx_img = document.getElementById('ldxx-img');
+                if(lastPoint){
+                    var x = e.clientX , y = e.clientY;
+                    var imgTop = parseFloat(img.style.top || '0');
+                    var imgLeft = parseFloat(img.style.left || '0');
+                    var changeX = x - lastPoint.x , changeY = y - lastPoint.y;
+                    var dis_X = imgLeft + changeX;
+                    var dis_Y = imgTop + changeY;
+                    var sub_img = img.getElementsByTagName('img')[0];
+                    var sub_img_width = sub_img.offsetWidth;
+                    var sub_img_height = sub_img.offsetHeight;
+                    var img_width = ldxx_img.offsetWidth;
+                    var img_height = ldxx_img.offsetHeight;
+                    var dis_w = img_width -  sub_img_width;
+                    var dis_h = img_height - sub_img_height;
+                    if(dis_X>0){
+                        dis_X = 0;
+                    }
+                    if(dis_X < dis_w){
+                        dis_X = dis_w;
+                    }
+
+                    if(dis_Y>0){
+                        dis_Y = 0;
+                    }
+                    if(dis_Y < dis_h){
+                        dis_Y = dis_h;
+                    }
+
+                    img.style.top = dis_Y + 'px';
+                    img.style.left = dis_X + 'px';
+                    lastPoint.x = x, lastPoint.y = y;
+                }
+            }
+            function onMouseUp(){
+                draging = false;
+                lastPoint = undefined;
+            }
+        }
+        getBanInfo($("#ban_lists a.active").data('id'));
+        $("#ban_lists a").on('click',function(){
+            var id = $(this).data('id');
+            $(this).addClass('active').parent().siblings().find('.active').removeClass('active');
+            getBanInfo(id);
+        });
+        $(".ban").on('click',function(){
+            var id = $(this).data('id');
+            $("#ban_lists").find('.active').removeClass('active');
+            $("#ban_lists").find("a[data-id='"+id+"']").addClass('active');
+            getBanInfo(id);
+        });
+    });
+    function getBanInfo(id)
+    {
+        var url   = $("#ban_lists").data('uri');
+        var param = {id:id};
+        $.get(url,param,function(result){
+            if(result.code == 1)
+            {
+                if(result.data){
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        document.getElementById('ban_info').innerHTML = html;
+                    });
+                }
+            }else{
+                console.log('get data error');
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,46 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--列表-->
+<div class="pad_lr_10" >
+
+
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <div class="layui-table-header">
+                <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('Pages/ajaxEdit')}">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="80%">
+                        <col width="15%">
+
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="layui-table-cell"><span>ID</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>所属分类</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell" align="center"><span>操作</span></div>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {$list|raw}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+       </form>
+        </div>
+<script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/plugins/jquery.treetable.js"></script>
+        <script>
+            $(function(){
+                $("#J_cate_tree").treeTable({indent:20, treeColumn:1, clickableNodeNames:true, initialState:'expanded'});
+            });
+        </script>
+{/block}

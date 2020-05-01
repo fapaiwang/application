@@ -1,0 +1,102 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    #service_box em{font-style:normal;}
+</style>
+<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">代理商类型</label>
+                    <div class="layui-input-inline">
+                        <select name="cate_id" id="cate_id">
+                            {volist name='cate' id='vo'}
+                            <option value="{$vo.id}">{$vo.title}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>代理商名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="company_name" lay-verify="required" class="layui-input" placeholder="俱进科技">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>联系人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="contact_name" lay-verify="required" id="contact_name" placeholder="联系人" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>手机号码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" lay-verify="required|phone" id="mobile" name="mobile" placeholder="手机号码">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>代理城市</label>
+                    <div class="layui-input-inline">
+                            <span id="service_box">
+                            </span>
+                        <button type="button" class="layui-btn layui-btn-sm" id="service_area_name" data-uri="{:url('City/ajaxSelect',['onlycity'=>1])}">选择城市</button>
+                        <input type="hidden" class="layui-input" name="city" lay-verify="required" id="service_area" placeholder="">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">代理城市必需选择</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">过期时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="service_time_end" name="service_time_end" placeholder="2018-12-12">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>登录密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" class="layui-input" lay-verify="required" name="password" placeholder="登录密码">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    layui.use(['form','laydate'], function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#service_time_end' //指定元素
+        });
+    });
+    $(function() {
+    $("#service_box").on('click','i',function(){
+            var id = $(this).attr('data-id');
+            $(this).parent().remove();
+            var oldval = $("#service_area").val();
+            $("#service_area").val(oldval.replace(id+',',''));
+        });
+        $("#service_area_name").on('click',function(){
+            layer.open({
+                type : 2,
+                title : '选择城市',
+                area : ['500px','500px'],
+                shade : 0.2,
+                content : $(this).data('uri'),
+                iframeAuto:true
+            });
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,91 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+                <colgroup>
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell">
+                            <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>省份</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>排序(越小越靠前)</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>状态</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="val"}
+                <tr>
+                    <td>
+                        <div class="layui-table-cell laytable-cell-checkbox">
+                            <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.id}
+                        </div>
+                    </td>
+                    <td style="text-align:left;">
+                        <div class="layui-table-cell">
+                            <span data-tdtype="edit" data-field="name" data-id="{$val.id}" class="tdedit">{$val.name}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit">{$val.ordid}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                        </div>
+                    </td>
+                    <td class="kaifazhe-switch">
+                        <div class="layui-table-cell">
+                            {:rights($options,$val['id'],$val['name'])}
+                        </div>
+                    </td>
+
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('Link/delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+{/block}

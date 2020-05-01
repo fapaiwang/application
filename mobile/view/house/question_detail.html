@@ -1,0 +1,85 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background:none;">
+    <div class="question-detail">
+        <!-- 问 S -->
+        <div class="ask">
+            <p class="tit">{$question_info.content}</p>
+            <div class="foot clearfix">
+                <p class="ask-name fl">{notempty name='question_info.user_name'}{:hideStr($question_info['user_name'])}{else /}游客{/notempty}</p>
+                <p class="time fr">{$question_info.create_time|date='Y-m-d'}</p>
+            </div>
+        </div>
+        <!-- 问 E -->
+        <div style="height:.43rem;width: 100%;background: #f1f1f1;"></div>
+        <!-- 答 S-->
+        <div class="answer">
+            <div class="title">
+                <h3>共有{$question_info.reply_num}个回答</h3>
+            </div>
+            <ul class="list">
+                {php}$q_id = $question_info['id'];{/php}
+                {fang:lists table='answer' where='question_id=$q_id and status=1' field='content,broker_id,broker_name,content,create_time' limit='10' page='true' id='data'}
+                <li class="clearfix">
+                    <div class="pic fl">
+							<img src="{:getAvatar($data['broker_id'],90)}" alt="{$data.broker_name}">
+					</div>
+                    <div class="comment-content fl">
+                        <div class="username-level clearfix">
+                            <p class="username">{$data.broker_name}</p>
+                        </div>
+                        <time class="time">{$data.create_time|date='Y-m-d'}</time>
+                        <p class="comment-desc">
+                            {$data.content}
+                        </p>
+                    </div>
+                </li>
+                {/fang:lists}
+            </ul>
+            <div class="page_list">
+                {$pages|raw}
+            </div>
+        </div>
+        <!-- 答 S-->
+    </div>
+    <div class="answer-textarea">
+        <form action="#">
+            <div class="form-box">
+                <div class="ipt-area">
+                    <input type="text" class="text-ipt" id="content" placeholder="我来回答这个问题" minlength="5" maxlength="40" name="textIpt">
+                </div>
+                <div class="btn-area">
+                    {:token()}
+                    <input type="hidden" name="question_id" id="question_id" value="{$question_info.id}">
+                    <input type="button" class="submit answer-btn"  data-uri="{:url('Api/answer')}" value="回答">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        $(".answer-btn").on('click',function(){
+            var content = $("#content").val(),question_id = $("#question_id").val(),url = $(this).data('uri'),
+                    token = $("input[name='__token__']").val();
+            if(!content){
+                layer.msg('请填写您的回答内容',{icon:2});
+            }else{
+                $.post(url,{content:content,question_id:question_id,token:token},function(result){
+                    if(result.code == 1)
+                    {
+                        $("#content").val('');
+                        layer.msg('回答提交成功',{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+{/block}

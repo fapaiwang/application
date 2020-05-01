@@ -1,0 +1,349 @@
+{notempty name='second_house'}
+            <!-- 推荐房源 S -->
+            <div class="sed_house cm_wrap ">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">推荐房源</h2>
+                    <ul class="r_nav fl" id="tab-3">
+
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 广告图 S -->
+                
+                    <!-- 广告图 E-->
+                    <!-- 楼盘列表 S -->
+                    <div class="c_box build_list fl" id="second-content-box" style="width:895px; height:400px;overflow:hidden">
+                        <ul class="clearfix">
+                            {volist name='second_house' id='vo'}
+                            <li>
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+ {volist name='second_house' id='vo'}
+                            <li>
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                      
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 优秀法拍专员 S -->
+                    <div class="r_box top_director fr">
+                        <h3>优秀法拍专员</h3>
+                        <ul class="list">
+                            {volist name='broker' id='vo'}
+                            <li class="clearfix">
+                                <div class="l_con tx_img fl">
+                                    <a href="{:url('Broker/second',['id'=>$vo['id']])}"  target="_blank" title="{$vo.nick_name}">
+                                        <img src="{:getAvatar($vo['id'],90)}" width="50" height="50" alt="">
+                                    </a>
+                                </div>
+                                <div class="c_con fl">
+                                    <p class="name"><a href="{:url('Broker/second',['id'=>$vo['id']])}" target="_blank"  title="{$vo.nick_name}">{$vo.nick_name}</a></p>
+                                    <p class="sell_data">历史成交{$vo.userInfo.history_complate}套</p>
+                                </div>
+                                <div class="r_con fr">
+                                    <p class="mark">综合评分<b>{$vo.userInfo.point}</b></p>
+                                    <p class="rc_look_data">最近带看{$vo.userInfo.looked}套</p>
+                                </div>
+                            </li>
+                            {/volist}
+                        </ul>
+                        
+                    </div>
+                    <!-- 优秀导购员 E -->
+                </div>
+            </div>
+            <!-- 推荐房源 E -->
+			 <!-- 法拍房源 S -->
+            <div class="sed_house cm_wrap " style="height:500px; overflow:hidden">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">法拍房源</h2>
+                    <ul class="r_nav fl" id="tab-3">
+
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 广告图 S -->
+                    
+                    <!-- 广告图 E-->
+                    <!-- 楼盘列表 S -->
+                    <div class="c_box build_list fl" id="second-content-box" style="width:1180px">
+                        <ul class="clearfix">
+                            {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                                {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                      
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 优秀法拍专员 S -->
+                    
+                    <!-- 优秀导购员 E -->
+                </div>
+            </div>
+            <!-- 法拍房源 E -->
+			 <!-- 国有资产 S -->
+            <div class="sed_house cm_wrap " style="height:500px; overflow:hidden">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">国有资产</h2>
+                    <ul class="r_nav fl" id="tab-3">
+
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 广告图 S -->
+                  
+                    <!-- 广告图 E-->
+                    <!-- 楼盘列表 S -->
+                     <div class="c_box build_list fl" id="second-content-box" style="width:1180px">
+                        <ul class="clearfix">
+                            {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+							 {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                      
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 优秀法拍专员 S -->
+                    
+                    <!-- 优秀导购员 E -->
+                </div>
+            </div>
+            <!-- 国有资产 E -->
+			 <!-- 涉诉房产 S -->
+            <div class="sed_house cm_wrap " style="height:500px; overflow:hidden">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">涉诉房产</h2>
+                    <ul class="r_nav fl" id="tab-3">
+
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 广告图 S -->
+                    
+                    <!-- 广告图 E-->
+                    <!-- 楼盘列表 S -->
+                    <div class="c_box build_list fl" id="second-content-box" style="width:1180px">
+                        <ul class="clearfix">
+                            {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+							 {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                      
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 优秀法拍专员 S -->
+                    
+                    <!-- 优秀导购员 E -->
+                </div>
+            </div>
+            <!-- 涉诉房产 E -->
+			 <!-- 社会委托 S -->
+            <div class="sed_house cm_wrap " style="height:500px; overflow:hidden">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">社会委托</h2>
+                    <ul class="r_nav fl" id="tab-3">
+
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 广告图 S -->
+                   
+                    <!-- 广告图 E-->
+                    <!-- 楼盘列表 S -->
+                    <div class="c_box build_list fl" id="second-content-box" style="width:1180px">
+                        <ul class="clearfix">
+                            {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+							 {volist name='second_house' id='vo'}
+                            <li style="margin:12px 20px 0 0; width:216px;">
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img" style="height:160px">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.estate_name}</span>
+												<span class="area fr">{:getCityName($vo['city'])}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl type_area nowarp" style="width:100px;">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</span>
+										<span class="fr price">{$vo.average_price|raw}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                      
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 优秀法拍专员 S -->
+                    
+                    <!-- 优秀导购员 E -->
+                </div>
+            </div>
+            <!-- 社会委托 E -->
+            {/notempty}

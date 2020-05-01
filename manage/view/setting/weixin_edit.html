@@ -1,0 +1,67 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">微信设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">appid</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[appid]" value="{$info.appid}" lay-verify="required" placeholder="微信公众平台appid" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						微信公众号appid
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">appsecret</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[appsecret]" value="{$info.appsecret}" lay-verify="required" placeholder="微信公众平台appsecret" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						微信公众号appsecret
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">token</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[token]" value="{$info.token}" placeholder="微信公众平台设置的token" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						微信公众号设置的token,公众账号未设置可不必填写。
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">encodingaeskey</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[encodingaeskey]" placeholder="接口安全密钥,没有设置可不必填写" value="{$info.encodingaeskey}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						微信公众号接口安全密钥,没有设置可不必填写。
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block" style="color:#ff0000;">
+						<p><a href="http://tpfangchan.com/news/5.html" target="_blank"> 不知如何设置？点此查看设置教程</a></p>
+						注：此设置只针对在微信上浏览移动端页面时分享到朋友圈或朋友时显示图片和描述。
+					</div>
+				</div>
+			</div>
+
+			<input type="hidden" name="name" value="{$action_name}">
+			<input type="hidden" name="id" value="{$base.id}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" lay-submit="" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

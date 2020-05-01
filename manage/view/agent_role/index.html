@@ -1,0 +1,58 @@
+{extend name='public/layout' /}
+{block name='content'}
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" lay-filter="editTable" data-uri="{:url('ajaxEdit')}">
+                <colgroup>
+                    <col width="5%">
+                    <col width="70%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>分类名</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="val"}
+                <tr data-index="{$i}" class="">
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.id}
+                        </div>
+                    </td>
+                    <td data-field="title" data-edit="true">
+                        <div class="layui-table-cell">
+                             <span data-tdtype="edit" data-field="title" data-id="{$val.id}" class="tdedit" style="">{$val.title}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="javascript:;" class="J_showDialog layui-btn layui-btn-xs layui-btn-normal" data-uri="{:url('editmenu', ['id'=>$val['id']])}" data-title="设置菜单权限"  data-width="500" data-height="410">权限设置</a>
+                            <a href="javascript:;" class="J_confirm layui-btn layui-btn-xs layui-btn-danger" data-uri="{:url('delete', ['id'=>$val['id']])}" data-msg="{:sprintf('确定删除%s代理分类么？',$val['title'])}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+{/block}

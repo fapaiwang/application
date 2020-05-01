@@ -1,0 +1,30 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;">
+    <!-- 提问列表 S-->
+    <div class="question-lists">
+        <ul>
+            {volist name='lists' id='data'}
+            <li>
+                <div class="ask">
+                    <a href="{:url('House/questionDetail',['id'=>$data['id']])}">{$data.content}</a>
+                </div>
+                <div class="answer">
+                    {$data.answer}
+                </div>
+                <div class="num-time">
+                    <span class="time">{notempty name='data.create_time'}{$data.create_time|date='Y-m-d H:i'}{/notempty}</span>
+                </div>
+            </li>
+            {/volist}
+
+        </ul>
+
+    </div>
+    <div class="page_list" style="padding-top:1rem;">
+        {$pages|raw}
+    </div>
+    <!-- 提问列表 E-->
+
+</div>
+{/block}

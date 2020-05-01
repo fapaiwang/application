@@ -1,0 +1,307 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" data-uri="{:url('Linkmenu/ajaxGetAttr')}" data-cacheuri="{:url('Linkmenu/ajaxGetMenuCache')}" action="{:url('OfficeRental/save')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">房源信息</li>
+            <li>seo信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">楼盘名称 </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="estate_id" id="estate_id" value="{$info.estate_id}">
+                            <input type="text" name="estate_name" value="{$info.estate_name}" lay-verify="estate_id" data-title="选择楼盘" id="estate_name" data-uri="{:url('Estate/ajaxGetEstate',['type'=>46])}" class="layui-input select-house" placeholder="选择楼盘">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>所属区域</label>
+                        <input type="hidden" name="city" id="J_city_id" value="" />
+                        {php}$province_id = getProvinceIdByAreaId($info['city']);{/php}
+                        <div class="layui-input-block">
+                            <select name="" lay-filter="province" id="province" data-uri="{:url('City/ajaxGetchilds')}">
+                                <option value="0">--请选择--</option>
+                                {volist name=':getProvinceLists()' id='vo'}
+                                <option value="{$vo.id}" {if condition="$vo.id eq $province_id"}selected="selected"{/if}>{$vo.name}</option>
+                                {/volist}
+                            </select>
+                            <select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds',['province_id'=>$province_id])}" data-selected="{:getCitySpidById($info['city'])}">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>房源名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="title" placeholder="房源名称" value="{$info.title}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">楼层<a href="javascript:;" data-field="floor" data-type="select" data-alert="楼层" data-id="7" data-title="点击我可以管理楼层类型" class="layui-icon layui-icon-set attr-manage"></a> </label>
+                        <div class="layui-input-inline" style="width:100px;">
+                            {:getLinkMenu(7,'floor','select',$info['floor'])}
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:20px;"> 共</div>
+                        <div class="layui-input-inline" style="width:100px;">
+                            <input type="text" class="layui-input" name="total_floor" value="{$info.total_floor}" placeholder="20">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"> 层</div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>面积 </label>
+                        <div class="layui-input-inline" style="width:80px;">
+                            <input type="text" class="layui-input" lay-verify="acreage" id="acreage" name="acreage" placeholder="122"  autocomplete="off" value="{$info.acreage}" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡ 租金<a href="javascript:;" data-title="不填写价格或填写0前台显示为待定" class="layui-icon layui-icon-tips alert"></a></div>
+                        <div class="layui-input-inline" style="width:85px;">
+                            <input type="text" class="layui-input" lay-verify="price" id="price" name="price" placeholder="122"  autocomplete="off" value="{if condition='$info.price_type eq 1'}{$info->getData('price')}{else /}{$info.average_price}{/if}" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">
+                            <input type="radio" name="price_type" value="1" {if condition="$info.price_type eq 1"}checked="checked"{/if} title="{:config('filter.rental_price_unit')}"/>
+                            <input type="radio" name="price_type" value="2" {if condition="$info.price_type eq 2"}checked="checked"{/if} title="{:config('filter.office_rental_unit')}" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物业费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="property_fee" value="{$info.property_fee}" placeholder="例：1.99元/㎡·月" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房源地址 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="address" value="{$info.address}" id="address" placeholder="例：海秀中路104号">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">地图坐标 </label>
+                        <div class="layui-input-inline" style="width:200px;">
+                            <input type="text" class="layui-input" name="map" id="map" placeholder="115.345,22.1349"  autocomplete="off" value="{$info.lng},{$info.lat}" >
+                        </div>
+                        <div class="layui-input-inline" style="width:95px;">
+                            <button type="button" id="mark" data-autouri="{:addon_url('map://Map/getLocationByAddress')}" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn">标注位置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系人 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="contact_name" id="contact_name" value="{$info.contact_name}" placeholder="联系人" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系电话 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="contact_phone" lay-verify="phone" value="{$info.contact_phone}" id="contact_phone" placeholder="联系电话" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">装修情况<a href="javascript:;" data-field="renovation" data-type="radio" data-alert="装修情况" data-id="8" data-title="点击我可以管理装修分类" class="layui-icon layui-icon-set attr-manage"></a> </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(8,'renovation','radio',$info['renovation'])}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">等级<a href="javascript:;" data-field="grade" data-type="radio" data-alert="写字楼等级" data-id="17" data-title="点击我可以管理写字楼等级" class="layui-icon layui-icon-set attr-manage"></a></label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(17,'grade','radio',$info['grade'])}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">分割 </label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="division" value="不可分割" {if condition="$info.division eq '不可分割'"}checked="checked"{/if} title="不可分割">
+                            <input type="radio" name="division" value="可分割" {if condition="$info.division eq '可分割'"}checked="checked"{/if} title="可分割">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">类型<a href="javascript:;" data-field="type" data-type="radio" data-alert="写字楼类型" data-id="15" data-title="点击我可以管理写字楼类型" class="layui-icon layui-icon-set attr-manage"></a> </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(15,'type','radio',$info['type'])}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">特色标签<a href="javascript:;" data-field="tags" data-type="checkbox" data-alert="特色标签" data-id="16" data-title="点击我可以管理写字楼特色标签" class="layui-icon layui-icon-set attr-manage"></a> </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(16,'tags','checkbox',$info['tags'])}
+                        </div>
+                    </div>
+                </div>
+                {notempty name='position_lists'}
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">推荐位 </label>
+                        <div class="layui-input-block">
+                            {volist name='position_lists' id='vo'}
+                            <input type="checkbox" name="position[]" {in name="vo.id" value="$position_cate_id"}checked{/in} lay-skin="primary" value="{$vo.id}" title="{$vo.title}">
+                            {/volist}
+                            <input type="hidden" name="exists_pos" value="{:implode(',',$position_cate_id)}">
+                        </div>
+                    </div>
+                </div>
+            {/notempty}
+            <div class="layui-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">有效期 </label>
+                    <div class="layui-input-block" style="line-height: 40px;">
+                        {if condition="$info.timeout lt time()"}
+                        <span style="color:#ff0000;">已于{$info.timeout|date='Y-m-d H:i:s'}过期，</span>重新上架
+                        <select name="timeout" id="timeout">
+                            {volist name=':getHouseTimeOut()' id='vo'}
+                            <option value="{$key}" {if condition="$key eq 7"}selected="selected"{/if}>{$vo}</option>
+                            {/volist}
+                        </select>
+                        {else /}
+                        {$info.timeout|date='Y-m-d H:i:s'}过期
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">缩略图</label>
+                <div class="layui-input-block">
+                    <div class="layui-upload">
+                        <input type="hidden" name="img" value="{$info.img}" id="img_txt">
+                        <button type="button" class="layui-btn" id="img">上传图片</button>
+                        <div id="img_preview">
+                            {notempty name='info.img'}
+                            <img class='layui-upload-img' src="{$info.img}" alt="" width="100" />
+                            <a href='javascript:;' data-text='img_txt' data-src='{$info.img}' class='deleteImg layui-btn layui-btn-xs layui-btn-danger'>删除</a>
+                            {/notempty}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房源图片</label>
+                <div class="layui-input-block">
+                    <div class="layui-upload">
+                        <script id="uploadpic" name="uploadpic" type="text/plain"></script>
+                        <button type="button" class="layui-btn" onclick="upImage();">选择图片</button>
+                        <div id="imageList">
+                            <ul class="list clearfix">
+                                {volist name="data.file" id="vo"}
+                                <li>
+                                    <img width="113" height="113" alt="{$vo.title}" src="{$vo.url}">
+                                    <input type="hidden" value="{$vo.url}" name="pic[{$i+100}][pic]">
+                                    <input type="text" class="imgtitletxt" value="{$vo.title}" name="pic[{$i+100}][alt]">
+                                    <div class="delbox"><span class="del">删除</span></div>
+                                </li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">全景看房<a href="javascript:;" data-title="在720yun.com或其它全景平台创建全景相册，复制链接地址到输入框。" class="layui-icon layui-icon-tips alert"></a></label>
+                <div class="layui-input-inline" style="width:600px;">
+                    <input name="pano_url" id="pano_url" value="{$info.pano_url}" placeholder="在720yun.com创建全景相册,复制链接地址到输入框" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房源介绍</label>
+                <div class="layui-input-block">
+                    <script id="info" name="info" type="text/plain">{$data.info|raw}</script>
+                </div>
+            </div>
+        </div>
+            <div class="layui-tab-item">
+            <div class="layui-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">seo标题 </label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="seo[seo_title]" placeholder="seo标题"  autocomplete="off" value="{$data.seo_title}" >
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">seo关键词 </label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="seo[seo_keys]" placeholder="seo关键词"  autocomplete="off" value="{$data.seo_keys}" >
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-block">
+                    <label class="layui-form-label">seo描述 </label>
+                    <div class="layui-input-block">
+                        <textarea name="seo[seo_desc]" class="layui-textarea" id="seo_desc">{$data.seo_desc}</textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <input type="hidden" name="refer" value="{$refer}">
+        <input type="hidden" name="id" value="{$info.id}" id="id"/>
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+<input type="hidden" id="uploadUrl" value="{:url('OfficeRental/ajaxUploadImg')}">
+<input type="hidden" id="deleteUrl" value="{:url('OfficeRental/deleteImg')}">
+{:hook('ueditor',['id'=>'info','upload'=>true])}
+<script src="__JS__/option.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element'], function(){
+        var $ = layui.jquery,element = layui.element,form = layui.form;
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length == 0){
+                    return '请填写房源名称';
+                }
+            },
+            estate_name : function (value) {
+                if(value.length == 0){
+                    return '请选择楼盘';
+                }
+            },
+            acreage : function(value){
+                if(!/\d+\.?[0-9]{0,2}$/.test(value)){
+                    return '请填写房源面积';
+                }
+            },
+            price : function (value) {
+                if(value && !/\d+\.?[0-9]{0,2}$/.test(value)){
+                    return '请填写总价';
+                }
+            }
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,125 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--图片水印设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">水印设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">开启水印</label>
+					<div class="layui-input-block">
+						<input type="radio" name="data[is_warter]" value="1" title="开启" {if condition="$info.is_warter eq 1"}checked{/if}>
+						<input type="radio" name="data[is_warter]" value="0" title="关闭" {if condition="$info.is_warter eq 0"}checked{/if}>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印类型</label>
+					<div class="layui-input-block">
+						<input type="radio" name="data[water_type]" value="1" title="图片" {if condition="$info.water_type eq 1"}checked{/if}>
+						<input type="radio" name="data[water_type]" value="2" title="文字" {if condition="$info.water_type eq 2"}checked{/if}>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印图片</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_img]" placeholder="" id="img-src" value="{$info.water_img}" autocomplete="off" class="layui-input ajax-img-text">
+						<div class="layui-box layui-upload-button" id="upload">
+							<span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印文字</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_text]" placeholder="水印文字" value="{$info.water_text}" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印透明度</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_alpha]" placeholder="水印透明度" value="{$info.water_alpha}" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">文字旋转角度</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_angle]" placeholder="水印文字旋转角度" value="{$info.water_angle}" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印文字大小</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_size]" placeholder="水印文字大小" value="{$info.water_size}" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印文字颜色</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[water_color]" placeholder="水印文字颜色" value="{$info.water_color}" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">水印位置</label>
+					<div class="layui-input-block">
+						<p>
+							<input type="radio" name="data[water_pos]" value="1" title="顶部居左" {if condition="$info.water_pos eq 1"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="2" title="顶部居中" {if condition="$info.water_pos eq 2"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="3" title="顶部居右" {if condition="$info.water_pos eq 3"}checked{/if}>
+						</p>
+						<p>
+							<input type="radio" name="data[water_pos]" value="4" title="左边居中" {if condition="$info.water_pos eq 4"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="5" title="图片中心" {if condition="$info.water_pos eq 5"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="6" title="右边居中" {if condition="$info.water_pos eq 6"}checked{/if}>
+						</p>
+						<p>
+							<input type="radio" name="data[water_pos]" value="7" title="底部居左" {if condition="$info.water_pos eq 7"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="8" title="底部居中" {if condition="$info.water_pos eq 8"}checked{/if}>
+							<input type="radio" name="data[water_pos]" value="9" title="底部居右" {if condition="$info.water_pos eq 9"}checked{/if}>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="name" value="{$action_name}">
+	<input type="hidden" name="id" value="{$base.id}">
+	<div class="layui-form-item">
+		<label class="layui-form-label">&nbsp;</label>
+		<button type="submit" class="layui-btn btn-submit">立即提交</button>
+	</div>
+</form>
+<script>
+	//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+	layui.use(['element','upload'], function(){
+		var $ = layui.jquery,element = layui.element,upload = layui.upload;
+		//普通图片上传
+		var uploadInst = upload.render({
+			elem: '#upload'
+			,url: '{:url("ajaxUploadImg")}'
+			,before: function(obj){
+
+			}
+			,done: function(res){
+				//如果上传失败
+				if(res.code == 0){
+					return layer.msg('上传失败');
+				}else{
+					//上传成功
+					$("#img-src").val(res.data);
+				}
+
+			}
+			,error: function(){
+				layer.msg('上传失败');
+			}
+		});
+	});
+</script>
+{/block}

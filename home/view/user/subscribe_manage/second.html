@@ -1,0 +1,114 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li><a href="{:url('user.subscribeManage/index')}">新房</a></li>
+        <li class="layui-this"><a href="{:url('user.subscribeManage/second')}">二手房</a></li>
+        <li><a href="{:url('user.subscribeManage/rental')}">出租房</a></li>
+    </ul>
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell"><span>类型</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>房源标题</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>联系人</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>预约时间</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>状态</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="lists" id="val"}
+                <tr>
+                    <td>
+                        <div class="layui-table-cell">
+                            {:subscribeType($val['type'])}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="{:url('Second/detail',['id'=>$val['id']])}" target="_blank">{$val.title}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.user_name}({$val.mobile})
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.create_time|date='Y-m-d H:i'}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {if condition='$val.status eq 0'}待联系{else /}<a href="javascript:;" class="layui-btn layui-btn-xs J_record" data-uri="{:url('user.subscribe_follow/view',['id'=>$val['sid']])}">看跟进</a>{/if}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-normal J_record_save" data-uri="{:url('user.subscribe_follow/record',['id'=>$val['sid']])}">写跟进</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+        <div class="kaifazhe-fix-bottom layui-clear">
+            <div id="pages" class="layui-layout-right">
+                {$pages|raw}
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 列表 E-->
+<script>
+    layui.use(['jquery','layer'],function(){
+        var $ = layui.jquery,layer = layui.layer;
+        $(".J_record").on('click',function(){
+            layer.open({
+                type : 2,
+                title : '查看跟进',
+                area : ['500px','500px'],
+                shade : 0.2,
+                content : $(this).data('uri'),
+                iframeAuto:true
+            });
+        });
+        $(".J_record_save").on('click',function(){
+            layer.open({
+                type : 2,
+                title : '写跟进',
+                area : ['500px','500px'],
+                shade : 0.2,
+                content : $(this).data('uri'),
+                iframeAuto:true
+            });
+        });
+    });
+</script>
+{/block}

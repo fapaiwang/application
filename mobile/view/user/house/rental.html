@@ -1,0 +1,55 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<div class="main" style="background: none;">
+    {include file='user/house/nav' /}
+    <div class="house-show-box" id="lists" data-model="rental" data-uri="{:url('Api/setTop')}">
+        <ul>
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li>
+                <div class="pic">
+                    <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" />
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4>
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {if condition="$vo.top_time gt time()"}<i class="top-icon">顶</i>{/if}{$vo.title}
+                        </a>
+                    </h4>
+                    <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+                    <p class="detail-text">{$vo.room}室{$vo.living_room}厅 {$vo.acreage}{:config('filter.acreage_unit')} {:getLinkMenuName(8,$vo['renovation'])}</p>
+                    <p class="good">{$vo.address}</p>
+                    <div class="option">
+                        {if condition="$vo.timeout lt time()"}
+                        <span style="color:#ff0000;">已过期</span>,
+                        {/if}
+                        {if condition="$vo.status eq 1"}
+                        <span class="green">发布</span>
+                        {if condition="$vo.top_time lt time()"}
+                        <div href="javascript:;" class="J_top">
+                            <span class="top-btn">置顶</span>
+                            <ul class="top-time" data-id="{$vo.id}">
+                                {volist name=":getTopTime()" id='va'}
+                                <li data-val="{$key}">{$va}</li>
+                                {/volist}
+                            </ul>
+                        </div>
+                        {/if}
+                        {else /}
+                        <span class="red">审核</span>
+                        {/if}
+                        <a href="{:url('user.send/edit',['model'=>'rental','id'=>$vo['id']])}">编辑</a>
+                        <span class="delete" data-id="{$vo.id}" data-model="rental">删除</span>
+                    </div>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+{/block}

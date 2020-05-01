@@ -1,0 +1,86 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--开发商列表-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" id="info_form" action="{:url('addDo')}" method="post" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">属性名称</label>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="pid" value="0">
+                        <input type="hidden" name="menuid" value="{$menu_id}">
+                        <input name="name" id="name" lay-verify="required" type="text" placeholder="属性名称" class="layui-input" size="25" value="" />
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-normal" id="addBtn" lay-submit="" data-uri="">添加</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="70%">
+                <col width="30%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell"><span>属性名称</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="lists" id="val"}
+            <tr>
+                <td data-field="title">
+                    <div class="layui-table-cell">
+                        {$val.name}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <a data-height="500" data-width="500" data-id="edit" data-uri="{:url('Linkmenu/edit',['id'=>$val['id']])}" data-title="编辑 - {$val.name}" class="J_showDialog layui-btn layui-btn-xs layui-btn-normal" href="javascript:;">编辑</a>
+                        <a data-uri="{:url('Linkmenu/delete',['id'=>$val['id']])}" data-msg="确定要删除 {$val.name} 吗？" class="J_confirm layui-btn layui-btn-xs layui-btn-danger" href="javascript:;">删除</a>
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    {notempty name='pages'}
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+    {/notempty}
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    layui.use(['layer','jquery'],function(){
+        var layer = layui.layer,$ = layui.jquery;
+        $("#addBtn").on('click',function(){
+            $("#info_form").ajaxForm({success:complate,dataType:'json'});
+        });
+        function complate(result){
+            if(result.code == 1){
+                layer.msg(result.msg,{icon:1,time:1500},function(){
+                    window.location.reload();
+                });
+            } else {
+                layer.msg(result.msg,{icon:2});
+            }
+        }
+    });
+
+</script>
+{/block}

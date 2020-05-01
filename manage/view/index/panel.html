@@ -1,0 +1,90 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .layui-table-view .layui-table td{text-align:left;}
+    .layui-colla-content{line-height: 30px;font-size:14px;}
+    .layui-colla-content li{border-bottom:1px dashed #ccc;}
+    .layui-table, .layui-table-view{margin:10px 0 20px 0;}
+</style>
+<div class="layui-progress layui-progress-big layui-hide" lay-showpercent="true" lay-filter="download">
+    <div class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
+</div>
+<div class="layui-form layui-border-box layui-table-view">
+    <div class="layui-table-header">
+        <table id="tree-table" style="width:100%" class="layui-table list-table" lay-filter="tree-table" cellspacing="0" cellpadding="0" border="0" data-uri="">
+            <colgroup>
+                <col width="50%">
+                <col width="50%">
+            </colgroup>
+            <tbody>
+
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        系统版本：{$system_info.version|raw}
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        服务器域名或ip：{$system_info.server_domain}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        服务器操作系统：{$system_info.server_os}
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        WEB服务器：{$system_info.web_server}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        PHP版本：{$system_info.php_version}
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        MYSQL版本：{$system_info.mysql_version}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        文件上传限制：{$system_info.upload_max_filesize}
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        执行时间限制：{$system_info.max_execution_time}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        安全模式：{$system_info.safe_mode}
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        Zlib支持：{$system_info.zlib}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        
+    </div>
+   
+</div>
+<div style="width:100%;text-align:center;color: #666">冰点科技提供技术支持</div>
+
+
+{/block}

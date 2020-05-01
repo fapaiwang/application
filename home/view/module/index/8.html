@@ -1,0 +1,119 @@
+<!-- 热盘推荐 S -->
+            <div class="build_shoppers cm_wrap">
+                <div class="head clearfix">
+                    <h2 class="fl margin-right-120">热盘推荐</h2>
+                    <ul class="r_nav fl" id="tab-2">
+                        {volist name=':getLinkMenuCache(3)' id='vo' length='7'}
+                        <li {if condition="$i eq 1"}class="active"{/if}>
+                            <a href="{:url('House/index')}?special={$vo.id}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                            <div class="b_l"></div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 看房团 && 预约看房 S-->
+                    <div class="l_box fl">
+                        <!-- 看房团 S -->
+                        <div class="look_team">
+                            <h3>最新预约</h3>
+                            <div class="list" id="subscribe">
+                                <ul>
+                                    {volist name='new_subscribe' id='vo'}
+                                    <li class="clearfix">
+                                        <a href="javascript:;" class="name">{:hideMobile($vo['mobile'])}</a>
+                                        <span class="time">{$vo.create_time|date='Y-m-d'}</span>
+                                    </li>
+                                    {/volist}
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!-- 看房团 E -->
+                        <!-- 预约看房 S -->
+                        <div class="appoint">
+                            <h3>预约看房</h3>
+                            <div class="form_box">
+                                <form action="" name="form">
+                                    <div class="sct clearfix">
+                                        <div class="sct_ipt">
+                                            <input type="text" class="ipt"  name="user_name" id="user_name" placeholder="您的姓名">
+                                            <span class="placeholder">您的姓名</span>
+                                        </div>
+                                    </div>
+                                    <div class="sct clearfix">
+                                        <div class="sct_ipt">
+                                            <input type="text" class="ipt"  name="mobile" id="mobile" placeholder="您的手机">
+                                            <span class="placeholder">您的手机</span>
+                                        </div>
+                                    </div>
+                                    <div class="sct clearfix">
+                                        <div class="sct_ipt">
+                                            <input type="text" class="ipt"  name="house_name" id="house_name" placeholder="意向楼盘">
+                                            <span class="placeholder">意向楼盘</span>
+                                        </div>
+                                    </div>
+                                    <div class="sct btn_area">
+                                        {:token()}
+                                        <input type="button" value="立即提交" data-uri="{:url('Api/subscribe')}" class="sbm subscribe-btn">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- 预约看房 E -->
+                    </div>
+                    <!-- 看房团 && 预约看房 E-->
+                    <!-- 楼盘列表 S -->
+                    <div class="c_box build_list fl">
+                        <div id="content-box">
+                            {volist name='house_guide' id='val'}
+                            <ul class="clearfix" {if condition="$key gt 0"}style="display:none;"{/if}>
+                                {volist name='val' id='vo'}
+                                <li>
+                                    <a href="{:url('House/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.title}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl area">{:getCityName($vo['city'])}</span>
+										<span class="fr price">{$vo.price}{$vo.unit}</span>
+									</span>
+                                    </a>
+                                </li>
+                                {/volist}
+                            </ul>
+                            {/volist}
+                        </div>
+
+                    </div>
+                    <!-- 楼盘列表 E -->
+                    <!-- 购房宝典 && 房产百科 S-->
+                    <div class="r_box fr">
+                        <div class="sct_item buy_way">
+                            <h3>{:getCateName('articleCate',2)}</h3>
+                            <ul class="list">
+                                {volist name='news_cate_2' id='vo'}
+                                <li class="clearfix"><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                        <div class="sct_item house_klg">
+                            <h3>{:getCateName('articleCate',3)}</h3>
+                            <ul class="list">
+                                {volist name='news_cate_3' id='vo'}
+                                <li class="clearfix"><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                                {/volist}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 购房宝典 && 房产百科 E-->
+                </div>
+            </div>
+            <!-- 楼盘导购 E -->

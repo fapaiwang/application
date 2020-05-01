@@ -1,0 +1,152 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">区域选房</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+    <!-- 小区项目细节 S-->
+
+    <div style="margin-top:2.56rem;">
+
+    
+
+     
+
+        <div style="background:#6C6D75;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;color:#fff;">
+            <div style="float:left;width:33%;">区域</div>
+            <div style="float:left;width:33%;">总房源量</div>
+            <div style="float:left;width:33%;">区溢价率</div>
+        </div>
+         {foreach $gl as $val => $file}
+         {if $val%2==0}
+         
+<div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu={$file.id}" style="color:#000;">{$file.name}</a></div>
+            <div style="float:left;width:33%;">{$file.shuliang}套</div>
+            <div style="float:left;width:33%;">{$file.yjl}%</div>
+        </div>
+        {else}
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu={$file.id}" style="color:#000;">{$file.name}</a></div>
+            <div style="float:left;width:33%;">{$file.shuliang}套</div>
+            <div style="float:left;width:33%;">{$file.yjl}%</div>
+        </div>
+        {/if}
+{/foreach}
+        <!-- <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=41" style="color:#000;">东城区</a></div>
+            <div style="float:left;width:33%;">120套</div>
+            <div style="float:left;width:33%;">50%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=42" style="color:#000;">西城区</a></div>
+            <div style="float:left;width:33%;">110套</div>
+            <div style="float:left;width:33%;">40%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=43" style="color:#000;">朝阳区</a></div>
+            <div style="float:left;width:33%;">100套</div>
+            <div style="float:left;width:33%;">45%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=44" style="color:#000;">丰台区</a></div>
+            <div style="float:left;width:33%;">105套</div>
+            <div style="float:left;width:33%;">35%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=45" style="color:#000;">石景山区</a></div>
+            <div style="float:left;width:33%;">111套</div>
+            <div style="float:left;width:33%;">20%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=46" style="color:#000;">海淀区</a></div>
+            <div style="float:left;width:33%;">112套</div>
+            <div style="float:left;width:33%;">45%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=47" style="color:#000;">房山区</a></div>
+            <div style="float:left;width:33%;">120套</div>
+            <div style="float:left;width:33%;">30%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=48" style="color:#000;">通州区</a></div>
+            <div style="float:left;width:33%;">110套</div>
+            <div style="float:left;width:33%;">40%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=49" style="color:#000;">顺义区</a></div>
+            <div style="float:left;width:33%;">102套</div>
+            <div style="float:left;width:33%;">50%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=50" style="color:#000;">昌平区</a></div>
+            <div style="float:left;width:33%;">115套</div>
+            <div style="float:left;width:33%;">20%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=51" style="color:#000;">大兴区</a></div>
+            <div style="float:left;width:33%;">114套</div>
+            <div style="float:left;width:33%;">30%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=52" style="color:#000;">怀柔区</a></div>
+            <div style="float:left;width:33%;">90套</div>
+            <div style="float:left;width:33%;">50%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=53" style="color:#000;">平谷区</a></div>
+            <div style="float:left;width:33%;">110套</div>
+            <div style="float:left;width:33%;">20%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=54" style="color:#000;">密云区</a></div>
+            <div style="float:left;width:33%;">95套</div>
+            <div style="float:left;width:33%;">40%</div>
+        </div>
+        <div style="background:#DDDDDD;font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=55" style="color:#000;">延庆区</a></div>
+            <div style="float:left;width:33%;">110套</div>
+            <div style="float:left;width:33%;">50%</div>
+        </div>
+        <div style="font-size:16px;text-align:center;width:100%;line-height:40px;height:40px;">
+            <div style="float:left;width:33%;"><a href="/beijing/erf.html?quyu=56" style="color:#000;">门头沟区</a></div>
+            <div style="float:left;width:33%;">100套</div>
+            <div style="float:left;width:33%;">30%</div> 
+        </div>-->
+        <br/><br/><br/>
+
+
+
+
+    </div>
+
+
+</div>
+{/block}

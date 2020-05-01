@@ -1,0 +1,161 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">房拍网行情</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+<link rel="stylesheet" type="text/css" href="/jl/css/default.css" />
+        <link rel="stylesheet" type="text/css" href="/jl/css/component.css" />
+        <script src="/jl/js/modernizr.custom.js"></script>
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<style type="text/css">
+tr{height:30px; line-height:30px}
+.goods{font-size: 0.51rem;
+    color: #919191;
+    line-height: .7rem;}
+    .goods em{
+        margin-left: .15rem;
+    line-height: 0.6rem;
+    text-align: center;
+    display: inline-block;
+    font-size: .6rem;
+    padding: .2rem;
+    margin-top: .3rem;
+    color: #999;
+    background: rgba(245,246,247,1);
+    }
+</style>
+
+
+<div id="select_bg"></div>
+<div class="main">
+
+    <!-- 返回键 S-->
+
+    <a href="javascript:;" class="detail-go-back"></a>
+
+
+
+<style>
+
+       .tab-headn span {
+               
+                width: 25%;
+                height: 40px;
+                margin: 0;
+                float: left;
+                line-height:40px;
+                color:#fff;
+                font-weight:bold;
+                text-align: center;
+                
+            }
+            
+            .tab-contentd {
+              
+                width: 100%;
+                height: auto;
+            }
+            
+           .tab-contentd .hide{
+                display: none;
+            }
+            
+            .selectedd {
+                background-color: #00AC56;
+            }
+             .noselectedd {
+                background-color:#5ECB95;
+            }
+            
+            .tab-contentd .show{
+                display: block;
+            }
+    </style>     
+
+
+      
+
+
+            
+
+    
+
+{if $tcou gt 0}      
+        <div class="" style="padding:0 0; background:#fff; margin-top:60px;">
+              
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">同小区历史成交记录({$tcou})</h4>
+
+                <ul class="house-confi-point"></ul>
+              
+      {if $tong}
+                <div class="container" style="width:90%; margin:0 auto">
+            <div class="main" style="background:#fff">
+                <ul class="cbp_tmtimeline">
+        {volist name='tong' id='tvo'}
+                    <li>
+                        <div class="cbp_tmlabel">
+                            
+                            <p>
+                              
+                          
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <!-- <tr>
+                               <td>{:getCityName($tvo['city'])}</td>
+                                <td colspan="3">{$tvo.title}</td>
+                              </tr> -->
+                              <tr>
+                                <td style="float:left;">{$tvo.room}室{$tvo.living_room}厅/</td>
+                                <td style="float:left; margin-left:5px;">{$tvo.acreage}{:config('filter.acreage_unit')}/</td>
+                                <td style="float:left; margin-left:5px;">{:getLinkMenuName(4,$tvo['orientations'])}</td>
+                                                <td style="font-size:16px; color:red; right:0">{$tvo.cjprice|raw}万</td>
+                              </tr>
+                              <tr>
+                                <td>单价{$tvo.average_price|raw}</td>
+                                <td>{$tvo.update_time|date='Y-m-d H:i'}成交</td>
+                              </tr>
+                            </table>
+
+                            </p>
+                        </div>
+                    </li>
+        {/volist}
+                    
+                </ul>
+            </div>
+        </div>
+    
+
+{/if}
+<div style="height:20px"></div>
+            </div> 
+{/if}
+
+       
+
+{/block}

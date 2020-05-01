@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>地图找房</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/mobile/js/font-size.js"></script>
+    <link rel="stylesheet" href="/static/mobile/css/base.css?t={:time()}">
+    <link rel="stylesheet" href="/static/mobile/css/style.css?t={:time()}">
+    <style>
+        .main{min-height: 90vh;}
+        .map-show-box {
+            height: calc(100vh - 4rem);
+            max-height: calc(100vh - 4rem);
+        }
+        #map{height:100%;}
+    </style>
+</head>
+<body>
+{block name='header'}{/block}
+{block name='content'}{/block}
+</body>
+</html>

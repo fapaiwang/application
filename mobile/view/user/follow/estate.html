@@ -1,0 +1,39 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<div class="main" style="background: none;">
+    {include file='user/follow/nav' /}
+    <div class="house-show-box">
+        <ul>
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li>
+                <div class="pic">
+                    <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" />
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4>
+                        <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {$vo.title}
+                        </a>
+                    </h4>
+                    <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price}</em>{:config('filter.second_price_unit')}</span></p>
+                    <p>
+                        <span class="time"><em>{$vo.years}</em>年建成</span>&nbsp;&nbsp;
+                        <span class="cancel-follow" data-id="{$vo.id}" data-model="estate">取消</span>
+                    </p>
+                    <p>
+                        <span class="saleing-num">在售<em>{$vo.second_total}</em>套&nbsp;&nbsp;在租<em>{$vo.rental_total}</em>套</span>
+                    </p>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+{/block}

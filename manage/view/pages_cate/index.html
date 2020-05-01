@@ -1,0 +1,88 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--栏目列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" id="J_cate_tree" cellspacing="0" cellpadding="0" border="0" style="width:100%;" data-uri="{:url('pages/PagesCate/ajaxEdit')}">
+                <colgroup>
+                    <col width="5%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>栏目名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>栏目别名</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>排序</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>状态</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {volist name='list' id='val'}
+                <tr id="node-{$val.id}" {if condition="$val.pid neq 0"}class="child-of-node-{$val.pid}"{/if}>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.id}
+                    </div>
+                </td>
+                <td style="text-align:left;">
+                    <div class="layui-table-cell">
+                        {$val.name}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.alias}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.ordid}
+                    </div>
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td align="">
+                    <div class="layui-table-cell">
+                        {:rights($options,$val['id'],$val['name'])}
+                    </div>
+                </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.treetable.js"></script>
+<script>
+    $(function(){
+        $("#J_cate_tree").treeTable({indent:20,treeColumn:1,expandable:true});
+    });
+</script>
+{/block}

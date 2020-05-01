@@ -1,0 +1,49 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--分类-->
+<div class="pad_lr_10" >
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <div class="layui-table-header">
+                <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+                    <colgroup>
+                        <col width="80%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="layui-table-cell"><span>名称</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell" align="center"><span>操作</span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="val"}
+                    <tr data-index="{$i}" class="">
+                        <td>
+                            <div class="layui-table-cell">
+                                {$val.name}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                {:rights($options,$val['id'],$val['name'])}
+                            </div>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="kaifazhe-fix-bottom layui-clear">
+            <div id="pages" class="layui-layout-right">
+                {$pages|raw}
+            </div>
+        </div>
+    </form>
+</div>
+{/block}

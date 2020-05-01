@@ -1,0 +1,71 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="list-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <colgroup>
+                <col width="20%">
+                <col width="10%">
+                <col />
+                <col width="10%">
+                <col width="20%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell"><span>登录名</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>登录ip</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>登录地</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>登录时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="lists" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.user_name}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.login_ip}
+                     </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.city}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.login_time|date='Y-m-d H:i:s'}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.status}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+{/block}

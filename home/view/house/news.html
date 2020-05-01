@@ -1,0 +1,70 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">楼盘动态</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="con_wrap comWidth clearfix">
+        <div class="leftArea cm_leftArea">
+            <!-- 动态列表 S -->
+            <ul class="dynamic_list">
+                {fang:lists table='article' where='house_id=$id and status=1' field='id,title,create_time,description' order='id desc' limit='5' page='true' id='data'}
+                <li>
+                    <div class="l_con clearfix">
+                        <p class="time">{$data.create_time|date='m月d日'}</p>
+                        <p class="c_l">
+                            <span class="c">.</span>
+                            <span class="l"></span>
+                        </p>
+                    </div>
+                    <div class="r_con">
+                        <h3>{$data.title}</h3>
+                        <p>{$data.description}<a href="{:url('News/detail',['id'=>$data['id']])}">[查看详情]</a></p>
+                    </div>
+                </li>
+                {/fang:lists}
+
+            </ul>
+            <!-- 动态列表 E -->
+            <div class="page_list clearfix">
+                {$pages|raw}
+            </div>
+        </div>
+        <div class="rightArea cm_rightArea ">
+            <!-- 热文排行 S -->
+            <div class="hot_artc mt_30">
+                <div class="title">
+                    <h3>热文排行</h3>
+                    <p class="b_l"></p>
+                </div>
+                <div class="con_box">
+                    <ul class="clearfix">
+                        {fang:lists table='article' where='status=1' field='id,title' order='hits desc' limit='10' id='data'}
+                        <li>
+                            <a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}">
+                                <span class="order {if condition='$i lt 4'}on{/if}">{$i}</span>
+                                {$data.title}
+                            </a>
+                        </li>
+                        {/fang:lists}
+
+                    </ul>
+                </div>
+            </div>
+            <!-- 热文排行 E -->
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+{/block}

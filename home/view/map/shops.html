@@ -1,0 +1,212 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<div class="map_house">
+    <!-- 筛选 和 搜索 S-->
+    <div class="sele_sear clearfix">
+        <div class="comWidth clearfix">
+            <div class="sear fl">
+                <div class="ipt_area fl">
+                    <input type="text" class="ipt" id="keyword" placeholder="输入楼盘名称">
+                    <span class="placeholder">输入楼盘名称</span>
+                </div>
+                <div class="btn_area fl">
+                    <button class="btn search-keyword"></button>
+                </div>
+            </div>
+            <div class="sele_list fl">
+                <form action="">
+                    <div class="item fl" id="select_city" data-uri="{:url('Ajax/getCityPoint')}">
+                        <input type="hidden" name="city" id="city" value="" />
+                        <select class="J_city_select" data-pid="0" data-uri="{:url('Ajax/ajaxGetchilds')}" data-selected="">
+                        </select>
+                    </div>
+                    <div class="item fl">
+                        <select name="price" id="price">
+                            <option value="0">价格</option>
+                            {volist name=":getBussinessCondition('shops_price')" id='vo'}
+                            <option value="{$key}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="item fl">
+                        <select name="acreage" id="acreage">
+                            <option value="0">面积</option>
+                            {volist name=":getBussinessCondition('shops_acreage')" id='vo'}
+                            <option value="{$key}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="item fl">
+                        <select name="type" id="type">
+                            <option value="0">类型</option>
+                            {volist name='house_type' id='vo'}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="item fl">
+                        <select name="special" id="special">
+                            <option value="0">特色</option>
+                            {volist name='special' id='vo'}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="item  fl">
+                        <button type="button" class="btn search-btn" data-uri="{:url('Map/getShopsLists')}">搜索</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 筛选 和 搜索 E-->
+
+    <div class="main">
+        <!-- 左边地图 S -->
+        <div class="l_box ">
+            <div class="map">
+                <div id="map"></div>
+            </div>
+        </div>
+        <!-- 左边地图 E -->
+        <!-- 右边区域内容 S -->
+        <div class="r_box">
+            <!-- 楼盘列表 S -->
+            <div class="house_list">
+                <div class="hd clearfix">
+                    <ul class="fl tab sort">
+                        <li>
+                            <a href="javascript:;" data-sort="0" class="active df">默认</a>
+                        </li>
+                        <li >
+                            <a href="javascript:;" data-sort="1" class="price down">均价</a>
+                        </li>
+                    </ul>
+                    <span class="b_l"></span>
+                </div>
+                <ul class="bd" id="lists">
+                </ul>
+            </div>
+            <!-- 楼盘列表 E -->
+
+        </div>
+        <!-- 右边区域内容 E -->
+    </div>
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li class="clearfix">
+        <a href="{{d[i].url}}" target="_blank" title="{{d[i].title}}">
+            <div class="img fl f_con">
+                <img src="{{d[i].img}}" onerror="this.src='/static/images/nopic.jpg'" width="130" height="90" alt="">
+            </div>
+            <div class="c_con fl">
+                <div class="t clearfix">
+                    <h3>{{d[i].title}}</h3>
+                </div>
+                <div class="c">
+                    <span>{{d[i].acreage}}㎡</span>,
+                    <span>{{d[i].type}}</span>,
+                    <span>{{d[i].renovation}}</span>
+                </div>
+                <div class="b clearfix">
+                    {{# for(var j in  d[i]['tags']){ }}
+                    <span class="item item{{j*1+1}}">{{d[i]['tags'][j]}}</span>
+                    {{# } }}
+                </div>
+            </div>
+            <div class="r_con fl">
+                <p class="price"><strong>{{d[i].price}}</strong></p>
+            </div>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script src="__STATIC__/js/layer/laytpl.js"></script>
+<script src="__STATIC__/js/plugins/jquery.linkmenu.js"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+<script type="text/javascript" src="__JS__/map.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.J_city_select').cate_select({field:'city',parent_id:'select_city',top_option:'选择区域',id:'J_city_select'});
+        var lng = '{$lng}';
+        var lat = '{$lat}';
+        BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+        BMapApplication.requestUrl = $('.search-btn').data('uri');
+        BMapApplication.requestParam = getParam();
+        BMapApplication.getMap();
+        //按条件筛选
+        $('.search-btn').on('click',function(){
+            BMapApplication.viewArea = true;
+            BMapApplication.requestParam = getParam();
+            BMapApplication.getData();
+        });
+        $('.search-keyword').on('click',function(){
+            var keyword = $('#keyword').val();
+            BMapApplication.viewArea = false;//全局搜索
+            BMapApplication.requestNum = 0;
+            BMapApplication.requestParam = {keyword:keyword};
+            BMapApplication.getData();
+        });
+        //排序
+        $('.sort a').on('click',function(){
+            var sort = parseInt($(this).attr('data-sort'));
+            $(this).addClass('active').parent().siblings().find('.active').removeClass('active');
+            if($(this).hasClass('up'))
+            {
+                $(this).removeClass('up').addClass('down');
+            }else if($(this).hasClass('down')){
+                $(this).removeClass('down').addClass('up');
+            }
+            switch(sort)
+            {
+                case 0:
+                    break;
+                case 1:
+                    sort = 2;
+                    break;
+                case 2:
+                    sort = 1;
+                    break;
+                default :
+                    sort = 90;
+                    break;
+            }
+            BMapApplication.requestParam = getParam();
+            BMapApplication.getData();
+            $(this).attr('data-sort',sort);
+        });
+    });
+    function getParam()
+    {
+        var city = $('#city').val(),price = $('#price').val(),type = $('#type').val(),acreage = $('#acreage').val(),
+                tags = $('#tags').val();
+        var sort  = $('.sort').find('.active').attr('data-sort');
+        var param = {
+            area : city,
+            price : price,
+            acreage  : acreage,
+            type  : type,
+            tags : tags,
+            sort   : sort
+        };
+        return param;
+    }
+    $('#select_city').on('change','.J_city_select',function(){
+        var city = $(this).val();
+        var  url = $('#select_city').data('uri');
+        var param = {
+          city : city
+        };
+        $.get(url,param,function(result){
+            if(result.code == 1)
+            {
+                BMapApplication.requestParam.city = city;
+                BMapApplication.setCenter(result.data.lng,result.data.lat,result.data.name);
+                BMapApplication.getData();
+            }
+        });
+    });
+</script>
+{/block}

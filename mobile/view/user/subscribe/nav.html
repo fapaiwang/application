@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<style>
+
+    .follow-h-switch li{padding: 0 10px;text-align:center;display:inline-block;font-size:.7rem;height:1.77rem;line-height: 1.77rem;}
+
+    .follow-h-switch a.active{color:#F54848;}
+
+    .swiper-container{border-bottom:1px solid #eee;}
+
+    .follow-h-switch{border:none;}
+
+    .delete{padding:0 .2rem;border:1px solid #999;color:#999;float:right;}
+
+</style>
+
+<!-- 我的预约 -->
+
+<div class="swiper-container">
+
+    <ul class="follow-h-switch swiper-wrapper">
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "second"'}class="active"{/if} href="{:url('user.subscribe/second')}">法拍房</a>
+
+        </li>
+
+        <li class="swiper-slide">
+
+            <a {if condition='$action eq "index"'}class="active"{/if} href="">国有资产</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "rental"'}class="active"{/if} href="">涉诉房产</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "office"'}class="active"{/if} href="">社会委托</a>
+
+        </li>
+        <!-- <li class="swiper-slide">
+
+            <a {if condition='$action eq "index"'}class="active"{/if} href="{:url('user.subscribe/index')}">新房</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "second"'}class="active"{/if} href="{:url('user.subscribe/second')}">二手房</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "rental"'}class="active"{/if} href="{:url('user.subscribe/rental')}">出租房</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "office"'}class="active"{/if} href="{:url('user.subscribe/office')}">写字楼出售</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "officerental"'}class="active"{/if} href="{:url('user.subscribe/officeRental')}">写字楼出租</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "shops"'}class="active"{/if} href="{:url('user.subscribe/shops')}">商铺出售</a>
+
+        </li>
+
+        <li  class="swiper-slide">
+
+            <a {if condition='$action eq "shopsrental"'}class="active"{/if} href="{:url('user.subscribe/shopsRental')}">商铺出租</a>
+
+        </li> -->
+
+    </ul>
+
+</div>
+
+<!-- 我的预约 -->
+
+<script src="__JS__/swiper.min.js"></script>
+
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        var mySwiper = new Swiper('.swiper-container', {
+
+            slidesPerView : 'auto'
+
+        });
+
+        $('.delete').on('click',function(){
+
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = "{:url('delete')}";
+
+            var param = {
+
+                house_id : house_id,
+
+                model    : model
+
+            };
+
+            layer.confirm('您确定要删除预约么？', function(){
+
+                $.get(url,param,function(result){
+
+                    if(result.code == 1)
+
+                    {
+
+                        layer.msg(result.msg,{icon:1},function(){
+
+                            window.location.reload();
+
+                        });
+
+                    }else{
+
+                        layer.msg(result.msg,{icon:2});
+
+                    }
+
+                });
+
+            });
+
+        });
+
+    });
+
+</script>

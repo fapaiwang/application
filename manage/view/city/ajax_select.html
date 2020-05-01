@@ -1,0 +1,88 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--列表-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" id="info_form" action="{:url('ajaxSelect')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="province" lay-filter="province" id="province">
+                            <option value="0">--请选择--</option>
+                            {volist name=':getProvinceLists()' id='vo'}
+                            <option value="{$vo.id}" {if condition="$vo.id eq $province"}selected="selected"{/if}>{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <button class="layui-btn layui-btn-normal" id="searchBtn" type="submit" data-uri="">搜索</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pad_lr_10" >
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <div class="layui-table-header">
+                <table class="layui-table list-table" id="J_cate_tree" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+                    <colgroup>
+                        <col width="80%">
+                        <col width="20%">
+
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="layui-table-cell"><span>区域名称</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>操作</span></div>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='val'}
+                    <tr id="node-{$val.id}" pid="{$val.pid}" {if condition="$val.pid neq 0"}class="child-of-node-{$val.pid}"{/if}>
+
+                    <td style="text-align: left;">
+                        <div class="layui-table-cell">
+                            {$val.name}
+                        </div>
+                    </td>
+                    <td align="">
+                        <div class="layui-table-cell">
+                            <a href="javascript:;" class="select layui-btn layui-btn-xs layui-btn-danger" data-id="{$val.id}" data-name="{:getCityName($val['id'],'-')}">选择</a>
+                        </div>
+                    </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.treetable.js"></script>
+<script>
+    $(function(){
+        $("#J_cate_tree").treeTable({indent:20,treeColumn:0,expandable:true});
+    });
+    layui.use(['jquery'], function() {
+        var $ = layui.jquery;
+        $(".select").on('click',function(){
+            var id = $(this).data('id'),name = $(this).data('name');
+            var parentFrame = $(window.parent.document);
+            var selected_area = parentFrame.find('#service_area');
+            var selected_area_val = selected_area.val();
+            name = '<em>'+name+' <i class="layui-icon" data-id="'+id+'">&#x1006;</i></em>';
+            id = selected_area_val + id+',';
+            selected_area.val(id);
+            parentFrame.find('#service_box').append(name);
+        });
+
+    });
+</script>
+{/block}

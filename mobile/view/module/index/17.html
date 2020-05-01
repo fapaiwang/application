@@ -1,0 +1,35 @@
+{notempty name='group'}
+    <!-- 团购优惠 S-->
+    <div class="house-show-box mb20 mt20">
+        <div class="title">
+            <h3>团购优惠</h3>
+            <a href="{:url('Group/index')}" title="团购优惠">更多</a>
+        </div>
+        <ul>
+            {volist name='group' id='vo'}
+            <li>
+                <a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                <div class="clearfix">
+                    <div class="pic">
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                    </div>
+                    <div class="intro-text">
+                        <h4 class="saleing">
+                            {$vo.title}
+                        </h4>
+                        <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price}</em>{:config('filter.house_price_unit')}</span></p>
+                        <p style="padding-top:10px;">
+                            <span class="time-remain" data-down="{$vo.end_time-time()}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="list-discount">
+                    <span>独家</span>{$vo.discount}
+                </div>
+                </a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <!-- 团购优惠 E-->
+    {/notempty}

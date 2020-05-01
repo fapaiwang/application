@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <style>
+        body{padding:0;margin:0;}
+        #content{width:100%;text-align:center;position:relative;}
+        #loading{margin:auto;width:100%;position:absolute;top:50%;}
+        #pano{width:100%;height:100%;}
+    </style>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<div id="content">
+    <iframe src='{$url}' frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
+</div>
+<script>
+    window.onload = function(){
+        var h = document.documentElement.clientHeight;
+        $("#content").height(h);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="layui-tab layui-tab-brief">
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <colgroup>
+                <col width="40%">
+                <col width="20%">
+                <col width="15%">
+                <col width="15%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell"><span>订单号</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>金额</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>支付方式</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>创建时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>支付时间</span></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="lists" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.order_no}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        &yen;{$val.money}
+                    </div>
+                </td>
+
+                <td>
+                    <div class="layui-table-cell">
+                        {if condition="$val.pay_type eq 'weixin'"}微信支付{else /}支付宝支付{/if}
+                    </div>
+                </td>
+
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        {$val.create_time|date='Y-m-d H:i'}
+                    </div>
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        {empty name='val.pay_time'}未支付{else /}{$val.pay_time|date='Y-m-d H:i'}{/empty}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+</div>
+<!-- 列表 E-->
+<script type="text/javascript">
+    layui.use(['jquery','form','layer'],function(){
+        var $ = layui.jquery;
+
+    });
+</script>
+{/block}

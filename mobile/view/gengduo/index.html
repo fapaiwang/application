@@ -1,0 +1,91 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+<style>
+  .cate-box li.dcjf a:before{background-image: url(/static/mobile/images/icon/dcjf.png);}
+    .cate-box li.jrfw a:before{background-image: url(/static/mobile/images/icon/jrfw.png);}
+    .cate-box li.qyxf a:before{background-image: url(/static/mobile/images/icon/qyxf.png);}
+    .cate-box li.wtpm a:before{background-image: url(/static/mobile/images/icon/wtpm.png);}
+    .cate-box li.yjdz a:before{background-image: url(/static/mobile/images/icon/yjdz.png);}
+    .cate-box li.zqzr a:before{background-image: url(/static/mobile/images/icon/zqzr.png);}
+    .cate-box li.dtzf a:before{background-image: url(/static/mobile/images/icon/dtzf.png);}
+    .cate-box li.fdjs a:before{background-image: url(/static/mobile/images/icon/fdjs.png);}
+</style>
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+       <!--  <div style="text-align:center;width:95%;color:#fff;font-size:18px;">更多</div> -->
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+    <!-- 小区项目细节 S-->
+
+    <div class="house-show-box" style="margin-top:40px;">
+
+    
+<div class="cate-box clearfix">
+       
+            <div class="swiper-wrapper">
+            <p>热门功能</p>
+                <ul class="swiper-slide">
+                    <li class="dcjf" style="width: 32%;"><a href="{:url('Chafeng/index')}" title="代解查封">代解查封</a></li> 
+                    <li class="jrfw" style="width: 32%;"><a href="{:url('Jinrong/index')}" title="金融服务">金融服务</a></li>
+                    <li class="wtpm" style="width: 33%;"><a href="{:url('Wtpm/index')}" title="委托拍卖">委托拍卖</a></li>
+                    <li class="zqzr" style="width: 32%;"><a href="" title="债权转让">债权转让</a></li> 
+
+                    {if condition="$userInfo.id eq 0"}
+                    <li class="yjdz" style="width: 32%;"><a href="{:url('user.index/index')}" title="一键定制">一键定制</a></li>
+                    {else}
+                    <li class="yjdz" style="width: 32%;"><a href="{:url('Yjdz/index')}" title="一键定制">一键定制</a></li>
+                    {/if}
+                    <li class="qyxf" style="width: 33%;"><a href="{:url('Quyu/index')}" title="区域选房">区域选房</a></li>
+
+                </ul>
+                <p>辅助功能</p>
+                <ul class="swiper-slide">
+                    <li class="dtzf" style="width: 32%;"><a href="{:url('Map/second')}" title="地图找房">地图找房</a></li> 
+                    <li class="fdjs" style="width: 32%;"><a href="{:url('Tools/index')}" title="房贷计算">房贷计算</a></li>                   
+                </ul>
+                <p>业务人员</p>
+                <ul class="swiper-slide">
+                    <li class="broker" style="width: 32%;"><a href="{:url('Broker/index')}" title="法拍专员">法拍专员</a></li> 
+                                    
+                </ul>
+            </div>
+            <div class="swiper-menu-pagination"></div>
+        
+    </div>
+      
+
+
+
+
+
+
+    </div>
+
+
+</div>
+{/block}

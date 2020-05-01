@@ -1,0 +1,283 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+
+<style>
+
+    .item,.house-show-box{font-size:.7rem;}
+
+</style>
+
+<div class="main" style="padding-bottom:2rem;">
+
+    <!-- 经纪人概况 S-->
+
+    {include file='broker/broker_info' /}
+
+    <!-- 经纪人概况 E-->
+
+
+
+    <!-- 点评列表 S-->
+
+    <!-- <div class="comment-list user-comment">
+
+        <h2>用户点评</h2>
+
+        <ul class="item">
+
+            {volist name='comment_lists' id='vo' empty='暂无数据'}
+
+            <li class="clearfix">
+
+                <div class="pic fl"><img src="{:getAvatar($vo['user_id'],90)}" alt="{$vo.user_name}"></div>
+
+                <div class="comment-content fl">
+
+                    <div class="username-level clearfix">
+
+                        <div class="username fl">{$vo.user_name}</div>
+
+                        <div class="level level-{$vo.point} fr"></div>
+
+                    </div>
+
+                    <div class="desc_box">
+
+                        <p>{$vo.content}</p>
+
+                    </div>
+
+                    <div class="babel-list clearfix">
+
+                        {php}$c_tags=array_filter(explode(',',$vo['tags']));{/php}
+
+                        {volist name='c_tags' id='t'}
+
+                        <em>{:getLinkMenuName(13,$t)}</em>
+
+                        {/volist}
+
+                    </div>
+
+                    <time class="time">{$vo.create_time|date='Y-m-d H:i'}</time>
+
+                </div>
+
+            </li>
+
+            {/volist}
+
+
+
+        </ul>
+
+        <a href="{:url('Broker/comment',['id'=>$userInfo['id']])}" class="more-house-btn">查看全部评论(<span>{$count.comment_total}</span>)</a>
+
+    </div> -->
+
+    <!-- 点评列表 E-->
+
+    <!-- 在售房源 S-->
+
+    <div class="lists switcher-panel switcher-panel-cur">
+
+
+
+                <ul class="xinhao">
+                    {volist name="second_lists" id="vo"}
+                    <li class="app-item link">
+                        <div class="list-img">
+                            <img src="/public/static/images/{$vo['img']}" alt=""></div>
+                        <div class="list-cont">
+                            <div class="lt-c-tit">
+                                <h2>
+                                    <a href="#nogo">{$vo.title}</a></h2>
+                                <span>8.59MB</span></div>
+                            <div class="lt-c-s-n">
+                                <div class="lt-c-s-n-l">
+                                    <div class="star">
+                                        <p style="width: 73%;"></p>
+                                    </div>
+                                </div>
+                                <span>{$vo.title}万次下载</span></div>
+                        </div>
+                        <div class="btns">
+                            <a class="dl-btn js-downloadBtn" href="http://shouji.360tpcdn.com/170214/5aeae868026625e95b389b357fbdd186/com.ss.android.article.video_116.apk">
+                                <span></span>下载</a>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+                {if condition="5 eq 5"}
+                    <div class="load-bar" id="loadmore" style="border:1px solid red;">
+                        <a href="javascript:;" class="user-pl-more-btn loadmore" data-type="1">加载更多</a>
+                    </div>
+                {/if}
+                <div class="load-bar" id="tip">
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 在售房源 E-->
+
+
+
+    <!-- 在租房源 S-->
+
+    <!-- <div class="broker-shop-house">
+
+        <h2>在租房源</h2>
+
+        <div class="old-house house-show-box">
+
+            <ul>
+
+                {volist name='rental_lists' id='vo' empty='暂无数据'}
+
+                <li>
+
+                    <div class="pic">
+
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+
+                        </a>
+
+                    </div>
+
+                    <div class="intro-text">
+
+                        <h4>
+
+                            <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                                {$vo.title}
+
+                            </a>
+
+                        </h4>
+
+                        <p class="price"><span>{:getCityName($vo['city'])}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+
+                        <p class="detail-text">{$vo.room}室{$vo.living_room}厅 {$vo.acreage} {:config('filter.acreage_unit')}&nbsp;&nbsp;{:getLinkMenuName(8,$vo['renovation'])}</p>
+
+                        <p class="good">
+
+                            {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+
+                            {volist name='tag' id='val'}
+
+                            <em>{$val}</em>
+
+                            {/volist}
+
+                        </p>
+
+                    </div>
+
+                </li>
+
+                {/volist}
+
+
+
+            </ul>
+
+        </div>
+
+        <a href="{:url('Broker/rental',['id'=>$userInfo['id']])}" class="more-house-btn">查看在租房源(<span>{$count.rental_total}</span>)</a>
+
+    </div> -->
+
+    <!-- 在租房源 E-->
+
+
+
+    <!-- 导航行为 S-->
+
+    <!-- <div class="nav-act">
+
+        <a href="tel:{$userInfo.mobile}" class="call-tel" style="width:100%;">拨打电话</a>
+
+    </div> -->
+
+    <!-- 导航行为 E-->
+
+</div>
+ <script>
+        //加载更多
+        var nStart = 20;
+        $('#loadmore').click(function() {
+
+        alert(111111);
+            var _this = $(".xinhao");
+            if(nStart >= 50) {
+                //alert('后面没有数据了！');
+                $("#loadmore").text('没有数据了亲...').css({"border-top":"1px solid #d4d5d6","height":"30px","line-height":"30px"});
+                return false;
+            } else {
+                $.post("{:url('Detail/second')}", {start: nStart}, function(res) {
+                    $.each(res['result'], function(i, item) {
+                        _this.append('<li class="app-item link">
+                            <div class="list-img">
+                            <img src="/public/static/images/'+item.Pic+'"alt=""/></div>
+                            <div class="list-cont">
+                            <div class="lt-c-tit">
+                            <h2>
+                            <a href="#nogo">'+item.AppName+'</a></h2>
+                        <span>8.59MB</span></div>
+                        <div class="lt-c-s-n">
+                            <div class="lt-c-s-n-l">
+                            <div class="star">
+                            <p style="width: 73%;"></p>
+                            </div>
+                            </div>
+                            <span>'+item.DownloadCount+'万次下载</span></div>
+                        </div>
+                        <div class="btns">
+                            <a class="dl-btn js-downloadBtn" href="#">
+                            <span></span>下载</a>
+                            </div>
+                            </li>');
+                    });
+                });
+                nStart += 5;
+            }
+        });
+        </script>
+
+{/block}

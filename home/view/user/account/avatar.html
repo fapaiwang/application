@@ -1,0 +1,74 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<style>
+    .flash-box{width:500px;height:450px;float:left;margin-right:10px;}
+    .avatar-list{width:200px;float:left;}
+</style>
+<div class="content add_house">
+    <form class="layui-form" id="info_form" action="" method="post" enctype="multipart/form-data">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li><a href="{:url('index')}">编辑资料</a></li>
+                <li class="layui-this"><a href="{:url('avatar')}">上传头像</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="flash-box">
+                    <div class="flash">
+                        <div id="content">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="avatar-list">
+                    {volist name='avatar' id='vo'}
+                    {if condition='$i lt 5'}
+                    <p><a class="max_tx" title="{$key}×{$key}" href="javascript:;"><img src="{$vo}" alt="{$key}×{$key}"><br />{$key}×{$key}</a></p>
+                    {/if}
+                    {/volist}
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script language="javascript" type="text/javascript" src="__STATIC__/js/avatar/swfobject.js"></script>
+<script type="text/javascript">
+    var flashvars = {
+        'upurl':"{$upload_url}&callback=avatar&"
+    };
+    var params = {
+        'align':'middle',
+        'play':'true',
+        'loop':'false',
+        'scale':'showall',
+        'wmode':'window',
+        'devicefont':'true',
+        'id':'Main',
+        'bgcolor':'#ffffff',
+        'name':'Main',
+        'allowscriptaccess':'always'
+    };
+    var attributes = {
+
+    };
+    swfobject.embedSWF("/static/js/avatar/main.swf", "content", "490", "434", "9.0.0","/static/js/avatar/expressInstall.swf", flashvars, params, attributes);
+
+    function avatar(result) {
+        var data  = eval('('+result+')');
+        if(data.status == 1) {
+
+            var str = '';
+            for(var i in data['data']){
+                str += '<p><a class="max_tx"><img src="'+data['data'][i].replace('.\/','/')+'?t='+Math.random()+'" width="'+i+'" height="'+i+'" /><br />'+i+' x '+i+'</a></p>';
+            }
+            $(".avatar-list").html(str);
+            layer.msg('上传成功',{icon:1});
+        } else {
+            layer.msg('上传失败',{icon:2});
+        }
+    }
+</script>
+{/block}

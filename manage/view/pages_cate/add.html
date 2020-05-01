@@ -1,0 +1,76 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--添加栏目-->
+<div class="dialog_content">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">上级栏目</label>
+			<input type="hidden" name="pid" id="J_cate_id" />
+			<div class="layui-input-inline">
+				<select class="J_cate_select mr10" lay-filter="J_cate_select" data-pid="0" data-uri="{:url('PagesCate/ajaxGetchilds')}" data-selected="{$spid}">
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">栏目名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" id="name"  placeholder="栏目名称" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">栏目别名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="alias" id="alias" value="" placeholder="留空自动获取名称拼音"  autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">SEO 标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="seo_title" id="seo_title" class="layui-input" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">SEO 关键词</label>
+			<div class="layui-input-inline">
+				<input type="text" name="seo_keys" id="seo_keys" class="layui-input" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">SEO 描述</label>
+			<div class="layui-input-inline">
+				<textarea name="seo_dec" id="seo_desc" class="layui-textarea"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#name").formValidator({onshow:'请填写名称',onfocus:'请填写名称'}).inputValidator({min:1,onerror:'请填写名称'});
+	});
+	layui.config({
+		base: '/static/manage/js/'
+	});
+	layui.use(['form','linkmenu'], function(){
+		var form = layui.form;
+		$(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

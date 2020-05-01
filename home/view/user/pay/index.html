@@ -1,0 +1,92 @@
+{extend name="user/public/layout" /}
+{block name='content'}
+<style>
+    .layui-form-select{width:120px;}
+    .active img{border:1px solid #D32F2F;padding:1px;}
+    .qrcode{text-align:center;display:none;background-color: #fff;height:300px;}
+</style>
+<div class="content" style="margin-top:20px;">
+    <form class="layui-form" id="info_form" action="" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">充值金额</label>
+            <div class="layui-input-block">
+                <input type="text" name="money" id="money"  placeholder="例：10" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付方式</label>
+            <div class="layui-input-block">
+                <input type="radio" name="pay_type" value="alipay" checked title="支付宝" />
+                <input type="radio" name="pay_type" value="weixin" title="微信">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top:30px;">
+            <label class="layui-form-label">&nbsp;</label>
+            <div class="layui-input-block layui-center">
+                <a href="javascript:;" class="layui-btn" id="sub-pay" data-uri="{:url('user.pay/createOrder')}">立即充值</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="qrcode">
+    <img src="" alt="" id="qrcode" width="250" height="250">
+    <p>打开<span id="pay_type">支付宝</span>扫一扫支付</p>
+</div>
+<script>
+    layui.use(['form','element'],function(){
+        var $ = layui.jquery;
+        $("#sub-pay").on('click',function(){
+            var money = $("#money").val(),radio = $("input[name='pay_type']:checked"),type = radio.val(),title = radio.attr('title'),url = $(this).data('uri');
+            if(isNaN(money) || !money){
+                layer.msg('充值金额只能为数字');
+                return false;
+            }
+            var index = layer.msg('正在生成二维码，请稍候……',{time:10000});
+            $.ajax({
+                type:'post',
+                url : url,
+                data:{
+                    money : money,
+                    pay_type  : type
+                },
+                dataType:'json',
+                success : function(res){
+                    layer.close(index);
+                    if(res.code == 1){
+                        $("#pay_type").text(title);
+                        $("#qrcode").attr('src',res.qrcode);
+                        layer.open({
+                            type: 1,
+                            title: false,
+                            area: ['300px','300px'],
+                            shadeClose: true,
+                            skin: 'layui-layer-nobg', //没有背景色
+                            content: $('.qrcode')
+                        });
+                        setInterval(function(){
+                            {
+                                $.ajax({
+                                    url : "{:url('user.pay/queryOrder')}",
+                                    data : {
+                                        order_no : res.data.order_no
+                                    },
+                                    type:'get',
+                                    dataType:'json',
+                                    success : function(res){
+                                        if(res.code == 1){
+                                            parent.window.location.reload();
+                                        }
+                                    }
+                                });
+                            }
+                        },5000);
+                    }else{
+                        layer.msg(res.msg,{icon:2});
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+{/block}

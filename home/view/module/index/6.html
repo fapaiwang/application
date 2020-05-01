@@ -1,0 +1,69 @@
+<!--资讯中心-->
+<div class="news cm_wrap">
+    <div class="head clearfix">
+        <h2 class="icon-news fl">楼市新闻</h2>
+        <ul class="r_nav fr">
+            {fang:lists table='article_cate' where='status=1 and pid=0' order='ordid asc,id desc' field='id,name' id='data'}
+            <li style="margin-left:15px;">
+                <a href="{:url('News/index',['cate'=>$data['id']])}" target="_blank">{$data.name}</a>
+            </li>
+            {/fang:lists}
+        </ul>
+    </div>
+    <div class="content clearfix">
+        <div class="news-left fl">
+            <div class="news-left-slide">
+               <script type="text/javascript" src="/poster/index.html?id=6"></script>
+            </div>
+            <ul class="news-left-list clearfix">
+                {fang:lists table='article' where='status=1 and cate_id=4 and city = $cityId' order='create_time desc' field='id,img,title' limit='2' id='data'}
+                <li>
+                    <a href="{:url('News/detail',['id'=>$data['id']])}" target="_blank" title="{$data.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($data['img'],180,140)}" class="lazy" alt="{$data.title}" width="180" height="140">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$data.title}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+                    </a>
+                </li>
+                {/fang:lists}
+            </ul>
+        </div>
+        <ul class="news-center fl">
+            {fang:lists table='article' field='id,title,cate_id,description' where='status=1 and city = $cityId and cate_id not in(4,7)' order='create_time desc' limit='10' id='data'}
+            {if condition='$i eq 1'}
+            <li>
+                <h2>
+                    <a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}" target="_blank">{$data.title}</a>
+                </h2>
+                <p>
+                    {:msubstr($data['description'],0,100)}
+                </p>
+            </li>
+            {else /}
+            <li class="nowarp">
+                <a href="{:url('News/index',['cate'=>$data['cate_id']])}" title="{:getCateName('articleCate',$data['cate_id'])}" target="_blank">{:getCateName('articleCate',$data['cate_id'])}</a> | <a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}" target="_blank">{$data.title}</a>
+            </li>
+            {/if}
+            {/fang:lists}
+        </ul>
+        <div class="news-right build_shoppers fr">
+            <div class="r_box">
+                <div class="sct_item buy_way">
+                    <h3>{:getCateName('articleCate',7)}</h3>
+                    <ul class="list" style="height:auto;">
+                        {fang:lists table='article' field='id,title' where='status=1 and cate_id=7 and city = $cityId' order='ordid asc,id desc' limit='13' id='data'}
+                        <li class="clearfix"><a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}" target="_blank">{$data.title}</a></li>
+                        {/fang:lists}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--资讯中心-->

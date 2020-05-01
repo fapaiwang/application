@@ -1,0 +1,48 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 资讯 S-->
+<div class="flash">
+    <div class="con_wrap comWidth clearfix">
+        <div class="sub_nav">
+            <ul>
+                <li><a href="{:url('News/index')}" {if condition='$cate_id eq 0'}class="active"{/if}>全部</a></li>
+                {volist name='cate' id='vo'}
+                <li><a href="{:url('News/index',['cate'=>$vo['id']])}" {if condition='$cate_id eq $vo.id'}class="active"{/if}>{$vo.name}</a></li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="leftArea cm_leftArea">
+            <ul class="flash_list clearfix">
+                {volist name='lists' id='vo' empty='暂无数据'}
+                <li>
+                    <a href="{:url('News/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+                        <div class="l_img fl">
+                            <img src="/static/images/nopic.jpg" data-original="{:thumb($vo['img'],160,110)}" class="lazy" alt="{$vo.title}">
+                        </div>
+                        <div class="r_con fr">
+                            <h3>{$vo.title}</h3>
+                            <p class="desc">{$vo.description}</p>
+                            <div class="f_box">
+                                <span class="time">{:getTime($vo['create_time'])}</span>
+                                <span class="view">{$vo.hits}</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+
+            </ul>
+            {notempty name='pages'}
+            <div class="page_list clearfix">
+                {$pages|raw}
+            </div>
+            {/notempty}
+        </div>
+        <div class="rightArea cm_rightArea ">
+            {include file='news/right' /}
+        </div>
+    </div>
+</div>
+<!-- 资讯 E-->
+{/block}

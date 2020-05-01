@@ -1,0 +1,51 @@
+{extend file='public/layout' /}
+{block name='content'}
+<!--添加禁止ip-->
+<div class="dialog_content">
+	<form id="info_form" action="{:url('Badip/addDo')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+			<th width="90">ip :</th>
+			<td>
+				<input type="text" class="input-text" name="ip" id="ip" size="30">
+			</td>
+		</tr>
+		<tr>
+			<th>封禁天数 :</th>
+			<td><input type="text" name="expires" id="expires" value="0" class="input-text" size="30"><span>0表示永久封禁</span></td>
+		</tr>
+
+        <tr>
+		<th>状态 :</th>
+            <td>
+                <label><input type="radio" name="status" value="1" checked="checked"> 启用</label>&nbsp;&nbsp;
+                <label><input type="radio" name="status" value="0"> 禁用</label>
+            </td>
+        </tr>
+	</table>
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#ip").formValidator({onshow:'请填写ip或ip段',onfocus:'请填写ip或ip段'}).inputValidator({min:1,onerror:'请填写ip或ip段'});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

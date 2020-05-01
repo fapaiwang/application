@@ -1,0 +1,151 @@
+{extend name='public/layout' /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级导航</label>
+                    <div class="layui-input-block">
+                        <select name="pid" id="pid">
+                            <option value="0">一级导航</option>
+                            {fang:lists table='nav' field='id,title' where='pid=0 and status=1' order='ordid asc,id desc' id='data'}
+                            <option value="{$data.id}">{$data.title}</option>
+                            {/fang:lists}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>导航名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" id="title" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">页面类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" lay-filter="pageType" name="page_type" value="1" checked="checked" title="列表页">
+                        <input type="radio" lay-filter="pageType" name="page_type" value="2" title="单页面">
+                        <input type="radio" lay-filter="pageType" name="page_type" value="3" title="链接地址">
+                    </div>
+                </div>
+                <div id="box">
+                    <div id="box_moudle">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>控制器名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" placeholder="和前台控制器名称一致" name="model" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>方法名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" name="action" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" id="box_SinglePage" style="display:none;">
+                        <label class="layui-form-label">绑定页面</label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="cate_id" id="J_cate_id" />
+                            <select class="J_cate_select mr10" lay-filter="J_cate_select" data-pid="0" data-uri="{:url('PagesCate/ajaxGetchilds')}" data-selected="">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" id="box_url" style="display:none;">
+                        <label class="layui-form-label">链接地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="url" class="layui-input" placeholder="例：/loupan_0_0_52_0_0_0_0_0.html">
+                            <p>站内链接请不要带域名,站外链接请填写完整地址。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">导航位置</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="pos" value="1" title="页头菜单" checked="checked" />
+                        <input type="radio" name="pos" value="2" title="页脚菜单" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">打开方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="open_type" value="_self" title="当前窗口" checked>
+                        <input type="radio" name="open_type" value="_blank" title="新窗口">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="正常" checked>
+                        <input type="radio" name="status" value="0" title="禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">seo标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="seo_title" id="seo_title" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">seo关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="seo_keys" id="seo_keys" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">seo描述</label>
+                    <div class="layui-input-inline">
+                        <textarea name="seo_desc" id="seo_desc" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+    </div>
+
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    layui.config({
+        base: '/static/manage/js/'
+    });
+    layui.use(['linkmenu','form'], function(){
+        var $ = layui.jquery,menu = layui.linkmenu,form = layui.form;
+        $(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
+        form.on("radio(pageType)",function(data){
+            var val = data.value,index = $(data.elem).index() / 2,model = $("input[name='model']");
+            $('#box').children().hide().eq(index).show();
+            if(val == 2)
+            {
+                model.val('SinglePage');
+            }else{
+                model.val('');
+            }
+        });
+    });
+    function submitForm(){
+        var title  = document.getElementById('title').value,page_type = $("input[name='page_type']:checked").val(),
+                model = $("input[name='model']").val();
+        if(title.length == 0)
+        {
+            layer.msg('请填写导航名称！',{icon:2});
+            return false;
+        }
+        if(page_type == 1 && model.length == 0){
+            layer.msg('请填写控制器名称！',{icon:2});
+            return false;
+        }
+        $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+    }
+
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+                parent.window.location.reload();
+            });
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

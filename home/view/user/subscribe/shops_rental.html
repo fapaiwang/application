@@ -1,0 +1,95 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="layui-tab layui-tab-brief">
+    {include file='user/subscribe/nav' /}
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell"><span>类型</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>楼盘名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>房源名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>面积</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>价格</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>预约时间</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell">操作</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="lists" id="val"}
+                <tr>
+                    <td>
+                        <div class="layui-table-cell">
+                            {:subscribeType($val['type'])}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.estate_name}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="{:url('ShopsRental/detail',['id'=>$val['id']])}" target="_blank">{$val.title}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.acreage}{:config('filter.acreage_unit')}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {if condition="$val.price gt 0"} {$val.price}{:config('filter.rental_price_unit')}{else /}面议{/if}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.create_time|date='Y-m-d H:i'}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="javascript:;" data-id="{$val.id}" data-model="shops_rental" class="layui-btn layui-btn-xs layui-btn-danger delete">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+        <div class="kaifazhe-fix-bottom layui-clear">
+            <div id="pages" class="layui-layout-right">
+                {$pages|raw}
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 列表 E-->
+{/block}

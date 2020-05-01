@@ -1,0 +1,66 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="main">
+    <div class="pec-relLink edite-data mb20">
+        <a><span>昵称</span><span class="ipt"><input type="text" placeholder="test" name="nick_name" value="{$info.nick_name}" id="w-ipt"></span></a>
+        <a><span>头像</span><span class="h-pic" id="J_upload_img" style="float:right;"><img src="{:getAvatar($info['id'],45)}" alt=""></span></a>
+        <a><span>邮箱</span><span class="ipt"><input type="text" placeholder="test" name="email" value="{$info.email}"></span></a>
+    </div>
+    <div class="pec-relLink edite-data mb20">
+        <a href="{:url('user.account/password')}"><span>修改密码</span></a>
+        <a><span>手机号</span><span class="tel">{:hideMobile($info['mobile'])}</span></a>
+    </div>
+
+    <div class="bt-box pt45 pb160">
+        <button type="button" id="sub-btn" class="btn" data-uri="{:url('user.account/edit')}">确定修改</button>
+    </div>
+
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/fileuploader.js"></script>
+<script>
+    $(function(){
+        //上传图片
+        var img_uploader = new qq.FileUploaderBasic({
+            allowedExtensions: ['jpg','gif','jpeg','png','swf'],
+            button: document.getElementById('J_upload_img'),
+            multiple: false,
+            action: "{:url('ajaxUploadImg')}",
+            inputName: 'file',
+            forceMultipart: true, //用$_FILES
+            showMessage: function(message){
+                layer.msg(message,{icon:2});
+            },
+            onSubmit: function(id, fileName){
+                layer.load(1);
+            },
+            onComplete: function(id, fileName, result){
+                layer.closeAll();
+                if(result.code == '1'){
+                   $("#J_upload_img").find('img').attr('src',result.data);
+                } else {
+                    layer.msg(result.msg,{icon:2});
+                }
+            }
+        });
+
+        $('#sub-btn').on('click',function(){
+            var nick_name = $("input[name='nick_name']").val(),email = $("input[name='email']").val(),url = $(this).data('uri');
+            var param = {
+                nick_name : nick_name,
+                email     : email
+            };
+            $.post(url,param,function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg,{icon:1},function(){
+                       window.location.href = window.location.href+'?t='+Math.random();
+                    });
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
+    });
+</script>
+{/block}

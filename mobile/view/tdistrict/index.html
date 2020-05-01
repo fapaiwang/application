@@ -1,0 +1,89 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">房拍网行情</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+
+<div id="select_bg"></div>
+<div class="main">
+
+    <!-- 返回键 S-->
+
+    <a href="javascript:;" class="detail-go-back"></a>
+
+
+
+
+
+{if $tcou gt 0}      
+        <div class="" style="padding:0 0; background:#fff; margin-top:60px;">
+              
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">拍卖成交记录({$tcou})</h4>
+
+                <ul class="house-confi-point"></ul>
+              
+      {if $tong}
+             <div style="width:96%;    margin: 0 auto;">
+				 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {volist name='tong' id='tvo'}
+                 
+				 
+  <tr style="    line-height: 35px;">
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.room}室{$tvo.living_room}厅</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.acreage}{:config('filter.acreage_unit')}</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{:getLinkMenuName(4,$tvo['orientations'])}</a></td>
+  </tr>
+  <tr style="    line-height: 35px;border-bottom:1px solid #e3e3e3">
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.cjprice|raw}</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.average_price|raw}</a> </td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.update_time|date='Y-m-d H:i'}成交</a></td>
+  </tr>
+
+				
+                   
+                   
+                               
+                               
+                          
+                     
+        {/volist}
+                      </table>         
+                               
+                                                
+                           </div>   
+              
+    
+
+{/if}
+
+{/if}
+
+       
+
+{/block}

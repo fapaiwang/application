@@ -1,0 +1,53 @@
+<div class="mapshow-per-pos">
+     <!--<a href="/zhoubian/index.html?id={$ids}">-->
+    <div class="mapshow-box" id="map">
+    </div>
+    <!--</a>-->
+      <a href="/zhoubian/index.html?id={$ids}">
+     <div class="hb support" style="margin-top:15px;">
+
+       
+                
+
+
+        <em class="active" search-flag="dz" style="display:none;">地址</em>
+        <em search-flag="bus" id="clickMe">公交</em>
+        <em search-flag="school">教育</em>
+        <em search-flag="hospital">医疗</em>
+        <em search-flag="shopping">购物</em>
+        <em search-flag="life">生活</em>
+        <em search-flag="entertainment">娱乐</em>
+
+        <!-- <em search-flag="bus" id="clickMe"><a href="/zhoubian/index.html?id=2950">公交</a></em>
+        <em search-flag="school"><a href="/zhoubian/index.html?id=2950">教育</a></em>
+        <em search-flag="hospital"><a href="/zhoubian/index.html?id=2950">医疗</a></em>
+        <em search-flag="shopping"><a href="/zhoubian/index.html?id=2950">购物</a></em>
+        <em search-flag="life"><a href="/zhoubian/index.html?id=2950">生活</a></em>
+        <em search-flag="entertainment"><a href="/zhoubian/index.html?id=2950">娱乐</a></em> -->
+    </div>
+    </a>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+<script src="__STATIC__/js/peitao.js?random=120688"></script>
+<script>
+    $('#map').on('touchend',function () {
+    window.location.href = "/zhoubian/index.html?id={$ids}";
+    })
+</script>
+<script>
+    var lng = '{$info.lng}';
+    var lat = '{$info.lat}';
+    var streetView = 0;
+    BMapApplication.isMobile = true;
+    BMapApplication.title    = "{$info.title}";
+    BMapApplication.saleStatus = "{$info.sale_status|default=1}";
+    BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+    // BMapApplication.getAreaMap('公交', 'bus');
+    BMapApplication.getAreaMap('地址', 'dz');
+    $('.support em').click(function (evt){
+        $(this).addClass('active').siblings().removeClass('active');
+        var iElem = $(this);
+        BMapApplication.getAreaMap(iElem.text(), iElem.attr('search-flag'));
+        evt.stopPropagation();
+    });
+</script>

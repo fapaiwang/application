@@ -1,0 +1,345 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!-- 搜索栏 S -->
+<div class="searBar ">
+    <div class="comWidth clearfix">
+        <div class="sear_box fl">
+            <form action="{:url('OfficeRental/index')}">
+                <div class="ipt_area fl">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchOfficeRental')}" class="ipt">
+                    <span class="placeholder">输入小区名称或房源名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area fl">
+                    <input type="submit" class="sbm_btn" value="搜索">
+                </div>
+            </form>
+        </div>
+        <a href="{:url('Map/officeRental')}" class="map_btn fr">地图找房</a>
+    </div>
+</div>
+<!-- 搜索栏 E -->
+<!-- 楼盘列表 S-->
+<div class="cm_house">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="javascript:void(0);">写字楼出租</a>
+        </div>
+        <!-- 页面标识 E-->
+        <!-- 筛选栏 S -->
+
+        <div class="seleBar">
+            {notempty name='metro'}
+            <div class="search-tab clearfix">
+                <a href="{:getUrl('OfficeRental/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont">&#xe609;</i>按区域查询</a>
+                <a href="{:getUrl('OfficeRental/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont">&#xe61e;</i>按地铁查询</a>
+            </div>
+            {/notempty}
+            <div class="box">
+                {if condition="$search.search_type eq 2"}
+                <div class="item clearfix">
+                    <h3>地铁:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','metro',$param,0)}" {if condition="$search.metro eq 0"}class="active"{/if}">全部</a></li>
+                        {volist name='metro' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','metro',$param,$vo['id'])}" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='metro_station'}
+                <div class="item clearfix">
+                    <h3>站点:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','metro_station',$param,0)}" {if condition='$search.metro_station eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='metro_station' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','metro_station',$param,$vo['id'])}" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/notempty}
+                {else /}
+                <div class="item clearfix">
+                    <h3>区域:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','area',$param,0)}" {if condition="$search.area eq $cityInfo['id']"}class="active"{/if}">全部</a></li>
+                        {volist name='area' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='rading'}
+                <div class="item clearfix">
+                    <h3>商圈:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','area',$param,$param['area'])}" {if condition='$search.rading eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='rading' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/notempty}
+                {/if}
+
+                <div class="item clearfix">
+                    <h3>租金:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','price',$param,0)}" {if condition='$search.price eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name=':getBussinessCondition("office_rental_price")' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','price',$param,$key)}" {if condition='$search.price eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>面积:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','acreage',$param,0)}" {if condition='$search.acreage eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name=':getBussinessCondition("office_acreage")' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>类型:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','type',$param,0)}" {if condition='$search.type eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='type' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','type',$param,$vo['id'])}" {if condition='$search.type eq $vo.id'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>特色:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('OfficeRental/index','tags',$param,0)}" {if condition='$search.tags eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='tags' id='vo'}
+                        <li><a href="{:getUrl('OfficeRental/index','tags',$param,$key)}" {if condition='$search.tags eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选栏 E -->
+        <div class="main clearfix">
+            <!-- 列表 S-->
+            <div class="houseList_wrap leftArea cm_leftArea">
+                <div class="head clearfix">
+                    <div class="tit fl">
+                        <h2><a href="{:url('OfficeRental/index')}" {if condition='$search.user_type eq 0'}class="active"{/if}>全部房源</a></h2>
+                        <h2><a href="{:getUrl('OfficeRental/index','user_type',$param,1)}" {if condition='$search.user_type eq 1'}class="active"{/if}>个人房源</a></h2>
+                        <h2><a href="{:getUrl('OfficeRental/index','user_type',$param,2)}" {if condition='$search.user_type eq 2'}class="active"{/if}>中介房源</a></h2>
+                    </div>
+                    <div class="tab sort-tab fr">
+                        <ul>
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active"{/if}>默认排序</a></li>
+                            {if condition='$search.sort eq 1'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,2)}" class="active up">总价</a></li>
+                            {elseif condition='$search.sort eq 2'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,1)}" class="active down">总价</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,1)}">总价</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 3'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,4)}" class="active up">单价</a></li>
+                            {elseif condition='$search.sort eq 4'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,3)}" class="active down">单价</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,3)}">单价</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 5'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,6)}" class="active up">面积</a></li>
+                            {elseif condition='$search.sort eq 6'}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,5)}" class="active down">面积</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('OfficeRental/index','sort',$param,5)}">面积</a></li>
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+                <div class="list_con sh_house_list">
+                    <ul class="clearfix">
+                        {volist name='top_lists' id='vo'}
+                        <li>
+                            <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+								<span class="l_img fl">
+									<img src="/static/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}">
+								</span>
+								<span class="r_con fr">
+									<h3>{$vo.title}<i class="top-icon">顶</i></h3>
+									<p>
+                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(17,$vo['grade'])}</span>
+                                    </p>
+                                <p>
+                                    <span class="tit" style="margin-right:5px;">{$vo.estate_name}</span>
+                                    <span class="address">{$vo.address}</span>
+                                </p>
+                                    <p class="user-info">
+                                        <span><i class="iconfont">&#xe605;</i>{$vo.contact_name}{if condition="$vo.user_type eq 1"}(个人){else /}(经纪人){/if}</span>
+                                        <span>{:getTime($vo['update_time'],'mohu')}</span>
+                                    </p>
+									<span class="label_list clearfix">
+                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                                        {notempty name='tag'}
+                                        {volist name='tag' key='n' id='val'}
+                                        <i class="item item{$n}">{:getLinkMenuName(16,$val)}</i>
+                                        {/volist}
+                                        {/notempty}
+									</span>
+									<span class="price">
+										<h5><strong>{$vo.price|raw}</strong></h5>
+										<p>{$vo.average_price}</p>
+									</span>
+                                </span>
+                            </a>
+                        </li>
+                        {/volist}
+                        {volist name='lists' id='vo' empty='暂无数据'}
+                        <li>
+                            <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+								<span class="l_img fl">
+									<img src="/static/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}">
+								</span>
+								<span class="r_con fr">
+									<h3>{$vo.title}</h3>
+									<p>
+                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(17,$vo['grade'])}</span>
+                                    </p>
+                                <p>
+                                    <span class="tit" style="margin-right:5px;">{$vo.estate_name}</span>
+                                    <span class="address">{$vo.address}</span>
+                                </p>
+                                    <p class="user-info">
+                                        <span><i class="iconfont">&#xe605;</i>{$vo.contact_name}{if condition="$vo.user_type eq 1"}(个人){else /}(经纪人){/if}</span>
+                                        <span>{:getTime($vo['update_time'],'mohu')}</span>
+                                    </p>
+									<span class="label_list clearfix">
+                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                                        {notempty name='tag'}
+                                        {volist name='tag' key='n' id='val'}
+                                        <i class="item item{$n}">{:getLinkMenuName(16,$val)}</i>
+                                        {/volist}
+                                        {/notempty}
+									</span>
+									<span class="price">
+										<h5><strong>{$vo.price|raw}</strong></h5>
+										<p>{$vo.average_price}</p>
+									</span>
+                                </span>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 二手房列表 E-->
+            <!-- 右边内容 S -->
+            <div class="cm_rightArea rightArea">
+                <!-- 最新房源 S -->
+                <div class="rcmd_house new_house" style="margin-top:25px;">
+                    <div class="title">
+                        <h3>热门房源</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="clearfix">
+                            {volist name='hot' id='vo'}
+                            <li>
+                                <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+                                    <div class="img">
+                                        <img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$vo.title}">
+                                    </div>
+                                    <div class="con">
+                                        <div class="row clearfix">
+                                            <p class="name fl">{$vo.estate_name}</p>
+                                            <p class="price fr">{$vo.price|raw}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 最新房源 E -->
+                <!-- 购房知识 S -->
+                <div class="buy_way house_klg mt_25">
+                    <div class="title">
+                        <h3>{:getCateName('articleCate',6)}</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="list">
+                            {fang:lists table='article' where='cate_id=6 and status=1' field='id,title' order='ordid asc' limit='8' id='data'}
+                            <li class="clearfix"><a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}">{$data.title}</a></li>
+                            {/fang:lists}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 购房知识S -->
+            </div>
+            <!-- 右边内容 E -->
+        </div>
+    </div>
+</div>
+<!-- 楼盘列表 S-->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                <em>{{d[i].price}}</em>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#select select").on('change',function(){
+            var uri = $(this).find("option:selected").data('uri');
+            window.location.href = uri;
+        });
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    })
+</script>
+{/block}

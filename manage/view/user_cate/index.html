@@ -1,0 +1,125 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .td-table{width:100%;}
+    .td-table li{display:inline-block;width:16%;float:left;text-align:center;}
+</style>
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="5%">
+                <col width="5%">
+                <col width="10%">
+                <col/>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>ID</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell">
+                        <span>分类名称</span>
+                    </div>
+                </th>
+                <th>
+                    <div style="text-align:center;">审核</div>
+                    <ul class="td-table">
+                        <li>二手房</li>
+                        <li>出租房</li>
+                        <li>写字楼出售</li>
+                        <li>写字楼出租</li>
+                        <li>商铺出售</li>
+                        <li>商铺出租</li>
+                    </ul>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>年费(元/年)</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>等级</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.id}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.name}
+                    </div>
+                </td>
+                <td style="padding:0;">
+                      <ul class="td-table">
+                          <li>{$check[$val['data']['check_second']]}</li>
+                          <li>{$check[$val['data']['check_rental']]}</li>
+                          <li>{$check[$val['data']['check_office']]}</li>
+                          <li>{$check[$val['data']['check_office_rental']]}</li>
+                          <li>{$check[$val['data']['check_shops']]}</li>
+                          <li>{$check[$val['data']['check_shops_rental']]}</li>
+                      </ul>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.fee}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit" style="">{$val.ordid}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {:rights($options,$val['id'],$val['name'],$menuid)}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+
+{/block}

@@ -1,0 +1,45 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;padding-bottom: 1.92rem;">
+    <div class="house-type-detail">
+        <div class="big_img">
+            <img src="{$room_info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$room_info.title}">
+        </div>
+        <div class="wrap">
+            <div class="m_info">
+                <div class="t_box">
+                    <span class="houseType">{$room_info.title} {$room_info.room}室{$room_info.living_room}厅{$room_info.toilet}卫</span>
+                    <span class="sale-status on">{:getLinkMenuName(5,$room_info['sale_status'])}</span>
+                </div>
+                <div class="c_box">
+                    <div class="price"><b>{$room_info.price}</b>万</div>
+                </div>
+                <div class="b_box clearfix">
+                    <div class="build-area fl">
+                        <span class="tit">建筑面积：</span>
+                        <span class="txt">{$room_info.acreage}{:config('filter.acreage_unit')}</span>
+                    </div>
+                    <div class="build-toward fr">
+                        <span class="tit">朝向：</span>
+                        <span class="txt">{:getLinkMenuName('4',$room_info['orientation'])}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:0.43rem;width: 100%;background:rgba(248,248,248,1);"></div> <!--分界线-->
+
+            <!-- 亮点 S -->
+            <div class="bright_spot">
+                <div class="title">
+                    <h3>特色</h3>
+                </div>
+                <div class="desc">
+                    <p>{$room_info.characteristic}</p>
+                </div>
+            </div>
+            <!-- 亮点 E -->
+        </div>
+    </div>
+   {include file='house/footer_bar' /}
+</div>
+{/block}

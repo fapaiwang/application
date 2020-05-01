@@ -1,0 +1,365 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<link type="text/css" href="/static/js/photo/css/prettyPhoto.css" rel="stylesheet" />
+<style>
+    .house_detail .main_info .con_box .col_3_list li{padding-bottom:15px;}
+    .house_detail .main_info .con_box .rightArea .col_1{height:41px;line-height: 41px;}
+</style>
+<!-- 页面标识 S-->
+<div class="page_tit">
+    <div class="comWidth clearfix">
+        <a href="javascript:;" rel="nofollow">您的位置：</a>
+        <a href="{:url('Index/index')}">首页</a> &gt;
+        <a href="{:url('OfficeRental/index')}">写字楼出租</a> &gt;
+        <a href="javascript:void(0);">{$info.title}</a>
+    </div>
+</div>
+<!-- 页面标识 E-->
+<!-- 楼盘详情 S-->
+<div class="house_detail">
+    <div class="comWidth">
+        <!-- main_info S -->
+        <div class="main_info">
+            <div class="hd_box clearfix">
+                <h2 class="fl">{$info.title}</h2>
+                <!-- on表示已收藏 -->
+                <span class="collect_btn follow fr" data-id="{$info.id}" data-model="office_rental" data-uri="{:url('Api/follow')}">关注房源</span>
+            </div>
+            <div class="con_box clearfix">
+                <div class="leftArea">
+                    <!-- 轮播图 S -->
+                    <div class="l_slide">
+                        <ul class="bigImg">
+                            {notempty name='info.file'}
+                            {volist name='info.file' id='vo'}
+                            <li>
+                                <a href="javascript:;"><img src="{$vo.url}" alt="{$vo.title}"></a>
+                            </li>
+                            {/volist}
+                            {else /}
+                            <li>
+                                <a href="javascript:;"><img src="{$info.img}" alt="{$info.title}"></a>
+                            </li>
+                            {/notempty}
+                        </ul>
+                        <div class="smallScroll">
+                            <a class="sPrev" href="javascript:void(0)">←</a>
+                            <div class="smallImg">
+                                <ul>
+                                    {notempty name='info.file'}
+                                    {volist name='info.file' id='vo'}
+                                    <li>
+                                        <a href="javascript:;"><img src="{:thumb($vo['url'],160,80)}" alt="{$vo.title}"></a>
+                                    </li>
+                                    {/volist}
+                                    {else /}
+                                    <li>
+                                        <a href="javascript:;"><img src="{:thumb($info['img'],160,80)}" alt="{$info.title}"></a>
+                                    </li>
+                                    {/notempty}
+                                </ul>
+                            </div>
+                            <a class="sNext" href="javascript:void(0)">→</a>
+                        </div>
+                    </div>
+                    <!-- 轮播图 E -->
+                </div>
+                <div class="rightArea">
+                    <div class="t_box clearfix">
+                        <div class="price fl">
+                            <span><strong>{$info.price|raw}</strong></span><span style="margin-left:10px;">{$info.average_price}</span>
+                        </div>
+                    </div>
+
+                    <ul class="col_3_list clearfix">
+                        <li>
+                            <p class="tit">{$info.acreage}{:config('filter.acreage_unit')}</p>
+                            <p class="txt">面积</p>
+                        </li>
+                        <li>
+                            <p class="tit">{:getLinkMenuName(17,$info['grade'])}</p>
+                            <p class="txt">等级</p>
+                        </li>
+                        <li>
+                            <p class="tit">{$info['division']}</p>
+                            <p class="txt">分割</p>
+                        </li>
+                        <li>
+                            <p class="tit">{:getLinkMenuName(8,$info['renovation'])}</p>
+                            <p class="txt">装修</p>
+                        </li>
+                        <li>
+                            <p class="tit">{:getLinkMenuName(7,$info['floor'])}/{$info.total_floor}</p>
+                            <p class="txt">楼层</p>
+                        </li>
+                        <li>
+                            <p class="tit">{:getLinkMenuName(15,$info['type'])}</p>
+                            <p class="txt">类型</p>
+                        </li>
+                    </ul>
+                    <div class="col_1 clearfix">
+                        <span class="label">物业费 : </span><span class="desc">{$info.property_fee}</span>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">楼盘 : </span><span class="desc">{$info.estate_name}</span>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">位置 : </span><span class="desc">{$info.address}</span>
+                    </div>
+                    <div class="agent_info clearfix" style="margin-top:30px;">
+                        <img src="{:getAvatar($info['broker_id'],90)}" width="90" height="90" alt="" class="per_img fl">
+                        <div class="c_con fl">
+                            <div class="row clearfix">
+                                {if condition="$info.user_type eq 2"}
+                                <p class="name fl"><a href="{:url('Broker/officeRental',['id'=>$info['broker_id']])}" title="{$info.contact_name}写字楼" target="_blank">{$info.contact_name}(经纪人)</a></p>
+                                {else /}
+                                <p class="name fl">{$info.contact_name}(个人)</p>
+                                {/if}
+                            </div>
+                            <div class="row">
+                                <p class="phone">{$info.contact_phone}</p>
+                            </div>
+                        </div>
+                        <div class="r_con fr">
+                            <a href="javascript:void(0);" class="btn appoint J_dialog" data-id="{$info.id}" data-model="office_rental" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- main_info E -->
+        <!-- 锚链接导航 S -->
+        <div class="scroll_nav_wrap">
+            <div class="scroll_nav">
+                <div class="comWidth clearfix">
+                    <ul>
+                        <li class="active"><a href="javascript:;">房源概况</a></li>
+                        {notempty name='info.pano_url'} <li><a href="javascript:;">全景看房</a></li>{/notempty}
+                        <li><a href="javascript:;">房源照片</a></li>
+                        <li><a href="javascript:;">楼盘简介</a></li>
+                        <li><a href="javascript:;">周边配套</a></li>
+                        <li><a href="javascript:;">猜您喜欢</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 锚链接导航 E -->
+        <div class="con_wrap clearfix">
+            <div class="leftArea cm_leftArea">
+                <!-- 房源概况 S-->
+                <div class="house_general floor">
+                    <div class="title clearfix">
+                        <h2>房源概况</h2>
+                    </div>
+                    <div class="bright_sopt clearfix">
+                        <div class="houseList_wrap" style="margin:0 0 10px;">
+                            <div class="sh_house_list list_con">
+                                 <span class="label_list clearfix">
+                                        {php}$tag = array_filter(explode(',',$info['tags']));{/php}
+                                        {notempty name='tag'}
+                                        {volist name='tag' key='n' id='val'}
+                                        <i class="item item{$n}">{:getLinkMenuName(16,$val)}</i>
+                                        {/volist}
+                                        {/notempty}
+									</span>
+                            </div>
+                        </div>
+
+                        {$info.info|raw}
+                    </div>
+                </div>
+                <!-- 房源概况 E-->
+                {notempty name='info.pano_url'}
+                <div class="house_general floor">
+                    <div class="title clearfix">
+                        <h2>全景看房</h2>
+                    </div>
+                    <div class="desc">
+                        <iframe src="{$info.pano_url}" width="100%" height="550" scrolling="no" frameborder="0"></iframe>
+
+                    </div>
+                </div>
+                {/notempty}
+                <!-- 房源照片 S-->
+                <div class="house_picture floor">
+                    <div class="title clearfix">
+                        <h2>房源照片</h2>
+                    </div>
+                    <ul class="list list_box clearfix" id="photo">
+                        {volist name='info.file' id='vo'}
+                        <li>
+                            <a href="{$vo.url}" title="{$vo.title}" rel="prettyPhoto[]">
+                                <img src="/static/images/nopic.jpg" data-original="{:thumb($vo['url'],430,250)}" class="lazy" width="432" height="253">
+                                <div class="mask">
+                                    <p class="name">{$vo.title}</p>
+                                    <div class="opacity"></div>
+                                </div>
+                            </a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </div>
+                <!-- 房源照片 E-->
+                {notempty name='estate'}
+                <!-- 小区简介 S -->
+                <div class="cmnt_profile floor">
+                    <div class="title clearfix">
+                        <h2>楼盘简介</h2>
+                    </div>
+                    <div class="con_box clearfix">
+                        <div class="l_box fl">
+                            <p class="cmnt_name">{$estate.title}</p>
+                            <ul class="pro_list clearfix">
+                                <li>
+                                    <span class="tit">参考均价</span>
+                                    <span class="txt">{$estate.price}{:config('filter.second_price_unit')}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">建筑类型</span>
+                                    <span class="txt">{$estate.data.building_type}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">建筑年代</span>
+                                    <span class="txt">{$estate.years}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">产权年限</span>
+                                    <span class="txt">{$estate.data.property_right}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">物业类型</span>
+                                    <span class="txt">{$estate.data.property_type}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">物业费</span>
+                                    <span class="txt">{$estate.data.property_fee}</span>
+                                </li>
+                                <li>
+                                    <span class="tit">停车位</span>
+                                    <span class="txt">{$estate.data.parking_space}</span>
+                                </li>
+                                <li style="width:360px;">
+                                    <span class="tit">物业公司</span>
+                                    <span class="txt">{$estate.data.property_company}</span>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="r_box fr">
+                            <img src="/static/images/nopic.jpg" data-original="{$estate.img}" class="lazy" alt="{$estate.title}">
+                        </div>
+                    </div>
+                    <div style="line-height: 2em;">
+                        {$estate.info|raw}
+                    </div>
+                </div>
+                <!-- 小区简介 E -->
+                {/notempty}
+            </div>
+            <div class="rightArea cm_rightArea ">
+                <!-- 推荐房源 S -->
+                <div class="rcmd_house mt_73">
+                    <div class="title">
+                        <h3>附近房源</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="clearfix">
+                            {volist name='near_by_house' id='vo'}
+                            <li>
+                                <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                    <div class="img">
+                                        <img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$vo.title}">
+                                    </div>
+                                    <div class="con">
+                                        <div class="row clearfix">
+                                            <p class="type_area nowarp fl">{$vo.title}</p>
+                                            <p class="price fr">{$vo.price|raw}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 推荐房源 E -->
+                <!-- 购房宝典S -->
+                <div class="buy_way mt_25">
+                    <div class="title">
+                        <h3>购房宝典</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="list">
+                            {fang:lists table='article' where='cate_id=2 and status=1' field='id,title' order='create_time desc' limit='8' id='data'}
+                            <li class="clearfix"><a href="{:url('News/detail',['id'=>$data['id']])}">{$data.title}</a></li>
+                            {/fang:lists}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 购房宝典E -->
+            </div>
+        </div>
+        <!-- con_wrap -->
+        <div class="con_wrap clearfix">
+            <!-- 周边配套 S-->
+            {include file='public/peitao' /}
+            <!-- 周边配套 E-->
+            <!-- 同小区房源 S -->
+            <div class="similar_house floor">
+                <div class="title clearfix">
+                    <h2>猜您喜欢</h2>
+                </div>
+                <div class="con_box">
+                    <ul class="list clearfix">
+                        {volist name='love' id='data'}
+                        <li>
+                            <a href="{:url('OfficeRental/detail',['id'=>$data['id']])}" title="{$data.title}">
+                                <div class="img">
+                                    <img src="/static/images/nopic.jpg" data-original="{$data.img}" class="lazy" alt="{$data.title}">
+                                </div>
+                                <div class="ft_con clearfix">
+                                    <p class="type_area nowarp fl">{$data.title}</p>
+                                    <p class="price fr"><strong>{$data.price|raw}</strong></p>
+                                </div>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+            <!-- 同小区房源 E -->
+
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/javascript" src="__STATIC__/js/photo/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="__JS__/l_slide.js"></script>
+<script type="text/javascript" src="__JS__/scroll_nav.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#photo:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+        $('.J_dialog').on('click',function(){
+            var me=$(this),w = 750,h = 400,house_id=me.data('id'),model = me.data('model'),type = me.data('type'),url = me.data('uri');
+            url = url + '?house_id='+house_id+'&type='+type+'&model='+model;
+            layer.open({
+                type: 2,
+                title: false,
+                fix:true,
+                move:false,
+                area: [w+'px', h+'px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: url
+            });
+        });
+    });
+</script>
+{/block}

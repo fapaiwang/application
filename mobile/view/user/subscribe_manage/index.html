@@ -1,0 +1,37 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<div class="main" style="background: none;">
+    {include file='user/subscribe_manage/nav' /}
+    <div class="house-show-box">
+        <ul>
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li>
+                <div class="pic">
+                    <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" />
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4 class="saleing">
+                        <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {$vo.title}
+                        </a>
+                    </h4>
+                    <p class="price"><span class="price-num"><em>{$vo.price}</em>{:config('filter.house_price_unit')}</span></p>
+                    <p><span>{$vo.user_name}&nbsp;&nbsp;{$vo.mobile}</span> </p>
+                    <p style="text-align:right;">
+                        {if condition="$vo.status eq 0"}待联系{else /}<a href="{:url('user.subscribe_follow/view',['id'=>$vo['sid']])}" class="btn">看跟进</a>{/if}
+                        <a href="{:url('user.subscribe_follow/record',['id'=>$vo['sid']])}" class="btn">写跟进</a>
+                    </p>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+{/block}

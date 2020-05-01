@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title></title>
+
+    <link rel="stylesheet" href="__CSS__/input.css">
+
+    <style>
+
+        /*预约弹窗*/
+
+        p{margin:0;padding:0;}
+
+        a{text-decoration: none;}
+
+        .dialog{position: relative;}
+
+        .dialog h1{margin:0 20px;font-size:20px;height:40px;border-bottom:1px solid #ccc;font-weight: normal;}
+
+        .dialog h1 span{display:inline-block;height:40px;border-bottom:1px solid #d32f2f;}
+
+        .dialog .dia-con1{ background: #fff;}
+
+        .dialog .tc_left{overflow: hidden; width: 390px; float: left;}
+
+        .dialog .tc_left img{overflow: hidden; width: 330px; height: 180px; margin: 20px 20px 10px 20px; padding:10px; border: 1px solid #ddd; }
+
+        .dialog .tc_left span{width: 370px; padding-left: 20px; font-size: 14px; color: #333333;  display: block; margin: 10px auto;}
+
+        .dialog .tc_left .stm_p2{ font-size: 12px; padding-left: 10px; height: 30px; line-height: 4px; color: #666;}
+
+        .dialog .tc_left .stm_p2:before{content: ""; width: 30px; height: 10px; display: block;  background-position: -30px -270px;}
+
+        .dialog .tc_left .stm_p2 em{font-size: 12px; font-style: normal; color: #333; margin:0 5px;}
+
+        .dialog .tc_left .stm_p2 em.price{font-size:22px;margin-right:5px;font-style:normal;color:#d32f2f;}
+
+        .dialog .tc_right{overflow: hidden; float: left;}
+
+        .dialog .tc_right p{overflow: hidden; padding: 10px 0;}
+
+        .dialog .tc_right .tc_right_p1{font-size: 14px; color: #666666; font-weight: bold; padding-top: 20px;}
+
+        .dialog .tc_right .tc_right_p2 input{width:180px; margin-right: 10px;  padding: 0 10px; font-size: 12px; height: 35px; line-height: 35px; color: #999999; border: none; float: left; border: 1px solid #ddd;}
+
+        .dialog .tc_right .tc_right_p2 a{font-size: 12px;text-decoration: none; display: block; position:absolute;width:87px;right:0; height: 35px; line-height: 35px; color: #009900; border: 1px solid #ddd; padding: 0 5px;text-align:center; background: #eee;}
+
+        .dialog .tc_right .tc_right_p3 input{width: 180px; padding: 0 10px; font-size: 12px; height: 35px; line-height: 35px; color: #999999; border: none;border: 1px solid #ddd;}
+
+        .dialog .tc_right .tc_right_p4 a{width: 180px; height: 40px; line-height: 40px; background: #d32f2f; text-align: center; font-size: 14px; color: #fff; display: block; float: left; }
+
+        .dialog .tc_right .tc_right_p5{font-size: 12px; color: #999999;}
+
+        .dialog .tc_right .tc_right_p5 a{font-size: 12px; color: #0066cc; margin: 0 5px;}
+
+        .placeholder{display:none;line-height: 55px;}
+
+        .form_box .sct_ipt{width:300px;}
+
+        .dialog .tc_left .stm_p2 em.price i{font-size:14px;color:#333;}
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dialog">
+
+    <h1><span>房源评价编辑</span></h1>
+
+    <div class="dia-con1">
+
+        
+
+        <div class="tc_right form_box" style="margin-left:10px;">
+
+            <form action="{:url('Api/bj')}" id="form" method="post">
+
+               <p class="tc_right_p1">请编辑您的评价</p>
+
+                <p>
+
+                    <!-- <input type="text" class="ipt" name="house_name" id="house_name" placeholder="请输入您的评价"> -->
+                    <textarea name="house_name" id="house_name"  cols="40"   rows="4"   style="OVERFLOW:   hidden" placeholder="请输入您的评价" >{$bjpj}</textarea>
+
+                    
+
+                </p>
+
+                <p class="tc_right_p4"><a href="javascript:;" rel="nofollow" id="sub_btn">提交</a></p>
+
+                <input type="hidden" name="bjid" value="{$bjid}">
+
+                <input type="hidden" name="type" value="{$data.type}">
+
+                <input type="hidden" name="model" value="{$data.model}">
+
+                <input type="hidden" name="house_id" value="{$data.house_id}">
+
+                <input type="hidden" name="broker_id" value="{$info.broker_id}">
+
+                <input type="hidden" id="send_sms" value="{$user_setting.subscribe_sms}">
+
+                {:token()}
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+
+<script src="__STATIC__/js/layer/layer.js"></script>
+
+<script src="__STATIC__/js/plugins/jquery.ajax.form.js"></script>
+
+<script src="__JS__/placeholder.js"></script>
+
+<script>
+
+    $(function() {
+
+        $("#smsCode").on('click',function(){
+
+            getCode();
+
+        });
+
+        $('#sub_btn').on('click',function(){
+
+            
+// alert(123);
+                $('#form').submit();
+
+  
+
+
+
+        });
+
+        $('#form').ajaxForm({success:complate,dataType:'json'});
+
+        function complate(result){
+
+            var index = parent.layer.getFrameIndex(window.name);
+
+            if(result.code == 1){
+
+                parent.layer.msg(result.msg, {icon:1});
+
+                parent.layer.close(index);
+
+            }else {
+
+                layer.msg(result.msg, {icon:2});
+
+            }
+
+        }
+
+    });
+
+    
+
+</script>
+
+</body>
+
+</html>

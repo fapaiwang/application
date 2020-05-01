@@ -1,0 +1,109 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="5%">
+                <col width="5%">
+                <col width="20%">
+                <col width="15%">
+                <col width="20%">
+                <col width="35%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>ID</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>项目名称</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>所属分类</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>最后采集时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.id}
+                    </div>
+                </td>
+                <td>
+                   <span data-tdtype="edit" data-field="name" data-id="{$val.id}" class="tdedit" style="">{$val.name}</span>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {:getCateName('articleCate',$val['cate_id'])}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {empty name='val.lastdate'}无采集{else /}{$val.lastdate|date='Y-m-d H:i'}{/empty}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-normal copy" data-uri="{:url('publicCopy',['id'=>$val['id']])}">复制</a>
+                        {:rights($options,$val['id'],$val['name'],$menuid)}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['jquery'], function(){
+        var $ = layui.jquery;
+        $(".copy").on('click',function(){
+            var url = $(this).data('uri');
+            layer.confirm('确定要复制该项目么',{icon:3,title:'提示信息'},function(index){
+                layer.msg('操作中,请稍候……');
+                $.get(url,function(result){
+                    layer.closeAll();
+                    if(result.code == 1){
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>
+{/block}

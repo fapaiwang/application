@@ -1,0 +1,67 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 内容 S-->
+<div class="cm_house agent_detail">
+    <div class="comWidth ">
+        <div class="main clearfix">
+            <div class="agent_info cm_rightArea fl">
+                {include file='broker/userinfo' /}
+            </div>
+            <!-- 二手房列表 S -->
+            <div class="houseList_wrap fr cm_leftArea">
+                <div class="head clearfix">
+                    {include file='broker/nav' /}
+                </div>
+                <div class="list_con sh_house_list">
+                    <ul class="clearfix">
+                        {volist name='lists' id='vo' empty='暂无数据'}
+                        <li>
+                            <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+								<span class="l_img fl">
+									<img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$vo.title}">
+								</span>
+								<span class="r_con fr">
+									<h3>{$vo.title}</h3>
+									<p>
+                                        <span class="info">{:getLinkMenuName(15,$vo['type'])}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span>
+                                    </p>
+                                <p>
+                                    <span class="tit">{$vo.estate_name}</span>
+                                    <span class="address">{$vo.address}</span>
+                                </p>
+									<span class="label_list clearfix">
+                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                                        {notempty name='tag'}
+                                        {volist name='tag' key='n' id='val'}
+                                        <i class="item item{$n}">{:getLinkMenuName(16,$val)}</i>
+                                        {/volist}
+                                        {/notempty}
+									</span>
+									<span class="price">
+										<h5><strong>{$vo.price|raw}</strong></h5>
+										<p>{$vo.average_price}</p>
+									</span>
+                                </span>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 二手房列表 E -->
+        </div>
+    </div>
+</div>
+
+<!-- 内容 S-->
+{/block}

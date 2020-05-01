@@ -1,0 +1,85 @@
+
+{extend name='public/layout' /}
+
+{block name='content'}
+
+<div style="width:100%;height:380px;background:url(/img/cjbanner.jpg);margin:0 auto"></div>
+<div style="width:1200px; height:auto;min-height:500px;margin:0 auto">
+
+<style>
+table.dataintable {
+  margin-top:15px;
+  border-collapse:collapse;
+  border:1px solid #00AC56;
+  width:100%;
+}
+table.dataintable th {
+  vertical-align:baseline;
+  padding:15px 15px 15px 10px;
+  background-color:#00AC56;
+  border:1px solid #00AC56;
+  text-align:left;
+  color:#fff;
+  font-size:16px;
+}
+table.dataintable td {
+  vertical-align:text-top;
+  padding:15px 15px 15px 10px;
+  border:1px solid #aaa;
+}
+table.dataintable tr:nth-child(odd) {
+  background-color:#F5F5F5;
+}
+table.dataintable tr:nth-child(even) {
+  background-color:#fff;
+}
+</style>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  {if $tcou gt 0} 
+       
+                
+            <div class="community-intr" style="margin-top:20px">
+
+        <div class="index-title mb25" style="border-bottom: 1px solid #e3e3e3;padding-bottom: 15px;">
+
+            <div class="en">Transaction Record</div>
+
+            <div class="ch">同小区成交记录({$tcou})</div>
+            
+        </div>
+
+
+
+    </div>
+{/if}
+<table class="dataintable">
+<tr>
+  <th>成交日期</th>
+  <th>房源名称</th>
+  <th>房源情况</th>
+  <th>成交价</th>
+  <th>成交单价</th>
+</tr>
+  {if $tcou gt 0} 
+  {if $tong}
+   {volist name='tong' id='tvo'}
+<tr>
+  <td>2019-06-10</td>
+  <td>{$tvo.title}</td>
+  <td><b>{$tvo.room}室{$tvo.living_room}厅&nbsp;&nbsp;{$tvo.floor}/{$tvo.total_floor}层&nbsp;&nbsp;{:getLinkMenuName(4,$tvo['orientations'])}</b> <b>{$tvo.years}年建成</b>  <b>{$tvo.acreage}平米</b></td>
+  <td>{$tvo.cjprice}万</td>
+  <td>{$tvo.average_price|raw}</td>
+</tr>
+  {/volist}
+ {/if}     
+{/if}
+
+</table>
+
+
+
+
+</div>
+
+<div style="width:1200px;height:370px;background:url(/img/cn.jpg);margin:0 auto"></div>
+{/block}

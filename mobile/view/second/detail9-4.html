@@ -1,0 +1,2165 @@
+{extend name='public/layout' /}
+
+{block name='header'}{/block}
+
+{block name='content'}
+<link rel="stylesheet" type="text/css" href="/jl/css/default.css" />
+<link rel="stylesheet" type="text/css" href="/jl/css/component.css" />
+<script src="/jl/js/modernizr.custom.js"></script>
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<link href="/newhd/photoswipe.css" rel="stylesheet">
+<script type="text/javascript" src="/newhd/jquery-1.8.3.js"></script>
+<script src="/newhd/simple-inheritance.min.js"></script>
+<script src="/newhd/code-photoswipe-1.0.11.min.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+  Code.photoSwipe('a', '#Gallery');
+}, false);
+</script>
+<style type="text/css">
+tr{height:30px; line-height:30px}
+.goods{font-size: 0.51rem;
+    color: #919191;
+    line-height: .7rem;}
+    .goods em{
+        margin-left: .15rem;
+    line-height: 0.6rem;
+    text-align: center;
+    display: inline-block;
+    font-size: .6rem;
+    padding: .2rem;
+    margin-top: .3rem;
+    color: #999;
+    background: rgba(245,246,247,1);
+    }
+</style>
+<div class="main">
+
+    <!-- 返回键 S-->
+    
+    <a href="javascript:;" class="detail-go-back"></a>
+    <!-- <a href="#" onClick="javascript :history.back(-1);">返回上一页</a><a href="#" onClick="javascript :history.go(-1);">返回上一页</a> -->
+
+    <!-- 返回键 E-->
+
+    <!-- 房子图片滚动展示 S-->
+
+    <div id="MainContent" class="swiper-container"  style="width:100%; height:260px">
+        <div id="Gallery" class="swiper-wrapper">
+           
+              {notempty name='info.file'}
+
+
+<!-- xq -->
+                {volist name='info.file' id='vo'}
+          <div class="gallery-item swiper-slide" style="top: 0px; left: 0px;">
+                <a href="{$vo.url}">
+                   <img src="{$vo.url}" style="width:100%; height:260px">
+                </a>
+            </div>
+            {/volist}
+          
+           {else /}
+           <div class="gallery-item swiper-slide" style="top: 0px; left: 0px;">
+                <a href="{$vo.url}">
+                   <img src="{$info.img}" style="width:100%; height:260px">
+                </a>
+            </div>
+             {/notempty}
+        </div>
+    </div>
+  
+  
+
+  
+
+    <!-- 房子图片滚动展示 E-->
+ 
+
+
+    <!-- 房子细节介绍 S-->
+
+<style>
+
+       .tab-headn span {
+               
+                width: 25%;
+                height: 40px;
+                margin: 0;
+                float: left;
+        line-height:40px;
+        color:#fff;
+        font-weight:bold;
+                text-align: center;
+        
+            }
+            
+            .tab-contentd {
+              
+                width: 100%;
+                height: auto;
+            }
+            
+           .tab-contentd .hide{
+                display: none;
+            }
+            
+            .selectedd {
+                background-color: #00AC56;
+            }
+       .noselectedd {
+                background-color:#5ECB95;
+            }
+            
+            .tab-contentd .show{
+                display: block;
+            }
+    </style>    
+ <div class="tab-headn" style="background-color:#000">
+            <span id="tab1" onmouseover="changeTab1()" class="selectedd">基本信息</span>
+            <span id="tab2" onmouseover="changeTab2()" class="noselectedd">法院公告</span>
+            <span id="tab3" onmouseover="changeTab3()" class="noselectedd">成交案例</span>
+      <span id="tab4" onmouseover="changeTab4()" class="noselectedd">户型图</span>
+        </div>
+    <div style="clear:both"></div>
+        <div class="tab-contentd">
+            <div id="c1" class="show">
+   
+   
+    <div class="house-detail-intro" style="margin-bottom:0px">
+                <h3 style="font-size:.7rem; padding:0rem 0rem 0rem;margin-bottom:.5rem; padding-top:10px">{$info.title}{notempty name='info.pano_url'}<a href="{:url('Ajax/pano')}?pano_url={:base64_encode($info.pano_url)}" title="{$info.title}全景" class="house-pano" style="    vertical-align: middle;margin-left:10px;width:30px;height:30px"></a>{/notempty}</h3>
+                <div style="width:100%; height:40px; background:#EEE0E5;">
+                    {if condition="$userInfo.id eq 0"}
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">**人报名</div>
+                    {else}
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">{$info.bmrs}人报名</div>
+                    {/if}
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">{$info.weiguan}人围观</div>
+                </div>
+                <ul class="intro-small-detail">
+
+                    <li class="top-three"><span>起拍价：<em style="color:red;">{$info.qipai|raw}</em>万</span><span>市场价：<em>{$info.price|raw}</em></span></li>
+
+                    <li class="top-three"><span>漏检指数：
+          
+          
+          {if $info.marketprice eq 1}
+              
+
+                               <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                
+                {if $info.marketprice eq 2}
+              
+
+                               <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                 <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $info.marketprice eq 3}
+              
+
+                               <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                 <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                 <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $info.marketprice eq 4}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $info.marketprice eq 5}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+          
+          
+          </span><span>保证金：<em>{$info.baozheng|raw}万</em></span></li>
+                </ul>
+                <!-- <div style="width:100%; height:40px;">
+                    <p class="goods" >
+
+                        {php}$tag = array_filter(explode(',',$info['tags']));{/php}
+
+                        {notempty name='tag'}
+
+                        {volist name='tag' id='val'}
+
+                        <em>{:getLinkMenuName(14,$val)}</em>
+
+                        {/volist}
+
+                        {/notempty}
+
+                    </p>
+                </div> -->
+                <ul class="price-house-area">
+                    <li>
+
+                        <p>户型</p>
+
+                     <!--    {if $info.toilet==''}
+                              <em>{$info.room}室{$info.living_room}厅</em>
+                        {else}
+                        <em>{$info.toilet}</em>
+                        {/if} -->
+
+                          
+                        <em>{:getLinkMenuName(29,$info['toilet'])}</em>
+                       
+                    </li>
+
+                    <li>
+
+                        <p>朝向</p>
+
+                        <em>{:getLinkMenuName(4,$info['orientations'])}</em>
+
+                    </li>
+
+                    
+
+                    <li>
+
+                        <p>面积</p>
+
+                        <em>{$info.acreage}{:config('filter.acreage_unit')}</em>
+
+                    </li>
+
+                </ul>
+
+         <ul class="intro-small-detail" style="margin-left:10px;">
+
+                <li class="top-three">
+                    <span>形式：{:getLinkMenuName(9,$info['house_type'])}</span><span>楼层：<em class="floor">{$info.floor}/{$info.total_floor}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>年代：<em class="year">{$estate.years}</em></span><span>类型：<em>{:getLinkMenuName(26,$info['types'])}</em></span>
+                </li>
+              <!--   <li class="top-three">
+                    <span>名称：<em>{$estate.title}</em></span><span>编号：<em>{$info.bianhao}</em></span>
+                </li> -->
+
+                <li class="top-three">
+                    <span>名称：<em>{$estate.title}</em></span><span>区域：<em>{$citys}</em></span>
+                </li>
+
+
+              
+                <!-- <li class="top-three">
+                    <span>区域：{$quyu.name}</span><span>阶段：<em>{if $info.jieduan eq 161}一拍{/if}{if $info.jieduan eq 162}二拍{/if}{if $info.jieduan eq 163}变卖{/if}</em></span>
+                </li>
+ -->
+
+                <li class="top-three">
+                    <span>编号：<em>{$info.bianhao}</em></span><span>阶段：<em>{if $info.jieduan eq 161}一拍{/if}{if $info.jieduan eq 162}二拍{/if}{if $info.jieduan eq 163}变卖{/if}</em></span>
+                </li>
+
+
+        
+
+
+
+
+                 <li class="after-three"><a href="javascript:;"><span>开拍时间：<em>{$info['kptime']}</em></span></a></li>
+                 
+                <li class="after-three" id="kptimes">
+
+                    <!-- <span>开始截止时间：</span>
+                     <em id='times'>{$str}</em> -->
+                {if $info.fcstatus=='175'}
+                <div class="fix" style="padding-top:20px; padding-bottom:20px;">
+
+                    <div class="fl" style="width: 248px;color: #414141;font-size: 26px;padding: 0 5px;">
+
+                      成交价：{$info.cjprice}<span style="font-size:14px;color:#777777;">万元</span>
+
+                    </div>　
+
+                    
+
+                </div>
+                {elseif $info.fcstatus=='172'}
+                <div id="reciprocal1" style="color:#999;">开拍截止时间：<span class='s-1'><em style='color:red;'>拍卖已中止</em></span></div>
+                {elseif $info.fcstatus=='174'}
+                <div id="reciprocal1" style="color:#999;">开拍截止时间：<span class='s-1'><em style='color:red;'>拍卖已暂缓</em></span></div>
+                {elseif $info.fcstatus=='173'}
+                <div id="reciprocal1" style="color:#999;">开拍截止时间：<span class='s-1'><em style='color:red;'>拍卖已撤回</em></span></div>
+                {else}
+                <div id="reciprocal" style="color:#999;"></div>
+                {/if}
+
+                     <!-- <div id="reciprocal" style="color:#999;"></div> -->
+                     <input type="text" name="usernames" id="usernames" value="{$info.jieduan}" style="display:none;">
+                 {if $info.jieduan eq 163}
+
+
+                <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
+                {/if}
+                <input type="text" name="username" id="username" value="{$info.kptime}" style="display:none;">
+                 
+                <script type="text/javascript">
+
+                   //显示保证金截止时间
+
+                   var int;
+                   var TimeStrs=document.getElementById('usernames').value;
+                   var TimeStr=document.getElementById('username').value;
+                   if(TimeStrs==163){
+                    var TimeStrb=document.getElementById('usernameb').value;
+                    var fullDateb = TimeStrb.split(" ")[0].split("-");
+                   
+
+                   var fullTimeb = TimeStrb.split(" ")[1].split(":");
+
+
+
+                   var Deadlineb =new Date(fullDateb[0], fullDateb[1]-1, fullDateb[2], (fullTimeb[0] != null ? fullTimeb[0] : 0), (fullTimeb[1] != null ? fullTimeb[1] : 0), (fullTimeb[2] != null ? fullTimeb[2] : 0));
+                   }
+
+                   // var TimeStr="2019-06-17 10:00:00";
+
+                   var fullDate = TimeStr.split(" ")[0].split("-");
+
+                   var fullTime = TimeStr.split(" ")[1].split(":");
+
+
+
+                   var Deadline =new Date(fullDate[0], fullDate[1]-1, fullDate[2], (fullTime[0] != null ? fullTime[0] : 0), (fullTime[1] != null ? fullTime[1] : 0), (fullTime[2] != null ? fullTime[2] : 0));
+
+                   //var Deadline = (new Date("2017/09/03 10:00:00")).getTime();
+
+                   function GetReciprocalTime() {
+
+                       var nowdate = new Date();  //开始时间
+
+                       var date = Deadline - nowdate.getTime();   //时间差的毫秒数
+if(TimeStrs==163){
+                       if (date > 0) {
+
+                           //计算出相差天数
+
+                           var days = Math.floor(date / (24 * 3600 * 1000))
+
+                           //计算出小时数
+
+                           var leave1 = date % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+
+                           var hours = Math.floor(leave1 / (3600 * 1000))
+
+                           //计算相差分钟数
+
+                           var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+
+                           var minutes = Math.floor(leave2 / (60 * 1000))
+
+                           //计算相差秒数
+
+                           var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+
+                           var seconds = (leave3 / 1000).toFixed(1)
+
+                           var str = "开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>" + days + "</em> 天 <em style='color:red;'>" + hours + "</em> 时 <em style='color:red;'>" + minutes + "</em> 分 <em style='color:red;'>" + seconds + "</em> 秒</span>";
+
+                           $("#reciprocal").html(str);
+
+                       }else if(date<0){
+var dateb = Deadlineb - nowdate.getTime();   //时间差的毫秒数
+//计算出相差天数
+if(dateb>0){
+                           var days = Math.floor(dateb / (24 * 3600 * 1000))
+
+                           //计算出小时数
+
+                           var leave1 = dateb % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+
+                           var hours = Math.floor(leave1 / (3600 * 1000))
+
+                           //计算相差分钟数
+
+                           var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+
+                           var minutes = Math.floor(leave2 / (60 * 1000))
+
+                           //计算相差秒数
+
+                           var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+
+                           var seconds = (leave3 / 1000).toFixed(1)
+
+                           var str = "开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>" + days + "</em> 天 <em style='color:red;'>" + hours + "</em> 时 <em style='color:red;'>" + minutes + "</em> 分 <em style='color:red;'>" + seconds + "</em> 秒</span>";
+
+                           $("#reciprocal").html(str);
+                      }else{
+                              window.clearInterval(int);
+
+                              $("#reciprocal").html("开拍截止时间：<span class='s-1'><em>已结束，流拍</em></span>");
+                            }
+
+                       }else {
+
+                           window.clearInterval(int);
+
+                           $("#reciprocal").html("开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>已结束，流拍</em></span>");
+
+                       }
+                     }else{
+
+                      if (date > 0) {
+
+                           //计算出相差天数
+
+                           var days = Math.floor(date / (24 * 3600 * 1000))
+
+                           //计算出小时数
+
+                           var leave1 = date % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+
+                           var hours = Math.floor(leave1 / (3600 * 1000))
+
+                           //计算相差分钟数
+
+                           var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+
+                           var minutes = Math.floor(leave2 / (60 * 1000))
+
+                           //计算相差秒数
+
+                           var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+
+                           var seconds = (leave3 / 1000).toFixed(1)
+
+                           var str = "开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>" + days + "</em> 天 <em style='color:red;'>" + hours + "</em> 时 <em style='color:red;'>" + minutes + "</em> 分 <em style='color:red;'>" + seconds + "</em> 秒</span>";
+
+                           $("#reciprocal").html(str);
+
+                       }else if(date<0 && date >-86400000){
+                        // window.clearInterval(int);
+
+                        //    $("#reciprocal").html("开拍截止时间：<span class='s-1'><em>正在进行</em></span>");
+                        
+                        var date=date+86400000;
+                        //计算出相差天数
+
+                           var days = Math.floor(date / (24 * 3600 * 1000))
+
+                           //计算出小时数
+
+                           var leave1 = date % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+
+                           var hours = Math.floor(leave1 / (3600 * 1000))
+
+                           //计算相差分钟数
+
+                           var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数
+
+                           var minutes = Math.floor(leave2 / (60 * 1000))
+
+                           //计算相差秒数
+
+                           var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+
+                           var seconds = (leave3 / 1000).toFixed(1)
+
+                           var str = "开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>" + days + "</em> 天 <em style='color:red;'>" + hours + "</em> 时 <em style='color:red;'>" + minutes + "</em> 分 <em style='color:red;'>" + seconds + "</em> 秒</span>";
+
+                           $("#reciprocal").html(str);
+
+                        
+
+                       }
+
+                       else {
+
+                           window.clearInterval(int);
+
+                           $("#reciprocal").html("开拍截止时间：<span class='s-1' style='color:red;'><em style='color:red;'>已结束，流拍</em></span>");
+
+                       }
+
+
+
+                     }
+
+                   };
+
+                   $(document).ready(function () {
+
+                       int=setInterval(function () {
+
+                           GetReciprocalTime();
+
+                       }, 100);
+
+                   });
+
+                </script>
+
+
+
+                     <!--<span class="time-remain" data-down="{$time2}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span> -->
+                     <!-- <em>
+                        <span class="time-remain" data-down="{$time2-time()}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+                    </em>
+ -->
+                </li>
+
+
+
+
+<script src="__JS__/swiper.min.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/subscribe.js"></script>
+
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        loop : true,
+        autoplay: 4000,//可选选项，自动滑动
+        initialSlide :0,
+        pagination : '.swiper-pagination',
+        paginationType: 'fraction'
+    });
+
+    
+    $(function(){
+       
+
+       $('#expand').on('click',function(){
+           if($(this).hasClass('expand'))
+           {
+               $(this).removeClass('expand').text('展开');
+               $('#info').css({'overflow':'hidden','height':'8rem'});
+           }else{
+               $(this).addClass('expand').text('收起');
+               $('#info').css({'overflow':'visible','height':'auto'});
+           }
+       });
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
+                <!-- <li class="after-three"><a href="javascript:;"><span>开拍时间：<em>{$info['kptime']}</em></span></a></li> -->
+
+            </ul>
+        
+        
+            </div>
+           
+
+              
+            <div style="width:99%; height:50px; margin:10px auto">
+                <div style="width:30%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#ff6600; margin:1.6%"> <a href="javascript:;" style="color:#fff" class="order-l-house dialog" data-id="{$info.id}" data-model="second_house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a></div>
+                <div style="width:30%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#d63333; margin:1.6%"><a href="javascript:;" style="color:#fff"  class="follow" data-id="{$info.id}" data-model="second_house" data-uri="{:url('Api/follow')}">
+                {if $gzfang gt 0 }
+                      已关注
+                    {else}
+                    我要关注
+                    {/if}</a></div>
+
+                <a href="{:url('Tools/index')}" target="_blank"><div style="width:30%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#00AC56; margin:1.6%">贷款计算器</div></a>
+            </div>
+             {if !empty($info.xiaci)}
+            <div class="house-res" style=" padding: 5px 15px 5px 15px;  line-height: 34px;">
+
+                <span style=" height:50px; font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">房源瑕疵</span>
+                <!-- <ul class="house-confi-point"></ul> -->
+
+                <span class="info" style="padding: 15px;color:red; padding:10px">
+                    {$info.xiaci}
+                </span>
+
+            </div>
+            {/if}
+             {if !empty($info.qianfei)}
+            <div class="house-res" style=" padding: 5px 15px 5px 15px;  line-height: 34px;">
+                <span style=" height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">欠费情况</span>
+                <!-- <ul class="house-confi-point"></ul> -->
+                <span class="info" style="padding: 15px;color:red; padding:10px">
+                    {$info.qianfei}
+                </span>
+
+            </div>
+              {/if}
+      {if $models gt 0}
+        <div class="" style="padding:0 0; background:#fff;">
+        {else}
+        <div class="" style="padding:0 0; background:#fff;display:none;">
+        {/if}
+      
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">推荐法拍员</h4>
+
+                <ul class="house-confi-point" style="width:100%;">
+
+
+
+
+                    {if $jjr neq 0}
+                    {foreach $gls as $val}
+                         <div style="width:100%; height:60px;" >
+                        <img src="{:getAvatar($val['id'],90)}" style="width:60px;height:60px; float:left; margin-left:15px;border: 2px #80c1aa solid;    border-radius:3em;" >
+                        <div style="width:40%; float:left; text-align:left; padding-left:5px; font-size:24px;height:50px;line-height:50px; ">{$val.nick_name}</div>
+                        <div  style=" float:right;margin-right:20px; margin-top:10px">
+                            
+                            <div style="float:right;">
+                                <!-- <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" style="position: none;">
+                                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                                </a> -->
+                                <a href="tel:{$val.lxtel}" style="position: none;">
+                                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                                </a>
+                            </div>
+                                <div style="float:right; margin-right:15px;">
+                                <a href="{:url('Ajax/consults')}?id={$val.id}&houseid={$val.house_id}" style="height:40px; float:right;" style="position: none;">
+                                    <img src="__STATIC__/images/xx.png" style="width:40px;height:auto;" >
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="width:100%;padding-left:15px;padding-right:20px;padding-top:8px;padding-bottom:10px;border-bottom:1px solid #ccc;">
+                      {$val.house_name}
+                    </div>
+                        {/foreach}
+                        {/if}
+                    {foreach $gl as $val}
+                    <div style="width:100%; height:60px;margin-top:5px;" >
+                        <img src="{:getAvatar($val['id'],90)}" style="width:60px;height:60px; float:left; margin-left:15px;border: 2px #80c1aa solid;    border-radius:3em;" >
+                        <div style="width:40%; float:left; text-align:left; padding-left:5px; font-size:24px;height:50px;line-height:50px; ">{$val.nick_name}</div>
+                        <div  style=" float:right;margin-right:20px; margin-top:10px">
+                            
+                            <div style="float:right;">
+                                <!-- <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" style="position: none;">
+                                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                                </a> -->
+                                <a href="tel:{$val.lxtel}" style="position: none;">
+                                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                                </a>
+                            </div>
+                                <div style="float:right; margin-right:15px;">
+                                <a href="{:url('Ajax/consults')}?id={$val.id}&houseid={$val.house_id}" style="height:40px; float:right;" style="position: none;">
+                                    <img src="__STATIC__/images/xx.png" style="width:40px;height:auto;" >
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="width:100%;padding-left:15px;padding-right:20px;padding-top:8px;padding-bottom:10px;border-bottom:1px solid #ccc;">
+                      {$val.house_name}
+                    </div>
+                    {/foreach}
+                </ul>
+                
+
+                
+
+            </div>
+
+        <div class="house-res" style="padding-top:.2rem;height:100px;">
+
+            <div style="width:100%; float:left;height:40px; line-height:40px;font-weight: normal;font-size: .7rem;font-weight: normal;font-size: .7rem;">尽调报告</div>
+           
+            
+            
+        </div>
+
+
+
+
+
+
+            <div class="house-res" style="padding-top:.2rem">
+
+        <div style="width:100%;">
+            <div style="width:65%; float:left;height:40px; line-height:40px;font-weight: normal;font-size: .7rem;font-weight: normal;font-size: .7rem;">小区介绍</div>
+            <div style="width:80px; float:right;height:30px; line-height:30px;font-weight: normal;font-size: .7rem;font-weight: normal;font-size: .5rem; text-align:center; color:#fff; margin-top:5px; background-color:#00adff;">
+            <span class="collect_btn follow" data-id="{$estate.id}" data-model="estate" data-uri="{:url('Api/follow')}">
+            {if $guanzhu gt 0}
+            已关注
+            {else}
+            关注小区
+            {/if}
+              </span></div>
+            
+            
+        </div>  
+
+
+                
+        <ul class="house-confi-point">
+
+           <!--  {php}$val = getLinkMenuCache(12);{/php}
+
+            {php}$support = array_filter(explode(',',$info['supporting']));{/php}
+
+            {volist name='support' id='vo'}
+
+            <li class="{$val[$vo]['alias']}">{$val[$vo]['name']}</li>
+
+            {/volist} -->
+
+        </ul>
+
+
+            <div class="old-house house-show-box" style=" padding-right:0px">
+
+            <ul>
+
+                <li>
+
+                    <div class="pic"style="width:100%; height:auto; margin-bottom:20px;">
+                        <img src="{$estate.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+                    </div>
+            <div class="intro-text" style="width:100%;">
+
+                <style type="text/css">
+                    .house-show-box li{ padding:0rem 0; border-bottom: none;}
+                    .aa li span{ font-size: .64rem; width:50%; float:left; color:#999; line-height:30px}
+                    .aa li{ font-size: .64rem; width:100%; color:#999}
+                </style>
+                <ul class="aa" style="height:120px;">
+
+                <li>
+                    <span>建筑年代：{$estate.years}年</span><span>建筑面积：<em class="floor">{$xqinfo.area_build}</em></span>
+                </li>
+                <li>
+                    <span>所属板块：<em>{$citys}</em></span><span>总户数：<em class="year">{$xqinfo.plan_number}</em></span>
+                </li>
+                <li>
+                    <span>容积：<em>{$xqinfo.volume_ratio}</em></span><span>停车位：<em>{$xqinfo.parking_space}</em></span>
+                </li>
+                <li>
+                    <span>物业费：{$xqinfo.property_fee}</span><span>绿化：<em>{$xqinfo.greening_rate}</em></span>
+                </li>
+                <li><span style="width:100%;">详细地址：{$estate.address}</span></li>
+                <li><span style="width:100%;">开发商：<em>{$xqinfo.developer}</em></span></li>
+
+            </ul>         
+                        
+
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+      
+
+
+            
+
+        </div>
+        <div class="house-res" style="padding-top:.2rem">
+       
+<div class="per-pos">
+
+                <h2>小区二手房价格走势</h2>
+                
+
+
+            </div>
+        
+
+        <div class="pec-relLink addhouse mb20" style="height:319px;">
+            <!-- 成交量 -->
+            <input type="text" name="l1" id="l1" value="{$l1}" style="display:none;">
+            <input type="text" name="l2" id="l2" value="{$l2}" style="display:none;">
+            <input type="text" name="l3" id="l3" value="{$l3}" style="display:none;">
+            <input type="text" name="l4" id="l4" value="{$l4}" style="display:none;">
+            <input type="text" name="l5" id="l5" value="{$l5}" style="display:none;">
+            <input type="text" name="l6" id="l6" value="{$l6}" style="display:none;">
+            <input type="text" name="l7" id="l7" value="{$l7}" style="display:none;">
+            <input type="text" name="l8" id="l8" value="{$l8}" style="display:none;">
+            <input type="text" name="l9" id="l9" value="{$l9}" style="display:none;">
+            <input type="text" name="l10" id="l10" value="{$l10}" style="display:none;">
+            <input type="text" name="l11" id="l11" value="{$l11}" style="display:none;">
+            <input type="text" name="l12" id="l12" value="{$l12}" style="display:none;">
+            <!-- 成交均价 -->
+            <input type="text" name="y1" id="y1" value="{$y1}" style="display:none;">
+            <input type="text" name="y2" id="y2" value="{$y2}" style="display:none;">
+            <input type="text" name="y3" id="y3" value="{$y3}" style="display:none;">
+            <input type="text" name="y4" id="y4" value="{$y4}" style="display:none;">
+            <input type="text" name="y5" id="y5" value="{$y5}" style="display:none;">
+            <input type="text" name="y6" id="y6" value="{$y6}" style="display:none;">
+            <input type="text" name="y7" id="y7" value="{$y7}" style="display:none;">
+            <input type="text" name="y8" id="y8" value="{$y8}" style="display:none;">
+            <input type="text" name="y9" id="y9" value="{$y9}" style="display:none;">
+            <input type="text" name="y10" id="y10" value="{$y10}" style="display:none;">
+            <input type="text" name="y11" id="y11" value="{$y11}" style="display:none;">
+            <input type="text" name="y12" id="y12" value="{$y12}" style="display:none;">
+            <div id="yd" style="height: 100%"></div>
+        </div>
+                <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+        <script type="text/javascript">
+        
+var dom = document.getElementById("yd");
+     var l1=document.getElementById("l1").value;
+     var l2=document.getElementById("l2").value;
+     var l3=document.getElementById("l3").value;
+     var l4=document.getElementById("l4").value;
+     var l5=document.getElementById("l5").value;
+     var l6=document.getElementById("l6").value;
+     var l7=document.getElementById("l7").value;
+     var l8=document.getElementById("l8").value;
+     var l9=document.getElementById("l9").value;
+     var l10=document.getElementById("l10").value;
+     var l11=document.getElementById("l11").value;
+     var l12=document.getElementById("l12").value;
+     var y1=document.getElementById("y1").value;
+     var y2=document.getElementById("y2").value;
+     var y3=document.getElementById("y3").value;
+     var y4=document.getElementById("y4").value;
+     var y5=document.getElementById("y5").value;
+     var y6=document.getElementById("y6").value;
+     var y7=document.getElementById("y7").value;
+     var y8=document.getElementById("y8").value;
+     var y9=document.getElementById("y9").value;
+     var y10=document.getElementById("y10").value;
+     var y11=document.getElementById("y11").value;
+     var y12=document.getElementById("y12").value;
+    var myChart = echarts.init(dom);
+option = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            crossStyle: {
+                color: '#999'
+            }
+        }
+    },
+    // toolbox: {
+    //     feature: {
+    //         dataView: {show: true, readOnly: false},
+    //         magicType: {show: true, type: ['line', 'bar']},
+    //         restore: {show: true},
+    //         saveAsImage: {show: true}
+    //     }
+    // },
+    legend: {
+        data:['成交均价','降水量','成交量']
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+            axisPointer: {
+                type: 'shadow'
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: '成交量',
+            axisLabel: {
+                formatter: '{value} 套'
+            }
+        },
+        {
+            type: 'value',
+            name: '成交均价',
+            axisLabel: {
+                formatter: '{value} 元'
+            }
+        }
+    ],
+    series: [
+        {
+            name:'成交量',
+            type:'bar',
+            data:[l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12]
+        },
+        {
+            name:'成交均价',
+            type:'line',
+            yAxisIndex: 1,
+            data:[y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11,y12]
+        }
+    ]
+};
+if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <style type="text/css">
+.main{min-height: auto;}
+        </style>
+
+
+
+{if condition="$userInfo.id eq 0"}
+
+<div style="padding:0 0;background: #fff;margin-bottom: .43rem;">
+            
+  <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">交易记录</h4>
+  <div style="padding-left:15px; height:40px; line-height:30px;font-size: .5rem;">注册登录后可看，立即去<a style="color: #d91615;" href="{:url('user.index/index')}">登 录</a>/<a style="color: #d91615;" href="{:url('Login/register')}">注 册</a></div>
+</div>
+  
+<div style="padding:0 0;background: #fff;margin-bottom: .43rem;">
+              
+  <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">拍卖成交记录</h4>
+  <div style="padding-left:15px; height:40px; line-height:30px;font-size: .5rem;">注册登录后可看，立即去<a style="color: #d91615;" href="{:url('user.index/index')}">登 录</a>/<a style="color: #d91615;" href="{:url('Login/register')}">注 册</a></div>
+</div>
+
+<div style="padding:0 0;background: #fff;margin-bottom: .43rem;">
+  <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">二手房成交记录</h4>
+  <div style="padding-left:15px; height:40px; line-height:30px;font-size: .5rem;">注册登录后可看，立即去<a style="color: #d91615;" href="{:url('user.index/index')}">登 录</a>/<a style="color: #d91615;" href="{:url('Login/register')}">注 册</a></div>
+</div>
+{/if}
+
+
+
+{if condition="$userInfo.id neq 0"}
+     <div class="house-res" style="padding:0 0;">
+              {if $info.jieduan eq 162}
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">交易记录</h4>
+
+
+                <ul class="house-confi-point"></ul>
+              {/if}
+
+              <div class="container" style="width:90%; margin:0 auto">
+      <div class="main" style="background:#fff">
+        <ul class="cbp_tmtimeline">
+
+
+
+        <!-- {if $info.bianstime}
+          <li>
+            <time class="cbp_tmtime" datetime="2018-12-21 12:04"> <span>{$info.bianstime} </span></time>
+            
+            <div class="cbp_tmlabel">
+              <h2 style="color:#000">变卖流拍</h2>
+              <p>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>{$info.bianetime}</td>
+                  <td>结束</td>
+                  <td>{$info.bianprice}万</td>
+                </tr>
+              </table>
+              </p>
+            </div>
+          </li>
+          {/if} -->
+
+{if $info.jieduan eq 163}
+
+
+          <!-- {if $info.twostime} -->
+
+ <div style="width:100%;    margin: 10px auto;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 
+               <tr>
+    <td>●&nbsp;&nbsp;二拍流拍</td>
+    <td>{$info.twoetime}</td>
+    <td>结束</td>
+    <td>{$info.twoprice}万</td>
+  </tr>
+            <tr>
+    <td>●&nbsp;&nbsp;一拍流拍</td>
+    <td>{$info.oneetime}</td>
+    <td>结束</td>
+    <td>{$info.oneprice}万</td>
+  </tr>
+           
+</table>
+          </div>
+          <!-- {/if} -->
+{/if}
+{if $info.jieduan eq 162}
+
+          
+          <div style="width:100%;    margin: 10px auto;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>●&nbsp;&nbsp;一拍流拍</td>
+    <td>{$info.oneetime}</td>
+    <td>结束</td>
+    <td>{$info.oneprice}万</td>
+  </tr>
+            
+</table>
+          </div>
+          
+{/if}
+
+
+
+          
+          
+        </ul>
+      </div>
+    </div>
+
+
+            </div>
+{if $tcou gt 0}      
+        <div class="" style="padding:0 0; background:#fff;">
+              
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">拍卖成交记录({$tcou})</h4>
+
+                <ul class="house-confi-point"></ul>
+              
+      {if $tong}
+                 <div style="width:93%;    margin: 0 auto;">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {volist name='tong' id='tvo'}
+                 
+         
+  
+    <tr style="    line-height: 35px;">
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.room}室{$tvo.living_room}厅</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.acreage}{:config('filter.acreage_unit')}</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{:getLinkMenuName(4,$tvo['orientations'])}</a></td>
+  </tr>
+  <tr style="    line-height: 35px;border-bottom:1px solid #e3e3e3">
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.cjprice|raw}万</a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.average_price|raw} </a></td>
+    <td><a href="{:url('Second/detail',['id'=>$tvo['id']])}" style="color:#000;">{$tvo.update_time|date='Y-m-d H:i'}成交</a></td>
+  </tr>
+  
+                    
+                     
+        {/volist}
+                      </table>         
+                               
+                                                
+                           </div>   
+ {if $tcou gt 5}   
+<div style="width:130px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:10px auto;"><a href="/tdistrict.html?id={$tvo.estate_id}"  style="    width: 2.5rem;color:#fff">查看更多</a></div>
+{/if}
+{/if}
+<div style="height:20px"></div>
+            </div> 
+{/if}
+{if $tcou1 gt 0}           
+        <div class="house-res" style="padding:0 0;">
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">二手房成交记录({$tcou1})</h4>
+
+                <ul class="house-confi-point"></ul>
+
+
+                           <div style="width:93%;    margin: 0 auto;">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {volist name='jilu' id='tvo'}
+                 
+         
+  <tr style="    line-height: 35px;">
+    <td>{$tvo.title}</td>
+    <td>{$tvo.acreage}{:config('filter.acreage_unit')}</td>
+    <td>{$tvo.chaoxiang}</td>
+  </tr>
+  <tr style="    line-height: 35px;border-bottom:1px solid #e3e3e3">
+    <td>{$tvo.price|raw}</td>
+    <td>{$tvo.cjprice|raw}元/㎡ </td>
+    <td>{$tvo.complate_time}成交</td>
+  </tr>
+
+        
+                   
+                   
+                               
+                               
+                          
+                     
+        {/volist}
+                      </table>         
+                               
+                                                
+                           </div>   
+          
+ {if $tcou1 gt 5}            
+          <div style="width:130px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:10px auto;"><a href="/second.html?id={$tvo.estate_id}" style="    width: 2.5rem;color:#fff">查看更多</a></div>
+{/if}
+
+          
+        </ul>
+      </div>
+   <!--  </div>
+
+            </div> -->
+{/if}
+{/if}
+<div style="height:20px"></div>
+          
+             <div class="per-pos">
+
+                <h2>位置周边</h2>
+                {include file='public/peitao' /}
+
+
+            </div>
+
+
+        <style type="text/css">
+    .house-show-box{padding-left: 0rem;}
+        </style>
+    
+  
+
+
+
+
+
+
+
+<!--感兴趣-->
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<div class="tab-headn" style="background-color:#000">
+            <span id="tab5" onmouseover="changeTab5()" class="selectedd" style="width:50%">感兴趣的房源</span>
+            <span id="tab6" onmouseover="changeTab6()" class="noselectedd" style="width:50%">捡漏房源推荐</span>
+        </div>
+    <div style="clear:both"></div>
+        <div class="tab-contentd">
+            <div id="c5" class="show">
+            <!-- 感兴趣房源 -->
+{if $txq_count gt 0}
+      <div class="old-house house-show-box mt20" style="padding-left: 0.64rem;">
+        <div class="title">
+            <h3 style="width: 65%; float: left; height: 40px;line-height: 30px; font-size: .7rem;">感兴趣的房源</h3> 
+            <div style="width: 23%; float: right; height: 40px;line-height: 30px; font-size: .7rem;"><a href="erf.html?city={$info.city}&fcstatus=170">更多</a></div>   
+        </div>
+        <ul>
+            {volist name='txq' id='vo'}
+
+           <li style=" border-bottom: 1px solid #eee;  padding: .64rem 0;">
+                <h4 style="margin-top:-10px;margin-bottom:10px;">
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">{$vo.title}</a>
+                </h4>
+
+                <div class="pic" style="width:43%;height:4.3rem;">
+
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+
+                        {if !empty($vo.pano_url)}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {else}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {/if}
+
+                        <!-- <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" /> -->
+                        {if $vo.fcstatus eq 169}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app2.png" original="/static/images/status/app2.png" style="width:90px;height:auto; float:right;margin-left: 18px;">
+                        {if !empty($vo.pano_url)} <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 80px;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 170}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app1.png" original="/static/images/status/app1.png" style="width:90px;height:auto; float:right;margin-left: 18px;">
+                     {if !empty($vo.pano_url)}  <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 80px;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 171}
+                        <div class="zzjx fix abs" style="float:right;top: 1.1rem;  right: 1.9rem; z-inde:555; position: absolute;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 172}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 173}
+                        <div class="zzjx fix abs" style="float:right;top: 1.1rem;  right: 1.9rem; z-inde:555; position: absolute;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 174}
+                        <div class="zzjx fix abs" style="float:right;top: 1.1rem;  right: 1.9rem; z-inde:555; position: absolute;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 175}
+                        <div class="zzjx fix abs" style="float:right;top: 1.1rem;  right: 1.9rem; z-inde:555; position: absolute;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+
+
+                    </a>
+
+                </div>
+
+                <div class="intro-text" style="width:55%;margin-top:-5px">
+
+{if strstr($vo.acreage,'.')}
+<p class="detail-text" style="color:#666;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.9rem">面积：{$vo.acreage}.00{:config('filter.acreage_unit')}</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p> -->
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">均价：{$vo.average_price|raw}</p> -->
+                    <p class="detail-text" style="color:#666;line-height:.9rem">市场价：{$vo.price|raw}</p>
+{if strstr($vo.qipai,'.')}
+<p class="detail-text" style="color:#666;line-height:.9rem">起拍价：<span style="color:red;">{$vo.qipai|raw}万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.9rem">起拍价：<span style="color:red;">{$vo.qipai|raw}.00万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">起拍价：{$vo.qipai|raw}(元/㎡)</p> -->
+                    <p class="detail-text" style="color:#666;line-height:.9rem">漏检指标：
+          
+          {if $vo.marketprice eq 1}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                
+                {if $vo.marketprice eq 2}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 3}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 4}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 5}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+          
+          
+          
+          </p>
+                    <p class="detail-text" style="color:#666;line-height:.9rem">开拍时间：<b>{$vo['kptime']}</b></p>
+            <!--         <p class="good">
+
+                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                        {notempty name='tag'}
+                        {volist name='tag' id='val'}
+                        {if condition="is_numeric($val)"}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{:getLinkMenuName(14,$val)}</em>
+                        {else /}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$val}</em>
+                        {/if}
+                        {/volist}
+                        {/notempty}
+
+                   {php}$estate_id=$vo['estate_id'];{/php}
+                    {fang:lists table='estate' where='id=$estate_id' field='years'  id='answer'}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$answer.years}年</em>
+                    {/fang:lists}
+                    </p> -->
+
+                </div>
+
+            </li> 
+             {/volist}
+
+
+
+
+
+        </ul>
+    </div>
+
+{/if}
+<!-- 感兴趣房源 -->
+            </div>
+        </div>
+        <div class="tab-contentd">
+            <div id="c6" class="hide">
+            
+<!-- 感兴趣房源 -->
+      <div class="old-house house-show-box mt20" style="padding-left: 0.64rem;">
+        <div class="title">
+            <h3 style="width: 65%; float: left; height: 40px;line-height: 30px; font-size: .7rem;">捡漏房源推荐</h3>  
+            <div style="width: 23%; float: right; height: 40px;line-height: 30px; font-size: .7rem;"><a href="erf.html?marketprice=5&fcstatus=170">更多</a></div>   
+        </div>
+        <ul>
+            {volist name='sames_price_house' id='vo'}
+
+           <li style=" border-bottom: 1px solid #eee;  padding: .64rem 0;">
+                <h4 style="margin-top:-10px;margin-bottom:10px;">
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">{$vo.title}</a>
+                </h4>
+
+                <div class="pic" style="width:43%;height:4.3rem;">
+
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+
+                        {if !empty($vo.pano_url)}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {else}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {/if}
+
+                        <!-- <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" /> -->
+                        {if $vo.fcstatus eq 169}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app2.png" original="/static/images/status/app2.png" style="width:90px;height:auto; float:right;margin-left: 18px;">
+                        {if !empty($vo.pano_url)} <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 80px;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 170}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app1.png" original="/static/images/status/app1.png" style="width:90px;height:auto; float:right;margin-left: 18px;">
+                     {if !empty($vo.pano_url)}  <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 80px;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 171}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 172}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 173}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 174}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 175}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:60%;height:60%; float:right;"></div>
+                        {/if}
+
+
+                    </a>
+
+                </div>
+
+                <div class="intro-text" style="width:55%;margin-top:-5px">
+
+{if strstr($vo.acreage,'.')}
+<p class="detail-text" style="color:#666;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.9rem">面积：{$vo.acreage}.00{:config('filter.acreage_unit')}</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p> -->
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">均价：{$vo.average_price|raw}</p> -->
+                    <p class="detail-text" style="color:#666;line-height:.9rem">市场价：{$vo.price|raw}</p>
+{if strstr($vo.qipai,'.')}
+<p class="detail-text" style="color:#666;line-height:.9rem">起拍价：<span style="color:red;">{$vo.qipai|raw}万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.9rem">起拍价：<span style="color:red;">{$vo.qipai|raw}.00万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">起拍价：{$vo.qipai|raw}(元/㎡)</p> -->
+                    <p class="detail-text" style="color:#666;line-height:.9rem">漏检指标：
+          
+          {if $vo.marketprice eq 1}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                
+                {if $vo.marketprice eq 2}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 3}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 4}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+                
+                {if $vo.marketprice eq 5}
+              
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+                
+                {/if}
+          
+          
+          
+          </p>
+                    <p class="detail-text" style="color:#666;line-height:.9rem">开拍时间：<b>{$vo['kptime']}</b></p>
+                   <!--  <p class="good">
+
+                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                        {notempty name='tag'}
+                        {volist name='tag' id='val'}
+                        {if condition="is_numeric($val)"}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{:getLinkMenuName(14,$val)}</em>
+                        {else /}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$val}</em>
+                        {/if}
+                        {/volist}
+                        {/notempty}
+
+                   {php}$estate_id=$vo['estate_id'];{/php}
+                    {fang:lists table='estate' where='id=$estate_id' field='years'  id='answer'}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$answer.years}年</em>
+                    {/fang:lists}
+                    </p> -->
+
+                </div>
+
+            </li> 
+             {/volist}
+         
+
+
+        </ul>
+    </div>
+
+
+<!-- 感兴趣房源 -->
+            </div>
+        </div>
+
+
+<script>
+  
+
+  var tab5 = document.getElementById('tab5'),
+                tab6 = document.getElementById('tab6'),
+                c5 = document.getElementById('c5'),
+                c6 = document.getElementById('c6');
+
+            function changeTab5() {
+                tab5.className = 'selectedd';
+                tab6.className = 'noselectedd';
+                c5.className = 'show'
+                c6.className = 'hide';
+            }
+
+            function changeTab6() {
+                tab5.className = 'noselectedd';
+                tab6.className = 'selectedd';
+                c5.className = 'hide';
+                c6.className = 'show';
+            }
+</script>
+   
+
+    </div>
+
+            <!-- </div> -->
+   
+    </div>
+            <div id="c2" class="hide" style=" padding:15px;background:#fff">
+     <div style="width:98%;padding:10px;border: 1px #e3e3e3 dashed;    margin: 0 auto;line-height:30px;text-indent:2em;">
+                {$info.info|raw} 
+            </div>
+      </div>
+      {if condition="$userInfo.id eq 0"}
+      <div id="c3"  class="hide" >
+	     
+		  <div style="padding-left:15px; height:40px; line-height:30px;font-size: .5rem;">注册登录后可看，立即去<a style="color: #d91615;" href="{:url('user.index/index')}">登 录</a>/<a style="color: #d91615;" href="{:url('Login/register')}">注 册</a></div>
+			
+      </div>
+      {else}
+      
+            <div id="c3"  class="hide" >
+            
+              
+              
+             <!-- 切换交易记录-->
+               <style type="text/css">
+.main{min-height: auto;}
+        </style>
+     <div class="house-res" style="padding:0 0;">
+              {if $info.jieduan eq 162}
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">交易记录</h4>
+
+                <ul class="house-confi-point"></ul>
+              {/if}
+
+              <div class="container" style="width:90%; margin:0 auto">
+      <div class="main" style="background:#fff">
+        <ul class="cbp_tmtimeline">
+
+
+
+        <!-- {if $info.bianstime}
+          <li>
+            <time class="cbp_tmtime" datetime="2018-12-21 12:04"> <span>{$info.bianstime} </span></time>
+            
+            <div class="cbp_tmlabel">
+              <h2 style="color:#000">变卖流拍</h2>
+              <p>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>{$info.bianetime}</td>
+                  <td>结束</td>
+                  <td>{$info.bianprice}万</td>
+                </tr>
+              </table>
+              </p>
+            </div>
+          </li>
+          {/if} -->
+
+{if $info.jieduan eq 163}
+
+          <!-- {if $info.twostime} -->
+
+ <div style="width:100%;    margin: 10px auto;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 
+               <tr>
+    <td>●&nbsp;&nbsp;二拍流拍</td>
+    <td>{$info.twoetime}</td>
+    <td>结束</td>
+    <td>{$info.twoprice}万</td>
+  </tr>
+            <tr>
+    <td>●&nbsp;&nbsp;一拍流拍</td>
+    <td>{$info.oneetime}</td>
+    <td>结束</td>
+    <td>{$info.oneprice}万</td>
+  </tr>
+           
+</table>
+          </div>
+          <!-- {/if} -->
+{/if}
+{if $info.jieduan eq 162}
+
+          
+          <div style="width:100%;    margin: 10px auto;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>●&nbsp;&nbsp;一拍流拍</td>
+    <td>{$info.oneetime}</td>
+    <td>结束</td>
+    <td>{$info.oneprice}万</td>
+  </tr>
+            
+</table>
+          </div>
+          
+{/if}
+
+
+
+          
+          
+        </ul>
+      </div>
+    </div>
+
+
+            </div>
+
+{if $tcou gt 0}      
+        <div class="" style="padding:0 0; background:#fff;">
+              
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">拍卖成交记录({$tcou})</h4>
+
+                <ul class="house-confi-point"></ul>
+              
+      {if $tong}
+                 <div style="width:93%;    margin: 0 auto;">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {volist name='tong' id='tvo'}
+                 
+         
+  <tr style="    line-height: 35px;">
+    <td>{$tvo.room}室{$tvo.living_room}厅</td>
+    <td>{$tvo.acreage}{:config('filter.acreage_unit')}</td>
+    <td>{:getLinkMenuName(4,$tvo['orientations'])}</td>
+  </tr>
+  <tr style="    line-height: 35px;border-bottom:1px solid #e3e3e3">
+    <td>{$tvo.cjprice|raw}万</td>
+    <td>{$tvo.average_price|raw} </td>
+    <td>{$tvo.update_time|date='Y-m-d H:i'}成交</td>
+  </tr>
+
+        
+                   
+                   
+                               
+                               
+                          
+                     
+        {/volist}
+                      </table>         
+                               
+                                                
+                           </div>   
+ {if $tcou gt 5}   
+<div style="width:130px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:10px auto;"><a href="/tdistrict.html?id={$tvo.estate_id}"  style="    width: 2.5rem;color:#fff">查看更多</a></div>
+{/if}
+{/if}
+<div style="height:20px"></div>
+            </div> 
+{/if}
+
+{if $tcou1 gt 0}           
+        <div class="house-res" style="padding:0 0;">
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">二手房成交记录({$tcou1})</h4>
+
+                <ul class="house-confi-point"></ul>
+
+
+                           <div style="width:93%;    margin: 0 auto;">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {volist name='jilu' id='tvo'}
+                 
+         
+  <tr style="    line-height: 35px;">
+    <td>{$tvo.title}</td>
+    <td>{$tvo.acreage}{:config('filter.acreage_unit')}</td>
+    <td>{$tvo.chaoxiang}</td>
+  </tr>
+  <tr style="    line-height: 35px;border-bottom:1px solid #e3e3e3">
+    <td>{$tvo.price|raw}</td>
+    <td>{$tvo.cjprice|raw}元/㎡ </td>
+    <td>{$tvo.complate_time}成交</td>
+  </tr>
+
+        
+                   
+                   
+                               
+                               
+                          
+                     
+        {/volist}
+                      </table>         
+                               
+                                                
+                           </div>   
+          
+ {if $tcou1 gt 5}            
+          <div style="width:130px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:10px auto;"><a href="/second.html?id={$tvo.estate_id}" style="    width: 2.5rem;color:#fff">查看更多</a></div>
+{/if}
+
+          <div style="height:20px"></div>
+        </ul>
+      </div>
+    </div>
+
+            </div>
+{/if}
+        <style type="text/css">
+    .house-show-box{padding-left: 0rem;}
+        </style>
+              
+              
+              
+              
+            </div>
+            {/if}
+       <div id="c4" class="hide">
+          <div class="swiper-slide">
+                <div class="mod_box house_head">
+                    <div class="sub_mod_box">
+                        <div class="mod_cont">
+                          <div class="pictext flexbox"  >
+                                   
+                                        {volist name="var" id="vo"}
+                                    <div class="mod_media">
+                                        <div class="media_main  image-list">
+                                           
+                                          <div class="cover lazyload post_ulog">
+                                                   
+<img  src="{$vo}" alt=""/>
+
+
+
+                                          </div>
+                                                                       
+                                        </div>
+                                    </div>
+                                       {/volist}
+                                </div>
+                           </div>
+                    </div>
+                </div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+
+<script src="__JS__/jquery.cookie.js"></script><!-- xq -->
+<script src="__JS__/pictureViewer.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+            // console.log('start');
+            $.cookie("ProjectListPosition", "position", { path: '/' });//xq 详情页返回标记
+            console.log($.cookie("ProjectListPosition"));
+        })
+</script>
+
+<!-- <link rel="stylesheet" href="__JS__/idangerous.swiper.css">
+<link rel="stylesheet" href="__JS__/normalize.css">
+<link rel="stylesheet" href="__JS__/gallery-app.css">
+<script src="__JS__/idangerous.swiper-2.0.min.js"></script> 
+<script src="__JS__/gallery-app.js"></script> -->
+<script>
+    $(function () {
+        $('.image-list').on('click', '.cover', function () {
+            var this_ = $(this);
+            var images = this_.parents('.image-list').find('.cover');
+            var imagesArr = new Array();
+            $.each(images, function (i, image) {
+                imagesArr.push($(image).children('img').attr('src'));
+            });
+            $.pictureViewer({
+                images: imagesArr, //需要查看的图片，数据类型为数组
+                initImageIndex: this_.index() + 1, //初始查看第几张图片，默认1
+                scrollSwitch: true //是否使用鼠标滚轮切换图片，默认false
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.swiper-wrapper').on('click', '.swiper-slide', function () {
+            var this_ = $(this);
+            var images = this_.parents('.swiper-wrapper').find('.swiper-slide');
+            var imagesArr = new Array();
+            $.each(images, function (i, image) {
+                imagesArr.push($(image).children('img').attr('src'));
+            });
+            $.pictureViewer({
+                images: imagesArr, 
+                initImageIndex: this_.index() + 1, 
+                scrollSwitch: true 
+            });
+        });
+    });
+</script>
+
+
+
+            </div>
+  
+  </div>
+        </div>
+  <script type="text/javascript">
+    var tab1 = document.getElementById('tab1'),
+                tab2 = document.getElementById('tab2'),
+                tab3 = document.getElementById('tab3'),
+        tab4 = document.getElementById('tab4'),
+                c1 = document.getElementById('c1'),
+                c2 = document.getElementById('c2'),
+                c3 = document.getElementById('c3'),
+        c4 = document.getElementById('c4');
+
+            function changeTab1() {
+                tab1.className = 'selectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'noselectedd';
+        tab4.className = 'noselectedd';
+                c1.className = 'show'
+                c2.className = 'hide';
+                c3.className = 'hide';
+        c4.className = 'hide';
+            }
+
+            function changeTab2() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'selectedd';
+                tab3.className = 'noselectedd';
+        tab4.className = 'noselectedd';
+                c1.className = 'hide';
+                c2.className = 'show';
+                c3.className = 'hide';
+        c4.className = 'hide';
+            }
+
+            function changeTab3() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'selectedd';
+        tab4.className = 'noselectedd';
+                c1.className = 'hide'
+                c2.className = 'hide';
+                c3.className = 'show';
+        c4.className = 'hide';
+            }
+      function changeTab4() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'noselectedd';
+        tab4.className = 'selectedd';
+                c1.className = 'hide'
+                c2.className = 'hide';
+                c3.className = 'hide';
+        c4.className = 'show';
+            }
+
+
+
+    
+
+
+
+
+
+
+
+
+ </script>
+
+    <!-- 猜你喜欢 E-->
+
+    <!-- 白块  S-->
+
+    <div class="white-block" style="display:none;"></div>
+
+    <!-- 白块  E-->
+
+
+
+    <!-- 导航行为 S-->
+
+    <div class="nav-act" style="height:60px; width:100%;    background: #f5fff8;    border-top: 1px #86c39a solid;" >
+        <img src="{:getAvatar($info['broker_id'],90)}" style="width:50px;height:50px;border: 2px #80c1aa solid;    border-radius: 3em; margin-left:10px" >
+        <div style="width:40%; float:left; text-align:left; padding-left:5px;">法拍专员<br/>{$fpy.contact_name}</div>
+        <div  style="width:45%; float:right; margin-right:10px;">
+           
+            <div style="float:right;margin-left:15px;">
+                <!-- <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}">
+                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                </a> -->
+                 <a href="tel:{$fpytel}%23" style="position: none;">
+                    <img src="__STATIC__/images/dh.png" style="width:40px;height:auto;" >
+                </a>
+            </div>
+      
+      
+                        
+                  
+             <div style="float:right; display:none;">
+       
+     
+                <a href="{$jjrcontact}">
+        
+        
+        
+                    <img src="__STATIC__/images/xx.png" style="width:40px;height:auto;" >
+                </a>
+            </div>
+
+      
+      
+      
+           <div style="float:right;">
+       
+       {php}$cityid=trim(strrchr($cityIds, ','),',');{/php}
+
+      {if condition="$userInfo.id eq 0"}
+      <a href="{:url('user.index/index')}">
+        
+        
+                    <img src="__STATIC__/images/xx.png" style="width:40px;height:auto;" >
+                </a>
+
+            {else}
+
+       {fang:lists table='city' where='id=$cityid' field='domain'  id='answer'}
+       
+                <a href="{$jjrcontact}&houseid={$info.id}&housetitle={$info.title}&city={$answer.domain}&houseimg={$info.img}&chattype=1&uid={$userInfo.id}">
+        
+          {/fang:lists}
+        
+                    <img src="__STATIC__/images/xx.png" style="width:40px;height:auto;" >
+                </a>
+            {/if}
+            </div>
+
+        </div>
+        
+        <!-- <a href="javascript:;" class="follow" data-id="{$info.id}" data-model="second_house" data-uri="{:url('Api/follow')}">关注</a>
+
+        <a href="{:url('Ajax/consult')}" class="consult">咨询</a> -->
+
+        <!-- <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" class="call-tel">拨打电话</a>
+
+        <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="second_house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a> -->
+
+    </div>
+
+    <!-- 导航行为 E-->
+
+
+
+
+
+    {include file='public/footer' /}
+
+</div>
+
+<style>
+
+    a{overflow: visible;}
+
+</style>
+
+<script src="__JS__/swiper.min.js"></script>
+
+<script src="__STATIC__/js/layer/layer.js"></script>
+
+<script src="__JS__/subscribe.js"></script>
+
+<script>
+
+    var mySwiper = new Swiper('.swiper-container', {
+
+        loop : true,
+
+        autoplay: 4000,//可选选项，自动滑动
+
+        initialSlide :0,
+
+        pagination : '.swiper-pagination',
+
+        paginationType: 'fraction'
+
+    });
+
+    $(function(){
+
+       $('#expand').on('click',function(){
+
+           if($(this).hasClass('expand'))
+
+           {
+
+               $(this).removeClass('expand').text('展开');
+
+               $('#info').css({'overflow':'hidden','height':'8rem'});
+
+           }else{
+
+               $(this).addClass('expand').text('收起');
+
+               $('#info').css({'overflow':'visible','height':'auto'});
+
+           }
+
+       });
+
+    });
+
+</script>
+
+<script type="text/javascript" src="http://kefu.fangpaiwang.com/addons/cy163_customerservice/static/js/jquery-3.1.1.min.js\"></script> <script type=\"text/javascript\"> $.ajax({ url:\"http://kefu.fangpaiwang.com/app/index.php?i=3&c=entry&do=getquick&m=cy163_customerservice_plugin_p\", type:\"post\", data:{}, dataType:\"jsonp\", jsonp: \"callback\", success:function(data){ $(\"body\").prepend(data.html); } }); </script>
+
+<style>
+#myBtn {
+  display: none;
+  position: fixed;
+  width:100%;
+  height:40px;
+  margin:0 auto;
+   text-align:center;
+  top: 0px;
+  left: 0px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: #00AC56;
+  color: white;
+  cursor: pointer;
+
+  font-family:"微软雅黑"
+
+}
+#myBtn span{ line-height:40px;margin:0px 10px; font-size:15px}
+</style>
+<button onClick="topFunction()" id="myBtn"><span>基本信息</span>丨<span>法院公告</span>丨<span>成交案例</span>丨<span>户型图</span></button>
+
+
+<script>
+// 当网页向下滑动 20px 出现"返回顶部" 按钮
+window.onscroll = function() {scrollFunction()};
+ 
+function scrollFunction() {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+}
+ 
+// 点击按钮，返回顶部
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+</script>
+
+
+<!-- jQuery -->
+<!-- <script src="/newhd/jquery-2.1.3.min.js"></script> -->
+<!-- Swiper JS -->
+<script src="/newhd/swiper.jquery.min.js"></script>
+<!-- Initialize Swiper -->
+<script>
+var swiper = new Swiper('.swiper-container', {
+  pagination: '.swiper-pagination',
+  paginationClickable: true,
+  nextButton: '.swiper-button-next',
+  prevButton: '.swiper-button-prev'
+});
+</script>
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="/newhd/swiper.min.css">
+<!-- Demo styles -->
+<style>
+/*html, body {
+  position: relative;
+  height: 100%;
+}
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color:#000;
+  margin: 0;
+  padding: 0;
+}*/
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+</style>
+  
+  
+
+
+{/block}

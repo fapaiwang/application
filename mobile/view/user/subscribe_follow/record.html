@@ -1,0 +1,48 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="main">
+    <div class="pec-relLink addhouse mb20">
+        <a><span>跟进时间</span><span><input type="text" name="create_time" id="time" value="{:date('Y-m-d')}" placeholder="请填写日期"></span></a>
+        <a class="holder-name"><span style="vertical-align: top;">备注信息</span><span><textarea name="content" id="content" placeholder="跟进备注" style="height:3rem;width:11rem;padding:.2rem 0;"></textarea></span></a>
+    </div>
+    <div class="bt-box pt30  pb30">
+        {:token()}
+        <input type="hidden" name="sid" id="sid" value="{$sid}">
+        <button class="btn sub-btn" data-uri="{:url('save')}">提交</button>
+    </div>
+</div>
+<script src="/static/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        $(".sub-btn").on('click',function(){
+            var url = $(this).data('uri'),create_time = $('#time').val(),content = $('#content').val(),
+                    sid = $('#sid').val(),token = $("input[name='__token__']").val();
+            if(content.length == 0)
+            {
+                layer.msg('请填写跟进内容');
+                return false;
+            }else{
+                var param = {
+                    create_time : create_time,
+                    content : content,
+                    sid : sid,
+                    token : token
+                };
+                layer.msg('提交中，请稍候……',{time:10000});
+                $.post(url,param,function(result){
+                    layer.closeAll();
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.href = window.location.href + '?t='+Math.random();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+
+                });
+            }
+        });
+    });
+</script>
+{/block}

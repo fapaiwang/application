@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>代理中心</title>
+    <link rel="stylesheet" href="__CSS__/pintuer.css">
+    <link rel="stylesheet" href="__CSS__/user.css">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="header bg-main">
+    <div class="logo margin-big-left">
+        <h1>
+            代理管理中心，您好
+            {$my_admin.username}
+        </h1>
+    </div>
+    <div class="head-l" style="line-height: 40px;">
+
+    </div>
+    <div class="head-r">
+        <a class="button button-little bg-green" href="{:url('Index/index')}" target="_blank">
+            <span class="iconfont">&#xe77e;</span> 网站首页
+        </a> &nbsp;&nbsp;
+
+        <a class="button button-little bg-red" href="{:url('Login/logout')}">
+            <span class="iconfont">&#xe62e;</span> 退出登录
+        </a>
+    </div>
+</div>
+<div class="leftnav">
+    <div class="leftnav-title"><strong><span class="iconfont">&#xe801;</span>菜单列表</strong></div>
+    {volist name='menu' id='data'}
+    <h2><span class="iconfont">{$data.icon|raw}</span>{$data.title}</h2>
+    <ul {if condition="$i eq 1"}style="display:block;"{/if} class="clearfix">
+        {volist name='data.children' id='val'}
+        <li><a href="{$val.url}" target="right"><span class="iconfont icon-arrow-right"></span>{$val.title}</a></li>
+        {/volist}
+    </ul>
+    {/volist}
+</div>
+<ul class="bread">
+    <li><a href="{:url('Index/panel')}" target="right"><span class="iconfont">&#xe77e;</span> 用户中心</a></li>
+    <li><a href="##" id="a_leader_txt">首页</a></li>
+</ul>
+<div class="admin">
+    <iframe src="{:url('Index/panel')}" name="right" width="100%" height="99%"></iframe>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var heights = document.documentElement.clientHeight-110;
+        $(".admin").height(heights);
+        $(".leftnav h2").click(function(){
+            $(this).parent().find('ul').hide();
+            $(this).next().show();
+        });
+        $(".leftnav ul li a").click(function(){
+            $("#a_leader_txt").text($(this).text());
+            $(".leftnav ul li a").removeClass("on");
+            $(this).addClass("on");
+        })
+    });
+    $(window).resize(function(){
+        var heights = document.documentElement.clientHeight-110;
+        $(".admin").height(heights);
+    });
+</script>
+</body>
+</html>

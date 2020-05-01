@@ -1,0 +1,158 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;padding:1rem .66rem 3rem;">
+    <div class="select-score clearfix">
+        <ul class="select-score-left fl">
+            <li>
+                <span class="score-name">价格：</span>
+                                    <span class="score-grade" data-title="price">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+            </li>
+            <li>
+                <span class="score-name">地段：</span>
+                                    <span class="score-grade" data-title="place">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+            </li>
+            <li>
+                <span class="score-name">配套：</span>
+                                    <span class="score-grade" data-title="mating">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+            </li>
+            <li>
+                <span class="score-name">交通：</span>
+                                    <span class="score-grade" data-title="traffic">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+            </li>
+            <li>
+                <span class="score-name">环境：</span>
+                                    <span class="score-grade" data-title="science">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+            </li>
+        </ul>
+        <div class="select-score-right">
+            <div class="score-average">综合评分</div>
+            <div>
+                <span id="average-score">3</span>分
+            </div>
+        </div>
+    </div>
+    <div class="comment-title">评论内容</div>
+    <div>
+        <textarea name="content" id="content" class="comment-content-textarea"></textarea>
+    </div>
+    <div class="comment-inptu-box">
+        <input type="text" class="comment-input" name="code" id="code" style="width:100px;" placeholder="请输入验证码">
+        <img src="{:url('Verfiy/index')}" style="width:100px;height:40px;" class="verify" alt="验证码">
+    </div>
+    <p>
+        {:token()}
+        <input type="hidden" id="house_id" value="{$info.id}">
+        <a id="comment-btn" href="javascript:;" data-uri="{:url('Api/subHouseComment')}" class="but03">提交点评</a>
+    </p>
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    var init = {'price':3,'place' : 3,'mating' : 3,'traffic' : 3,'science' : 3};
+    $(function(){
+        $('.score-grade i').on('mouseenter',function () {
+            var index = $(this).index()+ 1,score = $(this).data('value');
+            $(this).prevAll().addClass('on');
+            $(this).addClass('on');
+            $(this).nextAll().removeClass('on');
+            $(this).parent().parent().find('.one-score').text(score);
+        });
+        $('.score-grade').on('mouseleave',function () {
+            var title = $(this).data('title');
+            $(this).find('.on').removeClass('on');
+            var count = init[title];
+            if(count == 5) {
+                $(this).find('i').addClass('on');
+            } else {
+                $(this).find('i').eq(count).prevAll().addClass('on');
+            }
+            $(this).parent().find('.one-score').text(init[title]);
+        });
+        $('.score-grade i').on('click',function () {
+            var total = 0,len  = 5,average = 0,score = $(this).data('value'),parent = $(this).parent(),title = parent.data('title');
+            $(this).prevAll().addClass('on');
+            $(this).addClass('on');
+            init[title] = score;
+            parent.parent().find('.one-score').text(score);
+            for(var i in init)
+            {
+                total += init[i];
+            }
+            average = 1*(total / len).toFixed(1);
+            $("#average-score").text(average);
+        });
+        $(".verify").on('click',function(){
+            var s = $(this).attr('src');
+            $(this).attr('src',s+"?t="+Math.random());
+        });
+        $("#comment-btn").on('click',function(){
+            var url = $(this).data('uri'),token = $("input[name='__token__']").val(),content = $("#content"),code = $("#code"),house_id = $("#house_id").val();
+            if(content.val().length == 0)
+            {
+                layer.msg('请填写评论内容');
+            }else if(code.val().length == 0){
+                layer.msg('请填写验证码');
+            }else{
+                $.ajax({
+                    type:'post',
+                    url : url,
+                    dataType:'json',
+                    data:{
+                        content:content.val(),
+                        house_id:house_id,
+                        verify : code.val(),
+                        token  : token,
+                        score  : JSON.stringify(init)
+                    },
+                    success:function(result){
+                        if(result.code == 1)
+                        {
+                            $("#content").val('');
+                            layer.msg('评论提交成功',{icon:1},function(){
+                                window.location.href = window.location.href +"?t="+Math.random();
+                            });
+                        }else{
+                            layer.msg(result.msg,{icon:2});
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+{/block}

@@ -1,0 +1,29 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+    fieldset{border: none; padding: 0; border-top: 1px solid #eee;}
+    fieldset legend{margin-left: 20px;  padding: 0 10px; font-size: 22px; font-weight: 300;}
+    .layui-form p{line-height: 24px;}
+    .layui-textarea{height:55px;min-height: 55px;}
+</style>
+<div class="dialog_content">
+    <div class="layui-form layui-border-box layui-table-view" style="padding:10px;margin:5px 0 10px;">
+        <p>调用说明：</p>
+        <p>1、该调用方式只针对PC和手机版，小程序不采用此方式调用。</p>
+        <p>2、静态调用对服务器环境无特殊要求，消耗服务器资源少，访问速度快，新增、编辑、删除广告后需要更新广告js文件。</p>
+        <p>3、动态调用对服务器环境无特殊要求，可自动判断广告是否过期，但是消耗服务器资源，访问速度慢</p>
+        <p>4、把调用代码复制粘贴到需要显示广告的模板即可。</p>
+    </div>
+    <fieldset>
+        <legend>调用方式</legend>
+        <p style="padding:10px 0;">JS调用代码（JS静态调用）</p>
+        <div class="layui-form-item">
+            <textarea class="layui-textarea"><script type="text/javascript" src="__STATIC__/poster_js/{$id}.js"></script></textarea>
+        </div>
+        <p style="padding:10px 0;">动态调用代码（php动态调用）</p>
+        <div class="layui-form-item">
+            <textarea class="layui-textarea"><script type="text/javascript" src="{:url('Poster/index')}?id={$id}"></script></textarea>
+        </div>
+    </fieldset>
+</div>
+{/block}

@@ -1,0 +1,24 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .layui-table-view .layui-table td{text-align:left;cursor:pointer;}
+</style>
+<!--列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('Article/ajaxEdit')}">
+            <colgroup>
+            </colgroup>
+            <tbody>
+            {volist name="urls" id="val"}
+            <tr>
+                <td>
+                   {$val}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</form>
+{/block}

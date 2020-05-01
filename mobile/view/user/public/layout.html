@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>用户中心</title>
+
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__JS__/font-size.js"></script>
+    <link rel="stylesheet" href="__CSS__/base.css">
+    <link rel="stylesheet" href="__CSS__/style.css">
+    <style>
+        .checkbox label{margin-right:5px;display:inline-block;}
+        .follow-h-switch li{width:49%;text-align:center;display:inline-block;font-size:.7rem;height:1.77rem;line-height: 1.77rem;}
+        .follow-h-switch li.active a{color:#F54848;}
+    </style>
+</head>
+<body>
+{block name='header'}
+<!-- 头部 S-->
+<div class="mc-header">
+    <a href="javascript:;" class="go-back"></a>
+    <h3>{$title|default=''}</h3>
+</div>
+<!-- 头部 E-->
+{/block}
+{block name='content'}{/block}
+<script>
+    $(function(){
+        $('.go-back').on('touchend',function(){
+            window.location.href="{:url('user.index/index')}";
+        }) ;
+        $(".top-btn").on('click',function(){
+            $(this).next().toggle();
+        });
+        $(".top-time li").on('click',function(){
+            var v = $(this).data('val'),list = $("#lists"),url = list.data('uri'),parent = $(this).parent(),house_id = parent.data('id'),
+                    model = list.data('model');
+            layer.confirm('确定要置顶所选房源么？置顶将扣除相应费用',{icon:3,title:'提示信息'},function(index){
+                $.post(url,{
+                    house_id : house_id,
+                    t        : v,
+                    model    : model
+                },function(res){
+                    console.log(res);
+                    if(res.code == 1){
+                        layer.msg(res.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

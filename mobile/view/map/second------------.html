@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>房拍网</title>
+    <!-- <title>{$seo.title}</title> -->
+    <meta name="keywords" content="{$seo.keys}" />
+    <meta name="description" content="{$seo.desc}" />
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__JS__/font-size.js"></script>
+    <link rel="stylesheet" href="__CSS__/base.css?t={:time()}">
+    <link rel="stylesheet" href="__CSS__/style.css?t={:time()}">
+
+</head>
+<body>
+
+{block name='header'}
+
+<div class="lookRoom-head">
+
+    {include file='map/header' /}
+
+</div>
+
+
+
+{/block}
+
+{block name='content'}
+
+<div class="main">
+
+    <div class="lookRoom-head">
+
+        <!-- 筛选 S -->
+
+        <div class="lr-select-box">
+
+            <div class="select_head" id="select_head">
+
+                <div class="item" id="area" data-id="0">
+
+                    <span class="tit">区域</span>
+
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+
+                </div>
+
+                <div class="item" id="price" data-id="0">
+
+                    <span class="tit">价格</span>
+
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+
+                </div>
+
+                <div class="item" id="fcstatus" data-id="0">
+
+                    <span class="tit">状态</span>
+
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+
+                </div>
+
+                <div class="item">
+
+                    <span class="tit">更多</span>
+
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+
+                </div>
+
+            </div>
+
+            <div class="select_body" id="select_body">
+
+                <div class="item common">
+
+                    <div class="item_box">
+
+                        <ul class="one-level" data-uri="{:url('Api/getCityChild')}">
+
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+
+                            {volist name='area' id='vo'}
+
+                            <li data-id="{$vo.id}"><a href="javascript:;">{$vo.name}</a></li>
+
+                            {/volist}
+
+                        </ul>
+
+                        <ul class="two-level">
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <div class="item common">
+
+                    <div class="item_box attr">
+
+                        <ul>
+
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+
+                            {volist name=':getSecondPrice()' id='vo'}
+
+                            <li data-id="{$key}"><a href="javascript:;">{$vo.name}</a></li>
+
+                            {/volist}
+
+                        </ul>
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="item common">
+
+                    <div class="item_box attr">
+
+                        <ul>
+
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+
+                            <li data-id="171"><a href="javascript:;">已结束</a></li>
+                            <li data-id="175"><a href="javascript:;">已成交</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <div class="item more"  id="more">
+
+                    <form action="">
+
+                        <article class="select_area">
+
+
+
+                            <section class="section" id="room">
+
+                                <div class="tit">户型</div>
+
+                                <ul class="clearfix">
+
+                                    <li class="active" data-id="0">全部</li>
+
+                                    {volist name=':getRoom()' id='vo'}
+
+                                    <li data-id="{$key}">{$vo}</li>
+
+                                    {/volist}
+
+                                </ul>
+
+                            </section>
+
+                            <!-- <section class="section" id="type">
+
+                                <div class="tit">类型</div>
+
+                                <ul class="clearfix">
+
+                                    <li class="active" data-id="0">全部</li>
+
+                                    {volist name='type' id='vo'}
+
+                                    <li data-id="{$vo.id}">{$vo.name}</li>
+
+                                    {/volist}
+
+                                </ul>
+
+                            </section> -->
+
+                            <section class="section" id="renovation">
+
+                                <div class="tit">装修</div>
+
+                                <ul class="clearfix">
+
+                                    <li class="active" data-id="0">全部</li>
+
+                                    {volist name='renovation' id='vo'}
+
+                                    <li data-id="{$vo.id}">{$vo.name}</li>
+
+                                    {/volist}
+
+                                </ul>
+
+                            </section>
+
+                        </article>
+
+                        <article class="submit_area">
+
+                            <input type="reset" id="more_reset" class="reset" value="清空条件">
+
+                            <input type="button" id="search-btn" class="submit" value="确定">
+
+                        </article>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 筛选 E -->
+
+    </div>
+
+    <div id="select_bg"></div>
+
+    <div class="map-show-box">
+
+        <div id="map"></div>
+
+    </div>
+
+</div>
+
+<!-- 筛选 -->
+
+<script src="__JS__/map-search.js"></script>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+
+    <li class="clearfix">
+        <a href="{{d[i].url}}" target="_blank" title="{{d[i].title}}">
+            <div class="img fl f_con">
+                <img src="{{d[i].img}}" onerror="this.src='/static/images/nopic.jpg'" width="130" height="90" alt="">
+            </div>
+            <div class="c_con fl">
+                <div class="t clearfix">
+                    <h3>{{d[i].title}}</h3>
+                </div>
+                <div class="c">
+                    <span>{{d[i].estate_name}} {{d[i].toilet}} {{d[i].acreage}}{:config('filter.acreage_unit')} {{d[i].renovation}}</span>
+                </div>
+                <div class="b clearfix">
+                    {{# for(var j in  d[i]['tags']){ }}
+                    <span class="item item{{j*1+1}}">{{d[i]['tags'][j]}}</span>
+                    {{# } }}
+                </div>
+            </div>
+            <div class="r_con fl">
+                <p class="price"><strong>{{d[i].price}}</strong></p>
+            </div>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+
+<script type="text/javascript" src="__JS__/map.js"></script>
+
+<script type="text/javascript" src="__JS__/baiduEvent.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        var lng = '{$lng}';
+
+        var lat = '{$lat}';
+
+        BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+
+        BMapApplication.requestUrl = "{:url('Map/getSecondLists')}";
+
+        BMapApplication.requestParam = getParam();
+
+        BMapApplication.getMap();
+
+    });
+
+    function getParam()
+
+    {
+
+        var area = $('#area').attr('data-id'),price = $('#price').attr('data-id'),
+
+                fcstatus = $('#fcstatus').attr('data-id'),room = $('#room li.active').attr('data-id'),
+
+                renovation = $('#renovation li.active').attr('data-id'),type = $('#type li.active').attr('data-id');
+        var urls=window.location.href;
+        var can=urls.substr(urls.length-2,2)
+                if(can=='ml'){can=45;}
+        return {
+
+            area : area,
+
+            price : price,
+
+            type  : can,
+
+            fcstatus : fcstatus,
+
+            renovation  : renovation,
+
+            room : room
+
+        };
+
+    }
+
+</script>
+
+{/block}
+
+<div style="display:none;" id="weixin-share" data-desc="{present name='info'}{:msubstr(strip_tags($info['info']),0,50)}{else /}{$site.seo_desc}{/present}"></div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    $(function(){
+       $('.detail-go-back,.go-back').on('touchend',function(){
+           window.history.back();
+       }) ;
+        var img_url = "{:config('mobile_domain')}{$info.img|default=$site['pc_logo']}";
+        var shareData = {
+            title: "{$share_title?$share_title:$seo.title}",
+            link: window.location.href,
+            desc: $("#weixin-share").data('desc'),
+            imgUrl: img_url,
+            success:function(){
+
+            }
+        };
+        var jssdkconfig = {$sdk_config|raw} || { jsApiList:[] };
+        wx.config(jssdkconfig);
+        wx.ready(function () {
+            wx.onMenuShareAppMessage(shareData);
+            wx.onMenuShareTimeline(shareData);
+            wx.onMenuShareQQ(shareData);
+            wx.onMenuShareWeibo(shareData);
+        });
+    });
+</script>
+</body>
+</html>

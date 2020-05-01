@@ -1,0 +1,76 @@
+<!-- 热文排行 S -->
+<div class="hot_artc mt_30">
+    <div class="title">
+        <h3>最新动态</h3>
+        <p class="b_l"></p>
+    </div>
+    <div class="con_box">
+        <ul class="clearfix">
+            {fang:lists table='article' where='status=1 and city = $cityId' field='id,title' order='hits desc' limit='10' id='data'}
+            <li>
+                <a href="{:url('News/detail',['id'=>$data['id']])}" target="_blank" title="{$data.title}">
+                    <span class="order {if condition='$i lt 4'}on{/if}">{$i}</span>
+                    {$data.title}
+                </a>
+            </li>
+            {/fang:lists}
+        </ul>
+    </div>
+</div>
+<!-- 热文排行 E -->
+<!-- 热门楼盘 S -->
+<div class="hot_build  mt_30">
+    <div class="title">
+        <h3>最新楼盘</h3>
+        <p class="b_l"></p>
+    </div>
+    <div class="con_box">
+        <ul class="list clearfix">
+            {php}$where_str = "status=1";$city_all_child && $where_str.= " and city in (".$city_all_child.")";{/php}
+            {fang:lists table='house' where='$where_str' field='id,title,img,price,unit,city' order='id desc' limit='2' id='data'}
+            <li>
+                <a href="{:url('House/detail',['id'=>$data['id']])}" title="{$data.title}" target="_blank">
+                    <div class="img">
+                        <img src="{$data.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$data.title}">
+                    </div>
+                    <div class="con">
+                        <p class="name">{$data.title}</p>
+                        <div class="clearfix">
+                            <p class="price fl"><b>{$data.price}</b>{$data.unit}</p>
+                            <p class="address fr" title="{:getCityName($data['city'],'-',2)}">{:getCityName($data['city'],'-')}</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {/fang:lists}
+        </ul>
+    </div>
+</div>
+<!-- 热门楼盘 E -->
+<div class="hot_build  mt_30">
+    <div class="title">
+        <h3>推荐楼盘</h3>
+        <p class="b_l"></p>
+    </div>
+    <div class="con_box">
+        <ul class="list clearfix">
+            {php}$where_str = "";$city_all_child && $where_str.= "t.city in (".$city_all_child.")";{/php}
+            {fang:position table='house' posid="1" where='$where_str' field='t.id,t.title,t.img,t.price,t.unit,t.city' order='id desc' limit='4' id='data'}
+            <li>
+                <a href="{:url('House/detail',['id'=>$data['id']])}" title="{$data.title}" target="_blank">
+                    <div class="img">
+                        <img src="{$data.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$data.title}">
+                    </div>
+                    <div class="con">
+                        <p class="name">{$data.title}</p>
+                        <div class="clearfix">
+                            <p class="price fl"><b>{$data.price}</b>{if condition="$data.price gt 0"}{:getUnitData($data.unit)}{/if}</p>
+                            <p class="address fr" title="{:getCityName($data['city'],'-',2)}">{:getCityName($data['city'],'-')}</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {/fang:position}
+        </ul>
+    </div>
+</div>

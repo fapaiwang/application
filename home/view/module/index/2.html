@@ -1,0 +1,217 @@
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<div class="topBar">
+        <div class="comWidth clearfix">
+            <div class="logo fl">
+                <a href="{:url('Index/index')}" title="{$site.title}">
+                    <img src="{$site.pc_logo_white}" alt="{$site.title}" />
+                </a>
+            </div>
+            <div class="fl sele_city">
+                <a href="javascript:;"  class="sele_city_btn">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
+                <div class="city_list clearfix">
+                    <i class="city-close">关闭</i>
+                  
+                    {volist name='top_nav_city.city' id='vo'}
+                    <dl class="clearfix">
+                        <dt class="bold">{$key}</dt>
+                        {volist name='vo' id='val'}
+                        <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" title="{$val.name}">{$val.name}</a></dd>
+                        {/volist}
+                    </dl>
+                    {/volist}
+                 
+                </div>
+            </div>
+            <div class="navBar fl">
+                <ul class="nav_list fl">
+                    {volist name='menu' id='vo'}
+                    {if condition='$vo.pos eq 1'}
+                    <li   {if condition="$vo['model'] eq $cur_url"}class="active"{/if}>
+                    <a href="{$vo['url']}" title="{$vo.title}"  target="{$vo.open_type}">{$vo.title}</a>
+                    {present name="vo['_child']"}
+                    <ul>
+                        {volist name="vo['_child']" id="val"}
+                        <li><a href="{$val.url}" title="{$val.title}" target="{$val.open_type}">{$val.title}</a></li>
+                        {/volist}
+                    </ul>
+                    {/present}
+                </li>
+                    {/if}
+                    {/volist}
+                </ul>
+            </div>
+            <div class="log_link fr">
+                {notempty name='userInfo'}
+                <!-- 已登录状态 -->
+                <div class="loged">
+                    <div class="user_info">
+                        <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                        <span class="name">{:hideStr($userInfo['nick_name'])}</span>
+                    </div>
+                    <div class="slide_tog" style="display:none;">
+                        <a rel="nofollow" href="{:url('user.index/index')}">用户中心</a>
+                        <a rel="nofollow" href="{:url('Login/logout')}">退出登录</a>
+                    </div>
+                </div>
+                {else /}
+                <!-- 未登录状态 -->
+                <div class="not_log">
+                    <a rel="nofollow" href="{:url('Login/index')}">登录</a>
+                    /
+                    <a rel="nofollow" href="{:url('Login/register')}">注册</a>
+                </div>
+                {/notempty}
+            </div>
+        </div>
+    </div>
+    <!-- banner S -->
+    <div class="banner" >
+        <div class="banner-2">
+            <script type="text/javascript" src="/poster/index.html?id=1"></script>
+            
+            
+            
+            
+            <div class="search-box" style="height:300px; top:100px;border-radius: 2em;overflow: hidden; width:660px; left:47%">
+                <div class="opacity" style="background:rgba(0, 0, 0, 0.8)"></div>
+                <div style="width:660px; height:150px; margin:0 auto;position: absolute;top:0px;color:#fff;z-index: 999;">
+            
+            
+            
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="height:90px; text-align:center;font-size:16px">
+    <td width="33.3%"><span style="font-size:50px;color:#fff352;margin-right: 5px;">{$zzcount}</span>套</td>
+    <td width="33.3%"><span style="font-size:50px;color:#fff352;margin-right: 5px;">{$jjcount}</span>套</td>
+    <td width="33.3%"><span style="font-size:50px;color:#fff352;margin-right: 5px;">{$jrcount}</span>套</td>
+  </tr>
+  
+  <tr style="height:50px; text-align:center; font-size:16px">
+    <td>即将拍卖</td>
+    <td>正在进行</td>
+    <td>今日新增</td>
+  </tr>
+
+</table>
+
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>            
+            
+
+            
+            
+            </div>
+            <form action="{:url('Second/index')}">
+                <div class="search-content" style="top:150px;    padding: 20px 80px;">
+                    <div class="search-type">
+
+
+
+
+                        <span><a name="type" id="type" href="javascript:void(0);" class="active" data-src="45">法拍房源</a></span>
+                        <span><a name="type" id="type" href="javascript:void(0);" data-src="46">国有资产</a></span>
+                        <span><a name="type" id="type" href="javascript:void(0);" data-src="47">涉诉房产</a></span>
+                        <span><a name="type" id="type" href="javascript:void(0);" data-src="48">社会委托</a></span>
+                    </div>
+                    <div class="search-input clearfix">
+                        <div class="sear_box fl">
+            
+                <div class="ipt_area fl">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt">
+                    <span class="placeholder" style="color:#fff;">输入小区名称或房源名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area fl">
+                    <input type="submit" class="sbm_btn" value="搜索">
+                </div>
+            
+        </div>
+                    </div>
+<script>
+window.onload = function() {
+    var libtn = $("span a")
+    for (var i = 0; i < libtn.length; i++) {
+        libtn[i].index = i;
+        libtn[i].onclick = function() {
+            for (var i = 0; i < libtn.length; i++) {
+                libtn[i].className = "";
+            }
+            this.className = "active";
+var aas=$(this).attr("data-src");
+document.getElementById("example").value=aas;
+// alert(123);
+       // alert(aa);
+        }
+    }
+}
+</script>
+<input type="hidden" id="example" />
+                    <div class="search-keyword">
+                        <span>热门搜索：</span>
+                        {fang:lists table='link' filed='url,name' where='status=1 and cate_id=2' order='ordid asc,id desc' limit='6' id='data'}
+                        <a href="{$data.url}" title="{$data.name}" target="_blank">{$data.name}</a>
+                        {/fang:lists}
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                <em>{{d[i].price}}</em>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#select select").on('change',function(){
+            var uri = $(this).find("option:selected").data('uri');
+            window.location.href = uri;
+        });
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            // var aa=$('.search-type[active]').attr("data-src");
+            // // var aa=$(" #active").attr("data-src")
+
+            // alert(aa);
+            var bb=document.getElementById("example").value;
+            // alert(bb);
+
+
+       var keyword = $(this).val(),url = $(this).data('uri')+'?type='+bb,box = $('#search-box');
+              
+
+
+            
+
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    })
+</script>
+    <!-- banner E -->

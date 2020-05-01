@@ -1,0 +1,101 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+    .house-type-list{background-color: #fff;}
+</style>
+<div class="main" style="padding-bottom:2rem;">
+    <div class="build-info">
+        <div class="build-img">
+            <div style="width:100%;overflow: auto;">
+                <div style="margin-top:1rem;position:relative;height:300px;{if condition='$points.width gt 640'}transform: matrix(0.35, 0, 0, 0.39, -119, -101);{else /}transform: matrix(0.5, 0, 0, 0.6, -60, -70);{/if}">
+                    <div id="house-ban" class="pic-show" style="position:absolute;left:0;top:0;{if condition='$points.width lt 640'}width:{$points.height+10}px;{/if}">
+                        <img src="{$points.img}" alt="{$info.title}楼栋信息" width="{$points.width}" height="{$points.height}">
+                        {volist name='points.data' id='vo'}
+                        {php}$point=explode(',',$vo['point']);{/php}
+                        <a href="javascript:;" data-position="{$vo.point}" data-bid="{$vo.id}" class="ban status-{$vo.sale}" title="{$vo.title}" style="transform: scale(1.2);position:absolute;left: {$point[0]}px; top: {$point[1]}px;"><i></i>{$vo.title}</a>
+                        {/volist}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="lists" data-uri="{:url('Api/getBanInfoById')}">
+
+        </div>
+    </div>
+</div>
+{include file='house/footer_bar' /}
+<script id="template" type="text/html">
+    <div class="build-info-desc">
+        <header class="head clearfix">
+            <span class="name">{{d['ban_info']['title']}}</span>
+            <span class="sale-status on">{{d['ban_info']['sale_status_name']}}</span> <!--在售 on，待售 for，售罄 off -->
+        </header>
+        <div class="date clearfix">
+            <div class="fl">
+                <span class="tit">开盘时间：</span><span class="time">{{# if(d['ban_info']['open_time']){ }}{{d.ban_info.open_time}}{{# } }}</span>
+            </div>
+            <div class="fr">
+                <span class="tit">预计交房：</span><span class="time">{{# if(d['ban_info']['complate_time']){ }}{{d.ban_info.complate_time}}{{# } }}</span>
+            </div>
+        </div>
+        <ul class="build-word clearfix">
+            <li><span class="tit">单元：</span><span class="txt">{{# if(d['ban_info']['unit']){ }}{{d.ban_info.unit}}{{# } }}</span></li>
+            <li><span class="tit">层数：</span><span class="txt">{{# if(d['ban_info']['floor_num']){ }}{{d.ban_info.floor_num}}{{# } }}</span></li>
+            <li><span class="tit">户数：</span><span class="txt">{{# if(d['ban_info']['room_num']){ }}{{d.ban_info.room_num}}{{# } }}</span></li>
+            <li><span class="tit">电梯数：</span><span class="txt">{{# if(d['ban_info']['elevator']){ }}{{d.ban_info.elevator}}{{# } }}</span></li>
+        </ul>
+    </div>
+    {{# if(d.type_lists.length>0){ }}
+    <div class="house-type-list">
+        <ul>
+            {{# for(var i = 0, len = d.type_lists.length; i < len; i++){ }}
+            <li>
+                <a href="{{d.type_lists[i].url}}">
+                    <div class="l_img">
+                        <img src="{{d.type_lists[i].img}}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="">
+                    </div>
+                    <div class="r_con">
+                        <div class="t">
+                            <span>{{d.type_lists[i].room}}室{{d.type_lists[i].living_room}}厅 </span>
+                            <span>{{d.type_lists[i].acreage}}㎡</span>
+                        </div>
+                        <div class="c"><span>{{d.type_lists[i].title}}</span><span class="sale-status on">{{d.type_lists[i].sale_status}}</span></div> <!--on在售，for待售，off售罄-->
+                        <div class="b"><span>{{d.type_lists[i].orientation}}朝向</span></div>
+                        <div class="price"><b>{{d.type_lists[i].price}}</b>万</div>
+                    </div>
+                </a>
+            </li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# } }}
+</script>
+<script type="text/javascript" src="/static/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        getBanInfo($(".ban:first").data('bid'));
+        $(".ban").on('click',function(){
+            var id = $(this).data('bid');
+            getBanInfo(id);
+        });
+    });
+    function getBanInfo(id)
+    {
+        var url   = $("#lists").data('uri');
+        var param = {id:id};
+        $.get(url,param,function(result){
+            if(result.code == 1)
+            {
+                if(result.data){
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        document.getElementById('lists').innerHTML = html;
+                    });
+                }
+            }else{
+                console.log('get data error');
+            }
+        });
+    }
+</script>
+{/block}

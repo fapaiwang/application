@@ -1,0 +1,152 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/form.css">
+<!-- form S -->
+<style>
+    .layui-layer-content{padding:15px;line-height: 25px;}
+</style>
+<div class="form-wrap">
+    <h3>注册账号</h3>
+    <div class="form_box">
+        <div class="sec">
+            <div class="label">
+                <img src="__IMG__/icon/phone.png" class="phone_img" alt="">
+            </div>
+            <div class="ipt">
+                <input type="text" id="mobile" placeholder="请输入手机号">
+            </div>
+        </div>
+        {if condition="$user_setting['reg_sms']"}
+        <div class="sec">
+            <div class="label">
+                <img src="__IMG__/icon/code.png" class="code_img" alt="">
+            </div>
+            <div class="ipt">
+                <input type="text" id="sms_code" placeholder="请输入验证码">
+            </div>
+            <div class="get_code" id="smsCode">获取验证码</div>
+        </div>
+        {/if}
+        <div class="sec">
+            <div class="label">
+                <img src="__IMG__/icon/pass.png" class="pass_img" alt="">
+            </div>
+            <div class="ipt">
+                <input type="password" id="password" placeholder="请设置密码（最少6位，数字+字母）">
+            </div>
+        </div>
+        <div class="sec">
+            <div class="label">
+                <img src="__IMG__/icon/pass.png" class="pass_img" alt="">
+            </div>
+            <div class="ipt">
+                <input type="password" id="password2" placeholder="确认密码（最少6位，数字+字母）">
+            </div>
+        </div>
+        <div style="font-size:0.6rem;text-align:center;padding-bottom:1rem;">
+            <label>
+                <input type="checkbox" name="agree" id="agree" value="1">
+                我已阅读并同意《<a href="javascript:;" id="agreement">{$site.title}用户协议</a>》
+            </label>
+        </div>
+        <div class="btn_area">
+            {:token()}
+            <input type="hidden" id="reg_sms" value="{$user_setting['reg_sms']}">
+            <input type="button" data-uri="{:url('Login/registerDo')}" class="submit" value="立即注册">
+        </div>
+        <div class="link_wrap clearfix">
+            <a href="{:url('Login/index')}" class="r">已有账号,立即登录</a>
+        </div>
+    </div>
+</div>
+<!-- form E -->
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        $("#agreement").on('click',function(){
+            var html = "{$agreement.info|raw}";
+            if(html)
+            {
+                layer.open({
+                    type : 1,
+                    title : false,
+                    area  : ['95%','95%'],
+                    content : html
+                });
+            }
+        });
+        $(".submit").on('click',function(){
+            var mobile = $('#mobile').val(),sms_code = $('#sms_code').val(),password = $('#password').val(),
+                    password2 = $('#password2').val(),reg = /^1[3456789][0-9]{9}$/,agree = $('input[name="agree"]:checked').val(),
+                    token = $("input[name='__token__']").val(),send_sms = $('#reg_sms').val();
+            if(!reg.test(mobile))
+            {
+                layer.msg('手机号格式不正确！',{icon:2});
+                return false;
+            }else if(!sms_code && send_sms == 1){
+                layer.msg('请填写短信验证码！',{icon:2});
+                return false;
+            }else if(password.length < 6){
+                layer.msg('密码至少由6位数字或字母组合',{icon:2});
+                return false;
+            }else if(password != password2){
+                layer.msg('两次密码输入不一致！',{icon:2});
+                return false;
+            }else if(agree != 1){
+                layer.msg('请先同意用户协议！',{icon:2});
+                return false;
+            }else{
+                var param = {
+                    mobile :mobile,
+                    sms_code : sms_code,
+                    password : password,
+                    password2 : password2,
+                    token       : token
+                };
+                var url = $(this).data('uri');
+                $.post(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        window.location.href = result.uri;
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            }
+        });
+        $("#smsCode").bind('click',function(){
+            getCode();
+        });
+
+    });
+    var time=60,times='';
+    function getCode(){
+        if(time<60) return false;
+        var mobile=$("#mobile").val(),reg = /^1[3456789][0-9]{9}$/;
+        if(!reg.test(mobile)){
+            layer.msg('请填写正确的手机号码',{icon:2});
+            return false;
+        }
+        $.post("{:url('Api/sendSms')}",{'mobile':mobile,'exists':1},function(data){
+            if(data.code==1){
+                time --;
+                layer.msg('验证码发送成功，请注意查收',{icon:1});
+                times = setInterval(timer,1000);
+            }else{
+                layer.msg(data.msg,{icon:2});
+            }
+        });
+    }
+    function timer(){
+        var code = $("#smsCode");
+        if(time == 0){
+            time = 61;
+            code.text('获取验证码');
+            clearInterval(times);
+        }else{
+            code.text(time+'秒后获取');
+        }
+        time --;
+    }
+</script>
+{/block}

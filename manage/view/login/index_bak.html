@@ -1,0 +1,103 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="__LAY__/css/layui.css?t={:time()}" media="all">
+    <link rel="stylesheet" href="__CSS__/style.css?t={:time()}">
+	<title>管理中心</title>
+</head>
+
+<body class="login-body" style="background: #393D49;">
+<canvas id="canvas-banner"></canvas>
+<div class="login-box" id="large-header" style="top: -321px;">
+    <form class="layui-form layui-form-pane" action="{:url('Login/loginDo')}" onsubmit="return check();" method="post">
+        <div class="layui-form-item">
+            <h3 ><img src="__IMG__/welcome.png" style="margin: 0 auto;width: 310px;height: 106px"/></h3>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号：</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="username" class="layui-input" required lay-verify="username" placeholder="用户名" autocomplete="on" maxlength="20"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码：</label>
+
+            <div class="layui-input-inline">
+                <input type="password" name="password" class="layui-input" required lay-verify="password" placeholder="密码" maxlength="20"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码：</label>
+
+            <div class="layui-input-inline">
+                <input type="text" name="verify_code" class="layui-input verfiy-code" required lay-verify="verify_code" placeholder="验证码" maxlength="4"/><img class="verify_img" src="{:captcha_src()}" alt="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn btn-submit" lay-submit="" lay-filter="sub">立即登录</button>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__LAY__/layui.js"></script>
+<script src="__JS__/login.js"></script>
+<script type="text/javascript">
+    layui.use(['form'], function () {
+
+        // 操作对象
+        var form = layui.form
+                , $ = layui.jquery,
+                layer = layui.layer;
+
+        var ie = IEVersion();
+        if(!ie){
+            layer.alert('为达到最佳使用体验，请使用ie9及以上浏览器或火狐/谷哥/safari浏览');
+        }
+    });
+    function check(){
+        var ie = IEVersion();
+        if(!ie){
+            layer.alert('为达到最佳使用体验，请使用ie9及以上浏览器或火狐/谷哥/safari浏览');
+            return false;
+        }
+        return true;
+    }
+    function IEVersion() {
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+        var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+        var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+        if(isIE) {
+            var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+            reIE.test(userAgent);
+            var fIEVersion = parseFloat(RegExp["$1"]);
+            if(fIEVersion < 9) {
+                return false;
+            }
+        } else if(isEdge) {
+            return 'edge';//edge
+        } else if(isIE11) {
+            return true; //IE11
+        }else{
+            return true;//不是ie浏览器
+        }
+    }
+</script>
+<script>
+$(function(){
+    if(self != top){
+        top.location = self.location;
+    }
+    $(".verify_img").click(function(){
+        var timenow = new Date().getTime();
+        $(this).attr("src","{:captcha_src()}?t"+timenow)
+    });
+});
+
+</script>
+</body>
+</html>

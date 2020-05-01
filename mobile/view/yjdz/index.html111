@@ -1,0 +1,40 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">一键定制</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+
+
+  <div style="margin-top:100px;"> 
+<a href="{:url('Diduan/index')}" title="下一步">下一步</a>
+</div> 
+</div>
+{/block}

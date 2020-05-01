@@ -1,0 +1,98 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="dialog_content">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" id="name"  placeholder="名称" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">类型</label>
+			<div class="layui-input-inline">
+				<select name="type" id="type" lay-filter="type">
+					{volist name="type_list" id="vo"}
+					<option value="{$key}">{$vo}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">显示广告数</label>
+			<div class="layui-input-inline">
+				<input type="text" name="display_num" value="1" class="layui-input" />
+			</div>
+		</div>
+		<div class="layui-form-item" id="size">
+			<label class="layui-form-label">尺寸</label>
+			<div class="layui-form-mid layui-word-aux layui-fl">宽</div>
+			<div class="layui-input-inline" style="width:50px;">
+				<input type="text" class="layui-input" name="width" autocomplete="off" />
+			</div>
+			<div class="layui-form-mid layui-word-aux layui-fl">高</div>
+			<div class="layui-input-inline" style="width:50px;">
+				<input type="text" class="layui-input" name="height" autocomplete="off" />
+			</div>
+		</div>
+		<div id="fixpos" class="layui-form-item" style="display:none;">
+			<label class="layui-form-label">位置</label>
+			<div class="layui-form-mid layui-word-aux layui-fl">左边距</div>
+			<div class="layui-input-inline" style="width:50px;">
+				<input type="text" class="layui-input" name="setting[paddleft]" value="" autocomplete="off" />
+			</div>
+			<div class="layui-form-mid layui-word-aux layui-fl">上边距</div>
+			<div class="layui-input-inline" style="width:50px;">
+				<input type="text" class="layui-input" name="setting[paddtop]" value="" autocomplete="off" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">说明</label>
+			<div class="layui-input-inline">
+				<textarea name="description" id="description" class="layui-textarea"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+	layui.use(['form'],function(){
+		var form = layui.form;
+		form.on("select(type)",function(data){
+			var val = data.value;
+			switch(val){
+				case 'couplet':
+					$("#fixpos").show();
+					break;
+				case 'text':
+				case 'code':
+					$("#fixpos,#size").hide();
+					break;
+				default :
+					$("#fixpos").hide();
+					$("#size").show();
+			}
+		});
+	});
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#name").formValidator({onshow:'请填写栏目名称',onfocus:'请填写栏目名称'}).inputValidator({min:1,onerror:'请填写名称'});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

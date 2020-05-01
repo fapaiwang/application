@@ -1,0 +1,166 @@
+{extend name='public/layout'}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/calculator.css">
+<style>
+    a:hover,a:focus{color:#fff;}
+</style>
+<div class="ui-warp">
+    <div class="ui-main">
+        <div class="tab-2">
+            <ul class="tab-nav">
+                <li class="ui-border-b on" id="dk_1"><a href="javascript:;"><i><span>商业贷款</span></i></a></li>
+                <li class="ui-border-b" id="dk_2"><a href="javascript:;"><i><span>公积金贷款</span></i></a></li>
+                <li class="ui-border-b" id="dk_3"><a href="javascript:;"><i><span>组合贷款</span></i></a></li>
+            </ul>
+        </div>
+
+        <div class="loan-warp">
+            <!--房贷计算器（商业贷款）-->
+            <div class="loan-item">
+                <div class="ui-box ui-border-tb">
+                    <div class="ui-box-bd">
+                        <ui class="ui-form">
+                            <li class="ui-flex">
+                                <label class="ui-label">房款总额</label>
+                                <div class="ui-form-item">
+                                    <input name="houseTotal" id="houseTotal" class="inp-l ui-tr" placeholder="" value="" type="number"><i class="ui-unit">万元</i>
+                                </div>
+                            </li>
+                            <li class="ui-border-t ui-form-link">
+                                <label class="ui-label">首付比例</label>
+                                <div class="ui-form-item">
+                                    <select id="ajcs" name="ajcs">
+                                        <option value="9">9成</option>
+                                        <option value="8">8成</option>
+                                        <option value="7">7成</option>
+                                        <option value="6">6成</option>
+                                        <option value="5">5成</option>
+                                        <option value="4">4成</option>
+                                        <option value="3" selected="selected">3成</option>
+                                        <option value="2">2成</option>
+                                        <option value="1">1成</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+
+                <div class="ui-box ui-border-t">
+                    <div class="ui-box-bd">
+                        <ui class="ui-form">
+                            <li class="ui-flex" id="accuDKLi" style="display: none;">
+                                <label class="ui-label">公积金贷款</label>
+                                <div class="ui-form-item">
+                                    <input name="accuDK" id="accuDK" class="inp-l ui-tr" placeholder="" type="number"><i class="ui-unit">万元</i>
+                                </div>
+                            </li>
+
+                            <li class="ui-border-t ui-flex" id="busiDKLi" style="display: flex;">
+                                <label class="ui-label">商业贷款</label>
+                                <div class="ui-form-item">
+                                    <input name="busiDK" id="busiDK" class="inp-l ui-tr" placeholder="" type="number"><i class="ui-unit">万元</i>
+                                </div>
+                            </li>
+
+                            <li class="ui-border-t ui-form-link" id="busiDKRateLi" style="display: flex;">
+                                <label class="ui-label">商贷利率</label>
+                                <div class="ui-form-item">
+                                    <select name="rate" id="busiDKRate"><option value="1">4.9% * 基准利率</option><option value="2">4.9% * 1.2倍</option><option value="3">4.9% * 1.1倍</option><option value="4">4.9% * 9.0折</option><option value="5">4.9% * 8.0折</option><option value="6">4.9% * 7.0折</option></select>
+                                </div>
+                            </li>
+
+                            <li class="ui-border-t" id="accuDKRateLi" style="display: none;">
+                                <label class="ui-label">公贷利率</label>
+                                <div class="ui-form-item">
+                                    <input name="accuDKRate" id="accuDKRate" class="inp-l ui-tr pr0" value="3.25%" readonly="true" type="text">
+                                </div>
+                            </li>
+
+                            <li class="ui-border-t ui-form-link">
+                                <label class="ui-label">贷款期限</label>
+                                <div class="ui-form-item">
+                                    <select name="years" id="years">
+                                        <option value="1">1年（12期）</option>
+                                        <option value="2">2年（24期）</option>
+                                        <option value="3">3年（36期）</option>
+                                        <option value="4">4年（48期）</option>
+                                        <option value="5">5年（60期）</option>
+                                        <option value="6">6年（72期）</option>
+                                        <option value="7">7年（84期）</option>
+                                        <option value="8">8年（96期）</option>
+                                        <option value="9">9年（108期）</option>
+                                        <option value="10">10年（120期）</option>
+                                        <option value="11">11年（132期）</option>
+                                        <option value="12">12年（144期）</option>
+                                        <option value="13">13年（156期）</option>
+                                        <option value="14">14年（168期）</option>
+                                        <option value="15">15年（180期）</option>
+                                        <option value="16">16年（192期）</option>
+                                        <option value="17">17年（204期）</option>
+                                        <option value="18">18年（216期）</option>
+                                        <option value="19">19年（228期）</option>
+                                        <option value="20">20年（240期）</option>
+                                        <option value="25">25年（300期）</option>
+                                        <option value="30" selected="selected">30年（360期）</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="ui-border-t">
+                                <label class="ui-label">还款方式</label>
+                                <div class="ui-form-item">
+                                    <div class="ui-radiobox-s fr" for="">
+                                        <input value="2" name="hkfs" id="debj" class="ui-radio-s" type="radio">
+                                        <label class="radiobox-s-status" for="debj"></label>
+                                        <span>等额本金</span>
+                                    </div>
+                                    <div class="ui-radiobox-s fr" for="">
+                                        <input value="1" name="hkfs" id="debx" checked="checked" class="ui-radio-s" type="radio">
+                                        <label class="radiobox-s-status" for="debx"></label>
+                                        <span>等额本息</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="ui-form-info ui-border-t">
+                                <p>最新商业贷款基准利率 4.9%；公积金贷款基准利率3.25%</p>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+                <div class="btn-warp">
+                    <a href="javascript:;" id="startCount" class="btn-orange-l">开始计算</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 计算结果 -->
+        <div id="calcResult" class="ui-box ui-border-tb" style="display: none;">
+            <div class="ui-box-hd ui-border-b">
+                <h2>您的账单</h2>
+                <p class="ui-txt" id="calcResultFDZE"></p>
+            </div>
+            <div class="ui-box-bd">
+                <ul class="loan-result" id="calcResultFields">
+                    <li><p>贷款期限</p><span id="dkqx"></span></li>
+                    <li><p>首月月供</p><span id="syyg"></span></li>
+                    <li><p>每月递减</p><span id="mydj"></span></li>
+                    <li><p>参考月供</p><span id="ckyg"></span></li>
+                    <li><p>合计利息</p><span id="hjlx"></span></li>
+                    <li><p>本息合计</p><span id="bxhj"></span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/loan-calc.js"></script>
+<script>
+    $(function(){
+        init();
+    });
+</script>
+{/block}
+
+
+

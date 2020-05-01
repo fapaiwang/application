@@ -1,0 +1,56 @@
+{extend file='public/layout' /}
+{block name='content'}
+<!--编辑禁止ip-->
+<div class="dialog_content">
+	<form id="info_form" action="{:url('Badip/editDo')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+			<th width="90">ip :</th>
+			<td>
+				<input type="text" class="input-text" name="ip" id="ip" value="{$info.ip}" size="30">
+			</td>
+		</tr>
+		<tr>
+			<th>解封时间 :</th>
+			<td><input type="text" name="expires" id="expires" onclick="myCalendar();" class="date" value="{if condition='$info.expires gt 0'}{:date('Y-m-d H:i:s',$info['expires'])}{else /}0{/if}" size="30"></td>
+		</tr>
+
+        <tr>
+			<th>状态 :</th>
+            <td>
+                <label><input type="radio" name="status" value="1" {if condition="$info['status'] eq 1"}checked="checked"{/if}> 启用</label>&nbsp;&nbsp;
+                <label><input type="radio" name="status" value="0" {if condition="$info['status'] eq 0"}checked="checked"{/if}> 禁用</label>
+            </td>
+        </tr>
+		<input type="hidden" name="id" value="{$info.id}">
+	</table>
+	</form>
+</div>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/js/plugins/formvalidator.js"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/plugins/jquery.ajax.form.js"></script>
+<script src="__PUBLIC__/js/calendar/WdatePicker.js"></script>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#ip").formValidator({onshow:'请填写ip或ip段',onfocus:'请填写ip或ip段'}).inputValidator({min:1,onerror:'请填写ip或ip段'}).defaultPassed();
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function myCalendar(id){
+		WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',el:id});
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

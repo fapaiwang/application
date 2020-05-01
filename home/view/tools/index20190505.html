@@ -1,0 +1,156 @@
+{extend name='public/layout'/}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/calculator.css">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位置：</a><a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt; <a href="javascript:void(0);">房贷计算器</a>
+        </div>
+    </div>
+<div class="calculator">
+    <div class="content clearfix">
+        <div class="infor">
+            <dl class="title">
+                <dt>房贷计算器</dt>
+                <dd>选择基本情况，帮您快速计算房贷</dd>
+            </dl>
+            <table class="tab">
+                <tbody>
+                <tr>
+                    <td>房款总额：</td>
+                    <td>
+                        <div class="box">
+                            <input value="300" name="total" id="total" type="text">
+                            <span class="unit">万</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>首付成数：</td>
+                    <td>
+                        <div class="box select">
+                            <a data-value="0.3" id="firstPayPercent" name="ltv">3成</a>
+                            <div class="unflod">
+                                <a data-value="0.1" name="ltv">1成</a>
+                                <a data-value="0.2" name="ltv">2成</a>
+                                <a data-value="0.3" name="ltv">3成</a>
+                                <a data-value="0.4" name="ltv">4成</a>
+                                <a data-value="0.5" name="ltv">5成</a>
+                                <a data-value="0.6" name="ltv">6成</a>
+                                <a data-value="0.7" name="ltv">7成</a>
+                                <a data-value="0.8" name="ltv">8成</a>
+                                <a data-value="0.9" name="ltv">9成</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>贷款类别：</td>
+                    <td>
+                        <div class="box select">
+                            <a data-value="pfa" id="loanType" name="type">公积金贷款</a>
+                            <div class="unflod">
+                                <a data-value="business" name="type">商业贷款</a>
+                                <a data-value="pfa" name="type">公积金贷款</a>
+                                <a data-value="mix" name="type">组合型贷款</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="display:none" id="tr-pfa">
+                    <td>公贷金额：</td>
+                    <td>
+                        <div class="box">
+                            <input value="" name="total-pfa" id="totalPfa" type="text">
+                            <span class="unit">万</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="display:none" id="tr-business">
+                    <td>商贷金额：</td>
+                    <td>
+                        <div class="box">
+                            <input value="" name="total-business" id="totalBusiness" type="text">
+                            <span class="unit">万</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="display:none" id="tr-business-rate">
+                    <td>商贷利率：</td>
+                    <td>
+                        <div class="equal">
+                            <div class="box select">
+                                <a data-value="1.0" id="businessDiscount" name="business-discount">无折扣</a>
+                                <div class="unflod">
+                                    <a data-value="1.0" name="business-discount">无折扣</a>
+                                    <a data-value="1.2" name="business-discount">1.2倍</a>
+                                    <a data-value="1.15" name="business-discount">1.15倍</a>
+                                    <a data-value="1.1" name="business-discount">1.1倍</a>
+                                    <a data-value="1.05" name="business-discount">1.05倍</a>
+                                    <a data-value="0.95" name="business-discount">95折</a>
+                                    <a data-value="0.9" name="business-discount">9折</a>
+                                    <a data-value="0.85" name="business-discount">85折</a>
+                                    <a data-value="0.8" name="business-discount">8折</a>
+                                    <a data-value="0.75" name="business-discount">75折</a>
+                                    <a data-value="0.7" name="business-discount">7折</a>
+                                </div>
+                            </div>
+                            <div class="to">=</div>
+                            <div class="box">
+                                <input value="4.90" name="business-rate" id="businessRate" type="text">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>贷款期限：</td>
+                    <td>
+                        <div class="box select">
+                            <a data-value="360" id="loanPeriod" name="loan-period">30年（360期）</a>
+                            <div class="unflod"><a data-value="12" name="loan-period">1年（12期）</a><a data-value="24" name="loan-period">2年（24期）</a><a data-value="36" name="loan-period">3年（36期）</a><a data-value="48" name="loan-period">4年（48期）</a><a data-value="60" name="loan-period">5年（60期）</a><a data-value="72" name="loan-period">6年（72期）</a><a data-value="84" name="loan-period">7年（84期）</a><a data-value="96" name="loan-period">8年（96期）</a><a data-value="108" name="loan-period">9年（108期）</a><a data-value="120" name="loan-period">10年（120期）</a><a data-value="132" name="loan-period">11年（132期）</a><a data-value="144" name="loan-period">12年（144期）</a><a data-value="156" name="loan-period">13年（156期）</a><a data-value="168" name="loan-period">14年（168期）</a><a data-value="180" name="loan-period">15年（180期）</a><a data-value="192" name="loan-period">16年（192期）</a><a data-value="204" name="loan-period">17年（204期）</a><a data-value="216" name="loan-period">18年（216期）</a><a data-value="228" name="loan-period">19年（228期）</a><a data-value="240" name="loan-period">20年（240期）</a><a data-value="252" name="loan-period">21年（252期）</a><a data-value="264" name="loan-period">22年（264期）</a><a data-value="276" name="loan-period">23年（276期）</a><a data-value="288" name="loan-period">24年（288期）</a><a data-value="300" name="loan-period">25年（300期）</a><a data-value="312" name="loan-period">26年（312期）</a><a data-value="324" name="loan-period">27年（324期）</a><a data-value="336" name="loan-period">28年（336期）</a><a data-value="348" name="loan-period">29年（348期）</a><a data-value="360" name="loan-period">30年（360期）</a></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>还款方式：</td>
+                    <td>
+                        <label class="" data-value="0" name="repay-method"><span></span>等额本息</label>
+                        <label data-value="1" name="repay-method" class="on"><span></span>等额本金</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="tip">温馨提示：最新公积金贷款基准利率3.25%；商业贷款利率为4.90%</p>
+        </div>
+        <button data-rate-business-range1and5="4.75" data-rate-business-lessthan1="4.35" data-rate-business="4.90" data-rate-pfa-lessthan5="2.75" data-rate-pfa="3.25" id="buttonCal" class="work">开始 计算</button>
+        <div id="result-panel" style="" class="result">
+            <dl class="title">
+                <dt>您的账单</dt>
+                <dd>房款总额：约<span id="houseTotal">300</span>万元</dd>
+            </dl>
+            <ul class="msg">
+                <li class="gr">首付金额：<span id="firstPay">90.00</span>万元</li>
+                <li class="or">贷款金额：<span id="loanTotal">210.00万（公贷）</span></li>
+                <li class="bl">偿还利息：<span id="payInterest">102.66万（公贷）</span></li>
+                <!-- 等额本息 -->
+                <li style="display: none;" class="bill">
+                    参考月供：<span id="monthPay" class="mcolor">元（公贷）</span>
+                </li>
+                <!-- /等额本息 -->
+
+                <!-- 等额本金 -->
+                <li style="" class="bill">
+                    首月还款：<span id="monthPayFirst" class="mcolor">11520.83元（公贷）</span><span class="line"></span>
+                    每月递减：<span id="monthPayDecrease" class="mcolor">15.80元（公贷）</span>
+                </li>
+                <!-- /等额本金 -->
+
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<script src="__JS__/loan.min.js"></script>
+{/block}

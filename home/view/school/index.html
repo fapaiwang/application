@@ -1,0 +1,182 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!-- 搜索栏 S -->
+<div class="searBar ">
+    <div class="comWidth clearfix">
+        <div class="sear_box fl">
+            <form action="{:url('School/index')}">
+                <div class="ipt_area fl">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入学校名称" data-uri="{:url('Ajax/searchSchool')}" class="ipt">
+                    <span class="placeholder">输入学校名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area fl">
+                    <input type="submit" class="sbm_btn" value="搜索">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 搜索栏 E -->
+<!-- 列表 S-->
+<div class="cm_house">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+            <a href="javascript:void(0);">学校</a>
+        </div>
+        <!-- 页面标识 E-->
+        <!-- 筛选栏 S -->
+        <div class="seleBar">
+            <div class="box">
+                <div class="item clearfix">
+                    <h3>区域:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('School/index','area',$param,0)}" {if condition="$search.area eq $cityId"}class="active"{/if}">全部</a></li>
+                        {volist name='area' id='vo'}
+                        <li><a href="{:getUrl('School/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>类型:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('School/index','type',$param,0)}" {if condition='$search.type eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='type' id='vo'}
+                        <li><a href="{:getUrl('School/index','type',$param,$key)}" {if condition='$search.type eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选栏 E -->
+        <div class="main clearfix">
+            <!-- 列表 S -->
+            <div class="houseList_wrap leftArea cm_leftArea">
+                <div class="head clearfix">
+                    <div class="tit fl">
+                        <h2><a href="javascript:;" class="active">全部学校</a></h2>
+                    </div>
+                </div>
+                <div class="school_lists">
+                    <ul class="clearfix">
+                        {volist name='lists' id='vo' empty='暂无数据'}
+                        <li>
+                        <a href="{:url('School/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+                            <img src="__STATIC__/images/nopic.jpg" data-original="{:thumb($vo['img'],180,130)}" class="fl lazy" alt="{$vo.title}">
+                            <div class="fl school_desc">
+                                <h2>{$vo.title}</h2>
+                                <div class="school_text">
+                                    <span>{:getLinkMenuName(22,$vo.type)}</span>
+                                </div>
+                                <div class="school_text">
+                                    [{:getCityName($vo.city,'',1)}] &nbsp;{$vo.address}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 列表 E -->
+            <!-- 右边内容 S -->
+            <div class="cm_rightArea rightArea">
+                <!-- 热门学校 S -->
+                <div class="rcmd_house new_house  mt_73">
+                    <div class="title">
+                        <h3>热门学校</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="school_hot clearfix">
+                        <ul>
+                            {php}$where_str = "status=1";$city_all_child && $where_str.= " and city in (".$city_all_child.")";{/php}
+                            {fang:lists table='school' where='$where_str' order='hits desc' field='id,title,type' limit='10' id='data'}
+                            <li>
+                                <a href="{:url('School/detail',['id'=>$data['id']])}" target="_blank" title="{$data.title}"><span class="fr">{:getLinkMenuName(22,$data.type)}</span>{$data.title}</a>
+                            </li>
+                            {/fang:lists}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 热门学校 E -->
+                <!-- 推荐楼盘 S -->
+                <div class="rcmd_build mt_25">
+                    <div class="title">
+                        <h3>学区房</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        {volist name='school_house' id='vo'}
+                        <li class="clearfix">
+                            <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
+                                <div class="fl l_img">
+                                    <img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" width="120" height="80" alt="{$vo.title}">
+                                </div>
+                                <div class="fr r_con">
+                                    <p class="name">{$vo.title}</p>
+                                    <p class="address">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</p>
+                                    <p class="price">{empty name='vo.price'}<b>面议</b>{else /}<b>{$vo.price}</b>{:config('filter.second_price_unit')}{/empty}</p>
+                                </div>
+                            </a>
+                        </li>
+                        {/volist}
+                    </div>
+                </div>
+                <!-- 推荐楼盘 E -->
+            </div>
+            <!-- 右边内容 E -->
+        </div>
+    </div>
+</div>
+
+<!-- 楼盘列表 S-->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    });
+</script>
+{/block}

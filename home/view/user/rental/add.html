@@ -1,0 +1,342 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="content add_house">
+    <form class="layui-form" id="info_form" action="{:url('user.send/saveRental')}" method="post" enctype="multipart/form-data">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">发布出租房</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>所属小区 </label>
+                            <div class="layui-input-inline">
+                                <input type="hidden" name="estate_id" id="estate_id" value="">
+                                <input type="text" name="estate_name" lay-verify="estate_id" id="estate_name"  class="layui-input" placeholder="锦锈花园">
+                            </div>
+                            <div class="layui-input-inline" style="width:100px;">
+                                <a href="javascript:;" data-uri="{:url('Ajax/ajaxGetEstate')}" id="select_estate" class="layui-btn">选择小区</a>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>所属区域</label>
+                            <input type="hidden" name="city" id="J_city_id" value="" />
+                            <div class="layui-input-block">
+                                <select id="J_city_select" class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('Ajax/ajaxGetCitychilds')}" data-selected="">
+                                    <!--[if lt IE 9]><option value=""></option><![endif]-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>房源名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="title" lay-verify="title" placeholder="房源名称" value="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>房型</label>
+                            <div class="layui-input-inline" style="width:50px;">
+                                <input type="text" name="room"  lay-verify="room" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">室</div>
+                            <div class="layui-input-inline" style="width:50px;">
+                                <input type="text" name="living_room"  lay-verify="living_room" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厅</div>
+                            <!--div class="layui-input-inline" style="width:50px;">
+                                <input type="text" name="kitchen"  lay-verify="kitchen" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厨</div-->
+                            <div class="layui-input-inline" style="width:50px;">
+                                <input type="text" name="toilet"  lay-verify="toilet" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">卫</div>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label"><span class="layui-form-alert">*</span>面积 </label>
+                            <div class="layui-input-inline" style="width:95px;">
+                                <input type="text" class="layui-input" lay-verify="acreage" id="acreage" name="acreage" placeholder="122"  autocomplete="off" value="" >
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡ 月租</div>
+                            <div class="layui-input-inline" style="width:90px;">
+                                <input type="text" class="layui-input" lay-verify="price" id="price" name="price" placeholder="122"  autocomplete="off" value="" >
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">{:config('filter.rental_price_unit')}</div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">朝向 </label>
+                            <div class="layui-input-inline">
+                                {:getLinkMenu(4,'orientations')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">房源地址 </label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" name="address" id="address" placeholder="海口市龙华区">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">楼层 </label>
+                            <div class="layui-input-inline" style="width:100px;">
+                                {:getLinkMenu(7,'floor','select',38)}
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:20px;"> 共</div>
+                            <div class="layui-input-inline" style="width:100px;">
+                                <input type="text" class="layui-input" name="total_floor" placeholder="20">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"> 层</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">地图坐标 </label>
+                            <div class="layui-input-inline" style="width:200px;">
+                                <input type="text" class="layui-input" name="map" id="map" placeholder="115.345,22.1349"  autocomplete="off" value="" >
+                            </div>
+                            <div class="layui-input-inline" style="width:95px;">
+                                <button type="button" id="mark" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn layui-btn-primary">标注位置</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">装修情况 </label>
+                            <div class="layui-input-block">
+                                {:getLinkMenu(8,'renovation','radio')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系人 </label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contacts[contact_name]" id="contact_name" value="{$userInfo.nick_name}" placeholder="联系人" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系电话 </label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contacts[contact_phone]" id="contact_phone" placeholder="联系电话" value="{$userInfo.mobile}" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">租赁方式 </label>
+                            <div class="layui-input-inline">
+                                {:getLinkMenu(10,'rent_type')}
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">支付方式 </label>
+                            <div class="layui-input-inline">
+                                {:getLinkMenu(11,'pay_type')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-block">
+                            <label class="layui-form-label">房间配套 </label>
+                            <div class="layui-input-block">
+                                {:getLinkMenu(12,'supporting','checkbox')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-block">
+                            <label class="layui-form-label">物业类型 </label>
+                            <div class="layui-input-block">
+                                {:getLinkMenu(9,'house_type','radio')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-block">
+                            <label class="layui-form-label">特色标签 </label>
+                            <div class="layui-input-block">
+                                <textarea name="tags" id="tags" placeholder="多个标签用','分隔" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-block">
+                            <label class="layui-form-label">有效期 </label>
+                            <div class="layui-input-block">
+                                <select name="timeout" id="timeout">
+                                    {volist name=':getHouseTimeOut()' id='vo'}
+                                    <option value="{$key}" {if condition="$key eq 7"}selected="selected"{/if}>{$vo}</option>
+                                    {/volist}
+                                </select>
+                                <span>过期房源不会展示</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">缩略图</label>
+                        <div class="layui-input-block">
+                            <div class="layui-upload">
+                                <input type="hidden" name="img" id="img_txt">
+                                <button type="button" class="layui-btn layui-btn-primary" id="img">上传图片</button>
+                                <div id="img_preview">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">房源图片</label>
+                        <div class="layui-input-block">
+                            <div class="layui-upload">
+                                <script id="uploadpic" name="uploadpic" type="text/plain"></script>
+                                <button type="button" class="layui-btn layui-btn-primary" onclick="upImage();">选择图片</button>
+                                <div id="imageList">
+                                    <ul class="list clearfix">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">房源介绍</label>
+                        <div class="layui-input-block">
+                            <script id="info" name="info" type="text/plain"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">&nbsp;</label>
+            <button type="button" lay-submit="" class="layui-btn btn-submit layui-btn-danger w240">提交</button>
+        </div>
+    </form>
+
+</div>
+{:hook('ueditor',['id'=>'info','width'=>'100%','height'=>220,'mini'=>true,'upload'=>true])}
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element','upload','linkmenu'], function(){
+        var $ = layui.jquery,element = layui.element,layer = layui.layer,form = layui.form,upload = layui.upload,menu = layui.linkmenu;
+        $(".J_city_select").select({field : 'J_city_id',id : 'J_city_select'});
+
+//普通图片上传
+        upload.render({
+            elem: '#img'
+            ,auto:false
+            ,choose: function(obj){
+                if(!IEVersion())
+                {
+                    $('#img_preview').html($('.layui-upload-file').val());
+                }else{
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        var img = "<img class='layui-upload-img' src='"+result+"' width='100'/>";
+                        $('#img_preview').html(img); //图片链接（base64）
+                    });
+                }
+
+            }
+            ,done: function(res){console.log(res);
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    var img = "<img class='layui-upload-img' src='"+res.data+"' width='100'/><a href='javascript:;' data-text='img_txt' data-src='"+res.data+"' class='deleteImg layui-btn layui-btn-xs layui-btn-danger'>删除</a>";
+                    $("#img_txt").val(res.data);
+                    $("#img_preview").html(img);
+                }
+                //上传成功
+            }
+
+        });
+        $('.btn-submit').on('click',function(){
+            var title = $("input[lay-verify='title']"),
+                    estate_name = $("input[lay-verify='estate_id']"),
+                    acreage     = $("input[lay-verify='acreage']"),
+                    price       = $("input[lay-verify='price']");
+            if(title.val().length == 0)
+            {
+                layer.msg('请填写房源标题',{icon:5});
+                title.focus();
+                return false;
+            }else if(estate_name.val().length == 0){
+                layer.msg('请填写小区名称',{icon:5});
+
+                return false;
+            }else if(!/\d+$/.test(acreage.val())){
+                layer.msg('面积只能为数字',{icon:5});
+                acreage.focus();
+                return false;
+            }else if(!/\d+$/.test(price.val())){
+                layer.msg('价格只能为数字',{icon:5});
+                price.focus();
+                return false;
+            }else{
+                layer.load(1);
+                $("#info_form").submit();
+            }
+        });
+        $("#address").on('blur',function(){
+            var city = $("#J_city_id").val();
+            var address = $(this).val(),url = "{:addon_url('map://Map/getLocationByAddress')}";
+            var param = {
+                city : city,
+                address : address
+            };
+            $.get(url,param,function(res){
+                if(res.code == 1)
+                {
+                    $("#map").val(res.data.map);
+                }
+            });
+        });
+        $("#mark").on('click',function(){
+            var url = $(this).data('uri');
+            var map = $('#map').val();
+            var city = $("#J_city_id").val();console.log(city);
+            if(!map)
+            {
+                if(!city)
+                {
+                    layer.msg('请选择城市',{icon:2});
+                    return false;
+                }
+            }
+            url += '?map='+map+'&city='+city;
+            layer.open(
+                    {
+                        type : 2,
+                        title : '地图标注',
+                        area : ['100%','100%'],
+                        shade : 0.2,
+                        content : url,
+                        iframeAuto:true
+                    }
+            );
+        });
+        $("#select_estate").on('focus',function(){
+            layer.open({
+                type : 2,
+                title : '选择小区',
+                area : ['500px','500px'],
+                shade : 0.2,
+                content : $(this).data('uri'),
+                iframeAuto:true,
+                end : function(){
+                    var select = $("#J_city_select");
+                    select.html('');
+                    select.nextAll().remove();
+                    select.select({field : 'J_city_id',id : 'J_city_select'});
+                }
+            });
+        });
+    });
+</script>
+{/block}

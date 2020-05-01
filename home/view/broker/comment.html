@@ -1,0 +1,157 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!-- 内容 S-->
+<div class="cm_house agent_detail">
+    <div class="comWidth ">
+        <div class="main clearfix">
+            <div class="agent_info cm_rightArea fl">
+                {include file='broker/userinfo' /}
+            </div>
+            <!-- 评论列表 S -->
+            <div class="houseList_wrap fr cm_leftArea">
+                <div class="head clearfix">
+                    {include file='broker/nav' /}
+                </div>
+                <div class="comment-box">
+                    <div class="comment-head clearfix">
+                        <div class="comment-point">
+                            <span>综合评分</span>
+                            <span>
+                                <i class="on" data-val="1"></i>
+                                <i class="on" data-val="2"></i>
+                                <i class="on" data-val="3"></i>
+                                <i class="on" data-val="4"></i>
+                                <i class="on" data-val="5"></i>
+                            </span>
+                        </div>
+                        <div class="comment-tags">
+                            <span>服务印象</span>
+                            <span>
+                                {volist name='impression' id='vo'}
+                                <i data-id="{$vo.id}">{$vo.name}</i>
+                                {/volist}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        <input type="hidden" id="broker" value="{$brokerInfo.id}">
+                        <input type="hidden" id="point" value="5"/>
+                        {:token()}
+                        <textarea name="content" id="content" placeholder="请填写评论内容"></textarea>
+                    </div>
+                    <div class="comment-btn">
+                        <button type="button" class="send-btn" data-uri="{:url('Api/sendComment')}">发表评论</button>
+                    </div>
+
+                </div>
+                <div class="list_con comment_list" data-uri="{:url('Api/attitude')}">
+                    <ul class="clearfix">
+                        {volist name='lists' id='vo'}
+                        <li>
+                            <div class="user_toux fl">
+                                <img src="{:getAvatar($vo['user_id'],90)}" width="60" height="60" alt="{$vo.user_name}">
+                            </div>
+                            <div class="r_con fl">
+                                <div class="hd clearfix">
+                                    <p class="name fl">{$vo.user_name}</p>
+                                    <p class="time fr">{$vo.create_time|date='Y-m-d H:i'}</p>
+                                </div>
+                                <div class="con">
+                                    <p>{$vo.content}</p>
+                                </div>
+                                <div class="ft clearfix">
+                                    <span style="float:right;">
+                                        <span class="zan_btn" data-type="1" data-id="{$vo.id}"><span class="num">{$vo.good}</span></span>
+                                        <span class="cai_btn" data-type="2" data-id="{$vo.id}"><span class="num">{$vo.bad}</span></span>
+                                    </span>
+                                    <span class="broker-tags">
+                                        {php}$c_tags=array_filter(explode(',',$vo['tags']));{/php}
+                                        {volist name='c_tags' id='t'}
+                                        <i>{:getLinkMenuName(13,$t)}</i>
+                                        {/volist}
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 评论列表 E -->
+        </div>
+    </div>
+</div>
+
+<!-- 内容 S-->
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function(){
+       $('.comment-tags i').on('click',function(){
+           $(this).toggleClass('on');
+       });
+        $('.comment-point i').on('click',function(){
+            var index = $(this).index(),point = $(this).data('val');
+            $('#point').val(point);
+            $(this).parent().find('i:lt('+(index+1)+')').addClass('on');
+            $(this).parent().find('i:gt('+index+')').removeClass('on');
+        });
+        $('.send-btn').on('click',function(){
+            var point = $('#point').val(),broker_id = $('#broker').val(),content = $('#content').val(),url = $(this).data('uri');
+            var tags  = $('.comment-tags i.on'),tags_id = '',token = $("input[name='__token__']").val();
+            if($.trim(content).length == 0)
+            {
+                layer.msg('请填写评论内容',{icon:2});
+                return false;
+            }
+            tags.each(function(i,o){
+                tags_id += $(o).data('id')+',';
+            });
+            tags_id = tags_id.substring(0,tags_id.length-1);
+            $.post(url,{point:point,broker_id:broker_id,tags_id:tags_id,content:content,token:token},function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg,{icon:1});
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
+        $('.zan_btn,.cai_btn').on('click',function(){
+            var type = $(this).data('type'),id = $(this).data('id'),url = $('.comment_list').data('uri'),status = 1,
+                    numObj  = $(this).find('.num'),num = parseInt(numObj.text());
+            if($(this).hasClass('on'))
+            {
+                status = 0;
+                $(this).removeClass('on');
+            }else{
+                $(this).addClass('on');
+            }
+            var param = {
+                type : type,
+                id   : id,
+                status : status
+            };
+            $.get(url,param,function(result){
+                if(result.code == 1)
+                {
+                    if(status == 1)
+                    {
+                        numObj.text(num+1);
+                        layer.msg(result.msg,{icon:1});
+                    }else{
+                        numObj.text(num-1);
+                    }
+
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
+    });
+</script>
+{/block}

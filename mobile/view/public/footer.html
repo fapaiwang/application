@@ -1,0 +1,26 @@
+<!-- footer S-->
+<footer class="footer">
+    <p class="link">
+        {volist name='menu' id='vo'}
+        {if condition='$vo.pos eq 2'}
+        {notempty name='vo.url'}
+        {php}$url = $vo['url'];{/php}
+        {else /}
+        {notempty name='vo.alias'}
+        {php}
+        $url=url($vo['model'].'/'.$vo['action'],['cate'=>$vo['alias']]);
+        {/php}
+        {else /}
+        {php}
+        $url=url($vo['model'].'/'.$vo['action']);
+        {/php}
+        {/notempty}
+        {/notempty}
+        <a href="{$url}">{$vo.title}</a>
+        {/if}
+        {/volist}
+    </p>
+    <p class="copy">&copy;{:date('Y')}-{$site.title}版权所有  {$site.icp|raw} </p>
+</footer>
+{$site.mobile_js|raw}
+<!-- footer E-->

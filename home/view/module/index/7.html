@@ -1,0 +1,172 @@
+<!-- 新房 S -->
+<div class="new_house cm_wrap">
+    <div class="head clearfix">
+        <h2 class="fl margin-right-120">新房</h2>
+        <ul class="r_nav fl" id="tab-1">
+            <li class="active">
+                <a href="{:url('House/index')}?discount=1" target="_blank" title="优惠楼盘">优惠楼盘</a>
+                <div class="b_l"></div>
+            </li>
+            <li>
+                <a href="{:url('House/index')}?sort=5" target="_blank" title="人气楼盘">人气楼盘</a>
+                <div class="b_l"></div>
+            </li>
+         <li>
+  <a href="{:url('Group/index')}" target="_blank" title="新房团购">新房团购</a>
+                <div class="b_l"></div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="content clearfix">
+        <!-- 最近开盘 S-->
+        <div class="l_box lastly_open fl">
+            <h3>近期开盘</h3>
+            <ul class="list" style="max-height:130px;">
+                <li class="item">
+                    <h4 class="tit">热盘推荐</h4>
+                    <ol>
+                        {volist name='recommon' id='vo'}
+                        <li class="clearfix">
+                            <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" class="name fl">{$vo.title}</a>
+                            <span class="price fr">{$vo.price}{$vo.unit}</span>
+                        </li>
+                        {/volist}
+
+                    </ol>
+                    <div class="l_l">
+                        <div class="c"></div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list">
+
+                {volist name='neareast_house' id='val'}
+                <li class="item">
+                    <h4 class="time">{$key}</h4>
+                    <ol>
+                        {volist name='val' id='vo'}
+                        <li class="clearfix">
+                            <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" class="name fl">{$vo.title}</a>
+                            <span class="price fr">{$vo.price}{$vo.unit}</span>
+                        </li>
+                        {/volist}
+
+                    </ol>
+                    <div class="l_l">
+                        <div class="c"></div>
+                    </div>
+                </li>
+                {/volist}
+
+            </ul>
+        </div>
+        <!-- 最近开盘 E-->
+        <!-- 楼盘列表 S -->
+        <div class="c_box build_list fl">
+            <div id="house-content-box">
+                <ul class="clearfix">
+                    {volist name='group' id='vo'}
+                    <li>
+                    <a href="{:url('Group/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+                        <span class="img">
+                            <img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+                            <span class="img_ft">
+                                <span class="txt_box clearfix">
+                                    <span class="tit fl">{$vo.title}</span>
+                                </span>
+                                <span class="tit_bg"></span>
+                            </span>
+                        </span>
+                        <span class="ft clearfix">
+                            <span class="fl price">{$vo.price}{:config('filter.house_price_unit')}</span>
+                        </span>
+                        <span class="ft clearfix nowarp">
+							截止时间：{$vo.end_time|date='Y-m-d'}
+						</span>
+                    </a>
+                </li>
+                    {/volist}
+                </ul>
+                <ul class="clearfix" style="display:none;">
+                    {volist name='discount_house' id='vo'}
+                    <li>
+                        <a href="{:url('House/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+                        <span class="img">
+                            <img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+                            <span class="img_ft">
+                                <span class="txt_box clearfix">
+                                    <span class="tit fl">{$vo.title}</span>
+                                </span>
+                                <span class="tit_bg"></span>
+                            </span>
+                        </span>
+                        <span class="ft clearfix">
+                            <span class="fl price">{$vo.price}{:config('filter.house_price_unit')}</span>
+                        </span>
+                        <span class="ft clearfix nowarp">
+							{$vo.discount}
+						</span>
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+                <ul class="clearfix" style="display:none;">
+                    {volist name='hot_house' id='vo'}
+                    <li>
+                        <a href="{:url('House/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">
+                        <span class="img">
+                            <img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+                            <span class="img_ft">
+                                <span class="txt_box clearfix">
+                                    <span class="tit fl">{$vo.title}</span>
+                                </span>
+                                <span class="tit_bg"></span>
+                            </span>
+                        </span>
+                        <span class="ft clearfix">
+                            <span class="fl area">{:getCityName($vo['city'],'-',2)}</span>
+                            <span class="fr price">{$vo.price}{$vo.unit}</span>
+                        </span>
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <!-- 楼盘列表 E -->
+        <!-- 房产资讯 S -->
+        <div class="r_box house_news fr">
+            <div class="hd clearfix">
+                <h3>房产资讯</h3>
+                <a href="{:url('News/index')}" title="房产资讯"  target="_blank" class="more">更多 &gt;</a>
+            </div>
+            <div class="list">
+                <ul>
+                    <li>
+                        {volist name='house_news' id='vo' length='1'}
+                        <h4><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">{$vo.title}</a></h4>
+                        {/volist}
+                        <ol>
+                            {volist name='house_news' id='vo' offset='1' length='6'}
+                            <li><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">&gt; {$vo.title}</a></li>
+                            {/volist}
+                        </ol>
+                    </li>
+                    <li>
+                        {volist name='house_news' id='vo' offset='7' length='1'}
+                        <h4><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">{$vo.title}</a></h4>
+                        {/volist}
+                        <ol>
+                            {volist name='house_news' id='vo' offset='8'}
+                            <li><a href="{:url('News/detail',['id'=>$vo['id']])}"  target="_blank" title="{$vo.title}">&gt; {$vo.title}</a></li>
+                            {/volist}
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 房产资讯 E -->
+    </div>
+</div>
+<!-- 新房 E -->

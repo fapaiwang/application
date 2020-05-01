@@ -1,0 +1,253 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!-- 搜索栏 S -->
+<div class="searBar ">
+    <div class="comWidth clearfix">
+        <div class="sear_box fl">
+            <form action="{:url('Estate/index')}">
+                <div class="ipt_area fl">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称" data-uri="{:url('Ajax/searchEstate')}" class="ipt">
+                    <span class="placeholder">输入小区名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area fl">
+                    <input type="submit" class="sbm_btn" value="搜索">
+                </div>
+            </form>
+        </div>
+        <a href="{:url('Map/estate')}" class="map_btn fr">地图找房</a>
+    </div>
+</div>
+<!-- 搜索栏 E -->
+<!-- 楼盘列表 S-->
+<div class="cm_house">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+            <a href="javascript:void(0);">小区</a>
+        </div>
+        <!-- 页面标识 E-->
+        <!-- 筛选栏 S -->
+        <div class="seleBar">
+            <div class="box">
+                <div class="item clearfix">
+                    <h3>区域:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Estate/index','area',$param,0)}" {if condition="$search.area eq $cityId"}class="active"{/if}">全部</a></li>
+                        {volist name='area' id='vo'}
+                        <li><a href="{:getUrl('Estate/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='rading'}
+                <div class="item clearfix">
+                    <h3>商圈:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Estate/index','area',$param,$param['area'])}" {if condition='$search.rading eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='rading' id='vo'}
+                        <li><a href="{:getUrl('Estate/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/notempty}
+                <div class="item clearfix">
+                    <h3>均价:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Estate/index','price',$param,0)}" {if condition='$search.price eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name=':getEstatePrice()' id='vo'}
+                        <li><a href="{:getUrl('Estate/index','price',$param,$key)}" {if condition='$search.price eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                
+                <div class="item clearfix">
+                    <h3>类型:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Estate/index','type',$param,0)}" {if condition='$search.type eq 0'}class="active"{/if}">全部</a></li>
+                        {volist name='house_type' id='vo'}
+                        <li><a href="{:getUrl('Estate/index','type',$param,$key)}" {if condition='$search.type eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选栏 E -->
+        <div class="main clearfix">
+            <!-- 房子列表 S -->
+            <div class="houseList_wrap leftArea cm_leftArea">
+                <div class="head clearfix">
+                    <div class="tit fl">
+                        <h2><a href="javascript:;" class="active">全部小区</a></h2>
+                    </div>
+                    <div class="tab fr">
+                        <ul>
+                            <li><a href="{:getUrl('Estate/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active"{/if}>默认排序</a></li>
+                            {if condition='$search.sort eq 1'}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,2)}" class="active up">均价</a></li>
+                            {elseif condition='$search.sort eq 2'}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,1)}" class="active down">均价</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,1)}">均价</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 3'}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,4)}" class="active down">人气</a></li>
+                            {elseif condition='$search.sort eq 4'}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,3)}" class="active up">人气</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Estate/index','sort',$param,3)}">人气</a></li>
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+                <div class="list_con">
+                    <ul class="clearfix">
+                        {volist name='lists' id='vo' empty='暂无数据'}
+                        <li>
+
+                                <span class="l_img fl">
+                                    <a href="{:url('Estate/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+                                        <img src="__STATIC__/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}">
+                                    </a>
+                                </span>
+                                <span class="r_con fr">
+                                    <h3>
+                                        <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                            {$vo.title}
+                                        </a>
+                                    </h3>
+                                    <p><span class="info">{:getLinkMenuName(9,$vo['house_type'])}</span><span class="l">|</span><span class="info">{$vo.years}年</span><span class="l">|</span><span class="info">最近成交{$vo.complate_num}套</span>
+                                    <p>
+                                        <span class="tit"></span>
+                                        <span class="address">{$vo.address}</span>
+                                    </p>
+                                    <span class="ft_con clearfix">
+                                        小区拍卖房源量（<a href="{:url('Second/index',['estate_id'=>$vo['id']])}" target="_blank"><b>{$vo.second_total}</b></a>）套
+                                        <!-- 在租房源（<a href="{:url('Rental/index',['estate_id'=>$vo['id']])}" target="_blank"><b>{$vo.rental_total}</b></a>）套 -->
+                                    </span>
+                                    <span class="price">
+                                        <h5><strong>{$vo.price}</strong>{:config('filter.second_price_unit')}</h5>
+                                    </span>
+                                </span>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 房子列表 E -->
+            <!-- 右边内容 S -->
+            <div class="cm_rightArea rightArea">
+                <!-- 最新房源 S -->
+                <div class="rcmd_house new_house  mt_73">
+                    <div class="title">
+                        <h3>最新房源</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="clearfix">
+                            {php}$where_str = "status=1";$city_all_child && $where_str.= " and city in (".$city_all_child.")";{/php}
+                            {fang:lists table='second_house' where='$where_str' order='create_time desc' field='id,title,img,estate_name,price,room,living_room,acreage' limit='3' id='data'}
+                            <li>
+                                <a href="{:url('Second/detail',['id'=>$data['id']])}"  target="_blank" title="{$data.title}">
+                                    <div class="img">
+                                        <img src="{$data.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$data.title}">
+                                    </div>
+                                    <div class="con">
+                                        <div class="row clearfix">
+                                            <p class="name fl">{$data.estate_name}</p>
+                                            <p class="price fr">{$data.price|raw}</p>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <p class="type fl">{$data.room}室{$data.living_room}厅</p>
+                                            <p class="area fr">{$data.acreage}{:config('filter.acreage_unit')}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            {/fang:lists}
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 最新房源 E -->
+                <!-- 推荐楼盘 S -->
+                <div class="rcmd_build mt_25">
+                    <div class="title">
+                        <h3>推荐楼盘</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="con_box">
+                        <ul class="list">
+                            {volist name='position' id='vo'}
+                            <li class="clearfix">
+                                <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
+                                    <div class="fl l_img">
+                                        <img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" width="120" height="80" alt="{$vo.title}">
+                                    </div>
+                                    <div class="fr r_con">
+                                        <p class="name">{$vo.title}</p>
+                                        <p class="address">{:getCityName($vo['city'])}</p>
+                                        <p class="price"><b>{$vo.price}</b>{if condition="$vo.price gt 0"}{$vo.unit}{/if}</p>
+                                    </div>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 推荐楼盘 E -->
+            </div>
+            <!-- 右边内容 E -->
+        </div>
+    </div>
+</div>
+
+<!-- 楼盘列表 S-->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                <em>{{d[i].price}}</em>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    });
+</script>
+{/block}

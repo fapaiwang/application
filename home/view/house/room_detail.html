@@ -1,0 +1,113 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">户型详细</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="con_wrap comWidth clearfix">
+        <div class="houseType_detail">
+            <ul class="tab_nav clearfix">
+                <li><a href="{:url('House/room',['house_id'=>$info['id']])}" {if condition='$room eq 0'}class="active"{/if}>全部（<span id="total">0</span>）</a></li>
+                {volist name='room_cate' id='vo'}
+                <li><a href="{:url('House/room',['house_id'=>$info['id'],'room'=>$vo['room']])}" {if condition='$room eq $vo.room'}class="active"{/if}>{$vo.room}室(<span class="room-cate">{$vo.total}</span>)</a></li>
+                {/volist}
+            </ul>
+            <div class="tab_scroll clearfix">
+                <a class="sPrev" href="javascript:void(0)">←</a>
+                <div class="scroll_wrap">
+                    <ul>
+                        {volist name='room_list' id='vo'}
+                        <li>
+                            <a {if condition='$vo.id eq $room_info.id'}class="active"{/if} href="{:url('House/roomDetail',['id'=>$vo['id']])}">
+                                <p>{$vo.room}室{$vo.living_room}厅{$vo.toilet}卫</p>
+                                <p>{$vo.acreage}㎡</p>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <a class="sNext" href="javascript:void(0)">→</a>
+            </div>
+            <div class="mian clearfix">
+                <div class="bigImg_slide fl">
+                    <ul class="pic">
+                        <li>
+                            <a href="{$room_info.img}" target="_blank" title="{$room_info.title}"><img src="/static/images/nopic.jpg" data-original="{$room_info.img}" class="lazy" alt="{$room_info.title}"/></a>
+                        </li>
+                    </ul>
+                    <a class="prev" href="javascript:void(0)"></a>
+                    <a class="next" href="javascript:void(0)"></a>
+                </div>
+                <div class="info_box fr">
+                    <ul class="info_list clearfix">
+                        <li>
+                            <span class="tit">均价：</span>
+                            <span class="txt"><strong>{$info.price}</strong>{$info.unit}</span>
+                        </li>
+                        <li>
+                            <span class="tit">售价：</span>
+                            <span class="txt"><strong>{$room_info.price}</strong>万</span>
+                        </li>
+                        <li>
+                            <span class="tit">朝向：</span>
+                            <span class="txt">{:getLinkMenuName(4,$room_info['orientation'])}</span>
+                        </li>
+                        <li>
+                            <span class="tit">居室：</span>
+                            <span class="txt">{$room_info.room}室{$room_info.living_room}厅{$room_info.kitchen}厨{$room_info.toilet}卫</span>
+                        </li>
+                        <li>
+                            <span class="tit">面积：</span>
+                            <span class="txt">{$room_info.acreage}㎡</span>
+                        </li>
+                    </ul>
+                    <div class="hotline">
+                        <p class="tit">购房热线</p>
+                        <p class="num">{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'}转{$info.sale_phone.extension}{/notempty}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.2.1.1.js"></script>
+<script>
+    jQuery(".tab_scroll").slide({
+        mainCell:"ul",
+        delayTime:100,
+        vis:9,
+        scroll:4,
+        effect:"left",
+        autoPage:true,
+        prevCell:".sPrev",
+        nextCell:".sNext",
+        pnLoop:false
+    });
+    jQuery(".bigImg_slide").slide({
+        mainCell:".pic",
+        effect:"leftLoop",
+        autoPlay:false,
+        delayTime:600,
+        trigger:"click"
+    });
+    var total = 0;
+    $(function(){
+        $(".room-cate").each(function(){
+            total += parseInt($(this).text());
+        });
+        $("#total").text(total);
+    });
+</script>
+{/block}

@@ -1,0 +1,41 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 资讯详情 S-->
+<div class="flash">
+    <div class="con_wrap comWidth clearfix">
+        <div class="sub_nav">
+            <ul>
+                {volist name='cate' id='vo'}
+                <li><a href="{:url('SinglePage/index',['cate'=>$vo['alias']])}" {if condition='$info["cate_id"] eq $vo.id'}class="active"{/if}>{$vo.name}</a></li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="leftArea cm_leftArea">
+            <!-- 页面标识 S-->
+            <div class="page_tit">
+                <a href="javascript:;" rel="nofollow">您的位置：</a>
+                <a href="{:url('Index/index')}">首页</a> &gt;
+                <a href="javascript:void(0);">{$info.title}</a>
+            </div>
+            <!-- 页面标识 E-->
+            <!-- 文章详情 S-->
+            <div class="artc_detail">
+                <div class="head">
+                    <h1 style="text-align:center;padding-bottom:10px;">{$info.title}</h1>
+
+                </div>
+                <div class="con_box">
+                    {$info.info|raw}
+                </div>
+
+            </div>
+            <!-- 文章详情 E-->
+        </div>
+        <div class="rightArea cm_rightArea ">
+            {include file='news/right' /}
+        </div>
+    </div>
+</div>
+<!-- 资讯详情 E-->
+{/block}

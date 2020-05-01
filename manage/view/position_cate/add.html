@@ -1,0 +1,58 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--添加推荐位-->
+<style>
+    .layui-input-inline{width:100%;}
+</style>
+<form id="info_form" class="layui-form" action="{:url('addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">推荐位名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" id="title" placeholder="推荐位名称" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">所属模型</label>
+            <div class="layui-input-inline">
+                {volist name="model" id="vo"}
+                <input type="radio" name="model" value="{$key}" title="{$vo}">
+                {/volist}
+            </div>
+        </div>
+    </div>
+
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+
+    function submitForm(){
+        var title = $("#title").val(),model = $("input[name='model']:checked");
+        if(title.length == 0)
+        {
+            layer.msg('请填写推荐位名称',{icon:2});
+            return false;
+        }else if(model.length == 0){
+            layer.msg('请选择数据模型',{icon:2});
+            return false;
+        }else{
+            $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+        }
+
+    }
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+                parent.window.location.reload();
+            });
+        } else {
+            parent.layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

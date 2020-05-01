@@ -1,0 +1,154 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">消息</div>
+        <div style="float:right;margin-top:0.4rem;"><a href=""><img src="../static/mobile/images/icon/xt.png" style="width:45px;height:45px;"></a></div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+<div style="margin-top:2.56rem;"></div>
+{if condition="$dls eq 1"}
+
+<div style="background: #fff;margin-top:2.56rem;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/dl.png" style="width:50px;height:50px;"></div>
+<div  style="float:left;">系统消息</div>
+<div  style="float:left;padding-left:5px;font-size:0.7rem;color:red;">欢迎使用房拍网</div>
+</div>
+
+{/if}
+<a href="http://kefu.fangpaiwang.com/app/index.php?i=3&c=entry&toopenid=oaJWZju7vb00pluG5HMXNp75FF9g&do=chat&m=cy163_customerservice" >
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/kf.png" style="width:50px;height:50px;"></div>人工客服
+<div  style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{if condition="$xq eq 1"}
+<a href="{:url('user.gzxq/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>关注小区
+<div style="float:right;padding-right:3px;line-height:21px; width: 20px; height: 20px; background: red; border-radius: 10px;margin-top:20px;text-align:center;color:#fff;">{$chagzxqs}</div>
+</div>
+</a>
+{else}
+<a href="{:url('user.gzxq/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>关注小区
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{/if}
+
+{if condition="$xx eq 1"}
+<a href="{:url('user.wddz/index')}?param=0">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>通知公告
+<div style="float:right;padding-right:3px;line-height:21px; width: 20px; height: 20px; background: red; border-radius: 10px;margin-top:20px;text-align:center;color:#fff;">{$cha}</div>
+</div>
+</a>
+{else}
+<a href="{:url('user.wddz/index')}?param=0">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>通知公告
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{/if}
+{if condition="$fy eq 1"}
+<a href="{:url('user.follow/second')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>关注房源
+<div style="float:right;padding-right:3px;line-height:21px; width: 20px; height: 20px; background: red; border-radius: 10px;margin-top:20px;text-align:center;color:#fff;">{$chagzfy}</div>
+</div>
+</a>
+{else}
+<a href="{:url('user.follow/second')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>关注房源
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{/if}
+
+{if condition="$tjfys eq 1"}
+<a href="{:url('user.tjfy/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tj.png" style="width:50px;height:50px;"></div>推荐房源
+<div style="float:right;padding-right:3px;line-height:21px; width: 20px; height: 20px; background: red; border-radius: 10px;margin-top:20px;text-align:center;color:#fff;">{$chatjs}</div>
+</div>
+</a>
+{else}
+<a href="{:url('user.tjfy/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tj.png" style="width:50px;height:50px;"></div>推荐房源
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{/if}
+{if condition="$rts eq 1"}
+<a href="{:url('user.rgtj/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>人工推送
+<div style="float:right;padding-right:3px;line-height:21px; width: 20px; height: 20px; background: red; border-radius: 10px;margin-top:20px;text-align:center;color:#fff;">{$chatss}</div>
+</div>
+</a>
+{else}
+<a href="{:url('user.rgtj/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/tz.png" style="width:50px;height:50px;"></div>人工推送
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a>
+{/if}
+<!-- <a href="{:url('user.jlfy/index')}">
+<div style="background: #fff;height:71px;line-height:71px;border-bottom: solid 1px #ccc;margin-left:8px;margin-right:8px;">
+
+<div style="height:61px; float:left;margin-right:10px;margin-top:10px;"><img src="../static/mobile/images/icon/jl.png" style="width:50px;height:50px;"></div>捡漏房源
+<div style="float:right;padding-right:3px;">点击查看</div>
+</div>
+</a> -->
+    
+    {if condition="$userInfo.model eq 4"}
+    <iframe src="http://kefu.fangpaiwang.com/app/index.php?i=3&c=entry&eid=46"  width="100%;" height="600" scrolling="yes"/></iframe>
+    {/if}
+    {if condition="$userInfo.model eq 1"}
+    <iframe src="http://kefu.fangpaiwang.com/addons/cy163_customerservice/chatlist.php?uid={$userInfo.id}" width="100%" height="500" FrameBorder="0"/></iframe>
+    {/if}
+	   
+
+</div>
+{/block}

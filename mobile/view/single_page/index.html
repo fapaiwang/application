@@ -1,0 +1,19 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main">
+    <!-- 单页 S-->
+    <div class="news">
+        <!-- 单页详情 S -->
+        <div class="news-detail">
+            <div class="head">
+                <h3>{$info.title}</h3>
+            </div>
+            <div class="art_desc">
+                {$info.info|raw}
+            </div>
+        </div>
+        <!-- 单页详情 E -->
+    </div>
+    <!-- 单页 E-->
+</div>
+{/block}

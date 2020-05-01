@@ -1,0 +1,152 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .layui-form-label{width:85px;font-size:12px;}
+    .layui-input-block{margin-left:120px;}
+</style>
+<form class="layui-form" id="info_form" action="{:url('editDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color:#ff0000;">*</span>分类名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="name" id="name" lay-verify="name" value="{$info.name}" placeholder="普通会员" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">每天免费发布</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{$info.data.free_day_send}" name="data[free_day_send]" placeholder="0" />
+            </div>
+            <div class="layui-input-inline">
+                条/天 0为不限制。
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">共免费发布</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{$info.data.free_all_send}" name="data[free_all_send]" placeholder="0" />
+            </div>
+            <div class="layui-input-inline">
+                条 0为不限制。
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">年费</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{$info.fee}" name="fee" placeholder="0" />
+            </div>
+            <div class="layui-input-inline">
+                元/年 0为不收取年费。
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">超出收费</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{$info.data.price}" name="data[price]" placeholder="0" />
+            </div>
+            <div class="layui-input-inline">
+                元/条 0为不收费，年费用户可设置为0，设置为-1表示超出限制后不可发布。
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">置顶</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" value="{$info.fee_top}" id="price" lay-verify="price" name="fee_top" placeholder="1" />
+            </div>
+            <div class="layui-input-inline">
+                元/条/天，置顶按天收费。
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">二手房审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_second]" value="0" title="是" {if condition="$info.data.check_second eq 0"}checked="checked"{/if}>
+                <input type="radio" name="data[check_second]" value="1" title="否" {if condition="$info.data.check_second eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">出租房审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_rental]" value="0" title="是" {if condition="$info.data.check_rental eq 0"}checked="checked"{/if}/>
+                <input type="radio" name="data[check_rental]" value="1" title="否" {if condition="$info.data.check_rental eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">写字楼出售审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_office]" value="0" title="是" {if condition="$info.data.check_office eq 0"}checked="checked"{/if}/>
+                <input type="radio" name="data[check_office]" value="1" title="否" {if condition="$info.data.check_office eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">写字楼出租审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_office_rental]" value="0" title="是" {if condition="$info.data.check_office_rental eq 0"}checked="checked"{/if}/>
+                <input type="radio" name="data[check_office_rental]" value="1" title="否" {if condition="$info.data.check_office_rental eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">商铺出售审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_shops]" value="0" title="是" {if condition="$info.data.check_shops eq 0"}checked="checked"{/if}/>
+                <input type="radio" name="data[check_shops]" value="1" title="否" {if condition="$info.data.check_shops eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">商铺出租审核</label>
+            <div class="layui-input-block">
+                <input type="radio" name="data[check_shops_rental]" value="0" title="是" {if condition="$info.data.check_shops_rental eq 0"}checked="checked"{/if}/>
+                <input type="radio" name="data[check_shops_rental]" value="1" title="否" {if condition="$info.data.check_shops_rental eq 1"}checked="checked"{/if} />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <input type="hidden" name="id" value="{$info.id}" />
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="button" lay-submit class="layui-btn btn-submit w200">提 交</button>
+    </div>
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    layui.use(['form','layer'],function(){
+        var form = layui.form,$ = layui.jquery,layer = layui.layer,flag = true;
+        $(".btn-submit").on('click',function(){console.log(flag);
+            var name = $("#name"),price = $("#price");
+            if($.trim(name.val()).length == 0){
+                name.focus();
+                layer.msg('请填写分类名称',{icon:2});
+            }else if(isNaN(price.val()) || price.val() <= 0){
+                price.focus();
+                layer.msg('置顶费用必须大于0，支持1位小数',{icon:2});
+            }else{
+                $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+            }
+        });
+        function complate(result){
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            if(result.code == 1){
+                parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+                    parent.window.location.reload();
+                });
+            } else {
+                layer.msg(result.msg,{icon:2});
+            }
+        }
+    });
+</script>
+{/block}

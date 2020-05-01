@@ -1,0 +1,55 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<link type="text/css" href="/static/js/photo/css/prettyPhoto.css" rel="stylesheet" />
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">楼盘相册</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav'}
+    <div class="con_wrap comWidth clearfix">
+        <div class="picture_wrap">
+            <ul class="tab_nav clearfix">
+                <li><a href="{:url('House/photo',['house_id'=>$info['id']])}" {if condition='$cate_id eq 0'}class="active"{/if}>全部（{$cate.total}）</a></li>
+                {volist name='cate.data' id='vo'}
+                <li><a href="{:url('House/photo',['house_id'=>$info['id'],'cate_id'=>$vo['cate_id']])}" title="{$vo.name}" {if condition='$cate_id eq $vo.cate_id'}class="active"{/if}>{$vo.name}({$vo.total})</a></li>
+                {/volist}
+            </ul>
+            <ul class="list_box clearfix" id="photo">
+                {volist name='lists' id='vo'}
+                <li>
+                    <a href="{$vo.url}" title="{$vo.cate_name}-{$vo.title}" rel="prettyPhoto[]">
+                        <img src="/static/images/nopic.jpg" data-original="{:thumb($vo['url'],285,205)}" class="lazy">
+                        <div class="mask">
+                            <p class="name">{$vo.title}</p>
+                            <div class="opacity"></div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+            {notempty name='pages'}
+            <div class="page_list clearfix">
+                {$pages|raw}
+            </div>
+            {/notempty}
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/javascript" src="__STATIC__/js/photo/jquery.prettyPhoto.js"></script>
+<script>
+    $(function(){
+        $("#photo:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+    });
+</script>
+{/block}

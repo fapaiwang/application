@@ -1,0 +1,95 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 内容 S-->
+<div class="cm_house agent_detail">
+    <div class="comWidth ">
+        <div class="main clearfix">
+            <div class="agent_info cm_rightArea fl">
+                {include file='broker/userinfo' /}
+            </div>
+            <!-- 二手房列表 S -->
+            <div class="houseList_wrap fr cm_leftArea">
+                <div class="head clearfix">
+                    {include file='broker/nav' /}
+                </div>
+                <div class="list_con sh_house_list">
+                    <ul class="clearfix">
+                        {volist name='lists' id='vo' empty='暂无数据'}
+                        <li>
+                            <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                    {if $vo['fcstatus'] eq 169}
+
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 170}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status1.png" original="/static/images/status/status1.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 171}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 172}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 173}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 174}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                    {/if}
+                                    {if $vo['fcstatus'] eq 175}
+                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                    {/if}
+								<span class="l_img fl" style="height: 185px;">
+									<img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$vo.title}">
+								</span>
+                                
+								<span class="r_con fr" style=" width: 555px;">
+									<h3>{$vo.title}</h3>
+									<p>
+                                        <span class="info">{:getLinkMenuName(29,$vo['toilet'])}</span>
+                                        <!-- <span class="info">{$vo.room}室1{$vo.living_room}厅{$vo.toilet}卫</span> -->
+                                        <span class="l">|</span>
+                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span>
+                                        <span class="l">|</span>
+                                        <span class="info">{:getLinkMenuName(4,$vo['orientations'])}</span>
+                                    </p>
+                                <p>
+                                    <span class="tit">{$vo.estate_name}</span>
+                                    <span class="address">{$vo.address}</span>
+                                </p>
+									<span class="label_list clearfix">
+                                    <i class="item item4">{$vo.years}年</i>
+                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                                        {notempty name='tag'}
+                                        {volist name='tag' key='n' id='val'}
+                                        <i class="item item{$n}">{:getLinkMenuName(14,$val)}</i>
+                                        {/volist}
+                                        {/notempty}
+									</span>
+
+									<span class="price">
+										<h5><strong>{$vo.price|raw}</strong></h5>
+										<p>{$vo.average_price|raw}</p>
+									</span>
+                                </span>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='pages'}
+                <div class="page_list clearfix">
+                    {$pages|raw}
+                </div>
+                {/notempty}
+            </div>
+            <!-- 二手房列表 E -->
+        </div>
+    </div>
+</div>
+
+<!-- 内容 S-->
+{/block}

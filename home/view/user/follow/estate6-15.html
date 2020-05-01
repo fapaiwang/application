@@ -1,0 +1,103 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="layui-tab layui-tab-brief">
+    {include file='user/follow/nav' /}
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+                <colgroup>
+                    <col width="40%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell"><span>小区名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>房源数</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>均价</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>关注时间</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="lists" id="val"}
+                <tr>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="{:url('Rental/detail',['id'=>$val['id']])}" target="_blank">{$val.title}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            在售二手房（<a href="{:url('Second/index',['estate_id'=>$val['id']])}" target="_blank"><b>{$val.second_total}</b></a>）套
+                            在租房源（<a href="{:url('Rental/index',['estate_id'=>$val['id']])}" target="_blank"><b>{$val.rental_total}</b></a>）套
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.price}{:config('filter.price_unit')}
+                        </div>
+                    </td>
+
+                    <td class="kaifazhe-switch">
+                        <div class="layui-table-cell">
+                            {$val.create_time|date='Y-m-d H:i'}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            <a href="javascript:;" data-id="{$val.id}" data-model="estate" data-uri="{:url('Api/userCancelFollow')}" class="cancel-follow layui-btn layui-btn-xs layui-btn-danger">取消关注</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+        <div class="kaifazhe-fix-bottom layui-clear">
+            <div id="pages" class="layui-layout-right">
+                {$pages|raw}
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 列表 E-->
+<script type="text/javascript">
+    layui.use(['jquery','layer'],function(){
+        var $ = layui.jquery,layer = layui.layer;
+        $('.cancel-follow').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri');
+            var param = {
+                house_id : house_id,
+                model    : model
+            };
+            layer.confirm('您确定要取消关注么？', function(){
+                $.get(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,116 @@
+<!-- 商铺投资 S -->
+            <div class="build_shops cm_wrap">
+                <div class="head clearfix">
+                    <h2 class="fl icon-shops margin-right-120">商铺投资</h2>
+                    <ul class="r_nav fl">
+                        {volist name=':getLinkMenuCache(18)' id='vo'}
+                        <li>
+                            <a href="{:url('ShopsRental/index')}?type={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                            <div class="b_l"></div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 商铺筛选条件 S-->
+                    <div class="l_box fl">
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">区域</li>
+                            <li class="filter-val">
+                                {volist name='area' id='vo' offset='0' length='6'}
+                                <a href="{:url('ShopsRental/index')}?area={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='area' id='vo' offset='6'}
+                                <a href="{:url('ShopsRental/index')}?area={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">面积</li>
+                            <li class="filter-val">
+                                {php}$shops_acreage = getBussinessCondition('shops_acreage');{/php}
+                                {volist name="shops_acreage" id="vo" offset='0' length='5'}
+                                <a href="{:url('ShopsRental/index')}?acreage={$key}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name="shops_acreage" id="vo" offset='5'}
+                                <a href="{:url('ShopsRental/index')}?acreage={$key}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">价格</li>
+                            <li class="filter-val">
+                                {php}$shops_price = getBussinessCondition('shops_rental_price');{/php}
+                                {volist name='shops_price' id='vo' length='4'}
+                                <a href="{:url('ShopsRental/index')}?price={$key}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='shops_price' id='vo' offset='4'}
+                                <a href="{:url('ShopsRental/index')}?price={$key}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">特色</li>
+                            <li class="filter-val">
+                                {php}$shops_tags = getLinkMenuCache(20);{/php}
+                                {volist name='shops_tags' id='vo' length='6'}
+                                <a href="{:url('ShopsRental/index')}?tags={$vo.id}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='shops_tags' id='vo' offset='6'}
+                                <a href="{:url('ShopsRental/index')}?tags={$vo.id}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 商铺筛选条件 E-->
+                    <!-- 商铺列表 S -->
+                    <div class="c_box build_list fl">
+                        <div>
+                            <ul class="clearfix">
+                                {fang:position table='shops_rental' posid='9' field='t.id,t.title,t.img,t.city,t.price' where="t.timeout > $time and city in ($city_all_child)" limit='6' id='vo'}
+                                <li>
+                                    <a href="{:url('ShopsRental/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.title}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl area">{:getCityName($vo['city'])}</span>
+										<span class="fr price">{$vo.price}{if condition='$vo.price gt 0'}{:config('filter.rental_price_unit')}{/if}</span>
+									</span>
+                                    </a>
+                                </li>
+                                {/fang:position}
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- 商铺列表 E -->
+                    <!-- 商铺出售 S-->
+                    <div class="r_box fr">
+                        <div class="sct_item buy_way">
+                            <h3>商铺出售</h3>
+                            <ul class="list office-list">
+                                {fang:lists table='shops' field='id,title,price' where="status = 1 and timeout > $time and city in ($city_all_child)" order='ordid asc,id desc' limit='12' id='vo'}
+                                <li class="clearfix"><span>{$vo.price|raw}</span><a href="{:url('Shops/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></li>
+                                {/fang:lists}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 商铺出售 E-->
+                </div>
+            </div>
+            <!-- 商铺 E -->

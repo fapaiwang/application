@@ -1,0 +1,266 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('Rental/addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">房源信息</li>
+            <li>seo信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>所属小区 </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="estate_id" id="estate_id" value="">
+                            <input type="text" name="estate_name" lay-verify="estate_id" id="estate_name" data-title="选择小区" data-uri="{:url('Estate/ajaxGetEstate')}" class="layui-input" placeholder="选择小区">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>所属区域</label>
+                        <input type="hidden" name="city" id="J_city_id" value="" />
+                        <div class="layui-input-block">
+                            <select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds')}" data-selected="">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>房源名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="title" placeholder="房源名称" value="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>房型</label>
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="room"  lay-verify="room" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">室</div>
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="living_room"  lay-verify="living_room" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厅</div>
+                        <!--div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="kitchen"  lay-verify="kitchen" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厨</div-->
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="toilet"  lay-verify="toilet" size="10" placeholder="1" value="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">卫</div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>面积 </label>
+                        <div class="layui-input-inline" style="width:95px;">
+                            <input type="text" class="layui-input" lay-verify="acreage" id="acreage" name="acreage" placeholder="122"  autocomplete="off" value="" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡ 月租</div>
+                        <div class="layui-input-inline" style="width:90px;">
+                            <input type="text" class="layui-input" lay-verify="price" id="price" name="price" placeholder="122"  autocomplete="off" value="" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">元/月</div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">朝向 </label>
+                        <div class="layui-input-inline">
+                            {:getLinkMenu(4,'orientations')}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房源地址 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="address" id="address" placeholder="例：海秀路120号">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">楼层 </label>
+                        <div class="layui-input-inline" style="width:100px;">
+                            {:getLinkMenu(7,'floor','select',38)}
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:20px;"> 共</div>
+                        <div class="layui-input-inline" style="width:100px;">
+                            <input type="text" class="layui-input" name="total_floor" placeholder="20">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"> 层</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">地图坐标 </label>
+                        <div class="layui-input-inline" style="width:200px;">
+                            <input type="text" class="layui-input" name="map" id="map" placeholder="115.345,22.1349"  autocomplete="off" value="" >
+                        </div>
+                        <div class="layui-input-inline" style="width:95px;">
+                            <button type="button" id="mark" data-autouri="{:addon_url('map://Map/getLocationByAddress')}" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn">标注位置</button>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">装修情况 </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(8,'renovation','radio')}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系人 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="contacts[contact_name]" id="contact_name" placeholder="联系人" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系电话 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="contacts[contact_phone]" id="contact_phone" placeholder="联系电话" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">租赁方式 </label>
+                        <div class="layui-input-inline">
+                            {:getLinkMenu(10,'rent_type')}
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">支付方式 </label>
+                        <div class="layui-input-inline">
+                            {:getLinkMenu(11,'pay_type')}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">房间配套 </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(12,'supporting','checkbox')}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">物业类型 </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(9,'house_type','radio')}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">特色标签 </label>
+                        <div class="layui-input-block">
+                            <textarea name="tags" id="tags" placeholder="多个标签用','分隔" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">缩略图</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <input type="hidden" name="img" id="img_txt">
+                            <button type="button" class="layui-btn" id="img">上传图片</button>
+                            <div id="img_preview">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房源图片</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <script id="uploadpic" name="uploadpic" type="text/plain"></script>
+                            <button type="button" class="layui-btn" onclick="upImage();">选择图片</button>
+                            <div id="imageList">
+                                <ul class="list clearfix">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房源介绍</label>
+                    <div class="layui-input-block">
+                        <script id="info" name="info" type="text/plain"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">seo标题 </label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="seo[seo_title]" placeholder="seo标题"  autocomplete="off" value="" >
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">seo关键词 </label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="seo[seo_keys]" placeholder="seo关键词"  autocomplete="off" value="" >
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">seo描述 </label>
+                        <div class="layui-input-block">
+                            <textarea name="seo[seo_desc]" class="layui-textarea" id="seo_desc"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+<input type="hidden" id="uploadUrl" value="{:url('Rental/ajaxUploadImg')}">
+<input type="hidden" id="deleteUrl" value="{:url('Rental/deleteImg')}">
+{:hook('ueditor',['id'=>'info','upload'=>true])}
+<script src="__JS__/option.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element'], function(){
+        var $ = layui.jquery,element = layui.element,form = layui.form;
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length == 0){
+                    return '请填写房源名称';
+                }
+            },
+            estate_name : function (value) {
+                if(value.length == 0){
+                    return '请选择小区';
+                }
+            },
+            acreage : function(value){
+                if(!/\d+$/.test(value)){
+                    return '请填写房源面积';
+                }
+            },
+            price : function (value) {
+                if(!/\d+$/.test(value)){
+                    return '请填写价格';
+                }
+            }
+        });
+    });
+</script>
+{/block}

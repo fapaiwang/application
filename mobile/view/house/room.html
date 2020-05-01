@@ -1,0 +1,50 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;">
+    <!-- 新闻资讯 S-->
+    <div class="house-type">
+        <div class="tab_hd clearfix">
+            <a href="{:url('House/room',['house_id'=>$info['id']])}" {if condition='$room eq 0'}class="on"{/if}>全部（<span id="total">0</span>）</a>
+            {volist name='info.room_cate' id='vo'}
+            <a href="{:url('House/room',['house_id'=>$info['id'],'room'=>$vo['room']])}" {if condition='$room eq $vo.room'}class="on"{/if}>{$vo.room}室(<span class="room-cate">{$vo.total}</span>)</a>
+            {/volist}
+        </div>
+        <div class="house-type-list">
+            <ul>
+                {php}$sale_status = getLinkMenuCache(5);{/php}
+                {volist name='room_list' id='vo'}
+                <li>
+                    <a href="{:url('House/roomDetail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <div class="l_img">
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                        </div>
+                        <div class="r_con">
+                            <div class="t">
+                                <span>{$vo.room}室{$vo.living_room}厅{$vo.toilet}卫 </span>
+                                <span>{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                            </div>
+                            <div class="c"><span>{$vo.title}</span><span class="sale-status on">{$sale_status[$vo['sale_status']]['name']}</span></div> <!--on在售，for待售，off售罄-->
+                            {notempty name='vo.orientation'}<div class="b"><span>{:getLinkMenuName(4,$vo['orientation'])}朝向</span></div>{/notempty}
+                            <div class="price"><b>{$vo.price}</b>万</div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+            <div class="page_list">
+                {$pages|raw}
+            </div>
+        </div>
+    </div>
+    <!-- 新闻资讯 E-->
+</div>
+<script type="text/javascript">
+    var total = 0;
+    $(function(){
+        $(".room-cate").each(function(){
+            total += parseInt($(this).text());
+        });
+        $("#total").text(total);
+    });
+</script>
+{/block}

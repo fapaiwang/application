@@ -1,0 +1,79 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">微信支付设置</li>
+			<li>支付宝设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">公众号appid</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[weixin][appid]" lay-verify="required" value="{$info.weixin.appid}" placeholder="微信公众平台appid" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						微信公众号appid
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">商户mch_id</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[weixin][mch_id]" lay-verify="required" value="{$info.weixin.mch_id}" placeholder="微信商户平台mch_id"  autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						微信商户平台mch_id
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">商户密钥</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[weixin][mch_key]" lay-verify="required" placeholder="微信商户平台mch_key" value="{$info.weixin.mch_key|default=''}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						微信商户平台mch_key
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item">
+				<div class="layui-form-item">
+					<label class="layui-form-label">app_id</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[alipay][app_id]" value="{$info.alipay.app_id|default=''}" placeholder="支付宝app_id" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						支付宝应用id
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">商户私钥</label>
+					<div class="layui-input-block">
+						<textarea name="data[alipay][merchant_private_key]" class="layui-textarea">{$info.alipay.merchant_private_key|default=''}</textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">支付宝公钥</label>
+					<div class="layui-input-block">
+						<textarea name="data[alipay][alipay_public_key]" class="layui-textarea">{$info.alipay.alipay_public_key|default=''}</textarea>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$base.id}">
+			<input type="hidden" name="name" value="{$action_name}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" lay-submit="" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+	layui.use(['form','element'], function() {
+	});
+</script>
+{/block}

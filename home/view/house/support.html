@@ -1,0 +1,27 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">周边配套</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="house_detail" style="padding:0;">
+        <div class="con_wrap comWidth clearfix " id="main">
+            <!-- 周边配套 S-->
+            {include file='public/peitao' /}
+            <!-- 周边配套 E-->
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+{/block}

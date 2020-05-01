@@ -1,0 +1,64 @@
+
+
+
+
+<!doctype html>
+<html lang="en" style="width:100%;height:100%;margin:0;padding:0;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>房拍网</title>
+    <!-- <title>{$seo.title}</title> -->
+    <meta name="keywords" content="{$seo.keys}" />
+    <meta name="description" content="{$seo.desc}" />
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__JS__/font-size.js"></script>
+    <link rel="stylesheet" href="__CSS__/base.css?t={:time()}">
+    <link rel="stylesheet" href="__CSS__/style.css?t={:time()}">
+
+</head>
+<body style="width:100%;height:100%;margin:0;padding:0;">
+
+{block name='content'}{include file='public/peitao1' /}{/block}
+
+<div style="display:none;" id="weixin-share" data-desc="{present name='info'}{:msubstr(strip_tags($info['info']),0,50)}{else /}{$site.seo_desc}{/present}"></div>
+<!--<script language=javascript>-->
+<!--var LiveAutoInvite0='您好，来自%IP%的朋友';-->
+<!--var LiveAutoInvite1='来自首页的对话';-->
+<!--var LiveAutoInvite2='网站商务通 主要功能：<BR>1、主动邀请<BR>2、即时沟通<BR>3、查看即时访问动态<BR>4、访问轨迹跟踪<BR>5、内部对话<BR>6、不安装任何插件也实现双向文件传输<BR><BR><B>如果您有任何问题请接受此邀请以开始即时沟通</B>';-->
+<!--</script>-->
+<!--<script language="javascript" src="https://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    $(function(){
+       $('.detail-go-back,.go-back').on('touchend',function(){
+           window.history.back();
+       }) ;
+        var img_url = "{:config('mobile_domain')}{$info.img|default=$site['pc_logo']}";
+        var shareData = {
+            title: "{$share_title?$share_title:$seo.title}",
+            link: window.location.href,
+            desc: $("#weixin-share").data('desc'),
+            imgUrl: img_url,
+            success:function(){
+
+            }
+        };
+        var jssdkconfig = {$sdk_config|raw} || { jsApiList:[] };
+        wx.config(jssdkconfig);
+        wx.ready(function () {
+            wx.onMenuShareAppMessage(shareData);
+            wx.onMenuShareTimeline(shareData);
+            wx.onMenuShareQQ(shareData);
+            wx.onMenuShareWeibo(shareData);
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+

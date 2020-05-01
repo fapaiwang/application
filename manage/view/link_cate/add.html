@@ -1,0 +1,45 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--添加栏目-->
+<div class="dialog-form">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">分类名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" id="name"  placeholder="分类名称" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="status" value="1" checked="checked" title="正常">&nbsp;&nbsp;
+				<input type="radio" name="status" value="0" title="禁用">
+			</div>
+		</div>
+
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#name").formValidator({onshow:'请填写栏目名称',onfocus:'请填写栏目名称'}).inputValidator({min:1,onerror:'请填写名称'});
+    });
+    function submitForm(){
+        $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+    }
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+                parent.window.location.reload();
+            });
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

@@ -1,0 +1,102 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 列表 S-->
+<div class="cm_house">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位2222222222置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="javascript:void(0);">提交</a>
+        </div>
+        <!-- 页面标识 E-->
+        查询捡漏房源
+        <form action="{:url('Tijiao/tijiao')}"  id="form" method="post">
+                     <p class="tc_right_p1">请填写您的联1111111111111系信息</p>
+
+                <p class="tc_right_p2 sct_ipt">
+
+                    <input type="text" class="ipt" name="user_name" id="user_name" placeholder="请输入您的姓名">
+
+                    <span class="placeholder">请输入您的姓名</span>
+
+                </p>
+
+                <p class="tc_right_p2 sct_ipt">
+
+                    <input type="text" class="ipt" name="mobile" id="mobile" placeholder="请输入您的手机号码">
+
+                    <span class="placeholder">请输入您的手机号码</span>
+
+                </p>
+                    <input type="submit" name="" value="开始找房">
+        </form>
+           
+    </div>
+</div>
+<script>
+$('#sub_btn').on('click',function(){
+	alert(111);
+
+            var user_name = $('#user_name').val(),mobile = $('#mobile').val(),sms_code = $('#sms_code').val(),
+
+                    send_sms = $('#send_sms').val(),reg = /^1[3456789][0-9]{9}$/;
+
+            if(!user_name)
+
+            {
+
+                layer.msg('请填写用户名',{icon:2});
+
+                return false;
+
+            }else if(!reg.test(mobile)){
+
+                layer.msg('手机号码格式不正确',{icon:2});
+
+                return false;
+
+            }else if(!sms_code && send_sms == 1){
+
+                layer.msg('请填写短信验证码',{icon:2});
+
+                return false;
+
+            }else{
+
+                $('#form').submit();
+
+            }
+
+
+
+        });
+
+        $('#form').ajaxForm({success:complate,dataType:'json'});
+
+        function complate(result){
+
+            var index = parent.layer.getFrameIndex(window.name);
+
+            if(result.code == 1){
+
+                parent.layer.msg(result.msg, {icon:1});
+
+                parent.layer.close(index);
+
+            }else {
+
+                layer.msg(result.msg, {icon:2});
+
+            }
+
+        }
+
+    });
+
+    
+
+</script>
+
+{/block}

@@ -1,0 +1,144 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">委托拍卖</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+    <!-- 小区项目细节 S-->
+
+    <div class="house-show-box" style="margin-top:60px;">
+
+    
+
+      <div class="pec-relLink addhouse mb20">
+        <a><span>称呼:</span><span><input type="text" name="name" id="name" value="" placeholder="请输入您的姓名"></span></a>
+       
+        <a><span>小区:</span><span><input type="text" name="xq" value="" placeholder="委托房源所在小区"></span></a>
+        <a><span>面积:</span><span><input type="text" name="mj" value="" placeholder="请输入面积"></span></a>
+
+        <a class="holder-name"><span>售价:</span><span><input type="text" name="price" value="" placeholder="期望售价"></span></a>
+        <a><span>详细地址:</span><span><input type="text" name="address" value="" placeholder="***号楼***单元***室"></span></a>
+       <!-- <a><span>联系方式:</span><span><input type="text" name="tel" value="" placeholder="请输入手机号"></span></a>-->
+	   
+	   
+	   <div class="sct clearfix">
+                    <div class="sct_ipt">
+                        <input type="text" class="ipt"  name="user_name" id="mobile" placeholder="请输入手机号">
+                        <span class="placeholder">请输入手机号11</span>
+                    </div>
+                </div>
+                
+                <div class="sct check_code clearfix">
+                    <div class="sct_ipt fl">
+                        <input type="text" class="ipt"  name="sms_code" id="sms_code" placeholder="请输入短信验证码">
+                        <span class="placeholder">请输入短信验证码</span>
+                    </div>
+                    <span class="get_code fl" id="smsCode">获取验证码</span>
+                </div>
+              <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+<script src="__STATIC__/home/js/placeholder.js"></script>
+<script>
+    $(function(){
+       
+        $("#smsCode").bind('click',function(){
+            getCode();
+        });
+        
+    });
+    var time=60,times='';
+    function getCode(){
+        if(time<60) return false;
+        var mobile=$("#mobile").val(),reg = /^1[3456789][0-9]{9}$/;
+        if(!reg.test(mobile)){
+            layer.msg('请填写正确的手机号码',{icon:2});
+            return false;
+        }
+		
+		//alert("{:url('Sms/sendSms')}");
+		
+        $.post("{:url('Sms/sendSms')}",{'mobile':mobile,'exists':1},function(data){
+            if(data.code==1){
+                time --;
+                layer.msg('验证码发送成功，请注意查收',{icon:1});
+                times = setInterval(timer,1000);
+            }else{
+                layer.msg(data.msg,{icon:2});
+            }
+        });
+    }
+    function timer(){
+        var code = $("#smsCode");
+        if(time == 0){
+            time = 61;
+            code.text('获取验证码');
+            clearInterval(times);
+        }else{
+            code.text(time+'秒后获取');
+        }
+        time --;
+    }
+</script>
+	   
+	   
+	   
+        <!--<a class="tel">
+            <span>验&nbsp;&nbsp;证&nbsp;&nbsp;码:</span>
+            <span><input type="text" name="yzm" value="" placeholder="请输入验证码"></span>
+        </a>-->
+       
+        
+       
+        <a class="holder-name">
+            <div id="img-list">
+
+            </div>
+        </a>
+    </div>
+<div class="bt-box pt30  pb30">
+        <button type="submit" class="btn sub-btn" id="btn" onclick="btn()">确认委托</button>
+        <!-- <button type="submit" id="btn" onclick="btn()">btn</button> -->
+    </div>
+
+<script type="text/javascript">
+
+function btn(){
+alert('提交成功！');
+}
+</script>
+
+
+
+
+    </div>
+
+
+</div>
+{/block}

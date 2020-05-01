@@ -1,0 +1,91 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+
+<style>
+
+    .item,.house-show-box{font-size:.7rem;}
+
+</style>
+
+<div class="main">
+
+    <!-- 经纪人概况 S-->
+
+    {include file='broker/broker_info' /}
+
+    <!-- 经纪人概况 E-->
+
+
+
+    <!-- 点评列表 S-->
+
+    <div class="comment-list user-comment">
+
+        <h2>用户点评</h2>
+
+        <ul class="item">
+
+            {volist name='lists' id='vo' empty='暂无数据'}
+
+            <li class="clearfix">
+
+                <div class="pic fl"><img src="{:getAvatar($vo['user_id'],90)}" alt="{$vo.user_name}"></div>
+
+                <div class="comment-content fl">
+
+                    <div class="username-level clearfix">
+
+                        <div class="username fl">{$vo.user_name}</div>
+
+                        <div class="level level-{$vo.point} fr"></div><!-- 等级从0到5 -->
+
+                    </div>
+
+                    <div class="desc_box">
+
+                        <p>{$vo.content}</p>
+
+                    </div>
+
+                    <div class="babel-list clearfix">
+
+                        {php}$c_tags=array_filter(explode(',',$vo['tags']));{/php}
+
+                        {volist name='c_tags' id='t'}
+
+                        <em>{:getLinkMenuName(13,$t)}</em>
+
+                        {/volist}
+
+                    </div>
+
+                    <time class="time">{$vo.create_time|date='Y-m-d H:i'}</time>
+
+                </div>
+
+            </li>
+
+            {/volist}
+
+
+
+        </ul>
+
+    </div>
+
+    <!-- 点评列表 E-->
+
+    {notempty name='pages'}
+
+    <div class="page_list">
+
+        {$pages|raw}
+
+    </div>
+
+    {/notempty}
+
+</div>
+
+{/block}

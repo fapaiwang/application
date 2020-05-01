@@ -1,0 +1,189 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">云存储设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">云存储</label>
+					<div class="layui-input-inline" style="width:160px;">
+						<input type="radio" name="data[open]" lay-filter="open" value="1" title="开启" {present name="info.open"}{if condition="$info.open eq 1"}checked{/if}{/present}>
+						<input type="radio" name="data[open]" lay-filter="open" value="0" title="关闭" {present name="info.open"}{if condition="$info.open eq 0"}checked{/if}{/present}>
+					</div>
+					<div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">开启云存储需配置相关账号</div>
+				</div>
+				<div id="storage">
+					{if condition="isset($info['open']) && $info.open eq 1"}
+					<div class="layui-form-item">
+						<label class="layui-form-label">
+							上传类型
+						</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[upload_type]" value="1" title="仅图片" {present name="info.upload_type"}{if condition="$info.upload_type eq '1'"}checked{/if}{/present}/>
+							<input type="radio" name="data[upload_type]" value="2" title="仅视频" {present name="info.upload_type"}{if condition="$info.upload_type eq '2'"}checked{/if}{/present}/>
+							<input type="radio" name="data[upload_type]" value="3" title="视频+图片" {present name="info.upload_type"}{if condition="$info.upload_type eq '3'"}checked{/if}{/present}/>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">
+							类型
+						</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="data[type]" lay-filter="type" value="aliyun" title="阿里云oss" {present name="info.type"}{if condition="$info.type eq 'aliyun'"}checked{/if}{/present}/>
+							<input type="radio" name="data[type]" lay-filter="type" value="qiniu" title="七牛云" {present name="info.type"}{if condition="$info.type eq 'qiniu'"}checked{/if}{/present} />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">accessKey</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[access_key]" lay-verify="required" placeholder="云存储accessKey" value="{$info.access_key}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">secretKey</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[secret_key]" lay-verify="required" placeholder="云存储secretKey" value="{$info.secret_key}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">存储空间名</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[bucket]" lay-verify="required" placeholder="存储空间名" value="{$info.bucket}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">资源访问域名</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[domain]" lay-verify="required|url" placeholder="例：http://tpfangchan.com" value="{$info.domain}" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-form-mid layui-word-aux layui-fl">
+							请带上http://
+						</div>
+					</div>
+					<div class="layui-form-item" id="aliyun" {if condition="$info.type neq 'aliyun'"}style="display:none;"{/if}>
+						<label class="layui-form-label">EndPoint(地域节点)</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[end_point]" placeholder="例：http://oss-cn-shenzhen.aliyuncs.com" value="{$info.end_point|default=''}" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-form-mid layui-word-aux layui-fl">
+							阿里云存储必需填写，请带上http://
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label"></label>
+						<div class="layui-input-block">
+							还没有账号？<a href="https://www.aliyun.com/" target="_blank">点此申请阿里云账号</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://portal.qiniu.com/signup/choice" target="_blank">点此申请七牛云账号</a>
+						</div>
+					</div>
+					{/if}
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$base.id}">
+			<input type="hidden" name="name" value="{$action_name}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" lay-submit="" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="text/html" id="template">
+	<div class="layui-form-item">
+		<label class="layui-form-label">
+			上传类型
+		</label>
+		<div class="layui-input-block">
+			<input type="radio" name="data[upload_type]" value="1" checked="checked" title="仅图片"/>
+			<input type="radio" name="data[upload_type]" value="2" title="仅视频" />
+			<input type="radio" name="data[upload_type]" value="3" title="视频+图片" />
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">
+			类型
+		</label>
+		<div class="layui-input-inline">
+			<input type="radio" name="data[type]" lay-filter="type" value="aliyun" title="阿里云oss" checked="checked"/>
+			<input type="radio" name="data[type]" lay-filter="type" value="qiniu" title="七牛云" />
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">accessKey</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[access_key]" lay-verify="required" placeholder="云存储accessKey" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">secretKey</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[secret_key]" lay-verify="required" placeholder="云存储secretKey" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">存储空间名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[bucket]" lay-verify="required" placeholder="存储空间名" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">资源访问域名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[domain]" lay-verify="required|url" placeholder="例：http://tpfangchan.com" value="" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux layui-fl">
+			请带上http://
+		</div>
+	</div>
+	<div class="layui-form-item" id="aliyun">
+		<label class="layui-form-label">EndPoint(地域节点)</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[end_point]" placeholder="例：http://oss-cn-shenzhen.aliyuncs.com" value="" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux layui-fl">
+			阿里云存储必需填写，请带上http://
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label"></label>
+		<div class="layui-input-block">
+			还没有账号？<a href="https://www.aliyun.com/" target="_blank">点此申请阿里云账号</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://portal.qiniu.com/signup/choice" target="_blank">点此申请七牛云账号</a>
+		</div>
+	</div>
+</script>
+<script>
+	layui.use(['form','laytpl'],function(){
+		var form = layui.form,$ = layui.jquery,laytpl = layui.laytpl;
+		form.on("radio(type)",function(o){
+			if(o.value == 'aliyun'){
+				$("#storage #aliyun").show();
+			}else{
+				$("#storage #aliyun").hide();
+			}
+		});
+		form.on("radio(open)",function(o){
+			var storage = $("#storage"),len = $.trim(storage.html()).length;
+			if(o.value == 1){
+				if(len > 0) {
+					storage.show();
+				}else{
+					var getTpl = template.innerHTML
+							,view = document.getElementById('storage');
+					laytpl(getTpl).render([], function(html){
+						view.innerHTML = html;
+						form.render();
+					});
+				}
+			}else{
+				storage.html('');
+			}
+		});
+	});
+</script>
+{/block}

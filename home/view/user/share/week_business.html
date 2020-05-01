@@ -1,0 +1,248 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>房拍网-每周商业</title>
+    <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/share/js/jquery-git.js"></script>
+    <script type="text/javascript" src="/share/js/shuiyin.js"></script>
+
+
+</head>
+<body>
+<style>
+
+    #body{
+        width: 434px;
+        height: 100%;
+    }
+    #top{
+        width: 434px;
+        height: 140px;
+        background-image: url(/share/business.jpg);
+        background-size:100%;
+    }
+    #top p{
+        color: white;
+        size: B5;
+        padding-top: 4px;
+        padding-left: 320px;
+        font-weight:900;
+    }
+    #content{
+        width: 434px;
+        height:calc(100% - 110px - 140px);
+        background-color:#F8F8FF;
+        /*background-image: url(/share/cs.jpg);*/
+    }
+    #footer{
+        width: 434px;
+        height: 110px;
+        background-color: #5f30e2;
+    }
+    .footer_left{
+        float: left;
+        padding-top: 5px;
+    }
+    /*#footer_left p{*/
+       /**/
+    /*}*/
+    #footer_img img{
+        float: left;
+        margin-top: 16px;
+        margin-left: 50px;
+        width: 70px;
+        height: 70px;
+
+    }
+    #tab{
+        /*color:字体颜色;*/
+        font-size:1px;
+        font-family:MingLiU;
+        text-algn:left;
+        /*background-color:red*/
+        border-spacing:0px 5px;"
+    }
+    th {
+        font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        color: #4f6b72;
+        border-right: 1px solid #C1DAD7;
+        border-bottom: 1px solid #C1DAD7;
+        border-top: 1px solid #C1DAD7;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-align: left;
+        padding: 6px 6px 6px 12px;
+        background: #CAE8EA no-repeat;
+    }
+
+    th.nobg {
+        border-top: 0;
+        border-left: 0;
+        border-right: 1px solid #C1DAD7;
+        background: none;
+    }
+
+    td {
+        border-right: 1px solid #C1DAD7;
+        border-bottom: 1px solid #C1DAD7;
+        /*background: #fff;*/
+        font-size:11px;
+        padding: 6px 6px 6px 12px;
+        color: #4f6b72;
+    }
+
+
+    td.alt {
+        background: #F5FAFA;
+        color: #797268;
+    }
+
+    th.spec {
+        border-left: 1px solid #C1DAD7;
+        border-top: 0;
+        background: #fff no-repeat;
+        font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    }
+
+    th.specalt {
+        border-left: 1px solid #C1DAD7;
+        border-top: 0;
+        background: #f5fafa no-repeat;
+        font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        color: #797268;
+    }
+
+</style>
+<div>  <input type="button" id="SaveDownload" value="生成图片"></div>
+<div>
+    <img class="imgDiv_img" src="" style="width: 434px;" />
+</div>
+<div id="body">
+    <div id="top">
+        <p>{$res.date}</p>
+    </div>
+    <div id="content"  style="width: 434px">
+
+        <table id="tab">
+            <tr>
+                <th>地址</th>
+                <th>面积/m²</th>
+                <th>起拍价/万</th>
+                <th>市场价/万</th>
+                <th>性质</th>
+            </tr>
+            {volist name="list" id="val"}
+            <tr>
+                <td style="width: 130px">{$val.title}</td>
+                <td>{$val.acreage}</td>
+                <td>{$val.qipai}</td>
+                <td>{$val.s_price}</td>
+                <td>{$val.types}</td>
+            </tr>
+            {/volist}
+
+        </table>
+
+    </div>
+    <div id="footer">
+        {if condition="$res.mobile != ''"}
+        <div class="footer_left" style=" color: white;padding-top: 2px;padding-left: 25px;line-height:0.4; font-size: 10px;">
+            <p>官网：http://www.fangpaiwang.com/</p>
+            <p>法拍顾问：{$res.name}</p>
+            <p>法拍电话：{$res.mobile}</p>
+            <p>服务热线：400-677-0028  </p>
+            <p>公司地址：北京市东城区朝阳门银河soho</p>
+            <p style="margin-left: 58px">D座11层51102</p>
+        </div>
+        {else /}
+        <div class="footer_left" style=" color: white;padding-top: 2px;padding-left: 25px;line-height:0.7;
+         font-size: 10px;">
+            <p>官网：http://www.fangpaiwang.com/</p>
+            <p>服务热线：400-677-0028  </p>
+            <p>公司地址：北京市东城区朝阳门银河soho</p>
+            <p style="margin-left: 58px">D座11层51102</p>
+        </div>
+        {/if}
+        <div id="footer_img">
+            <img src="{$res.share_img}" alt="" >
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+</body>
+
+<script type="text/javascript" src="/share/js/html2canvas.js"></script>
+
+<script>
+    $("#SaveDownload").click(function () //点击"保存下载控件"
+    {
+        var height = $('#body').height()
+        //克隆节点，默认为false，不复制方法属性，为true是全部复制。
+        var cloneDom = $('#body').clone(true);
+        //设置克隆节点的css属性，因为之前的层级为0，我们只需要比被克隆的节点层级低即可。
+        cloneDom.css({
+            "background-color": "white",
+            "position": "absolute",
+            "top": "0px",
+            "z-index": "-1",
+            "height": height
+        });
+        //将克隆节点动态追加到body后面。
+        $("#body").append(cloneDom);
+
+
+        var newName = new Date().getTime().toString(16) + Math.ceil(Math.random() * 10000).toString(16);
+        $(function() {
+            html2canvas(document.querySelector("#body")).then(function(canvas) {
+                //   octet-stream
+                var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+                $(".imgDiv_img").attr("src",imgUri)
+
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                imgData = imgData.replace(_fixType(type),'image/octet-stream');
+                console.log(imgData);
+
+                var filename = 'fangpaiwang_' + (new Date()).getTime() + '.' + type;
+                saveFile(imgData,filename);
+            })
+        });
+    })
+
+    var _fixType = function(type) {
+        type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+        var r = type.match(/png|jpeg|bmp|gif/)[0];
+        return 'image/' + r;
+    };
+    var saveFile = function(data, filename){
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+    };
+
+    // var nowDay = getnowDay();
+    // var nowTime = getnowTime();
+    $('#tab').watermark({
+        texts : ["J B S C 金 铂 顺 昌"], //水印文字
+        textColor : "#DCDCDC", //文字颜色
+        textFont : '14px 微软雅黑', //字体
+        width : 130, //水印文字的水平间距
+        height : 120,  //水印文字的高度间距（低于文字高度会被替代）
+        textRotate : -20 //-90到0， 负数值，不包含-90
+    })
+
+</script>
+</html>

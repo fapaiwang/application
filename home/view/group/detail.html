@@ -1,0 +1,173 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/group.css">
+<div class="searBar ">
+    {include file='group/search' /}
+</div>
+<div class="comWidth">
+    <!-- 页面标识 S-->
+    <div class="page_tit position-bottom">
+        <a href="javascript:;">您的位置：</a>
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+        <a href="javascript:void(0);">团购</a>
+    </div>
+    <!-- 页面标识 E-->
+</div>
+<div class="comWidth clearfix">
+    <div class="group_show02">
+        <div class="group_show02_l detail_slide">
+            <div class="g_s1">
+                <span class="arr01"></span>
+                <div class="small_list">
+                    <ul>
+                        <li class="on">
+                            <img src="{$info.img}" width="96" height="70">
+                        </li>
+                        {volist name='info.file' id='vo'}
+                        <li><img src="{$vo.url}" width="96" height="70" /></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <span class="arr02"></span>
+            </div>
+            <div class="n_h_simg01 large_box">
+                <ul>
+                    <li>
+                        <img src="{$info.img}" width="600" height="455">
+                    </li>
+                    {notempty name='info.file'}
+                    {volist name='info.file' id='vo'}
+                    <li style="display: none;">
+                        <img src="{$vo.url}" width="600" height="455">
+                    </li>
+                    {/volist}
+                    {/notempty}
+                </ul>
+            </div>
+        </div>
+        <div class="group_show02_r">
+            <div class="g_s2">
+                <b><a href="javascript:;">{$info.title}</a></b>
+                <p>{$info.address}</p>
+                <p>{$info.special}</p>
+            </div>
+            <div class="g_s3">
+                <div class="g_tuang"><img src="__IMG__/ico28.png" data-bd-imgshare-binded="1" width="128" height="132"></div>
+                <div class="g_s3_n1">
+                    <b> 团购价 {$info.price}{:config('filter.house_price_unit')} </b>
+                    <p><span>{$info.discount}</span><span>全程专车接送</span></p>
+                </div>
+                <div class="g_s3_n2">已有<i>{$info.sign_num}</i>人报名团购</div>
+                <div class="g_s3_n3">
+                    <b>距离报名结束时间倒计时</b>
+                    <p><span class="text22 time-remain" data-down="{$info.end_time-time()}"><i class="text22" time_id="d">0</i> 天 <i class="text22" time_id="h">0</i> 时 <i class="text22" time_id="m">0</i>分  <i class="text22" time_id="s">0</i>秒</span></p>
+                    <a href="javascript:;" class="J_dialog but20" data-id="{$info.house_id}" data-model="house" data-type="4" data-uri="{:url('Dialog/subscribe')}">我要报名</a>
+                </div>
+                <div class="g_s3_n4">
+                    <div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1527848286649"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到百度新首页" href="#" class="bds_bdhome" data-cmd="bdhome"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到豆瓣网" href="#" class="bds_douban" data-cmd="douban"></a><a title="分享到腾讯朋友" href="#" class="bds_tqf" data-cmd="tqf"></a><a title="分享到美丽说" href="#" class="bds_meilishuo" data-cmd="meilishuo"></a><a title="分享到蘑菇街" href="#" class="bds_mogujie" data-cmd="mogujie"></a><a title="分享到天涯社区" href="#" class="bds_ty" data-cmd="ty"></a></div>
+                    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin","bdhome","sqq","douban","tqf","meilishuo","mogujie","ty"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","bdhome","sqq","douban","tqf","meilishuo","mogujie","ty"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="house_detail clearfix" style="margin-top:20px;">
+        <div class="con_wrap clearfix">
+            <div class="leftArea cm_leftArea">
+                <!-- 房源概况 S-->
+                <div class="house_general floor">
+                    <div class="title clearfix">
+                        <h2>项目介绍</h2>
+                    </div>
+                    <div class="desc">
+                        {$info.info|raw}
+                    </div>
+                </div>
+
+            </div>
+            <div class="rightArea cm_rightArea ">
+
+                <div class="group_body_r01">
+                    <h1>服务热线</h1>
+                    <h2>{$site.telphone}</h2>
+                    <p>工作时间：周一到周日8:30-18:00</p>
+                </div>
+                <div class="group_body_r02"><h2>团购服务中心</h2><p><span class="group_ico group_ico_01">免费接机</span><span class="group_ico group_ico_02">旅游看房</span><span class="group_ico group_ico_03">置业顾问</span></p></div>
+                <div class="group_body_r03">
+                    {volist name='qq' id='vo'}
+                    <p>客服{$i}：<span class="org05"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$vo}&amp;site=qq&amp;menu=yes" target="_blank">{$vo}</a></span></p>
+                    {/volist}
+                </div>
+                <div class="m_t_15">
+                    <div class="title01"><span class="more"><a href="{:url('House/index')}">更多 &gt;</a></span>热门楼盘</div>
+                    <div class="hot_h">
+                        {volist name='hot_house' id='vo'}
+                        <dl class="clearfix">
+                            <dt><a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}"><img src="{$vo.img}" alt="{$vo.title}" onerror="this.src='/static/images/nopic.jpg'" width="120" height="90"></a></dt>
+                            <dd class="hot_h_t1 nowarp"><a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">{$vo.title}</a></dd>
+                            <dd class="hot_h_t2">{$vo.price}{$vo.unit}</dd>
+                            <dd class="hot_h_t3">{:getCityName($vo['city'])}</dd>
+                            <dd class="hot_h_t3 nowarp" title="{$vo.opening_time|date='Y年m月d日'}{$vo.opening_time_memo}">开盘时间：{$vo.opening_time|date='Y年m月d日'}{$vo.opening_time_memo}</dd>
+                        </dl>
+                        {/volist}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__JS__/carousel.min.js"></script>
+<script>
+    $(function(){
+        $(".detail_slide").thumbnailImg({
+            large_elem: ".large_box",
+            small_elem: ".small_list",
+            left_btn: ".arr01",
+            right_btn: ".arr02"
+        });
+        $('.J_dialog').on('click',function(){
+            var me=$(this),w = 750,h = 400,house_id=me.data('id'),model = me.data('model'),type = me.data('type'),url = me.data('uri');
+            url = url + '?house_id='+house_id+'&type='+type+'&model='+model;
+            layer.open({
+                type: 2,
+                title: false,
+                fix:true,
+                move:false,
+                area: [w+'px', h+'px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: url
+            });
+        });
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+
+</script>
+{/block}

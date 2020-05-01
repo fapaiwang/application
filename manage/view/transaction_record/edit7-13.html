@@ -1,0 +1,62 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('editDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">成交记录</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">所属小区 </label>
+                        <div class="layui-form-mid layui-word-aux">
+                            <input type="hidden" name="estate_id" value="{$estateInfo.id}">
+                            {$estateInfo.title}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>成交户型</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="title" placeholder="户型名称" value="{$info.title}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>面积</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="acreage" lay-verify="acreage" placeholder="120" value="{$info.acreage}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl">{:config('filter.acreage_unit')}</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>价格</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="price" lay-verify="price" placeholder="120" value="{$info.price}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl">万</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>签约时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="complate_time" lay-verify="complate_time" placeholder="2018-03-29" value="{$info.complate_time}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <input type="hidden" name="id" value="{$info.id}">
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+{/block}

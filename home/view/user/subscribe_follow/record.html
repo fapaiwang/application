@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+</head>
+<body>
+<div class="layui-tab-content">
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">跟进时间</label>
+        <div class="layui-input-inline">
+            <input name="create_time" id="create_time" lay-verify="required" autocomplete="off" placeholder="请输入标题" value="{:date('Y-m-d')}" class="layui-input" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="content" lay-verify="required" id="content" placeholder="填写跟进备注" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            {:token()}
+            <input type="hidden" name="sid" id="sid" value="{$sid}">
+            <button type="button" data-uri="{:url('save')}" class="layui-btn submit">提交</button>
+        </div>
+    </div>
+</form>
+</div>
+<script src="__STATIC__/layui/layui.js"></script>
+<script>
+    layui.use(['laydate','jquery','layer'],function(){
+        var $ = layui.jquery,laydate = layui.laydate,layer = layui.layer;
+        laydate.render({
+            elem: '#create_time'
+        });
+        $('.submit').on('click',function(){
+            var content = $("#content").val(),create_time = $("#create_time").val(),sid = $("#sid").val(),
+                    url = $(this).data('uri'),token = $("input[name='__token__']").val();
+            if(content.length == 0)
+            {
+                layer.msg('请填写备注内容');
+                return false;
+            }else{
+                var param = {
+                    sid : sid,
+                    create_time : create_time,
+                    content : content,
+                    token   : token
+                };
+                $.post(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            parent.window.location.reload();
+                        });
+                    }else{
+                        parent.layer.msg(result.msg,{icon:2});
+                    }
+                });
+            }
+        }) ;
+    });
+</script>
+</body>
+</html>

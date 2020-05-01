@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)/ -->
+<html><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- <base target="_blank"> -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="360-site-verification" content="13ebc55a743ed85f4ec6a1d47337f154">
+    <title>法拍房_司法拍卖房产_法拍房源_房拍网官方网站</title>
+     <meta name="keywords" content="法拍房,法拍网, 司法拍卖房产,拍卖网,房产拍卖网, 法拍房源" />
+    <meta name="description" content="房拍网是专业的法拍房、司法拍卖房产、房屋拍卖信息平台，汇聚千余套低于市场价25%的优质法拍房源，可以便宜放心拍房。咨询电话400 677 0028" />
+    <script>
+        var browser = {
+            versions: function() {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {     //移动终端浏览器版本信息
+                    trident: u.indexOf('Trident') > -1, //IE内核
+                    presto: u.indexOf('Presto') > -1, //opera内核
+                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        };
+        if (browser.versions.mobile) {
+            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
+        }
+    </script>
+    <link rel="stylesheet" href="/static/newindex/common.css">
+    <link rel="stylesheet" href="/static/newindex/animate.min.css">
+    <link rel="stylesheet" href="/static/newindex/ui-select.css">
+    <link rel="stylesheet" href="/static/newindex/style.css">
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.min.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+  <script src="/static/newindex/jquery-1.11.2.min.js"></script>
+    <script src="/static/newindex/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="/static/newindex/jquery.actual.min.js"></script>
+    <script src="/static/newindex/wow.min.js"></script>
+    <script src="/static/newindex/jquery.style.js"></script>
+    <script src="/static/newindex/ui-select.js"></script>
+    <link href="/static/newindex/validform.css" rel="stylesheet" type="text/css">
+    <script language="javascript" src="/static/newindex/Validform_v5.js"></script>
+    <script type="text/javascript" src="/static/newindex/jquery.lazyload.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("img").lazyload({
+                effect : "fadeIn"
+            });
+        });
+    </script>
+<SCRIPT language=javascript>function T(n){document.getElementById("ArticleCnt").style.fontSize=n+"px";}</SCRIPT>
+<SCRIPT>
+function srcMarquee(){
+this.ID = document.getElementById(arguments[0]);
+if(!this.ID){this.ID = -1;return;}
+this.Direction = this.Width = this.Height = this.DelayTime = this.WaitTime = this.Correct = this.CTL = this.StartID = this.Stop = this.MouseOver = 0;
+this.Step = 1;
+this.Timer = 30;
+this.DirectionArray = {"top":0 , "bottom":1 , "left":2 , "right":3};
+if(typeof arguments[1] == "number")this.Direction = arguments[1];
+if(typeof arguments[2] == "number")this.Step = arguments[2];
+if(typeof arguments[3] == "number")this.Width = arguments[3];
+if(typeof arguments[4] == "number")this.Height = arguments[4];
+if(typeof arguments[5] == "number")this.Timer = arguments[5];
+if(typeof arguments[6] == "number")this.DelayTime = arguments[6];
+if(typeof arguments[7] == "number")this.WaitTime = arguments[7];
+if(typeof arguments[8] == "number")this.ScrollStep = arguments[8]
+this.ID.style.overflow = this.ID.style.overflowX = this.ID.style.overflowY = "hidden";
+this.ID.noWrap = true;
+this.IsNotOpera = (navigator.userAgent.toLowerCase().indexOf("opera") == -1);
+if(arguments.length >= 7)this.Start();
+}
+srcMarquee.prototype.Start = function(){
+if(this.ID == -1)return;
+if(this.WaitTime < 800)this.WaitTime = 800;
+if(this.Timer < 20)this.Timer = 20;
+if(this.Width == 0)this.Width = parseInt(this.ID.style.width);
+if(this.Height == 0)this.Height = parseInt(this.ID.style.height);
+if(typeof this.Direction == "string")this.Direction = this.DirectionArray[this.Direction.toString().toLowerCase()];
+this.HalfWidth = Math.round(this.Width / 2);
+this.BakStep = this.Step;
+this.ID.style.width = this.Width;
+this.ID.style.height = this.Height;
+if(typeof this.ScrollStep != "number")this.ScrollStep = this.Direction > 1 ? this.Width : this.Height;
+var msobj = this;
+var timer = this.Timer;
+var delaytime = this.DelayTime;
+var waittime = this.WaitTime;
+msobj.StartID = function(){msobj.Scroll()}
+msobj.Continue = function(){
+if(msobj.MouseOver == 1){
+setTimeout(msobj.Continue,delaytime);
+     }
+     else{ clearInterval(msobj.TimerID);
+msobj.CTL = msobj.Stop = 0;
+msobj.TimerID = setInterval(msobj.StartID,timer);
+     }
+    }
+msobj.Pause = function(){
+msobj.Stop = 1;
+clearInterval(msobj.TimerID);
+setTimeout(msobj.Continue,delaytime);
+    }
+msobj.Begin = function(){
+   msobj.ClientScroll = msobj.Direction > 1 ? msobj.ID.scrollWidth : msobj.ID.scrollHeight;
+   if((msobj.Direction <= 1 && msobj.ClientScroll <msobj.Height) || (msobj.Direction > 1 && msobj.ClientScroll <msobj.Width))return;
+   msobj.ID.innerHTML += msobj.ID.innerHTML;
+   msobj.TimerID = setInterval(msobj.StartID,timer);
+   if(msobj.ScrollStep < 0)return;
+   msobj.ID.onmousemove = function(event){
+       if(msobj.ScrollStep == 0 && msobj.Direction > 1){
+var event = event || window.event;
+if(window.event){
+if(msobj.IsNotOpera){msobj.EventLeft = event.srcElement.id == msobj.ID.id ? event.offsetX - msobj.ID.scrollLeft : event.srcElement.offsetLeft - msobj.ID.scrollLeft + event.offsetX;}
+else{msobj.ScrollStep = null;return;}
+}
+else{msobj.EventLeft = event.layerX - msobj.ID.scrollLeft;}
+msobj.Direction = msobj.EventLeft > msobj.HalfWidth ? 3 : 2;
+msobj.AbsCenter = Math.abs(msobj.HalfWidth - msobj.EventLeft);
+msobj.Step = Math.round(msobj.AbsCenter * (msobj.BakStep*2) / msobj.HalfWidth);
+}
+}
+msobj.ID.onmouseover = function(){
+if(msobj.ScrollStep == 0)return;
+msobj.MouseOver = 1;
+clearInterval(msobj.TimerID);
+}
+msobj.ID.onmouseout = function(){
+if(msobj.ScrollStep == 0){
+if(msobj.Step == 0)msobj.Step = 1;
+return;
+}
+msobj.MouseOver = 0;
+if(msobj.Stop == 0){
+clearInterval(msobj.TimerID);
+msobj.TimerID = setInterval(msobj.StartID,timer);
+}}}
+setTimeout(msobj.Begin,waittime);
+}
+srcMarquee.prototype.Scroll = function(){
+switch(this.Direction){
+case 0:
+this.CTL += this.Step;
+if(this.CTL >= this.ScrollStep && this.DelayTime > 0){
+this.ID.scrollTop += this.ScrollStep + this.Step - this.CTL;
+this.Pause();
+return;
+}
+else{
+if(this.ID.scrollTop >= this.ClientScroll){this.ID.scrollTop -= this.ClientScroll;}
+this.ID.scrollTop += this.Step;
+}
+break;
+case 1:
+this.CTL += this.Step;
+if(this.CTL >= this.ScrollStep && this.DelayTime > 0){
+this.ID.scrollTop -= this.ScrollStep + this.Step - this.CTL;
+this.Pause();
+return;
+}
+else{
+if(this.ID.scrollTop <= 0){this.ID.scrollTop += this.ClientScroll;}
+this.ID.scrollTop -= this.Step;
+}
+break;
+case 2:
+this.CTL += this.Step;
+if(this.CTL >= this.ScrollStep && this.DelayTime > 0){
+this.ID.scrollLeft += this.ScrollStep + this.Step - this.CTL;
+this.Pause();
+return;
+}
+else{
+if(this.ID.scrollLeft >= this.ClientScroll){this.ID.scrollLeft -= this.ClientScroll;}
+this.ID.scrollLeft += this.Step;
+}
+break;
+case 3:
+this.CTL += this.Step;
+if(this.CTL >= this.ScrollStep && this.DelayTime > 0){
+this.ID.scrollLeft -= this.ScrollStep + this.Step - this.CTL;
+this.Pause();
+return;
+}
+else{
+if(this.ID.scrollLeft <= 0){this.ID.scrollLeft += this.ClientScroll;}
+this.ID.scrollLeft -= this.Step;
+}
+break;
+}
+}
+</SCRIPT>
+<script src="/static/newindex/pc_nb.js" charset="UTF-8"></script><link rel="stylesheet" type="text/css" href="/static/newindex/main.css">
+   <link rel="stylesheet" type="text/css" href="/qhdq/reset.css">
+    <link rel="stylesheet" type="text/css" href="/qhdq/common.css">
+</head>
+
+<body>
+  <style>
+#btn{width:550px; height:50px; line-height:50px; text-align:center; background:#00AC56; position:fixed; right:0px; text-indent:1em; font-family:'微软雅黑'; font-size:16px; font-weight:bold; color:#fff; bottom:500px}
+#box{height:500px; width:550px; background:#f5f5f5;position:fixed; right:0px; bottom:0px}
+#bbox{border-top:2px solid #e3e3e3;border-left:2px solid #e3e3e3;position:fixed; right:0px; bottom:0px;width:550px; height:550px; box-shadow:-2px -2px 5px #aaa;    z-index: 9999999;}
+</style>
+    <script>
+        var browser = {
+            versions: function() {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {     //移动终端浏览器版本信息
+                    trident: u.indexOf('Trident') > -1, //IE内核
+                    presto: u.indexOf('Presto') > -1, //opera内核
+                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        };
+        if (browser.versions.mobile) {
+            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+  <style type="text/css">
+.topBar{background: linear-gradient(#ffffff, #e3e3e3);box-shadow:1px 2px 2px #888}
+.nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
+.navBar .nav_list a { color: #000;}
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?382a05b9ea5e121e9efe1520d2febe1b";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!-- topBar S -->
+<div class="topBar">
+    <div class="comWidth clearfix">
+        <div class="logo fl" style="line-height:70px">
+            <a href="{:url('Index/index')}" title="{$site.title}">
+                <!--<img src="{$site.pc_logo_white}" alt="{$site.title}" style="height:66px" />-->
+                <img src="/homeStatic/img/green_log.png" alt="{$site.title}" style="height:66px" />
+            </a>
+        </div>
+        <div class="fl sele_city" style="height:70px">
+            <a href="javascript:;"  class="sele_city_btn" style="line-height:70px;color:#000">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
+            <div class="city_list clearfix">
+                <i class="city-close">关闭</i>
+                {volist name='top_nav_city.city' id='vo'}
+                <dl class="clearfix">
+                    <dt class="bold">{$key}</dt>
+                    {volist name='vo' id='val'}
+                    <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" title="{$val.name}" rel="nofollow">{$val.name}</a></dd>
+                    {/volist}
+                </dl>
+                {/volist}
+            </div>
+        </div>
+        <div class="navBar fl" style="height:70px">
+            <ul class="nav_list fl">
+              <li style="padding: 10px 30px;"><a href="/" style="color:#00AC56" title="网站首页" target="_self" >网站首页</a></li>
+              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
+              <li style="padding: 10px 30px;"><a href="/erf.html?sort=9" title="推荐房源" target="_self" {if !empty( $_GET['sort']) eq '9' }style="color:#00AC56"{/if} >推荐房源</a> </li>
+              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
+              <li style="padding: 10px 30px;"><a href="/xiaoqu.html?mod4=4" title="优质小区" target="_self" {if !empty( $_GET['mod4']) eq '4' }style="color:#00AC56"{/if} >优质小区</a></li>
+              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
+              <li style="padding: 10px 30px;"><a href="/map/second.html?mod5=6" rel="nofollow" title="地图找房" target="_self" {if !empty( $_GET['mod5']) eq '6' }style="color:#00AC56"{/if} >地图找房</a></li>
+              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
+              <li style="padding: 10px 30px;"><a href="/news.html?mod=5" title="资讯中心" target="_self" >资讯中心</a></li>
+              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
+              <li style="padding: 10px 30px;"><a href="/single-aboutus.html?mod6=8" rel="nofollow" title="关于我们" target="_self" {if !empty( $_GET['mod6']) eq '8' }style="color:#00AC56"{/if} >关于我们</a></li>
+
+            </ul>
+        </div>
+        <div class="log_link fr">
+            {notempty name='userInfo'}
+            <!-- 已登录状态 -->
+            <div class="loged" style="line-height:70px">
+                <div class="user_info" style="line-height:70px">
+                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                    <span class="name" style="color:#000">{:hideStr($userInfo['nick_name'])}</span>
+                </div>
+                <div class="slide_tog" style="display:none;">
+                    <a href="{:url('user.index/index')}" style="color:#000">用户中心</a>
+                    <a href="{:url('Login/logout')}" style="color:#000">退出登录</a>
+                </div>
+            </div>
+            {else /}
+            <!-- 未登录状态 -->
+            <div class="not_log" style="line-height:70px;color:#000">
+                <a href="{:url('Login/index')}" rel="nofollow" style="color:#000">登录</a>
+                /
+                <a href="{:url('Login/register')}" rel="nofollow" style="color:#000">注册</a>
+            </div>
+            {/notempty}
+        </div>
+    </div>
+</div>
+<!-- topBar E -->
+<div class="top fix" style="background:url('{$site.pchdp_qrcode}') no-repeat top center; background-size: cover;height:660px;">
+    <div class="focusBox" style="top:72px">
+        <ul class="pic" style="position: relative; width: 1920px; height: 660px;margin:0 auto">
+                      <li style="position: absolute; width: 1920px; left: 0px; top: 0px;">
+                      <!-- <a style="background:url('/static/newindex/banner.jpg') no-repeat top center; background-size: cover;height:660px;">&nbsp;</a> -->
+                      <a >&nbsp;</a>
+                      </li>
+                  </ul>
+    </div>
+    <script type="text/javascript">
+        jQuery(".focusBox").slide({ mainCell:".pic",effect:"fold", autoPlay:true, delayTime:600, trigger:"click"});
+    </script>
+   <div class="container auto fix" style="width: 1220px;">
+       <div class="content_s fix top-box" style="top:200px">
+           <div class="title"></div>
+           <div class="num-group fix mb10 pb2">
+               <div class="num-box">
+                   <div><span class="num-a">{$jjcount}</span> 套</div>
+                   即将拍卖            </div>
+               <div class="num-box">
+                   <div><span class="num-a">{$zzcount}</span> 套</div>
+                   正在进行            </div>
+               <div class="num-box last">
+                   <div><span class="num-a">{$jrcount}</span> 套</div>
+                   今日新增            </div>
+               <script type="text/javascript" src="/static/newindex/jquery.waypoints.min.js"></script>
+               <script type="text/javascript" src="/static/newindex/jquery.countup.min.js"></script>
+               <script type="text/javascript">
+                   $('.num-a').countUp();
+               </script>
+           </div>
+           <div class="search-box">
+               <div class="class-list fix ovh">
+                   <a href="javascript:;" onClick="changeIndex(0)" class="serch_cur">全部</a>
+                    <a href="erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/18334/jieduan/0/fcstatus/0.html" target="_blank">住宅</a>
+                    <a href="erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/18333/jieduan/0/fcstatus/0.html" target="_blank">商办</a>
+                    <a href="erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/18331/jieduan/0/fcstatus/0.html" target="_blank">别墅</a>
+                    <a href="erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/18332/jieduan/0/fcstatus/0.html" target="_blank">平房.四合院</a>
+                    <a href="erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/18336/jieduan/0/fcstatus/0.html" target="_blank">写字楼</a>
+                 </div>
+               <div class="search fix">
+                   <form action="{:url('Second/index')}">
+                    <input type="hidden" name="types" id="index_cid" value="0">
+                    <input type="text" class="s-inp fl" id="keyword" name="keyword" placeholder="" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt"; onClick='showhidediv("baip")';>
+                    <!-- <span class="placeholder">输入小区名称或房源名称</span> -->
+                       <input type="submit" name="" class="s-btn fl" id="huiches" value="开始找房">
+
+                       <a href="{:url('Map/second')}" target="_blank" class="fl"><img class="s-btn-s fl" src="/static/newindex/ditumap.png" original="/static/images/ditumap.png"></a>
+
+
+
+
+                       <ul id="search-boxs" style="display:none; float:left;
+    z-index: 999;
+    padding: 10px;
+    width: 564px;
+    background-color: #fff;
+    top: 38px;
+    left: -2px;
+    border-width: 2px;
+    border-style: solid;
+    border-top: none;
+    border-color: #00AC56;">
+                    </ul>
+                   </form>
+
+
+
+                   <script>
+                     function changeIndex(tid){
+                       $('#index_cid').val(tid);
+                     }
+                    </script>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li style="padding: 5px 0;">
+        <a href="{{d[i].url}}" target="_blank" style="text-decoration: none; color: #333;  outline: none;">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address" style="color: #999;">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#select select").on('change',function(){
+            var uri = $(this).find("option:selected").data('uri');
+            window.location.href = uri;
+        });
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var bb=document.getElementById("index_cid").value;
+
+
+            var keyword = $(this).val(),url = $(this).data('uri')+'?types='+bb,box = $('#search-boxs');
+             // alert(url);
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-boxs').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-boxs').hide();
+        });
+    })
+</script>
+               </div>
+<script type="text/javascript">
+  function showhidediv(id){
+var sbtitle=document.getElementById(id);
+if(sbtitle){
+   if(sbtitle.style.display=='block'){
+   sbtitle.style.display='none';
+   }else{
+   sbtitle.style.display='block';
+   }
+}
+}
+</script>
+<style>
+.saleDetail li{
+padding:5px 0;
+}
+</style>
+<div   id="baip" style="display:none;position: relative;margin-top:-2px;width: 584px; background-color: rgb(255, 255, 255);border-right: 2px solid rgb(0, 172, 86); border-bottom: 2px solid rgb(0, 172, 86); border-left: 2px solid rgb(0, 172, 86); border-top: none rgb(0, 172, 86);">
+        <ul class="saleDetail" style="padding-left:10px;">
+            <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
+        </ul>
+        <ul class="saleDetail history" style="padding-left:10px;"></ul>
+        <div class="Storage"></div>
+        <div class="h80"></div>
+        <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
+       </div>
+<script  type="text/javascript" src="jquery-2.1.4.min.js"></script>
+<script>
+var ItemName = "";  //localStorage的getItem 和 setItem的数组名字，主要用来做不同界面调用各自的历史记录。
+var menuHistory   = new Object();
+$(function(){
+  initLocalStorageArg("hi_001");
+});
+  $(document).delegate(".history>li","click",function(){
+    $("#keyword").val($(this).text());
+  });
+  /**
+   * 初始化相关参数，界面js调用
+   * menucode：可以是js的名字
+   */
+  function initLocalStorageArg(menucode){
+    //苹果手机不兼容出现input无法取值以下是解决方法
+    $('.history>li').click(function(){
+          var div = $(this).text();
+          $('#keyword').val(div);
+    });
+    ItemName = "hist_"+menucode;
+    initlocalStorage();
+    showHistDom();
+  }
+  /**
+   * 历史数据展示
+   */
+  function showHistDom(){
+    $(".history").html("");
+    for(  var i=0 ; i<menuHistory.length;i++){
+        $(".history").append('<li style="display: block;">'+menuHistory[i]+'</li>')
+      }
+  }
+/**
+ * 获取指定的localStorageobj对象，并转成Array对象。
+ */
+function initlocalStorage(){
+    var localStorageobj = localStorage.getItem(ItemName);
+    if(localStorageobj){
+    }else{
+     localStorage.setItem( ItemName,"[]");
+     localStorageobj = localStorage.getItem(ItemName);
+    }
+    menuHistory=JSON.parse( localStorageobj);
+}
+/**
+ * 执行记录历史数据
+ */
+function recordHist(){
+      initlocalStorage();
+      var value = $("#keyword").val();
+    //输入的内容localStorage有记录
+      if($.inArray(value,menuHistory)>=0){
+         var keyval = Object.keys(menuHistory).filter(function(x){return menuHistory[x] == value}).toString() ;
+         menuHistory.splice(Number(keyval), 1); //splice(index,1):index代表value值在数组中对应到下标，1：表示删除
+      }else {
+        if (menuHistory.length > 9) {
+            menuHistory.pop();
+        }else {
+        }
+      }
+      menuHistory.unshift(value);
+      localStorage.removeItem(ItemName);
+      localStorage.setItem( ItemName,JSON.stringify(menuHistory)); // 因为localStorage的value不能直接放数组，所以转换程json串后，再set
+      showHistDom();
+}
+//清除记录功能
+ $(".btnEmpty").click(function(){
+   localStorage.setItem( ItemName,JSON.stringify([]));
+    initlocalStorage();
+    showHistDom();
+ });
+/*执行搜索的一种方式，绑定回车键*/
+  $("#keyword").on("keypress",function(e){
+    var keycode=e.keyCode;
+    if(keycode=='13'){
+      recordHist();
+    }
+  });
+  $("#huiches").click(function(){
+      recordHist();
+  });
+</script>
+           </div>
+       </div>
+   </div>
+</div>
+  <div style="width:100%;background:linear-gradient(#f5f5f5, #e3e3e3);border-bottom: 1px solid #ccc;">
+<div style="margin:0 auto; width:1200px; height:50px">
+       <div style="width:160px;height:50px;line-height:50px;float:left;font-size:16px;color: #00AC56;"><img src="/img/gg.png" style="width:23px;height:23px;vertical-align: middle;    margin-right: 8px;"/>今日新增及动态</div>
+             <DIV id="Scroll" style="margin-left:20px">
+<DIV id="ScrollMe" style="OVERFLOW: hidden; HEIGHT: 50px">
+  {fang:lists table='second_house' filed="id,title,estate_name,img,room,living_room,city,price,acreage,tags,update_time,qipai,marketprice" where="status = 1 and timeout > $time" order="create_time desc" limit="20" id="vo"}
+<A href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" style="height:50px; line-height:50px; text-decoration:none; color:#000;    font-size: 15px;"> <span>{$vo.title}</span>
+                       <span style="    color: #00AC56;">起拍价：<em class="n"  style="    color: #00AC56;">{$vo.qipai|raw}万</em></span>
+                       <span>市场价：{$vo.price|raw}</span>
+                       <span>{$vo['kptime']|date="Y-m-d H:i:s"}</span></A><BR>
+     {/fang:lists}
+</DIV>
+</DIV>
+<SCRIPT>new srcMarquee("ScrollMe",0,1,808,50,30,3000,3000,50)</SCRIPT>
+               </div>
+    </div>
+<div class="content_content fix">
+    <div class="container auto fix">
+       <div class="one fix">
+           <div class="pub_tit_s fix tc">
+               <h2 class="n" style="color: #272a2f;">推荐房源</h2>
+               <p>重点捡漏房源，低于市场价20%起</p>
+           </div>
+           <ul class="fix">
+      {fang:lists table='second_house' filed="id,title,qipai,estate_name,img,room,living_room,city,price,acreage,tags,update_time,qipai,marketprice" where="rec_position = 1 and timeout > $time  and marketprice =5" order="ordid asc,update_time asc" limit="3" id="vo"}
+                           <li class="fix">
+                   <!-- <div class="pic"><a href="{:url('Second/detail',['id'=>$vo['id']])}" target="_blank"><img src="{:thumb($vo['img'],200,140)}" data-original="{:thumb($vo['img'],200,140)}" alt="{$vo.title}"></a></div> -->
+                   <div class="pic">
+                       <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
+                           <img src="{$vo.img}" data-original="{$vo.img}" alt="{$vo.title}">
+                       </a>
+                   </div>
+                   <div class="tit tc">
+                      <h4>{:msubstr(strip_tags($vo['title']),0,22)}</h4>
+                      <span>{:getCityName($vo['city'])}</span>
+                       <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
+                      <!-- ymm -->
+                      <!-- <span>{$vo.room}室{$vo.living_room}厅</span> -->
+          {if strstr($vo.acreage,'.')}
+            <span>{$vo.acreage}{:config('filter.acreage_unit')}</span>
+          {else}
+            <span>{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+          {/if}
+                      <!-- <span>{$vo.acreage}{:config('filter.acreage_unit')}</span> -->
+                   </div>
+          {if strstr($vo.qipai,'.')}
+            <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}</em> 万</div>
+          {else}
+            <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}.00</em> 万</div>
+          {/if}
+                   <!-- <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}</em> 万</div> -->
+               </li>
+            {/fang:lists}
+           </ul>
+           <div class="more tc"><a href="/erf.html?sort=9" target="_blank">更多精选房源</a></div>
+       </div>
+        <div class="one fix">
+            <div class="pub_tit_s fix tc">
+                <h2 class="n" style="color: #272a2f;">今日新增</h2>
+                <p>实时更新，分秒必争</p>
+            </div>
+            <ul class="fix">
+              {fang:lists table='second_house' filed="id,title,qipai,estate_name,img,room,living_room,city,price,acreage,tags,update_time,qipai,marketprice,fabutimes" where="status = 1 and timeout > $time" order="fabutimes desc" limit="3" id="vo"}
+              <li class="fix">
+                  <!--/static/images/download.png-->
+                   <!-- <div class="pic"><a href="{:url('Second/detail',['id'=>$vo['id']])}" target="_blank"><img original="{:thumb($vo['img'])}" src="{:thumb($vo['img'])}" style="display: inline;"></a></div> -->
+                   <div class="pic"><a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank"><img src="{$vo.img}" data-original="{$vo.img}" style="display: inline;" alt="{$vo.title}"></a></div>
+                   <div class="tit tc">
+                      <h4>{:msubstr(strip_tags($vo['title']),0,22)}</h4>
+                       <span>{:getCityName($vo['city'])}</span>
+                       <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
+                       <!-- ymm -->
+                      <!-- <span>{$vo.room}室{$vo.living_room}厅</span> -->
+          {if strstr($vo.acreage,'.')}
+            <span>{$vo.acreage}{:config('filter.acreage_unit')}</span>
+          {else}
+            <span>{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+          {/if}
+                      <!-- <span>{$vo.acreage}{:config('filter.acreage_unit')}</span> -->
+                   </div>
+          {if strstr($vo.qipai,'.')}
+            <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}</em> 万</div>
+          {else}
+            <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}.00</em> 万</div>
+          {/if}
+                   <!-- <div class="wz_bt fix"> <em class="n">{$vo.qipai|raw}</em> 万</div> -->
+               </li>
+                      {/fang:lists}
+                          </ul>
+            <div class="more tc"><a href="/erf-39-0-0-0-0-0-0-0-0-0-0-7-1/types/0/jieduan/0/fcstatus/0.html" rel="nofollow" target="_blank">更多今日新增</a></div>
+        </div>
+        <div class="two fix">
+            <div class="pub_tit_s fix tc">
+                <h2 class="n" style="color: #272a2f;">今日成交</h2>
+                <p>直观展现  便宜才是真理</p>
+            </div>
+            <ul class="fix">
+              {fang:lists table='second_house' filed="id,title,estate_name,img,room,living_room,city,price,cjprice,acreage,tags,update_time,qipai,marketprice,endtime" where="fcstatus = 175" order="endtime desc" limit="3" id="vo"}
+              <li class="fix">
+                    <!-- <div class="pic"><a href="" target="_blank"><img original="{:thumb($vo['img'])}" src="{:thumb($vo['img'])}" style="display: inline;"></a></div> -->
+                    <div class="pic">
+                        <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
+                            <img src="{$vo.img}" alt="{$vo.title}" style="display: inline;">
+                        </a>
+                    </div>
+                    <div class="tit tc">
+                        <h1> {:template_substract($vo.price,$vo.cjprice)} <em class="n">万元</em></h1>
+          {if strstr($vo.cjprice,'.')}
+            <span>成交价 <em class="n ml10">{$vo.cjprice|raw}万</em></span>
+          {else}
+            <span>成交价 <em class="n ml10">{$vo.cjprice|raw}.00万</em></span>
+          {/if}
+                        <span style="padding-left:0px;">市场价 <em class="n ml10">{$vo.price|raw}</em></span>
+                        <span style="padding-left:0px;">{$vo['endtime']|date="Y-m-d H:i:s"}</span>
+                        <span>{$vo.title}</span>
+                    </div>
+                    <div class="wz_bt fix">差额</div>
+                    <img alt="" class="ycj" original="/static/images/39.png" src="/static/images/status/status7.png" style="display: block;right:135px; top:90px">
+                </li>
+              {/fang:lists}
+            </ul>
+            <div class="more tc"><a href="/erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/0/jieduan/0/fcstatus/175.html" rel="nofollow" target="_blank">更多今日成交</a></div>
+        </div>
+ <div class="two fix">
+            <div class="pub_tit_s fix tc">
+                <h2 class="n" style="color: #272a2f;">资讯中心</h2>
+                <!-- <p>新闻资讯</p> -->
+            </div>
+            <ul class="fix">
+              <li class="fix">
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=1" order="create_time desc" limit="1" id="vo"}
+                   <div class="pic"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank"><img original="{$vo.img}" src="{$vo.img}" style="display: inline;" alt="{$vo.title}"></a></div>
+                   {/fang:lists}
+                   <div class="tit tc">
+                      <h4><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></h4>
+                   </div>
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=1" order="create_time desc" limit="5" id="vo"}
+                   <div style="padding-top: 5px;border-top: none;height:20px;padding-bottom: 5px;" >
+                    <span style="float:left;border-top: none;color:red;font-size:16px;">{$key+1}</span>
+                    <span style="float:left;border-top: none;margin-left:10px;font-size:14px;font-family:微软雅黑;"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></span>
+                   </div>
+                   {/fang:lists}
+               </li>
+               <li class="fix">
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=9" order="create_time desc" limit="1" id="vo"}
+                   <div class="pic"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank"><img original="{$vo.img}" src="{$vo.img}" style="display: inline;" alt="{$vo.title}"></a></div>
+                   {/fang:lists}
+                   <div class="tit tc">
+                      <h4><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></h4>
+                   </div>
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=9" order="create_time desc" limit="5" id="vo"}
+                   <div style="padding-top: 5px;border-top: none;height:20px;padding-bottom: 5px;" >
+                    <span style="float:left;border-top: none;color:red;font-size:16px;">{$key+1}</span>
+                    <span style="float:left;border-top: none;margin-left:10px;font-size:14px;font-family:微软雅黑;"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></span>
+                   </div>
+                   {/fang:lists}
+               </li>
+               <li class="fix">
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=10" order="create_time desc" limit="1" id="vo"}
+                   <div class="pic"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank"><img original="{$vo.img}" src="{$vo.img}" style="display: inline;" alt="{$vo.title}"></a></div>
+                   {/fang:lists}
+                   <div class="tit tc">
+                      <h4><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></h4>
+                   </div>
+                   {fang:lists table='article' filed="id,title,img" where="status = 1 and cate_id=10" order="create_time desc" limit="5" id="vo"}
+                   <div style="padding-top: 5px;border-top: none;height:20px;padding-bottom: 5px;" >
+                    <span style="float:left;border-top: none;color:red;font-size:16px;">{$key+1}</span>
+                    <span style="float:left;border-top: none;margin-left:10px;font-size:14px;font-family:微软雅黑;"><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></span>
+                   </div>
+                   {/fang:lists}
+               </li>
+            </ul>
+            <div class="more tc"><a href="/news.html?mod=5" rel="nofollow" target="_blank">更多资讯</a></div>
+        </div>
+    </div>
+</div>
+<div style="width:100%;height:600px; margin:0 auto">
+<link href="/appdw/home.min.css?v201905061" rel="stylesheet">
+<div class="section-wrap section-applayer" style="margin-top: 30px;padding-top: 1px;">
+  <div class="section">
+    <dl class="appintroduce" style="display:none;">
+      <dt>
+        <img src="./appdw/app_tit.png" alt=""></dt>
+      <dd class="top" style="height:auto">
+        <p>房拍网APP是《房拍网》官方手机找房应用，提供找法拍房源、国有资产、涉诉房产、社会委托等法拍房，满足不同用户所需。同时，业主委托功能，也为卖房客户提供帮助。专业的法拍专员，为房拍网线上客户和业主提供全程服务。全心为您，只因更懂您。</p>
+      </dd>
+      <dd class="bot" style="margin-left: 430px;width:560px">
+        <img src="./appdw/download_app2.jpg" alt=""  style="    margin: 0px;">
+      <p style="width:130px;color:#fff;margin-right:20px; height:115px;padding:5px;font-weight: bold;margin: 0px;    background: #00ac56;    line-height: 26px;"> 安卓用户<br/> 请扫描<br/> 左侧二维码 <br/>下载安装使用！</p>
+        <p style="width:180px;display:none">
+          <a href="" class="ipone" target="_blank"></a>
+          <a target="_blank" href="" class="android"></a>
+        </p>
+          <img src="./appdw/iosapp.jpg" alt="" style="    margin:0px;margin-left:10px">
+          <p style="width:130px;color:#fff;height:115px;padding:5px; font-weight: bold;margin: 0px;    background: #19c1f8;    line-height: 26px;">  苹果用户<br/>请到苹果app store<br/>搜索【房竞网】<br/>下载安装使用！  </p>
+      </dd>
+    </dl>
+  </div>
+</div>
+  </div>
+<div class="footer fix" style="background: url(/static/newindex/27.jpg) no-repeat center bottom;padding-top:0px;height:240px">
+  <div class="container auto fix">
+      <div class="tops fix">
+          <div class="fl left">
+              <h1>房拍网</h1>
+              <p>您值得信赖的房产拍卖网站</p>
+          </div>
+          <div class="content fl">
+              <h5>全国服务资讯热线：</h5>
+              <span class="db">400 677 0028</span>
+              <p>地址：北京市东城区朝阳门银河SOHO D座11层51102</p>
+          </div>
+          <div class="right fr" style="display:none;">
+                             <div class="wx fl ml20">
+                    <span>微信服务号</span>
+                    <img width="95" height="95"  src="/static/newindex/e4bc77e686131aa5ae172feee84fba60.jpg" style="display: block;">
+                </div>
+                              <div class="wx fl ml20">
+                    <span>网站二维码</span>
+                    <img width="95" height="95"  src="/static/newindex/e40b1c66a5ead2969e97ed1e124c55a7.jpg" style="display: block;">
+                </div>
+                        </div>
+      </div>
+      <div class="copyright fix">
+          <div class="container auto fix">
+              <div class="fl">
+                <a href="/single-aboutus.html" rel="nofollow">加入我们</a><span>|</span>
+                <a href="/single-contacts.html" rel="nofollow">联系我们</a><span>|</span>
+                <a href="/single-huiyuanquanyi.html">法拍房贷款</a><span>|</span>
+                <a href="/single-yonghuxieyi.html" rel="nofollow">用户注册协议</a>
+
+              </div>
+              <div class="fr">北京房拍在线网络科技有限公司 版权所有 京公网安备11010502030025号 京ICP备11017857号</div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="footer fix" style="padding-top:0px;height:35px">
+<div class="container auto fix" style="line-height:35px;">
+<a href="javascript:;" style="text-decoration: none;color:#fff;">友情链接：</a>
+                {fang:lists table='link' where='cate_id=1 and status=1 and city_id = $cityId' field='name,url' order='ordid asc,id asc' limit='40' id='data'}
+                <a href="{$data.url}" target="_blank" title="{$data.name}" style="color: #ABABAB;font-size: 12px;margin-left: 10px;text-decoration: none;">{$data.name}</a>
+                {/fang:lists}
+                </div>
+            </div>
+  <!--客服-->
+  <!--<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112243.js"></script>-->
+  <!--<script type="text/javascript" src="http://z1-pcok6.kuaishangkf.com/bs/ks.j?cI=102078&fI=141106" charset="utf-8"></script>-->
+
+  <style type="text/css">
+.floating_ck{position:fixed;right:20px;top:30%;z-index:999999}
+.floating_ck dl dd{position:relative;width:80px;height:80px;background-color:#00AC56;border:solid 3px #e3e3e3;text-align:center;background-repeat:no-repeat;border-radius: 5em;background-position:center 20%;cursor:pointer;margin-bottom: 8px;}
+.floating_ck dl dd:hover{background-color:#33a033;border:solid 3px #e3e3e3;}
+.floating_ck dl dd:hover .floating_left{display:block;}
+.consult{background-image:url(kf/images/img-21.png);}
+.words{background-image:url(kf/images/img-22.png);}
+.quote{background-image:url(kf/images/img-23.png);}
+.qrcord{background-image:url(kf/images/img-24.png); }
+.return{background-image:url(kf/images/fanhui.png);}
+.floating_ck dd span{color:#fff;display:block;padding-top:50px; font-size:13px}
+.floating_left{position:absolute;left:-180px;top:0px;width:160px;border-radius: 1em;height:80px;background-color:#33a033;border:solid 3px #e3e3e3;display:none;}
+.floating_left a{color:#fff;line-height:80px;}
+.floating_ewm{height:260px;top:-180px;}
+.floating_ewm i{background-image:url(kf/images/erweima.png);display:block;width:145px;height:145px;margin:auto;margin-top:7px;background-size:100%}
+.floating_ewm p{color:#fff;margin-top:5px;}
+.floating_ewm .qrcord_p01{font-size:12px;line-height:20px;}
+.floating_ewm .qrcord_p02{font-size:18px;}
+</style>
+<script type="text/javascript" src="/kf/js/top.js"></script>
+<div class="floating_ck">
+  <dl>
+      <dt></dt>
+        <dd class="consult" style="display:none">
+          <span>APP下载</span>
+          <div class="floating_left" style="display:none"><a href="">下载官方APP</a></div>
+        </dd>
+        <a href="/erf-39-0-0-0-0-0-0-0-0-0-0-7-1/types/0/jieduan/0/fcstatus/0.html" rel="nofollow" style="color:#fff"><dd class="words">
+          <span>今日新增</span>
+            <div class="floating_left" style="display:none">浏览今日新增房源</div>
+        </dd></a>
+       <a href="/erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/0/jieduan/0/fcstatus/175.html" rel="nofollow" style="color:#fff"> <dd class="quote">
+          <span>今日成交</span>
+            <div class="floating_left" style="display:none">浏览今日成交房源</div>
+        </dd></a>
+        <dd class="qrcord">
+          <span>官方微信</span>
+            <div class="floating_left floating_ewm">
+              <i></i>
+                <p class="qrcord_p01">扫一扫<br>关注我们</p>
+                <p class="qrcord_p02">全国免费服务热线<br><b>400-677-0028<b></p>
+            </div>
+        </dd>
+        <dd class="return">
+          <span onClick="gotoTop();return false;">返回顶部</span>
+        </dd>
+    </dl>
+</div>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    $("img.lazy").lazyload({
+        threshold : 100,
+        effect : "fadeIn"
+        //event: "scrollstop"
+    });
+    $(function(){
+       $('.follow').on('click',function(){
+           var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+           $.post(url,{house_id:house_id,model:model},function(result){
+               if(result.code == 1)
+               {
+                   layer.msg(result.msg,{icon:1});
+                   if(me.hasClass('on'))
+                   {
+                       me.removeClass('on').text(result.text);
+                   }else{
+                       me.addClass('on').text(result.text);
+                   }
+               }else{
+                   layer.msg(result.msg,{icon:2});
+               }
+           });
+       });
+    });
+</script>
+</html>
+<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>
+<!--<script type="text/javascript" src="https://kefu6.kuaishang.cn/bs/ks.j?cI=846528&fI=49679" charset="utf-8"></script>-->
+<!--<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->

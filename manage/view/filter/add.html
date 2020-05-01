@@ -1,0 +1,151 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.width-100{width:75px;display:inline-block;}
+	.orange{color:#f47023;cursor:pointer;}
+</style>
+<div class="dialog_content">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" id="name"  placeholder="新房价格范围" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">调用key</label>
+			<div class="layui-input-inline">
+				<input type="text" name="keys" id="keys"  placeholder="house_price" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">值类型</label>
+			<div class="layui-input-inline">
+				<select name="type" id="type" lay-filter="type">
+					<option value="1">文本</option>
+					<option value="2">一维数组</option>
+					<option value="3">二维数组</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">值</label>
+			<div class="layui-input-block" id="type-box">
+				<input type="text" name="values" class="layui-input" />
+			</div>
+		</div>
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script type="text/html" id="type-1">
+	<input type="text" name="values" class="layui-input" />
+</script>
+<script type="text/html" id="type-2">
+	<table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+		<colgroup>
+			<col width="85%">
+		</colgroup>
+		<thead>
+		<tr>
+			<th>
+				<div class="layui-table-cell"><span>显示名称</span></div>
+			</th>
+			<th>
+				操作
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td class="filter-name"><input type="text" name="values[1]" class="layui-input" /></td>
+			<td>
+				<a href="javascript:;" class="addItem"><i class="layui-icon orange">&#xe61f;</i></a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</script>
+<script type="text/html" id="type-3">
+	<table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+		<colgroup>
+			<col width="35%">
+			<col width="50%">
+			<col width="15%">
+		</colgroup>
+		<thead>
+		<tr>
+			<th>
+				<div class="layui-table-cell"><span>显示名称</span></div>
+			</th>
+			<th>
+				<div class="layui-table-cell"><span>查询值</span></div>
+			</th>
+			<th>
+				操作
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td class="filter-name"><input type="text" name="values[1][name]" class="layui-input" /></td>
+			<td class="filter-value">
+				<input type="text" name="values[1][value][]" class="layui-input width-100" /> 到 <input type="text" name="values[1][value][]"  class="layui-input width-100"/>
+			</td>
+			<td>
+				<a href="javascript:;" class="addItem"><i class="layui-icon orange">&#xe61f;</i></a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</script>
+<script>
+	var number = 1;
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#name").formValidator({onshow:'请填写名称',onfocus:'请填写名称'}).inputValidator({min:1,onerror:'请填写名称'});
+		$("#keys").formValidator({onshow:'请填写调用key',onfocus:'请填写调用key'}).inputValidator({min:1,onerror:'请填写调用key'});
+		$("#type-box").on('click','.addItem',function(){
+			var parent = $(this).parents('tr'),clone = parent.clone(),input_name = clone.find(".filter-name"),input_value = clone.find(".filter-value");
+			number++;
+			input_name.html(input_name.html().replace('values[1]','values['+number+']'));
+			if(input_value.length > 0){
+				input_value.html(input_value.html().replace(/values\[1\]/g,'values['+number+']'));
+			}
+			clone.find(".layui-icon").html('&#x1007;');
+			clone.find("input[type='text']").val('');
+			clone.find(".addItem").addClass('reduceItem').removeClass('addItem');
+			parent.parent().append(clone);
+		});
+		$(".layui-form").on('click','.reduceItem',function(){
+			var parent = $(this).parents('tr'),next = parent.nextAll();
+			number = parent.index();
+			parent.remove();
+			next.remove();
+		});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+	layui.use(['form'],function(){
+		var form = layui.form;
+		form.on('select(type)', function(data){
+			number = 1;
+			var v = data.value;
+			$("#type-box").html($("#type-"+v).html());
+		});
+	});
+</script>
+{/block}

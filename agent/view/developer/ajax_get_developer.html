@@ -1,0 +1,88 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--开发商列表-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" id="info_form" action="{:url('Developer/ajaxGetDeveloper')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" id="keyword" type="text" placeholder="开发商名称" class="layui-input" size="25" value="" />
+                    </div>
+                    <button class="layui-btn layui-btn-normal" id="searchBtn" type="submit" data-uri="">搜索</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('Developer/ajaxEdit')}">
+            <colgroup>
+                <col width="70%">
+                <col width="30%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell"><span>开发商名称</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td data-field="title">
+                    <div class="layui-table-cell">
+                        {$val.title}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <a href="javascript:;" data-id="{$val.id}" data-title="{$val.title}" class="layui-btn layui-btn-danger layui-btn-xs select">选择</a>
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    {notempty name='pages'}
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+    {/notempty}
+</form>
+<script>
+    layui.use(['layer','jquery'],function(){
+        var layer = layui.layer,$ = layui.jquery;
+        var index = parent.layer.getFrameIndex(window.name);
+        $('.select').on('click',function(){
+            var id = $(this).data('id'),title = $(this).data('title');
+            var parentFrame = $(window.parent.document);
+            parentFrame.find('#developer_id').val(id);
+            parentFrame.find('#developer_name').val(title);
+            parent.layer.close(index);
+        });
+        $("#searchBan").on('click',function(){
+            var keyword = $.trim($("#keyword").val()),url = $(this).data('uri');
+
+            if(keyword.length == 0){
+                parent.layer.msg('请填写关键词',{icon:2});
+                return false;
+            }else{
+                $('#info_form').submit();
+            }
+        });
+    });
+
+</script>
+{/block}

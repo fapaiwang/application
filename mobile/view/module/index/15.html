@@ -1,0 +1,12 @@
+<!-- 头条动态 S-->
+    <div class="headlines clearfix">
+        <div class="tit">最新动态</div>
+        <div class="text">
+            <ul id="text-scroll" style="margin-top: 0;">
+                {volist name='news' id='vo'}
+                <li><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}">{$vo.title}</a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <!-- 头条 E-->

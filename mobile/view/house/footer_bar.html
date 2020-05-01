@@ -1,0 +1,10 @@
+<!-- 导航行为 S-->
+<div class="nav-act">
+    <a href="javascript:;" class="follow" data-id="{$info.id}" data-model="house" data-uri="{:url('Api/follow')}">关注</a>
+    <a href="{:url('Ajax/consult')}" class="consult">咨询</a>
+    <a href="tel:{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'},{$info.sale_phone.extension}{/notempty}" class="call-tel">拨打电话</a>
+    <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+</div>
+<!-- 导航行为 E-->
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/subscribe.js"></script>

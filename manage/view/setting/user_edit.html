@@ -1,0 +1,73 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-input-block{margin-left:116px;}
+	.layui-form-label{width:85px;}
+</style>
+<!--用户模块配置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">用户设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">开启注册</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[open_reg]" value="1" title="开启" {if condition="$info.open_reg eq 1"}checked{/if}>
+							<input type="radio" name="data[open_reg]" value="0" title="关闭" {if condition="$info.open_reg eq 0"}checked{/if}/>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">注册发送短信</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[reg_sms]" value="1" title="是" {if condition="$info.reg_sms eq 1"}checked{/if}/>
+							<input type="radio" name="data[reg_sms]" value="0" title="否" {if condition="$info.reg_sms eq 0"}checked{/if}>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">预约报名发送短信</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[subscribe_sms]" value="1" title="是" {if condition="$info.subscribe_sms eq 1"}checked{/if}/>
+							<input type="radio" name="data[subscribe_sms]" value="0" title="否" {if condition="$info.subscribe_sms eq 0"}checked{/if} />
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">评论经纪人是否审核</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[check_comment]" value="0" title="是" {if condition="$info.check_comment eq 0"}checked{/if}/>
+							<input type="radio" name="data[check_comment]" value="1" title="否" {if condition="$info.check_comment eq 1"}checked{/if}>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">提交问题是否需要审核</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[check_question]" value="0" title="是" {if condition="$info.check_question eq 0"}checked{/if}/>
+							<input type="radio" name="data[check_question]" value="1" title="否" {if condition="$info.check_question eq 1"}checked{/if}>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">回答问题是否需要审核</label>
+						<div class="layui-input-block">
+							<input type="radio" name="data[check_answer]" value="0" title="是" {if condition="$info.check_answer eq 0"}checked{/if}/>
+							<input type="radio" name="data[check_answer]" value="1" title="否" {if condition="$info.check_answer eq 1"}checked{/if} />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="name" value="{$action_name}">
+	<input type="hidden" name="id" value="{$base.id}">
+	<div class="layui-form-item">
+		<label class="layui-form-label">&nbsp;</label>
+		<button type="submit" class="layui-btn btn-submit">立即提交</button>
+	</div>
+</form>
+{/block}

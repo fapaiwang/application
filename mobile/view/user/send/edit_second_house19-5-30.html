@@ -1,0 +1,271 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="main">
+    <form action="{:url('user.send/saveSecond')}" method="post" id="form">
+    <div class="pec-relLink addhouse mb20">
+        <input type="hidden" name="estate_id" value="{$info.estate_id}">
+        <input type="hidden" name="lat" value="{$info.lat}">
+        <input type="hidden" name="lng" value="{$info.lng}">
+        <input type="hidden" name="id" value="{$info.id}">
+        <a><span>小区名称</span><span><input type="text" name="estate_name" id="estate_name" value="{$info.estate_name}" placeholder="请输入小区名"></span></a>
+        <a>
+            <span style="vertical-align: top;">所属区域</span>
+            <span id="J_select">
+                <select class="J_cate_select mr10" data-pid="0" data-menuid="1" data-uri="{:url('Ajax/ajaxGetCitychilds')}" data-selected="{:getCitySpidById($info['city'])}"></select>
+                <input type="hidden" name="city" id="J_cate_id" value="" />
+            </span>
+        </a>
+        <a>
+            <span>房屋户型</span>
+            <span>
+                <input type="text" name="room" value="{$info.room}" style="width:2rem;text-align:center;" placeholder="2">室
+                <input type="text" name="living_room" value="{$info.living_room}"  style="width:2rem;text-align:center;" placeholder="1">厅
+                <input type="text" name="toilet" value="{$info.toilet}" style="width:2rem;text-align:center;" placeholder="1">卫
+            </span>
+        </a>
+        <a class="area"><span>房屋面积</span><span><input type="text" name="acreage" value="{$info.acreage}" placeholder="请填写建筑面积"></span></a>
+        <a class="price"><span>房屋售价</span><span><input type="text" name="price" value="{$info->getData('price')}" placeholder="请填写售价"></span>&nbsp;&nbsp;万元</a>
+        <a>
+            <span>楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层</span>
+            <span>
+                {:getLinkMenu(7,'floor','select',$info['floor'])}层 共 <input type="text" style="width:2rem;text-align:center;" name="total_floor" value="{$info.total_floor}" placeholder="20" />层
+            </span>
+        </a>
+        <a>
+            <span>朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向</span>
+            <span>
+                {:getLinkMenu(4,'orientations','select',$info['orientations'])}
+            </span>
+        </a>
+        <a>
+            <span>装&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修</span>
+            <span>
+                {:getLinkMenu(8,'renovation','select',$info['renovation'])}
+            </span>
+        </a>
+        <a>
+            <span>类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span>
+            <span>
+                {:getLinkMenu(9,'house_type','select',$info['house_type'])}
+            </span>
+        </a>
+        <a style="line-height: 1.4rem;">
+            <span style="vertical-align: top;">房屋配套</span>
+            <span class="checkbox">
+                {:getLinkMenu(12,'supporting','checkbox',$info['secondHouseData']['supporting'],'id',false)}
+            </span>
+        </a>
+        <a style="line-height: 1.4rem;">
+            <span style="vertical-align: top;">特色标签</span>
+            <span class="checkbox">
+                {:getLinkMenu(14,'tags','checkbox',$info['tags'],'id',false)}
+            </span>
+        </a>
+        <a><span>所在地址</span><span><input type="text" name="address" value="{$info.address}" placeholder="请输入小区名"></span></a>
+        <a><span>房源标题</span><span><input type="text" name="title" value="{$info.title}" placeholder="请输入房源标题"></span></a>
+
+        <a class="holder-name"><span>联&nbsp;&nbsp;系&nbsp;&nbsp;人</span><span><input type="text" name="contacts[contact_name]" value="{$info.contacts.contact_name}" placeholder="请填写联系人"></span></a>
+        <a class="tel">
+            <span>手&nbsp;&nbsp;机&nbsp;&nbsp;号</span>
+            <span><input type="text" name="contacts[contact_phone]" value="{$info.contacts.contact_phone}" placeholder="请填写联系方式"></span>
+        </a>
+        <a>
+            <span>有效期</span>
+            <span>
+                {if condition="$info.timeout lt time()"}
+                    <i style="color:#ff0000;">已过期，重新上架</i>
+                    <select name="timeout" id="timeout">
+                        {volist name=':getHouseTimeOut()' id='vo'}
+                        <option value="{$key}" {if condition="$key eq 7"}selected="selected"{/if}>{$vo}</option>
+                        {/volist}
+                    </select>
+                    {else /}
+                    {$info.timeout|date='Y-m-d H:i:s'}到期
+                {/if}
+            </span>
+        </a>
+        <a class="holder-name"><span style="vertical-align: top;">房源描述</span><span><textarea name="info" id="info" placeholder="请填写房源描述" style="height:3rem;width:11rem;padding:.2rem 0;">{$info.secondHouseData.info|raw}</textarea></span></a>
+        <a class="holder-name upload-pic" style="padding:.5rem 0;line-height: 1.5rem;">
+            <span>房源图片</span>
+            <span style="position:relative;">
+                <span id="J_upload_img" style="background-color: #D32F2F;color:#fff;padding:0 .5rem;width:4rem;text-align:center;">选择图片</span>
+            </span>
+        </a>
+        <a class="holder-name">
+            <div id="img-list">
+                {volist name='info.secondHouseData.file' id='vo'}
+                        <em>
+                            <input type="hidden" name="file[]" value="{$vo.url}" />
+                            <img src="{$vo.url}" alt="" width="50px">
+                            <i class="delete-pic"></i>
+                        </em>
+                {/volist}
+            </div>
+        </a>
+    </div>
+
+    </form>
+    <div class="bt-box pt30  pb30">
+        <button class="btn sub-btn">提交</button>
+    </div>
+
+</div>
+<div class="fang-pannel">
+    <div class="fang-input">
+        <input type="text" class="fang-search" placeholder="输入小区名称">
+        <button class="search-btn" style="margin-top:3px;">确定</button>
+    </div>
+    <ul id="search_list">
+    </ul>
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li data-id="{{d[i].id}}" data-title="{{d[i].title}}" data-address="{{d[i].address}}" data-lat="{{d[i].lat}}" data-lng="{{d[i].lng}}" onclick="setEstate(this);">
+        <p>{{d[i].title}}</p>
+        <p class="address">{{d[i].address}}</p>
+    </li>
+    {{# } }}
+</script>
+<script src="__STATIC__/js/plugins/jquery.linkmenu.js"></script>
+<script src="__JS__/fileuploader.js"></script>
+<script src="__STATIC__/js/plugins/jquery.ajax.form.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__STATIC__/js/layer/laytpl.js"></script>
+<script>
+    $(function(){
+        $('.J_cate_select').cate_select({parent_id:'J_select',id:'J_cate_select'});
+        $('#estate_name').on('focus',function(){
+            $(".fang-pannel").show();
+            $(".fang-search").val('');
+            search();
+        });
+        $(".search-btn").on('click',function(){
+            var title = $(".fang-search").val();
+            $("input[name='estate_name']").val(title);
+            $(".fang-pannel").hide();
+        });
+        $(".fang-search").on('keyup',function(){
+            var keyword = $(this).val();
+            search({keyword:keyword});
+        });
+        $('#img-list').on('click','.delete-pic',function(){
+           $(this).parent().remove();
+        });
+//        $('#J_select').on('change','select',function(){
+//            autoTitle();
+//        });
+//        $("input[name='room'],input[name='living_room'],input[name='acreage'],input[name='price']").on('blur',function(){
+//            autoTitle();
+//        });
+        //上传图片
+        var img_uploader = new qq.FileUploaderBasic({
+            allowedExtensions: ['jpg','gif','jpeg','png','swf'],
+            button: document.getElementById('J_upload_img'),
+            multiple: true,
+            action: "{:url('ajaxUploadImg')}",
+            inputName: 'file',
+            forceMultipart: true, //用$_FILES
+            showMessage: function(message){
+                layer.msg(message,{icon:2});
+            },
+            onSubmit: function(id, fileName){
+                layer.load(1);
+            },
+            onComplete: function(id, fileName, result){
+                layer.closeAll();
+                if(result.code == '1'){
+                    var str = "<em><input type='hidden' name='file[]' value='"+result.data+"' />";
+                    str += "<img src='"+result.data+"' width='50px' /><i class='delete-pic'></i></em>";
+                    $("#img-list").append(str);
+                } else {
+                    layer.msg(result.msg,{icon:2});
+                }
+            }
+        });
+        $('.sub-btn').on('click',function(){
+            var estate_name = $("input[name='estate_name']").val(),room = $("input[name='room']").val(),
+                    living_room = $("input[name='living_room']").val(),price = $("input[name='price']").val(),
+                    acreage = $("input[name='acreage']").val(),title=$("input[name='title']").val(),info=$("#info").val();
+            if($.trim(estate_name).length == 0){
+                layer.msg('请填写小区',{icon:2});
+            }else if(!room || isNaN(room)){
+                layer.msg('户型只能为数字',{icon:2});
+            }else if(!living_room || isNaN(living_room)){
+                layer.msg('厅只能为数字',{icon:2});
+            }else if(price && isNaN(price)){
+                layer.msg('售价只能为数字',{icon:2});
+            }else if(!acreage || isNaN(acreage)){
+                layer.msg('面积只能为数字',{icon:2});
+            }else if($.trim(title).length < 5 || $.trim(title).length > 30){
+                layer.msg('标题在5-30个字符之间',{icon:2});
+            }else{
+                layer.load(1);
+                $('#form').ajaxForm({success:complate,dataType:'json'}).submit();
+            }
+        });
+        function complate(result){
+            layer.closeAll();
+            if(result.code == 1){
+                layer.msg('编辑成功',{icon:1},function(){
+                    window.location.reload();
+                });
+
+            } else {
+                layer.msg(result.msg,{icon:2});
+            }
+
+        }
+    });
+    function setEstate(o){
+        var id = $(o).data('id'),title = $(o).data('title'),lat = $(o).data('lat'),
+                address = $(o).data('address'),lng = $(o).data('lng');
+        $("input[name='estate_name']").val(title);
+        $("input[name='estate_id']").val(id);
+        $("input[name='lat']").val(lat);
+        $("input[name='lng']").val(lng);
+        $("input[name='address']").val(address);
+        $(".fang-pannel").hide();
+    }
+    function search(param){
+        var url = "{:url('Ajax/ajaxGetEstate')}";
+        $.get(url,param,function(res){
+            if(res.code == 1){
+                $('.fang-pannel').show();
+                var gettpl = document.getElementById('template').innerHTML;
+                laytpl(gettpl).render(res.data, function(html){
+                    $('#search_list').html(html);
+                });
+            }
+        });
+    }
+//    function autoTitle(){
+//        var cityname = '',estate_name,room,living_room,price,acreage,title;
+//        $("#area select").each(function(i,o){
+//            var text = $(this).find("option:selected").text();
+//            if(text !='--请选择--'){
+//                cityname += text;
+//            }
+//
+//        });
+//        estate_name = $("input[name='estate_name']").val();
+//        room   = $("input[name='room']").val();
+//        living_room   = $("input[name='living_room']").val();
+//        price  = $("input[name='price']").val();
+//        acreage = $("input[name='acreage']").val();
+//        if(room){
+//            room += '室';
+//        }
+//        if(living_room){
+//            living_room += '厅';
+//        }
+//        if(acreage){
+//            acreage += '平米';
+//        }
+//        if(price){
+//            price += '万元';
+//        }
+//        title  = estate_name+room+living_room+acreage+price;
+//        $("input[name='title']").val(title);
+//    }
+</script>
+{/block}

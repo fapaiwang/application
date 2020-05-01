@@ -1,0 +1,645 @@
+<?php
+
+
+
+namespace app\home\service;
+
+class SecondHouse
+
+{
+
+    public function lists($zoom,$city = 0)
+
+    {
+
+        $return['code'] = 0;
+
+        $sort   = input('get.sort/d',0);
+
+        $where  = $this->search($city);
+
+        $field  = 'id,title,city,estate_name,toilet,room,living_room,img,renovation,price,average_price,acreage,tags,lng,lat,estate_id';
+
+        $obj    = model('second_house');
+
+        $mod    = $obj->where($where)->where('fcstatus','lt',171)
+
+            ->field($field)
+
+            ->order($this->getSort($sort));
+
+        if($zoom < 16)
+
+        {
+
+            $lists = $mod->select();
+
+        }else{
+
+            $lists = $mod->select();
+
+        }
+
+        $estate = $obj->where($where)->where('fcstatus','lt',171)->field('estate_id as id,estate_name as title,lat,lng,count(id) as price')->group('estate_id')->select();
+
+        if($lists)
+
+        {
+
+            foreach($lists as &$v)
+
+            {
+
+                $v['url'] = url('Second/detail',['id'=>$v['id']]);
+
+                $v['w_url'] = "/pages/second/detail/index?id=".$v['id'];
+
+                $v['renovation'] = getLinkMenuName(8,$v['renovation']);
+
+
+                $v['toilet']=getLinkMenuName(29,$v['toilet']);
+
+                $temp = array_filter(explode(',',$v['tags']));
+
+                $tmp  = [];
+
+                foreach($temp as $val)
+
+                {
+
+                    if(is_numeric($val))
+
+                    {
+
+                        $tmp[] = getLinkMenuName(14,$val);
+
+                    }else{
+
+                        $tmp[] = $val;
+
+                    }
+
+                }
+
+                $v['tags']  = $tmp;
+
+            }
+
+            if($estate)
+
+            {
+
+                $estate = $estate->toArray();
+
+                foreach($estate as &$val)
+
+                {
+
+                    $val['price'] = str_replace('<i>万</i>','',$val['price']);
+
+                    $val['url'] = url('Second/index',['estate_id'=>$val['id']]);
+
+                    $val['w_url'] = "/pages/second/index/index?estate_id=".$val['id'];
+
+                }
+
+            }
+
+            $return['code']   = 1;
+
+            $return['data']   = $lists;
+
+            $return['estate'] = $estate;
+
+            if($zoom < 16)
+
+            {
+
+                $return['countData'] = $this->countHouse($lists,$city);
+
+                $return['secondData'] =$this->countsecondHouse($lists,$city);//xq
+
+            }
+
+            $return['zoom'] = $zoom;
+
+        }
+
+		
+
+        return $return;
+
+    }
+
+    /**
+
+     * @param $lists
+
+     * @return array
+
+     * 统计楼盘均价及数量
+
+     */
+
+    private function countHouse($lists,$city_id)
+
+    {
+
+        $cityChild = $this->getCityChildArr($city_id);
+
+        $city_arr      = getCity('cate');
+
+        $temp = [];
+
+        if($lists)
+
+        {
+
+            $data = [];
+
+            foreach($lists as $v)
+
+            {
+
+                $city = $city_arr[$v['city']]['pid'] != $city_id ? $city_arr[$v['city']]['pid'] : $v['city'];
+
+                isset($cityChild[$city]) && $data[$city][] = $v;
+
+            }
+
+			
+			
+		
+		
+
+
+            foreach($data as $key=>$val)
+
+            {
+			
+			
+			    
+			
+
+                $sum       = array_sum(array_column($val, 'average_price'));
+
+                $count     = count($val);
+
+                $city_name = $city_arr[$key]['name'];
+
+                $lat    = $city_arr[$key]['lat'];
+
+                $lng    = $city_arr[$key]['lng'];
+
+
+				
+
+				//print_r($city_arr[$key]['id']);
+				
+				
+
+
+                //$d1= ['city','eq',$city_arr[$key]['id']];
+
+                // $d2[] = ['city','eq',$city_arr[$key]['pid']];
+
+                //$citynum=$city_arr[$key]['id'];
+				
+				//print_r($citynum);
+				
+
+                 //$num = model('second_house')->where($d1)->count(); 
+				 $numz=0;
+                 $he1=0;
+                 $num = model('second_house')->where('city','eq',$city_arr[$key]['id'])->count();
+// 				 $num = model('second_house')->where('city','eq',41)->count('id');
+                 $he = db('second_house')->field("sum(average_price) as average_prices")->where('city','eq',$city_arr[$key]['id'])->find();
+                 $he1=$he['average_prices'];
+                 // print_r($he['average_prices']);echo "\n";
+// print_r($num);
+
+
+$nums = model('city')->where('pid','eq',$city_arr[$key]['id'])->select();
+// $nums = model('city')->where('pid','eq',56)->select();
+$numss=0;
+$hess=0;
+foreach ($nums as $key => $value) {
+    // print_r($value['id']);
+    $numss = model('second_house')->where('city','eq',$value['id'])->count();
+    $hes = db('second_house')->field("sum(average_price) as average_prices")->where('city','eq',$value['id'])->find();
+    // print_r($numss);
+   $hess=$hes['average_prices'];
+   $hess+=$hess;
+    $numss+=$numss;
+  // echo $value['id'];
+}
+// print_r($numss);
+// print_r($nums);
+// echo model('city')->getLastSql();
+
+
+                 // $nums = model('second_house')->where('city','eq',$city_arr[$key]['pid'])->count();
+                 // print_r($city_arr[$key]['pid']);
+				 $numz=$num+$numss;
+                 $sums=$he1+$hess;
+				 //echo model('second_house')->getLastSql();
+				
+        //count方法
+        		
+
+				//print_r($num);
+				
+				//echo "\n";
+
+
+
+
+
+
+
+
+                $temp[] = [
+
+                    'price' => ceil($sums / $numz).config('filter.second_price_unit'),
+
+                    'city_name' => $city_name,
+
+                    'total'     => $numz.'套房源',
+
+                    'lat'       => $lat,
+
+                    'lng'       => $lng
+
+                ];
+
+            }
+
+        }
+		
+		//print_r($temp);
+		
+// exit();
+        return $temp;
+
+    }
+
+    //xq
+    /**
+
+     * @param $lists
+
+     * @return array
+
+     * 统计二级栏目楼盘均价及数量
+
+     */
+
+    private function countsecondHouse($lists,$city_id)
+
+    {
+
+        $SecondChild = $this->getSecondArr($city_id);
+
+        // return $SecondChild;
+
+        $city_arr      = getCity('cate');
+
+        $temp = [];
+
+        if($lists)
+
+        {
+
+            $data = [];
+
+            foreach($lists as $v)
+
+            {
+                // if($SecondChild[$v['city']]['pid'])
+
+                $city = $city_arr[$v['city']]['pid'] != $city_id ? $city_arr[$v['city']]['id'] : $v['city'];
+
+                isset($SecondChild[$city]) && $data[$city][] = $v;
+
+            }
+
+
+
+            foreach($data as $key=>$val)
+
+            {
+
+                $sum       = array_sum(array_column($val, 'average_price'));
+
+                $count     = count($val);
+
+                $city_name = $city_arr[$key]['name'];
+
+                $lat    = $city_arr[$key]['lat'];
+
+                $lng    = $city_arr[$key]['lng'];
+
+
+
+                 
+                 $he1=0;
+                 $num = model('second_house')->where('city','eq',$city_arr[$key]['id'])->count();
+//               $num = model('second_house')->where('city','eq',41)->count('id');
+                 $he = db('second_house')->field("sum(average_price) as average_prices")->where('city','eq',$city_arr[$key]['id'])->find();
+                 $he1=$he['average_prices'];
+                 // print_r($he['average_prices']);echo "\n";
+// print_r($num);
+
+
+// print_r($numss);
+// print_r($nums);
+// echo model('city')->getLastSql();
+
+
+                 // $nums = model('second_house')->where('city','eq',$city_arr[$key]['pid'])->count();
+                 // print_r($city_arr[$key]['pid']);
+               
+                 //echo model('second_house')->getLastSql();
+                
+        //count方法
+                
+
+                //print_r($num);
+                
+                //echo "\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                $temp[] = [
+
+                    'price' => ceil($he1 / $num).config('filter.second_price_unit'),
+
+                    'city_name' => $city_name,
+
+                    'total'     => $num.'套房源',
+
+                    'lat'       => $lat,
+
+                    'lng'       => $lng
+
+                ];
+
+            }
+
+        }
+       
+
+        return $temp;
+
+    }
+
+
+
+    /**
+
+     * @return array
+
+     * 得到城市下级区域 械为 ['2'=>1,3=>1,4=>1],key为下级区域 值 为城市id
+
+     */
+
+    private function getCityChildArr($city_id)
+
+    {
+
+        $city_arr = getCity('tree');
+
+        $temp = [];
+
+        $city = isset($city_arr[$city_id]['_child'])?$city_arr[$city_id]['_child']:[];
+
+        foreach($city as $v)
+
+        {
+
+            $temp[$v['id']] = $v['pid'] ==0 ? $v['id'] : $v['pid'];
+
+        }
+
+        return $temp;
+
+    }
+
+    //xq
+    //获取区下二级栏目
+    private function getSecondArr($city_id)
+
+    {
+
+        $city_arr = getCity('cate');
+
+        // return $city_arr;
+
+        $temp = [];
+
+        // $city = isset($city_arr[$city_id]['pid'] != $city_id)?$city_arr[$city_id]['_child']:[];
+
+        foreach($city_arr as $v)
+
+        {
+            if($v['pid'] != $city_id && $v['pid'] != 0 ){
+                $temp[$v['id']] = $v['id'];
+            }
+
+            // $temp[$v['id']] = $v['pid'] ==0 ? $v['id'] : $v['pid'];
+
+        }
+
+        return $temp;
+
+    }
+
+    /**
+
+     * @return array
+
+     * 搜索条件
+
+     */
+
+    private function search($city)
+
+    {
+
+        $param['area']       = input('param.area',0);
+
+        $param['price']      = input('param.price',0);
+
+        $param['acreage']    = input('param.acreage',0);
+        $param['fcstatus']    = input('param.fcstatus',0);
+
+        $param['room']       = input('param.room',0);//户型
+
+        $param['renovation'] = input('param.renovation',0);//楼盘状态
+
+        $param['type']       = input('param.type/d',0);
+
+        $param['sort']       = input('param.sort/d',0);//排序
+
+        $bssw_lat            = input('get.bssw_lat');//地图可视区域左下角纬度
+
+        $bssw_lng            = input('get.bssw_lng');//地图可视区域左上角纬度
+
+        $bsne_lat            = input('get.bsne_lat');//地图可视区域右下角纬度
+
+        $bsne_lng            = input('get.bsne_lng');//地图可视区域右上角纬度
+
+        $param['area']       == 0 && $param['area'] = $city;
+
+        $data['status']      = 1;
+
+        $param['keyword']    = input('get.keyword');
+
+        $data[] = ['timeout','gt',time()];
+
+        if($param['keyword']){
+
+            $data[] = ['title|estate_name','like','%'.$param['keyword'].'%'];
+
+        }
+
+        if(!empty($param['area'])){
+
+            $city_ids = model('city')->get_child_ids($param['area'],true);
+
+            $data[] = ['city','in',$city_ids];
+
+        }
+
+        if(!empty($param['price'])){
+
+            $data[] = getSecondPrice($param['price']);
+
+        }
+
+        if(!empty($param['acreage'])){
+
+            $data[] = getAcreage($param['acreage']);
+
+        }
+        if(!empty($param['fcstatus']))
+
+        {
+
+            $data['fcstatus'] = $param['fcstatus'];
+
+        }
+
+        if(!empty($param['type']))
+
+        {
+
+            $data['house_type'] = $param['type'];
+
+        }
+
+        if(!empty($param['room'])){
+
+            $data[] = getRoom($param['room']);
+
+        }
+
+        if(!empty($param['renovation'])){
+
+            $data['renovation'] = $param['renovation'];
+
+        }
+
+
+
+        if($bsne_lat && $bssw_lat && $bssw_lng && $bsne_lng)
+
+        {
+
+            $data[] = ['lat','between',[min($bssw_lat,$bsne_lat),max($bssw_lat,$bsne_lat)]];
+
+            $data[] = ['lng','between',[min($bssw_lng,$bsne_lng),max($bssw_lng,$bsne_lng)]];
+
+        }
+
+
+
+        return $data;
+
+    }
+
+
+
+    /**
+
+     * @param $sort
+
+     * @return array
+
+     * 排序
+
+     */
+
+    private function getSort($sort)
+
+    {
+
+        switch($sort)
+
+        {
+
+            case 0:
+
+                $order = ['ordid'=>'asc','id'=>'desc'];
+
+                break;
+
+            case 1:
+
+                $order = ['price'=>'asc'];
+
+                break;
+
+            case 2:
+
+                $order = ['price'=>'desc'];
+
+                break;
+
+            case 3:
+
+                $order = ['acreage'=>'asc'];
+
+                break;
+
+            case 4:
+
+                $order = ['acreage'=>'desc'];
+
+                break;
+
+            default:
+
+                $order = ['ordid'=>'asc','id'=>'desc'];
+
+                break;
+
+        }
+
+        return $order;
+
+    }
+
+}

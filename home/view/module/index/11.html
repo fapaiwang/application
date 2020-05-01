@@ -1,0 +1,90 @@
+<!-- 新盘涨幅&&房价走势&&二手涨幅&&房价走势&&楼盘活动 S-->
+            <div class="cm_wrap order_modl clearfix">
+                <!-- 新盘涨幅&&房价走势 S-->
+                <div class="l_area sct house_float fl">
+                    <div class="head clearfix" id="house_tab">
+                        <div class="tit fl active">
+                            <h3>新盘涨幅</h3>
+                            <div class="b_l"></div>
+                        </div>
+                        <div class="tit fl">
+                            <h3>房价走势</h3>
+                            <div class="b_l"></div>
+                        </div>
+                    </div>
+                    <div class="m_con" id="house_content">
+                        <ul class="list">
+                            {volist name='ups_downs_house' id='vo'}
+                            <li class="clearfix">
+                                <i class="num"><img src="__IMG__/icon/num{$i}.jpg" alt=""></i>
+                                <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" class="name fl">{$vo.title}</a>
+                                <span class="price fl"><b>{$vo.price}</b>{$vo.unit}</span>
+                                {if condition='$vo.ratio gt 0'}
+                                <span class="price_float fl">↑ {$vo.ratio}%</span>
+                                {else /}
+                                <span class="price_float down fl">↓ {:abs($vo['ratio'])}%</span>
+                                {/if}
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="esf_chart" id="house" data-uri="{:url('Api/getHousePrice')}" style="display:none;">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 新盘涨幅&&房价走势 E-->
+                <!-- 二手涨幅 && 房价走势 S -->
+                <div class="c_area sct fl trend_table">
+                    <div class="head clearfix" id="second_tab">
+                        <div class="tit fl active">
+                            <h3>二手涨幅</h3>
+                            <div class="b_l"></div>
+                        </div>
+                        <div class="tit fl">
+                            <h3>房价走势</h3>
+                            <div class="b_l"></div>
+                        </div>
+                    </div>
+                    <div class="m_con" id="second_content">
+                        <ul class="list">
+                            {volist name='ups_downs_second_house' id='vo'}
+                            <li class="clearfix">
+                                <i class="num"><img src="__IMG__/icon/num{$i}.jpg" alt=""></i>
+                                <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" class="name fl">{$vo.title}</a>
+                                <span class="price fl"><b>{$vo.average_price|raw}</b></span>
+                                {if condition='$vo.ratio gt 0'}
+                                <span class="price_float fl">↑ {$vo.ratio}%</span>
+                                {else /}
+                                <span class="price_float down fl">↓ {:abs($vo['ratio'])}%</span>
+                                {/if}
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="esf_chart" id="second_house" data-uri="{:url('Api/getSecondPrice')}" style="display:none;">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 二手涨幅 && 房价走势 E -->
+                <!-- 楼盘活动 S -->
+                <div class="r_area sct build_actv fr">
+                    <div class="head clearfix">
+                        <div class="tit fl active">
+                            <h3>{:getCateName('articleCate',5)}</h3>
+                            <div class="b_l"></div>
+                        </div>
+                    </div>
+                    <div class="m_con">
+                        <ul class="list">
+                            {volist name='news_cate_5' id='vo'}
+                            <li class="clearfix">
+                                <i class="num"><img src="__IMG__/icon/num{$i}.jpg" alt=""></i>
+                                <a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}"  target="_blank" class="name fl">{$vo.title}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 楼盘活动 E -->
+            </div>
+            <!-- 新盘涨幅&&房价走势&&二手涨幅&&房价走势&&楼盘活动 E-->

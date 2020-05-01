@@ -1,0 +1,30 @@
+<div class="mapshow-per-pos">
+    <div class="hb support">
+        <em class="active" search-flag="bus">公交</em>
+        <em search-flag="school">教育</em>
+        <em search-flag="hospital">医疗</em>
+        <em search-flag="shopping">购物</em>
+        <em search-flag="life">生活</em>
+        <em search-flag="entertainment">娱乐</em>
+    </div>
+    <div class="mapshow-box" id="map">
+    </div>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+<script src="__STATIC__/js/peitao.js"></script>
+<script>
+    var lng = '{$info.lng}';
+    var lat = '{$info.lat}';
+    var streetView = 0;
+    BMapApplication.isMobile = true;
+    BMapApplication.title    = "{$info.title}";
+    BMapApplication.saleStatus = "{$info.sale_status|default=1}";
+    BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+    BMapApplication.getAreaMap('公交', 'bus');
+    $('.support em').click(function (evt){
+        $(this).addClass('active').siblings().removeClass('active');
+        var iElem = $(this);
+        BMapApplication.getAreaMap(iElem.text(), iElem.attr('search-flag'));
+        evt.stopPropagation();
+    });
+</script>

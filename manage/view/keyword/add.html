@@ -1,0 +1,58 @@
+{extend file='public/layout' /}
+{block name='content'}
+<!--编辑关联链接-->
+<div class="dialog_content">
+	<form id="info_form" action="{:url('Keyword/addDo')}" method="post">
+		<table width="100%" class="table_form">
+			<tr>
+				<th width="90">关键词 :</th>
+				<td>
+					<input type="text" class="input-text" name="word" id="word" value="" size="30">
+				</td>
+			</tr>
+			<tr>
+				<th>替换词 :</th>
+				<td><input type="text" name="replace_word" id="replace_word" value="" class="input-text" size="30"></td>
+			</tr>
+			<tr>
+				<th>链接地址 :</th>
+				<td>
+					<input type="text" name="url" id="url" class="input-text" value="" size="30">
+				</td>
+			</tr>
+
+			<tr>
+				<th>状态 :</th>
+				<td>
+					<label><input type="radio" name="status" value="1" > 启用</label>&nbsp;&nbsp;
+					<label><input type="radio" name="status" value="0" > 禁用</label>
+				</td>
+			</tr>
+
+		</table>
+	</form>
+</div>
+<script src="__PUBLIC__/js/jquery.min.1.7.2.js"></script>
+<script src="__PUBLIC__/js/plugins/formvalidator.js"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#word").formValidator({onshow:'请填写关键词',onfocus:'请填写关键词'}).inputValidator({min:1,onerror:'请填写关键词'});
+    });
+    function submitForm(){
+        $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+    }
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

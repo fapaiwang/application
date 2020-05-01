@@ -1,0 +1,142 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="layui-form">
+    <form name="layui-form" class="search-form" action="{:url('user.rental/index')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <select name="status">
+                            <option value="">-所有-</option>
+                            <option value="1" {eq name="search['status']" value="1"}selected="selected"{/eq}>发布</option>
+                            <option value="0" {eq name="search['status']" value="0"}selected="selected"{/eq}>待审</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" type="text" placeholder="输入关键词搜索" class="layui-input" size="25" value="{$search.keyword}" />
+                    </div>
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="list-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-model="rental" data-uri="{:url('Api/setTop')}">
+            <colgroup>
+                <col width="5%">
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="15%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>小区名称</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>标题</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>面积</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>租金</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.estate_name}
+                    </div>
+                </td>
+                <td data-field="title">
+                    {$val.title}({$val.room}室{$val.living_room}厅)
+                    {if condition="$val.top_time gt time()"}
+                    <span style="color:#ff0000;">[置顶]</span>
+                    {/if}
+                    {notempty name='val.img'}
+                    <a href="javascript:;" class="thumb" data-thumb="{$val.img}"><i class="layui-icon">&#xe64a;</i></a>
+                    {/notempty}
+                </td>
+
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.acreage}㎡
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.price|raw}
+                    </div>
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        {if condition="$val.status eq 1"}
+                        发布
+                        {else /}
+                        <span style="color:#ff0000;">待审</span>
+                        {/if}
+                        {if condition="$val.timeout lt time()"}
+                        ,<span style="color:#ff0000;">已过期</span>
+                        {/if}
+                    </div>
+                </td>
+                <td class="layui-center">
+                    {if condition="$val.status eq 1 and $val.top_time lt time()"}
+                    <a class="relative set-top">
+                        <span class="layui-btn layui-btn-xs">置顶</span>
+                        <ul class="absolute" data-id="{$val.id}" style="display:none;">
+                            {volist name=":getTopTime()" id='vo'}
+                            <li data-val="{$key}">{$vo}</li>
+                            {/volist}
+                        </ul>
+                    </a>
+                    {/if}
+                    <a href="{:url('edit',['id'=>$val['id']])}" class="layui-btn layui-btn-xs">编辑</a><a href="javascript:;" data-msg="您确认要删除该条房源么？" data-uri="{:url('user.send/delete',['id'=>$val['id'],'model'=>'rental'])}" class="J_confirm layui-btn layui-btn-xs layui-btn-danger">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('user.send/delete',['model'=>'rental'])}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+<script src="__USER__/js/dialog.js"></script>
+{/block}

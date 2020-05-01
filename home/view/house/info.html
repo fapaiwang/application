@@ -1,0 +1,108 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">楼盘详情</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="comWidth clearfix house_detail">
+        <div class="con_wrap" id="main">
+            <!-- 楼盘详情 S -->
+            <div class="build_detail floor">
+                <div class="title clearfix">
+                    <h2>楼盘详情</h2>
+                </div>
+                <div class="con_box clearfix">
+                    <table cellpadding="0" cellspacing="1" border="0" width="100%">
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">项目地址：</span>
+                                <span class="txt">{$info.address}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">开发商：</span>
+                                <span class="txt">{$info.developer_name}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">售楼处地址：</span>
+                                <span class="txt">{$info.sale_address}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">物业公司：</span>
+                                <span class="txt">{empty name='info.attr.property_company'}暂无资料{else /}{$info.attr.property_company}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">开盘时间：</span>
+                                <span class="txt">{notempty name='info.opening_time'}{$info.opening_time|date='Y-m-d'}{/notempty}{$info.opening_time_memo}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">交房时间：</span>
+                                <span class="txt">{notempty name='info.complate_time'}{$info.complate_time|date='Y-m-d'}{/notempty}{$info.complate_time_memo}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">产权年限：</span>
+                                <span class="txt">{empty name='info.attr.property_right'}暂无资料{else /}{$info.attr.property_right}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">物业类型：</span>
+                                <span class="txt">{empty name='info.attr.property_type'}暂无资料{else /}{$info.attr.property_type}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">车位情况：</span>
+                                <span class="txt">{empty name='info.attr.parking_space'}暂无资料{else /}{$info.attr.parking_space}{/empty}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">建筑类型：</span>
+                                <span class="txt">{empty name='info.attr.building_type'}暂无资料{else /}{$info.attr.building_type}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">计划户数：</span>
+                                <span class="txt">{empty name='info.attr.plan_number'}暂无资料{else /}{$info.attr.plan_number}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">占地面积：</span>
+                                <span class="txt">{empty name='info.attr.area_covered'}暂无资料{else /}{$info.attr.area_covered}{/empty}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">物业费用：</span>
+                                <span class="txt">{empty name='info.attr.property_fee'}暂无资料{else /}{$info.attr.property_fee}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">建筑面积：</span>
+                                <span class="txt">{empty name='info.attr.area_build'}暂无资料{else /}{$info.attr.area_build}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">装修情况：</span>
+                                <span class="txt">{empty name='info.renovation'}暂无资料{else /}{:getLinkMenuName(8,$info.renovation)}{/empty}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="house-content">
+                        {$info.info|raw}
+                    </div>
+                </div>
+            </div>
+            <!-- 楼盘详情 E -->
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+{/block}

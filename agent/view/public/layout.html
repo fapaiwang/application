@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>管理中心</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" href="__LAY__/css/layui.css">
+    <link rel="stylesheet" href="/static/home/css/red.css">
+    <script src="__LAY__/layui.js"></script>
+    <style>
+        .subnav{padding:5px 15px;}
+        .layui-form-item label em{display:none;}
+        .layui-tab{margin:0;}
+    </style>
+</head>
+
+<body class="body">
+{if condition="!empty($sub_menu) OR !empty($big_menu)"}
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+    	{notempty name="big_menu"}
+        {present name="normal"}
+        <a class="layui-btn" href="{$big_menu.iframe}">{$big_menu.title}</a>
+        {else /}
+    	<a class="layui-btn J_showDialog" href="javascript:void(0);" data-uri="{$big_menu.iframe}" data-title="{$big_menu.title}" data-id="{$big_menu.id}" data-width="{$big_menu.width}" data-height="{$big_menu.height}">{$big_menu.title}</a>
+        {/present}
+        {/notempty}
+        {notempty name="sub_menu"}
+        {volist name="sub_menu" id="val" key="key"}
+        {if condition="$key neq 1"}<span>|</span>{/if}
+        <a href="{$val.url}" class="layui-btn-xs {$val.class}">{$val['title']}</a>
+        {/volist}
+        {/notempty}
+    </div>
+</div>
+{/if}
+<div class="layui-fluid">
+{block name='content'}{/block}
+</div>
+<script src="__JS__/dialog.js"></script>
+</body>
+</html>
+

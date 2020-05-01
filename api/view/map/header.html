@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<style>
+    .lr-tab .swiper-slide{width:auto;}
+</style>
+<div class="top">
+    <a href="javascript:history.go(-1)" class="go-back"></a>
+    <div class="lr-tab swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <a href="{:url('Map/index')}" {if condition='$action eq "index"'}class="active"{/if}>新房</a>
+            </div>
+            <div class="swiper-slide"><a href="{:url('Map/second')}" {if condition='$action eq "second"'}class="active"{/if}>二手房</a></div>
+            <div class="swiper-slide"><a href="{:url('Map/rental')}" {if condition='$action eq "rental"'}class="active"{/if}>出租房</a></div>
+            <div class="swiper-slide"><a href="{:url('Map/estate')}" {if condition='$action eq "estate"'}class="active"{/if}>小区</a></div>
+            <div class="swiper-slide"><a href="{:url('Map/office')}" {if condition='$action eq "office" or $action eq "officerental"'}class="active"{/if}>写字楼</a></div>
+            <div class="swiper-slide"><a href="{:url('Map/shops')}" {if condition='$action eq "shops" or $action eq "shopsrental"'}class="active"{/if}>商铺</a></div>
+        </div>
+    </div>
+    <a href="javascript:;" class="search-room" style="background: none;"></a>
+</div>
+<script src="__JS__/swiper.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var mySwiper = new Swiper('.swiper-container', {
+            slidesPerView : 'auto'
+        });
+    });
+</script>

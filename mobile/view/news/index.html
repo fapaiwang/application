@@ -1,0 +1,125 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<div class="main" style="background: none;padding-bottom:1.95rem;">
+    <!-- 新闻资讯 S-->
+    <div class="news">
+        <div class="tab_hd follow-h-switch clearfix">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide active"> <a href="{:url('News/index')}" {if condition='$cate_id eq 0'}class="on"{/if}>全部</a></div>
+                    {volist name='cate' id='vo'}
+                    <div class="swiper-slide"><a href="{:url('News/index',['cate'=>$vo['id']])}" title="{$vo.name}" {if condition='$vo.id eq $cate_id'}class="on"{/if}>{$vo.name}</a></div>
+                    {/volist}
+                </div>
+            </div>
+            <input type="hidden" name="cate_id" id="cate_id" value="{$cate_id}">
+        </div>
+        <div class="news-list">
+            <!-- 新闻列表 && 2列 S -->
+            <div>
+                <ul id="lists" data-uri="{:url('News/getNewsLists')}" data-total="{$total_page}">
+                    {volist name='lists' id='vo'}
+                    {if condition='is_string($vo["img"])'}
+                    <li class="col-2">
+                        <a href="{$vo.url}" title="{$vo.title}">
+                            <span class="l_con ">
+                              <h4 class="art_tit">{$vo.title}</h4>
+                              <div class="ft">
+                                  <span class="news-type">{$vo.come_from}&nbsp;&nbsp;</span>
+                                  <span class="time">{$vo.create_time_date}</span>
+                              </div>
+                            </span>
+                            <span class="r_con">
+                              <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" class="img">
+                            </span>
+                        </a>
+                    </li>
+                    {else /}
+                    <li class="col-3">
+                        <a href="{$vo.url}" title="{$vo.title}">
+                            <h4 class="art_tit">{$vo.title}</h4>
+                            <div class="list_img clearfix">
+                                {volist name='vo.img' key='k' id='val'}
+                                {if condition='$k lt 4'}
+                                <img src="{$val}" alt="{$vo.title}" onerror="this.src='__STATIC__/images/nopic.jpg'" class="img">
+                                {/if}
+                                {/volist}
+                            </div>
+                            <div class="ft">
+                                <span class="news-type">{$vo.come_from}&nbsp;&nbsp;</span>
+                                <span class="time">{$vo.create_time_date}</span>
+                            </div>
+                        </a>
+                    </li>
+                    {/if}
+                    {/volist}
+
+                </ul>
+                <div class="load-more">
+                    {if condition='$total_page gt 1'}
+                    <a href="javascript:;" id="load-more">加载更多</a>
+                    {else /}
+                    <p>数据加载完成</p>
+                    {/if}
+                </div>
+            </div>
+            <!-- 新闻列表 && 2列 E -->
+        </div>
+    </div>
+    <!-- 新闻资讯 E-->
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    {{# if(Object.prototype.toString.call(d[i].img)=='[object Array]'){ }}
+    <li class="col-3">
+        <a href="{{d[i].url}}" title="{{d[i].title}}">
+            <h4 class="art_tit">{{d[i].title}}</h4>
+            <div class="list_img clearfix">
+                {{# for(var j = 0, length = d[i].img.length; j < length; j++){ }}
+                {{# if(j < 3){ }}
+                <img src="{{d[i]['img'][j]}}" alt="{{d[i].title}}" onerror="this.src='__STATIC__/images/nopic.jpg'" class="img">
+                {{# } }}
+                {{# } }}
+            </div>
+            <div class="ft">
+                <span class="news-type">{{d[i].come_from}}&nbsp;&nbsp;</span>
+                <span class="time">{{d[i].create_time_date}}</span>
+            </div>
+        </a>
+    </li>
+    {{# }else{ }}
+    <li class="col-2">
+        <a href="{{d[i].url}}" title="{{d[i].title}}">
+            <span class="l_con ">
+              <h4 class="art_tit">{{d[i].title}}</h4>
+              <div class="ft">
+                  <span class="news-type">{{d[i].come_from}}&nbsp;&nbsp;</span>
+                  <span class="time">{{d[i].create_time_date}}</span>
+              </div>
+            </span>
+            <span class="r_con">
+              <img src="{{d[i].img}}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{{d[i].title}}" class="img">
+            </span>
+        </a>
+    </li>
+    {{# } }}
+
+    {{# } }}
+
+</script>
+<script src="__JS__/swiper.min.js"></script>
+<script src="__STATIC__/js/layer/laytpl.js"></script>
+<script src="__JS__/getData.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var mySwiper = new Swiper('.swiper-container', {
+            slidesPerView : 'auto'
+        });
+        $('#load-more').on('click',function() {
+            Lists.requestParam = {cate_id: $('#cate_id').val()};
+            Lists.getData();
+        });
+    });
+</script>
+{/block}

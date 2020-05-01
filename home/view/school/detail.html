@@ -1,0 +1,185 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<style>
+    .con_box th{background-color: #fcfcfc;height:40px;line-height: 40px;text-align:left;}
+    .con_box td{line-height: 40px;border-bottom: 1px dashed #e2e2e2;}
+</style>
+<!-- 页面标识 S-->
+<div class="page_tit">
+    <div class="comWidth clearfix">
+        <a href="javascript:;" rel="nofollow">您的位置：</a>
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+        <a href="{:url('School/index')}">学校</a> &gt;
+        <a href="javascript:void(0);">{$info.title}</a>
+    </div>
+</div>
+<!-- 页面标识 E-->
+<!-- 楼盘详情 S-->
+<div class="house_detail">
+    <div class="comWidth">
+        <h1 class="school_title">{$info.title}</h1>
+        <!-- 锚链接导航 S -->
+        <div class="scroll_nav_wrap">
+            <div class="scroll_nav">
+                <div class="comWidth clearfix">
+                    <ul>
+                        <li class="active"><a href="javascript:;">学校概况</a></li>
+                        <li><a href="javascript:;">学校介绍</a></li>
+                        <li><a href="javascript:;">新房</a></li>
+                        <li><a href="javascript:;">二手房</a></li>
+                        <li><a href="javascript:;">出租房</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 锚链接导航 E -->
+        <div class="con_wrap clearfix">
+            <div class="leftArea cm_leftArea">
+                <div class="school_detail floor clearfix">
+                    <img src="{$info.img}" alt="{$info.title}" class="fl" />
+                    <ul class="fl school_detail_desc">
+                        <li>
+                            新房：<i>{$count.house_total}</i> 套 二手房：<i>{$count.second_house_total}</i> 套 出租房：<i>{$count.rental_total}</i> 套
+                        </li>
+                        <li>
+                            <span>学校性质：</span>{$info.nature}
+                        </li>
+                        <li>
+                            <span>学校类型：</span>{:getLinkMenuName(22,$info.type)}
+                        </li>
+                        <li>
+                            <span>学校级别：</span>{$info.grade}
+                        </li>
+                        <li><span>学校地址：</span>{$info.address}</li>
+                    </ul>
+                </div>
+                <!-- 简介 S -->
+                <div class="top_sh_house similar_house floor">
+                    <div class="title clearfix">
+                        <h2>学校介绍</h2>
+                    </div>
+                    <div class="con_box">
+                        {$info.info|raw}
+                    </div>
+                </div>
+                <div class="top_sh_house similar_house floor">
+                    <div class="title clearfix">
+                        <h2>附近新房</h2>
+                    </div>
+                    <div class="con_box">
+                        {notempty name='new_house'}
+                        <table class="table_wrap" width="895" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <th width="25%">楼盘名称</th>
+                                <th width="35%">地址</th>
+                                <th width="20%"></th>
+                                <th width="20%">价格</th>
+                            </tr>
+                            {volist name='new_house' id='vo'}
+                            {php}$url = url('House/detail',['id'=>$vo['id']]);{/php}
+                            <tr>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.title}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.address}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}"></a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{empty name='vo.price'}待定{else /}{$vo.price}{:getUnitData($vo.unit)}{/empty}</a></td>
+                            </tr>
+                            {/volist}
+                        </table>
+                        {else /}
+                        暂无数据
+                        {/notempty}
+                    </div>
+                </div>
+                <!-- 附近二手房 S -->
+                <div class="top_sh_house similar_house floor">
+                    <div class="title clearfix">
+                        <h2>附近二手房</h2>
+                    </div>
+                    <div class="con_box">
+                        {notempty name='second_house'}
+                        <table class="table_wrap" width="895" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <th width="25%">小区名称</th>
+                                <th width="35%">地址</th>
+                                <th width="20%">户型</th>
+                                <th width="20%">价格</th>
+                            </tr>
+                            {volist name='second_house' id='vo'}
+                            {php}$url = url('SecondHouse/detail',['id'=>$vo['id']]);{/php}
+                            <tr>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.estate_name}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.address}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{empty name='vo.price'}面议{else /}{$vo.price}万{/empty}</a></td>
+                            </tr>
+                            {/volist}
+                        </table>
+                        {else /}
+                        暂无数据
+                        {/notempty}
+                    </div>
+                </div>
+                <!-- 附近二手房 E -->
+                <!-- 附近出租房 S -->
+                <div class="top_sh_house similar_house floor">
+                    <div class="title clearfix">
+                        <h2>附近出租房</h2>
+                    </div>
+                    <div class="con_box">
+                        {notempty name='rental_house'}
+                        <table class="table_wrap" width="895" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <th width="25%">小区名称</th>
+                                <th width="35%">地址</th>
+                                <th width="20%">户型</th>
+                                <th width="20%">价格</th>
+                            </tr>
+                            {volist name='rental_house' id='vo'}
+                            {php}$url = url('Rental/detail',['id'=>$vo['id']]);{/php}
+                            <tr>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.estate_name}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.address}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{$vo.room}室{$vo.living_room}厅-{$vo.acreage}{:config('filter.acreage_unit')}</a></td>
+                                <td><a href="{$url}" target="_blank" title="{$vo.title}">{empty name='vo.price'}面议{else /}{$vo.price}{:config('filter.rental_price_unit')}{/empty}</a></td>
+                            </tr>
+                            {/volist}
+                        </table>
+                        {else /}
+                        暂无数据
+                        {/notempty}
+                    </div>
+                </div>
+                <!-- 附近出租房 E -->
+
+            </div>
+            <div class="rightArea cm_rightArea ">
+                <!-- 推荐房源 S -->
+                <div class="rcmd_house mt_73 ">
+                    <div class="title">
+                        <h3>热门学校</h3>
+                        <p class="b_l"></p>
+                    </div>
+                    <div class="school_hot clearfix">
+                        <ul>
+                            {php}$where_str = "status=1";$city_all_child && $where_str.= " and city in (".$city_all_child.")";{/php}
+                            {fang:lists table='school' where='$where_str' order='hits desc' field='id,title,type' limit='10' id='data'}
+                            <li>
+                                <a href="{:url('School/detail',['id'=>$data['id']])}" title="{$data.title}"><span class="fr">{:getLinkMenuName(22,$data.type)}</span>{$data.title}</a>
+                            </li>
+                            {/fang:lists}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 推荐房源 E -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+
+<!-- 楼盘列表 S-->
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="__JS__/scroll_nav.js"></script>
+<script type="text/javascript" src="__JS__/l_slide.js"></script>
+{/block}

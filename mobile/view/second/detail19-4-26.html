@@ -1,0 +1,590 @@
+{extend name='public/layout' /}
+
+{block name='header'}{/block}
+
+{block name='content'}
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<style type="text/css">
+.goods{font-size: 0.51rem;
+    color: #919191;
+    line-height: .8rem;}
+    .goods em{
+        margin-left: .15rem;
+    line-height: 0.6rem;
+    text-align: center;
+    display: inline-block;
+    font-size: .6rem;
+    padding: .2rem;
+    margin-top: .3rem;
+    color: #999;
+    background: rgba(245,246,247,1);
+    }
+</style>
+<div class="main">
+
+    <!-- 返回键 S-->
+
+    <a href="javascript:;" class="detail-go-back"></a>
+
+    <!-- 返回键 E-->
+
+    <!-- 房子图片滚动展示 S-->
+
+    <div class="scroll-roomPic-box">
+
+        <div class="swiper-container">
+
+            <div class="swiper-wrapper">
+
+                {if condition='$storage_open eq 1 and $info.video'}
+
+                <div class="swiper-slide">
+
+                    <video src="{:getVideoUrl($info['video'])}" style="width:100%;height:10rem;" controls="controls" poster="{$info.img}"></video>
+
+                </div>
+
+                {/if}
+
+                {notempty name='info.file'}
+
+                {volist name='info.file' id='vo'}
+
+                <div class="swiper-slide">
+
+                    <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+
+                </div>
+
+                {/volist}
+
+                {else /}
+
+                <div class="swiper-slide">
+
+                    <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+
+                </div>
+
+                {/notempty}
+
+            </div>
+
+            <div class="swiper-pagination"></div>
+
+        </div>
+
+    </div>
+
+    <!-- 房子图片滚动展示 E-->
+
+
+
+    <!-- 房子细节介绍 S-->
+<style type="text/css">
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  #examplex{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  #examplex .hd ul li{
+    display: inline-block;
+    width: 24.2%;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 5px;
+    background-color: #cccccc;
+    text-align: center;
+    color: #fff;
+  }
+  #examplex .hd ul li.current{
+    background-color: #00AC56;
+  }
+  #examplex .bd{
+
+	height:auto;
+  }
+  #examplex .bd ul li{
+    display: none;
+  }
+  #examplex .bd ul li.current{
+    display: block;
+  }
+  </style>
+
+
+
+ <div id="examplex">
+    <div class="hd">
+      <ul>
+        <li class="current">切换一</li>
+        <li>切换二</li>
+        <li>切换三</li>
+		<li>切换四</li>
+      </ul>
+    </div>
+    <div class="bd">
+      <ul>
+        <li class="current">
+	     <div class="house-detail-intro">
+                <h3 style="font-size:.8rem; padding:0rem 0rem 0rem; margin-top:.5rem; margin-bottom:.5rem;">{$info.title}{notempty name='info.pano_url'}<a href="{:url('Ajax/pano')}?pano_url={:base64_encode($info.pano_url)}" title="{$info.title}全景" class="house-pano"></a>{/notempty}</h3>
+                <div style="width:100%; height:40px; background:#EEE0E5;">
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">**人报名</div>
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">**人围观</div>
+                </div>
+                <ul class="intro-small-detail">
+
+                    <li class="top-three"><span>起拍价：<em>{$info.price|raw}</em></span><span>市场价：<em>{$info.price|raw}</em></span></li>
+
+                    <li class="top-three"><span>漏检指数：四星</span><span>保证金：<em>{$info.baozheng|raw}</em></span></li>
+                </ul>
+                <div style="width:100%; height:40px;">
+                    <p class="goods" >
+
+                        {php}$tag = array_filter(explode(',',$info['tags']));{/php}
+
+                        {notempty name='tag'}
+
+                        {volist name='tag' id='val'}
+
+                        <em>{:getLinkMenuName(14,$val)}</em>
+
+                        {/volist}
+
+                        {/notempty}
+
+                    </p>
+                </div>
+                <ul class="price-house-area">
+                    <li>
+
+                        <p>户型</p>
+
+                        <em>{$info.room}室{$info.living_room}厅{$info.toilet}卫</em>
+
+                    </li>
+
+                    <li>
+
+                        <p>朝向</p>
+
+                        <em>{:getLinkMenuName(4,$info['orientations'])}</em>
+
+                    </li>
+
+                    
+
+                    <li>
+
+                        <p>面积</p>
+
+                        <em>{$info.acreage}{:config('filter.acreage_unit')}</em>
+
+                    </li>
+
+                </ul>
+
+            </div>
+            <ul class="intro-small-detail" style="margin-left:10px;">
+
+                <li class="top-three">
+                    <span>形式：{$info.xingshi}</span><span>楼层：<em class="floor">{:getLinkMenuName(7,$info['floor'])}/{$info.total_floor}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>类型：<em>{:getLinkMenuName(9,$info['house_type'])}</em></span><span>年代：<em class="year">{$estate.years}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>名称：<em>{$estate.title}</em></span><span>编号：<em>{$info.bianhao}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>区域：{$quyu.name}</span><span>阶段：<em>{$info.jieduan}</em></span>
+                </li>
+                <li class="after-three">
+
+                    <span>开始截止时间：</span>
+
+                    <em>**天**时**分**秒</em>
+
+                </li>
+
+                <li class="after-three"><a href="javascript:;"><span>开拍时间：<em>{:getTime($info['create_time'])}</em></span></a></li>
+
+            </ul>
+            <div style="width:100%; height:40px;">
+                <div style="width:33%; float:left; text-align:center;line-height:40px;">
+                    <!-- <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="second_house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a> -->
+                    预约看房
+                </div>
+                <div style="width:33%; float:left; text-align:center;line-height:40px;">我要关注</div>
+                <div style="width:33%; float:left; text-align:center;line-height:40px;">贷款计算器</div>
+            </div>
+            <div class="house-res" style="padding:0 0;margin-left: 10px;">
+
+                <h4>房源瑕疵</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                <div class="info">
+                    {$info.xiaci}
+                </div>
+
+            </div>
+            <div class="house-res" style="padding:0 0;margin-left: 10px;">
+
+                <h4>欠费情况</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                <div class="info">
+                    {$info.qianfei}
+                </div>
+
+            </div>
+            <div class="house-res">
+
+        <div style="width:100%;">
+            <div style="width:75%; float:left;"><h4>小区介绍</h4></div>
+            <div style="width:25%; float:right;"><h4>关注此小区</h4></div>
+        </div>  
+
+
+                
+        <ul class="house-confi-point">
+
+           <!--  {php}$val = getLinkMenuCache(12);{/php}
+
+            {php}$support = array_filter(explode(',',$info['supporting']));{/php}
+
+            {volist name='support' id='vo'}
+
+            <li class="{$val[$vo]['alias']}">{$val[$vo]['name']}</li>
+
+            {/volist} -->
+
+        </ul>
+
+            <div class="old-house house-show-box" style="">
+
+            <ul>
+
+                <li>
+
+                    <div class="pic"style="width:40%; height:123px; margin-bottom:20px;">
+                        <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+                    </div>
+            <div class="intro-text" style="width:60%;">
+
+                <style type="text/css">
+                    .house-show-box li{ padding:0rem 0; border-bottom: none;}
+                    .aa li span{ font-size: 12px; width:50%; float:left;}
+                    .aa li{ font-size: 12px; width:100%;}
+                </style>
+                <ul class="aa" style="height:120px; margin-left:8px;">
+
+                <li>
+                    <span>建筑年代：{$estate.years}</span><span>建筑面积：<em class="floor">{$xqinfo.area_build}</em></span>
+                </li>
+                <li>
+                    <span>所属板块：<em>{$xqinfo.property_type}</em></span><span>总户数：<em class="year">{$xqinfo.plan_number}</em></span>
+                </li>
+                <li>
+                    <span>容积：<em>{$xqinfo.volume_ratio}</em></span><span>停车位：<em>{$xqinfo.parking_space}</em></span>
+                </li>
+                <li>
+                    <span>物业费：{$xqinfo.property_fee}</span><span>绿化：<em>{$xqinfo.greening_rate}</em></span>
+                </li>
+                <li><span style="width:100%;">详细地址：{$estate.address}</span></li>
+                <li><span style="width:100%;">开发商：<em>{$xqinfo.developer}</em></span></li>
+
+            </ul>         
+                        
+
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+       
+        <div style="width:100%;">
+            <div style="width:100%; float:left; margin-top:20px;"><h4>交易记录</h4></div>
+        </div>  
+        <div style="width:100%; margin-top:20px; float:left;">
+            <table width="98%" cellpadding="2" style="border: 1px solid #ccc;">
+        <tr align="center">
+            <td colspan="1" style="width:15px;"></td>
+            <td colspan="2" style="width:30px;"></td>
+            <td colspan="5" style="width:75px;">2019年02月20日 开始  流拍价</td>
+            
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="2"><span class="ananius" style="background-color: #1aad19;padding: 10px;font-size: 12px;color: #fff;border: solid 1px #186f8f;">二拍流拍</span></td>
+            <td colspan="5"></td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5">2019年02月21日 结束  497万</td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5"></td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5">2018年12月24日 开始  流拍价</td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;"></td>
+            <td colspan="2"><span style="background-color: #1aad19;padding: 10px;font-size: 12px;color: #fff;border: solid 1px #186f8f;">一拍流拍</span></td>
+            <td colspan="5"></td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5">2018年12月25日 结束  552万</td>
+        </tr>
+        
+    </table>
+        </div> 
+    <div style="width:100%;">
+    <div style="width:100%; float:left; margin-top:10px;"><h4>同小区历史成交</h4></div>
+    </div>  
+        <div style="width:100%; margin-top:20px; float:left;border: 1px solid #ccc;">
+            <table width="98%" cellpadding="2">
+        <tr align="center">
+            <td colspan="1" style="width:15px;"></td>
+            <!-- <img style="width:40px; height:40px;" src="__STATIC__/images/timg.jpg" alt=""> -->
+            <td colspan="5" style="width:75px;">昌平区 北京人家25号楼5单元302室</td>
+            
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="5" style="width:75px;">&nbsp;&nbsp;&nbsp;&nbsp;面积：119.06㎡  单价：33596.51元/㎡</td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5"></td>
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;</td>
+            <td colspan="2"></td>
+            <td colspan="5"></td>
+        </tr>
+        <tr align="center">
+            <td colspan="1" style="width:15px;"></td>
+            <td colspan="5" style="width:75px;">昌平区 北京人家25号楼5单元302室</td>
+            
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="5" style="width:75px;">&nbsp;&nbsp;&nbsp;&nbsp;面积：119.06㎡  单价：33596.51元/㎡</td>
+        </tr>
+        
+    </table>
+    <div style="width:100%; text-align:center; margin-top:5px;">更多></div>
+        </div> 
+
+
+        <div style="width:100%;">
+    <div style="width:100%; float:left; margin-top:10px;"><h4>二手房成交记录</h4></div>
+    </div>  
+        <div style="width:100%; margin-top:20px; float:left;border: 1px solid #ccc;">
+            <table width="98%" cellpadding="2">
+        <tr align="center">
+            <td colspan="1" style="width:15px;"></td>
+            <td colspan="5" style="width:75px;">昌平区 北京人家25号楼5单元302室</td>
+            
+        </tr>
+        <tr align="center">
+            <td rowspan="1"style="width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="5" style="width:75px;">&nbsp;&nbsp;&nbsp;&nbsp;面积：119.06㎡  单价：33596.51元/㎡</td>
+        </tr>
+        
+        
+    </table>
+    <!-- <img src="__STATIC__/images/4-23.jpg" onerror="this.src='__STATIC__/images/nopic.jpg'"> -->
+        </div>
+
+
+        <!-- <div style="width:100%; ">
+            <div style="width:20%; float:left;margin-top:10px;"><span>交易4记录</span></div>
+            <div style="width:20%; float:left;margin-top:10px;"><span>交易记录</span></div>
+            <div style="width:50%; float:left;margin-top:10px;"><span>交易记录</span></div>
+        </div>  -->
+            
+
+        </div>
+        <style type="text/css">
+    .house-show-box{padding-left: 0rem;}
+        </style>
+    
+
+    <div style="width:100%;">
+    <div style="width:100%; float:left; margin-top:20px; margin-left:20px;"><h4>推荐法派员</h4></div>
+    </div>  
+        
+    <div class="" style="margin-left:10px; ">
+            <div class="pic" style="width:100px; float:left; margin-top: 20px;">
+
+                <a href="{:url('Second/detail',['id'=>$info['id']])}" title="{$info.title}">
+
+                    <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+                </a>
+
+            </div>
+            <div style="width:40%; float:left; margin-left:5px; margin-top: 20px;">
+                <p><h4>李翔</h4></p>
+                <p>评论：讲解很清晰</p>
+            </div>
+            <div style="width:30%; float:left; margin-left:5px; width:40px; height:40px; margin-top: 20px;">
+                <a href="{:url('Ajax/consult')}" class="consult">
+                    <img src="__STATIC__/images/xx.jpg" onerror="this.src='__STATIC__/images/nopic.jpg'" >
+                </a>
+            </div>
+            <div style="width:30%; float:left; width:40px; height:40px; margin-top: 20px; margin-left:5px;">
+                <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" class="call-tel">
+                    <img src="__STATIC__/images/dh.jpg" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+                </a>
+            </div>
+    </div>
+
+		</li>
+        <li>	
+		切换二内容
+		<div style="width:200px; height:500px; background-color:#000000"></div>
+		切换二内容
+		</li>
+        <li>切换三内容</li>
+		<li>切换四内容</li>
+      </ul>
+    </div>
+  </div>
+  <script type="text/javascript">
+  var hd = document.getElementsByClassName("hd")[0].getElementsByTagName("li");
+  var bd = document.getElementsByClassName("bd")[0].getElementsByTagName("li");
+  for (var i = 0; i < hd.length; i++) {
+    hd[i].onclick = function(){
+      doTabs(this);
+    }
+  }
+  function doTabs(obj){
+    for (var i = 0; i < hd.length; i++) {
+      if(hd[i]==obj){
+        hd[i].className = "current";
+        bd[i].className = "current";
+      }else{
+        hd[i].className = "";
+        bd[i].className = "";
+      }
+    }
+  }
+  </script>
+
+
+
+
+
+
+
+    <!-- 猜你喜欢 E-->
+
+    <!-- 白块  S-->
+
+    <div class="white-block" style="display:none;"></div>
+
+    <!-- 白块  E-->
+
+
+
+    <!-- 导航行为 S-->
+
+    <div class="nav-act">
+
+        <a href="javascript:;" class="follow" data-id="{$info.id}" data-model="second_house" data-uri="{:url('Api/follow')}">关注</a>
+
+        <a href="{:url('Ajax/consult')}" class="consult">咨询</a>
+
+        <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" class="call-tel">拨打电话</a>
+
+        <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="second_house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+
+    </div>
+
+    <!-- 导航行为 E-->
+
+
+
+
+
+    {include file='public/footer' /}
+
+</div>
+
+<style>
+
+    a{overflow: visible;}
+
+</style>
+
+<script src="__JS__/swiper.min.js"></script>
+
+<script src="__STATIC__/js/layer/layer.js"></script>
+
+<script src="__JS__/subscribe.js"></script>
+
+<script>
+
+    var mySwiper = new Swiper('.swiper-container', {
+
+        loop : true,
+
+        autoplay: 4000,//可选选项，自动滑动
+
+        initialSlide :0,
+
+        pagination : '.swiper-pagination',
+
+        paginationType: 'fraction'
+
+    });
+
+    $(function(){
+
+       $('#expand').on('click',function(){
+
+           if($(this).hasClass('expand'))
+
+           {
+
+               $(this).removeClass('expand').text('展开');
+
+               $('#info').css({'overflow':'hidden','height':'8rem'});
+
+           }else{
+
+               $(this).addClass('expand').text('收起');
+
+               $('#info').css({'overflow':'visible','height':'auto'});
+
+           }
+
+       });
+
+    });
+
+</script>
+
+{/block}

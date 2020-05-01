@@ -1,0 +1,171 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">添加采集项目</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>文章分类</label>
+                    <input type="hidden" name="cate_id" lay-verify="articleCate" id="J_cate_id" value="" />
+                    <div class="layui-input-inline" style="width:120px;">
+                        <select class="J_cate_select mr10" lay-filter="J_cate_select" data-pid="0" data-uri="{:url('ArticleCate/ajaxGetchilds')}" data-selected="">
+                        </select>
+                    </div>
+                    <input type="hidden" name="city" id="J_city_id" value="" />
+                    <div class="layui-input-inline">
+                        <select name="" lay-filter="province" id="province" data-level="1" data-uri="{:url('City/ajaxGetchilds')}">
+                            <option value="0">--请选择--</option>
+                            {volist name=':getProvinceLists()' id='vo'}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                        <select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="" data-selected="">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>项目名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" lay-verify="title" placeholder="项目名称" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>网址配置</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="pageurl"  placeholder="采集网址" value="" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <a href="javascript:;" class="layui-btn" id="test" data-uri="{:url('ajaxGetTestLists')}">测试</a>
+                    </div>
+                    <div class="layui-input-block">
+                        (如：http://www.tpfangchan.com/news/(*).html,页码使用(*)做为通配符。
+                    </div>
+                    <div class="layui-input-block">
+                        页码从第 <input type="text" class="layui-input" name="pagesize_start" value="1" style="width:80px;display:inline-block;" />
+                        到 <input type="text" class="layui-input" name="pagesize_end" value="5" style="width:80px;display:inline-block;">
+                         页 列表第一页 <input type="text" name="pageurl_first"  placeholder="列表第一页地址" value="" style="width:500px;display:inline-block;" autocomplete="off" class="layui-input">
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">页面编码</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="coding" value="gbk"  title="gbk" />
+                        <input type="radio" name="coding" value="utf-8" title="UTF-8" />
+                        <input type="radio" name="coding" value="bg5" title="BG5" />
+                    </div>
+                </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">列表区域</label>
+                   <div class="layui-input-inline">
+                       <input type="text" name="list_area" placeholder="列表区域" value="" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">链接规则</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url_area" placeholder="链接地址规则" value="" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:50px;">
+                        补全url
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="supplement_url" placeholder="补全内容链接地址" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片规则</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="img_area" placeholder="图片地址规则" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>内容规则</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题规则</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title_area" placeholder="标题规则" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间规则</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="create_time_area" placeholder="时间规则" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容规则</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="content_area" placeholder="内容规则" value="" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width:100px;">需过滤的标签</div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="filter_content" placeholder="-a -strong -p -span" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片补全</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="supplement_img_url" placeholder="补全内容中的图片地址" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">下载内容图片</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="download_pic" value="1" title="下载" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','linkmenu','layer'], function(){
+        var $ = layui.jquery,form = layui.form,layer = layui.layer;
+        $(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
+        //自定义验证规则
+        form.verify({
+            articleCate: function (value) {
+                if (value == 0) {
+                    return '请选择选择文章分类';
+                }
+            },
+            title : function (value) {
+                if(!value){
+                    return '请填写项目名称'
+                }
+            }
+        });
+        $("#test").on('click',function(){
+            var url = $("input[name='pageurl']").val(),uri = $(this).data('uri'),start = $("input[name='pagesize_start']").val(),end = $("input[name='pagesize_end']").val();
+            if(!url)
+            {
+                layer.msg('请填写网址配置');
+            }else if(!start){
+                layer.msg('请填写起始页码');
+            }else if(!end){
+                layer.msg('请填写结束页码');
+            }else{
+                layer.open({
+                    type : 2,
+                    title : '测试列表地址',
+                    area : ['500px','500px'],
+                    shade : 0.2,
+                    content : uri+"?url="+encodeURIComponent(url)+"&start="+start+"&end="+end,
+                    iframeAuto:true
+                });
+            }
+        });
+    });
+</script>
+{/block}

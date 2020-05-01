@@ -1,0 +1,81 @@
+{extend name='public/layout' /}
+{block name='content'}
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" lay-filter="editTable" data-uri="{:url('ajaxEdit')}">
+                <colgroup>
+                    <col width="5%">
+                    <col width="70%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>角色名</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="val"}
+                <tr data-index="{$i}" class="">
+
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.id}
+                        </div>
+                    </td>
+                    <td data-field="title" data-edit="true">
+                        <div class="layui-table-cell">
+                             <span data-tdtype="edit" data-field="title" data-id="{$val.id}" class="tdedit" style="">{$val.title}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {if condition="$val['id'] eq $roleid or $val['id'] eq $superroleid"}
+                            <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-disabled">无权限</a><a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-disabled">无权限</a>
+                            {else /}
+                            <a href="javascript:;" class="J_showDialog layui-btn layui-btn-xs layui-btn-normal" data-uri="{:url('Role/editmenu', ['id'=>$val['id']])}" data-title="设置菜单权限"  data-width="500" data-height="410">菜单权限</a>
+                            <a href="javascript:;" class="J_confirm layui-btn layui-btn-xs layui-btn-danger" data-uri="{:url('Role/delete', ['id'=>$val['id']])}" data-msg="{:sprintf('确定删除%s角色么？',$val['title'])}">删除</a>
+                            {/if}
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form','table'], function() {
+        var form = layui.form,table = layui.table;
+        //监听单元格编辑
+        table.render({
+            cols: [[
+                {edit:'text'} //其它参数在此省略
+            ]]
+        });
+        table.on('edit(editTable)', function(obj){alert('dd');
+            var value = obj.value //得到修改后的值
+                    ,data = obj.data //得到所在行所有键值
+                    ,field = obj.field; //得到字段
+            layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+        });
+    });
+</script>
+{/block}

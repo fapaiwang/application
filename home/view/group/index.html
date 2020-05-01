@@ -1,0 +1,98 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/group.css">
+<div class="searBar ">
+    {include file='group/search' /}
+</div>
+<div class="comWidth">
+    <!-- 页面标识 S-->
+    <div class="page_tit position-bottom">
+        <a href="javascript:;">您的位置：</a>
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+        <a href="javascript:void(0);">团购</a>
+    </div>
+    <!-- 页面标识 E-->
+</div>
+<div class="comWidth clearfix">
+    {volist name='lists' id='vo' empty='暂无数据'}
+    <div class="group_list">
+            <span class="group_img">
+                <a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.house_title}团购">
+                    <img data-original="{$vo.img}" alt="{$vo.house_title}团购" src="/static/images/nopic.jpg" class="lazy" style="display: inline;" width="375" height="280">
+                </a>
+            </span>
+        <div class="group_l_r">
+            <div class="clearfix">
+                <div class="group_l_r1">
+                    <div class="group_l_r1_m1">
+                        <b><a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.house_title}团购">{$vo.title} </a></b>
+                        <p><span class="gr_add">楼盘位置：{:getCityName($vo['city'])}</span><span>均价：{$vo.old_price}{:config('filter.house_price_unit')}</span><span>团购价：{$vo.price}{:config('filter.house_price_unit')}</span></p>
+                    </div>
+                    <div class="group_l_r1_m2">
+                        <p>{$site.title}团购优惠：</p>
+                        <b>{$vo.discount}</b>
+                        <p><span><a href="{:url('Group/detail',['id'=>$vo['id']])}">了解详情</a></span></p>
+                    </div>
+                </div>
+                <div class="group_l_r2">
+
+                    <p><span class="text19">已有{$vo.sign_num}</span>人报名</p>
+                    <a href="javascript:;" class="J_dialog but19" data-id="{$vo.house_id}" data-model="house" data-type="4" data-uri="{:url('Dialog/subscribe')}">团购报名</a>
+                </div>
+            </div>
+            <div class="group_l_r3">
+                <span class="group_time time-remain" data-down="{$vo.end_time-time()}">活动结束剩余 <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+            </div>
+        </div>
+    </div>
+    {/volist}
+    <div class="page_list clearfix">
+        {$pages|raw}
+    </div>
+</div>
+<script>
+    $(function(){
+        $('.J_dialog').on('click',function(){
+            var me=$(this),w = 750,h = 400,house_id=me.data('id'),model = me.data('model'),type = me.data('type'),url = me.data('uri');
+            url = url + '?house_id='+house_id+'&type='+type+'&model='+model;
+            layer.open({
+                type: 2,
+                title: false,
+                fix:true,
+                move:false,
+                area: [w+'px', h+'px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: url
+            });
+        });
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+
+</script>
+{/block}

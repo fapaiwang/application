@@ -1,0 +1,208 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">短信设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">短信平台</label>
+					<div class="layui-input-inline">
+						<input type="radio" name="data[sms_type]" lay-filter="sms_type" value="1" title="阿里云" {if condition="!isset($info['sms_type']) or $info.sms_type eq 1"}checked="checked"{/if}>
+						<input type="radio" name="data[sms_type]" lay-filter="sms_type" value="2" title="云信" {if condition="isset($info['sms_type']) && $info.sms_type eq 2"}checked="checked"{/if}>
+					</div>
+					<div class="layui-input-block" style="color:#ff0000;">
+						tips:阿里云短信只能发送验证码，云信可以发送验证码 也可以发送预约提醒短信到指定手机号。
+					</div>
+				</div>
+				<div id="lists">
+					{if condition="!isset($info['sms_type']) or $info['sms_type'] eq 1"}
+					<div class="layui-form-item">
+						<label class="layui-form-label">Access Key ID</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[access_key_id]" placeholder="阿里短信access_key_id" value="{$info.access_key_id|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">Access Key Secret</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[access_key_secret]" placeholder="阿里短信access_key_secret" value="{$info.access_key_secret|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">短信签名</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[sign]" placeholder="短信签名" value="{$info.sign|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">验证码短信模板ID</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[verify]" placeholder="模板ID" value="{$info.verify|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					{else /}
+					<div class="layui-form-item">
+						<label class="layui-form-label">用户名</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[user_name]" placeholder="云信账号登录名" value="{$info.user_name|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">接口密码</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[password]" placeholder="云信接口密码" value="{$info.password|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">验证码模板ID</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[verify]" placeholder="验证码模板ID" value="{$info.verify|default=''}" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-input-inline">
+							验证码模板变量为 {&#x24;code}
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">预约通知模板ID</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[notice]" placeholder="预约通知模板ID" value="{$info.notice|default=''}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">模板内容</label>
+						<div class="layui-input-inline">
+							<textarea class="layui-textarea" style="height:50px;" readonly="readonly">用户[{&#x24;user}] 提交 {&#x24;type} 楼盘: {&#x24;name},请尽快联系他(她)</textarea>
+						</div>
+						<div class="layui-input-inline">
+							在云信短信平台添加短信模板复制左边内容提交审核。
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">接收通知手机号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="data[notice_mobile]" placeholder="接收通知手机号" value="{$info.notice_mobile|default=''}" autocomplete="off" class="layui-input">
+						</div>
+						<div class="layui-input-inline">
+							默认发送到房源联系人手机号，若未设置房源联系人则发送到 此处设置的手机号。
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">&nbsp;</label>
+					<div class="layui-input-block">
+						还没有账号？<a href="http://www.aliyun.com" target="_blank">点击此处申请阿里云短信</a> |
+						<a href="http://sms.cn/" target="_blank">点击此处申请云信短信</a>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$base.id}">
+			<input type="hidden" name="name" value="{$action_name}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="text/html" id="template_ali">
+	<div class="layui-form-item">
+		<label class="layui-form-label">Access Key ID</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[access_key_id]" placeholder="阿里短信access_key_id" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">Access Key Secret</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[access_key_secret]" placeholder="阿里短信access_key_secret" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">短信签名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[sign]" placeholder="短信签名" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">验证码短信模板ID</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[verify]" placeholder="模板ID" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+</script>
+<script type="text/html" id="template_sms">
+	<div class="layui-form-item">
+		<label class="layui-form-label">用户名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[user_name]" placeholder="云信账号登录名" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">接口密码</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[password]" placeholder="云信接口密码" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">验证码模板ID</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[verify]" placeholder="验证码模板ID" value="" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-input-inline">
+			验证码模板变量为 {&#x24;code}
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">预约通知模板ID</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[notice]" placeholder="预约通知模板ID" value="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">模板内容</label>
+		<div class="layui-input-inline">
+			<textarea class="layui-textarea" style="height:50px;" readonly="readonly">用户[{&#x24;user}] 提交 {&#x24;type} 楼盘: {&#x24;name},请尽快联系他(她)</textarea>
+		</div>
+		<div class="layui-input-inline">
+			在云信短信平台添加短信模板复制左边内容提交审核。
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">接收通知手机号</label>
+		<div class="layui-input-inline">
+			<input type="text" name="data[notice_mobile]" placeholder="接收通知手机号" value="" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-input-inline">
+			默认发送到房源联系人手机号，若未设置房源联系人则发送到 此处设置的手机号。
+		</div>
+	</div>
+</script>
+<script>
+	layui.use(['form','laytpl'],function() {
+		var form = layui.form, $ = layui.jquery, laytpl = layui.laytpl;
+		form.on("radio(sms_type)",function(o){
+			var lists = $("#lists"),len = $.trim(lists.html()).length;
+			if(o.value == 1){
+				var getTpl = template_ali.innerHTML
+						,view = document.getElementById('lists');
+				laytpl(getTpl).render([], function(html){
+					view.innerHTML = html;
+					form.render();
+				});
+			}else{
+				var getTpl = template_sms.innerHTML
+						,view = document.getElementById('lists');
+				laytpl(getTpl).render([], function(html){
+					view.innerHTML = html;
+					form.render();
+				});
+			}
+		});
+	});
+</script>
+{/block}

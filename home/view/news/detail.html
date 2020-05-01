@@ -1,0 +1,186 @@
+{extend name='public/layout' /}
+
+
+
+{block name='content'}
+
+<!-- 资讯详情 S-->
+
+<div class="flash">
+
+    <div class="con_wrap comWidth clearfix">
+
+        <div class="sub_nav">
+
+            <ul>
+
+                <li><a href="{:url('News/index')}">全部</a></li>
+
+                {volist name='cate' id='vo'}
+
+                <li><a href="{:url('News/index',['cate'=>$vo['id']])}" {if condition='$info["cate_id"] eq $vo.id'}class="active"{/if}>{$vo.name}</a></li>
+
+                {/volist}
+
+            </ul>
+
+        </div>
+
+        <div class="leftArea cm_leftArea" style="width:1200px !important;">
+
+            <!-- 页面标识 S-->
+
+            <div class="page_tit">
+
+                <a href="javascript:;" rel="nofollow">您的位置：</a>
+
+                <a href="{:url('Index/index')}">首页</a> &gt;
+
+                <a href="{:url('News/index')}">资讯</a> &gt;
+
+                <a href="{:url('News/index',['cate'=>$info['cate_id']])}" title="{:getCateName('articleCate',$info['cate_id'])}">{:getCateName('articleCate',$info['cate_id'])}</a> &gt;
+
+                <a href="javascript:void(0);">正文</a>
+
+            </div>
+
+            <!-- 页面标识 E-->
+
+            <!-- 文章详情 S-->
+
+            <div class="artc_detail">
+
+                <div class="head">
+
+                    <h1>{$info.title}</h1>
+
+                    <div class="sub clearfix">
+
+                        <div class="fl">
+
+                            <span class="news_type">{empty name='info.come_from'}{$site.title}{else /}{$info.come_from}{/empty}</span>
+
+                            <span class="time">{$info.create_time|date='Y-m-d H:i'}</span>
+
+                        </div>
+
+                        <div class="fr">
+
+                            <span class="view">{$info.hits}</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="con_box">
+
+                    {$info.info|raw}
+
+                </div>
+
+                {notempty name='house_info'}
+
+                <div class="house-info">
+
+                    <a href="{$house_info.url}" target="_blank">
+
+                        <dl class="clearfix">
+
+                            <dt><img src="{$house_info.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$house_info.title}"></dt>
+
+                            <dd class="title">{$house_info.title}</dd>
+
+                            <dd class="price">均价：<span>{$house_info.price}{$house_info.unit}</span></dd>
+
+                            <dd class="address">地址：[{:getCityName($house_info['city'])}]{$house_info.address}</dd>
+
+                            <dd class="telphone">电话：<span>{$house_info.sale_phone.phone}{notempty name='house_info.sale_phone.extension'}转{$house_info.sale_phone.extension}{/notempty}</span></dd>
+
+                        </dl>
+
+                    </a>
+
+
+
+                </div>
+
+                {/notempty}
+
+                <div class="f_share clearfix">
+
+                    <div class="fl">
+
+                        <p>编辑者：{$info.editor}</p>
+
+                    </div>
+
+                    <div class="fr">
+
+                        <p>分享到：</p>
+
+                        <div style="float:left;">
+
+                               <div class="bdsharebuttonbox" style="display:inline-block;vertical-align: middle;"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+
+                               <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="relative_artc">
+
+                    <div class="title">
+
+                        <h3>相关文章</h3>
+
+                        <a href="{:url('News/index')}" class="more">更多+</a>
+
+                        <p class="b_l"></p>
+
+                    </div>
+
+                    <ul class="list clearfix">
+
+                        {volist name='relation' id='vo'}
+
+                        <li>
+
+                            <span class="time">{$vo.create_time|date='Y-m-d H:i'}</span>
+
+                            <a href="{:url('News/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">{$vo.title}</a>
+
+
+
+                        </li>
+
+                        {/volist}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- 文章详情 E-->
+
+        </div>
+
+        <div class="rightArea cm_rightArea ">
+
+            {include file='news/right' /}
+
+        </div>
+
+    </div>
+
+</div>
+<!--客服-->
+<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>
+<!-- 资讯详情 E-->
+
+{/block}

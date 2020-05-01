@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>{$seo.title}</title>
+    <meta name="keywords" content="{$seo.keys}" />
+    <meta name="description" content="{$seo.desc}" />
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script src="__JS__/font-size.js"></script>
+    <link rel="stylesheet" href="__CSS__/base.css?t={:time()}">
+    <link rel="stylesheet" href="__CSS__/style.css?t={:time()}">
+
+</head>
+<body>
+{block name='header'}
+<!-- 头部 S-->
+<div class="mc-header">
+    <a href="javascript:;" class="go-back"></a>
+    <h3>{$title|default=$site["title"]}</h3>
+</div>
+<!-- 头部 E-->
+{/block}
+{block name='content'}{/block}
+<div style="max-width: 750px;margin:0 auto;position: relative;">
+    <div class="footer-bar">
+        <ul>
+            <li {if condition='$controller eq "index"'}class="active"{/if}><a href="{:url('Index/index')}"><i class="icon iconfont icon-daohangshouye"></i><div>首页</div></a></li>
+            <li {if condition='$controller eq "house"'}class="active"{/if}><a href="{:url('House/index')}"><i class="icon iconfont icon-ziyuan"></i><div>新房</div></a></li>
+            <li {if condition='$controller eq "second"'}class="active"{/if}><a href="{:url('Second/index')}"><i class="icon iconfont icon-second"></i><div>二手</div></a></li>
+            <li {if condition='$controller eq "rental"'}class="active"{/if}><a href="{:url('Rental/index')}"><i class="icon iconfont icon-rental"></i><div>出租</div></a></li>
+            <li {if condition='$controller eq "user"'}class="active"{/if}><a href="{:url('user.index/index')}"><i class="icon iconfont icon-yonghu"></i><div>我的</div></a></li>
+        </ul>
+    </div>
+</div>
+<div style="display:none;" id="weixin-share" data-desc="{present name='info'}{:msubstr(strip_tags($info['info']),0,50)}{else /}{$site.seo_desc}{/present}"></div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    $(function(){
+       $('.detail-go-back,.go-back').on('touchend',function(){
+           window.history.back();
+       }) ;
+        var img_url = "{:config('mobile_domain')}{$info.img|default=$site['pc_logo']}";
+        var shareData = {
+            title: "{$share_title?$share_title:$seo.title}",
+            link: window.location.href,
+            desc: $("#weixin-share").data('desc'),
+            imgUrl: img_url,
+            success:function(){
+
+            }
+        };
+        var jssdkconfig = {$sdk_config|raw} || { jsApiList:[] };
+        wx.config(jssdkconfig);
+        wx.ready(function () {
+            wx.onMenuShareAppMessage(shareData);
+            wx.onMenuShareTimeline(shareData);
+            wx.onMenuShareQQ(shareData);
+            wx.onMenuShareWeibo(shareData);
+        });
+    });
+</script>
+</body>
+</html>

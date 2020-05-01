@@ -1,0 +1,33 @@
+<ul class="layui-tab-title">
+    <li {if condition="$action eq 'index'"}class="layui-this"{/if}><a href="{:url('user.subscribe/index')}">新房</a></li>
+    <li {if condition="$action eq 'second'"}class="layui-this"{/if}><a href="{:url('user.subscribe/second')}">二手房</a></li>
+    <li {if condition="$action eq 'rental'"}class="layui-this"{/if}><a href="{:url('user.subscribe/rental')}">出租房</a></li>
+    <li {if condition="$action eq 'office'"}class="layui-this"{/if}><a href="{:url('user.subscribe/office')}">写字楼出售</a></li>
+    <li {if condition="$action eq 'officerental'"}class="layui-this"{/if}><a href="{:url('user.subscribe/officeRental')}">写字楼出租</a></li>
+    <li {if condition="$action eq 'shops'"}class="layui-this"{/if}><a href="{:url('user.subscribe/shops')}">商铺出售</a></li>
+    <li {if condition="$action eq 'shopsrental'"}class="layui-this"{/if}><a href="{:url('user.subscribe/shopsRental')}">商铺出租</a></li>
+</ul>
+<script>
+    layui.use(['jquery','layer'],function(){
+        var $ = layui.jquery,layer = layui.layer;
+        $('.delete').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = "{:url('delete')}";
+            var param = {
+                house_id : house_id,
+                model    : model
+            };
+            layer.confirm('您确定要删除预约么？', function(){
+                $.get(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>

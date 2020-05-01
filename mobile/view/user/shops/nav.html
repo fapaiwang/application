@@ -1,0 +1,42 @@
+<style>
+    .follow-h-switch li{width:50%;text-align:center;display:inline-block;font-size:.7rem;height:1.77rem;line-height: 1.77rem;}
+    .follow-h-switch li.active a{color:#F54848;}
+    .option{text-align:right;padding-top:.2rem;}
+    .option a{padding:.1rem 0.2rem;border:1px solid #999;color:#999;}
+    .delete{padding:.1rem .2rem;border:1px solid #999;color:#999;}
+    .red{color:#ff0000;margin-right:10px;}
+    .green{color:green;margin-right:10px;}
+</style>
+<!-- 我的预约 -->
+<ul class="follow-h-switch">
+   <li {if condition='$controller eq "shops"'}class="active"{/if}>
+    <a href="{:url('user.shops/index')}">商铺出售</a>
+</li><li {if condition='$controller eq "shops_rental"'}class="active"{/if}>
+    <a href="{:url('user.shops_rental/index')}">商铺出租</a>
+</li>
+</ul>
+<!-- 我的预约 -->
+
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.delete').on('click',function(){
+            var house_id = $(this).data('id'),url = $(this).data('uri');
+            var param = {
+                house_id : house_id
+            };
+            layer.confirm('您确定要删除所选房源么？', function(){
+                $.get(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>

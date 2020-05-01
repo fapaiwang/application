@@ -1,0 +1,138 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--分类-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" action="{:url('School/index')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">所属城市</label>
+                    {php}$province_id = getProvinceIdByAreaId($search['city']);{/php}
+                    <input type="hidden" name="city" id="J_city_id" value="{$search.city}" />
+                    <div class="layui-input-inline">
+                        <select name="" lay-filter="province" id="province" data-level="1" data-uri="{:url('City/ajaxGetchilds')}">
+                            <option value="0">--请选择--</option>
+                            {volist name=':getProvinceLists()' id='vo'}
+                            <option value="{$vo.id}" {if condition="$vo.id eq $province_id"}selected="selected"{/if}>{$vo.name}</option>
+                            {/volist}
+                        </select>
+                        <select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds',['province_id'=>$province_id])}" data-selected="{:getCitySpidById($search['city'])}">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" type="text" placeholder="输入关键词搜索" class="layui-input" size="25" value="{$search.keyword}" />
+                    </div>
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pad_lr_10" >
+    <form class="layui-form" action="">
+        <div class="layui-form layui-border-box layui-table-view">
+            <div class="layui-table-header">
+                <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="35%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="layui-table-cell">
+                                <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                            </div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>ID</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>学校名称</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>区域</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>排序</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell"><span>状态</span></div>
+                        </th>
+                        <th>
+                            <div class="layui-table-cell" align="center"><span>操作</span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="val"}
+                    <tr data-index="{$i}" class="">
+                        <td>
+                            <div class="layui-table-cell laytable-cell-checkbox">
+                                <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                {$val.id}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                {$val.title}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                {:getCityName($val.city)}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit" style="">{$val.ordid}</span>
+                            </div>
+                        </td>
+                        <td class="kaifazhe-switch">
+                            <div class="layui-table-cell">
+                                <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="layui-table-cell">
+                                {:rights($options,$val['id'],$val['title'])}
+                            </div>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="kaifazhe-fix-bottom layui-clear">
+            <div class="kaifazhe-list-option layui-fl">
+                <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+                <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+            </div>
+            <div id="pages" class="layui-layout-right">
+                {$pages|raw}
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var proid = "{$province_id}";
+    layui.use(['form','linkmenu'], function() {
+        var form = layui.form,$ = layui.jquery;
+        proid &&  $(".J_city_select").select({field : 'J_city_id',id : 'J_city_select',level:1});
+    });
+</script>
+{/block}

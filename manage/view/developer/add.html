@@ -1,0 +1,101 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('Developer/addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>开发商名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" placeholder="开发商名称" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">缩略图</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <input type="hidden" name="img" id="img_txt">
+                            <button type="button" class="layui-btn" id="img">上传图片</button>
+                            <div id="img_preview">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">介绍</label>
+                    <div class="layui-input-block">
+                        <script id="info" name="info" type="text/plain"></script>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+{:hook('ueditor',['id'=>'info'])}
+<script>
+    var uploadUrl = "{:url('Developer/ajaxUploadImg')}",deleteImgUrl = "{:url('Developer/deleteImg')}";
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','upload'], function(){
+        var $ = layui.jquery,form = layui.form,upload = layui.upload;
+        //自定义验证规则
+        form.verify({
+            title : function (value) {
+                if(value.length < 2){
+                    return '请填写开发商名称,最少2个字符'
+                }
+            }
+        });
+        upload.render({
+            elem: '#img'
+            ,url: uploadUrl
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    var img = "<img class='layui-upload-img' src='"+result+"' width='100'/>";
+                    $('#img_preview').html(img); //图片链接（base64）
+                });
+            }
+            ,done: function(res){console.log(res);
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    var img = "<img class='layui-upload-img' src='"+res.data+"' width='100'/><a href='javascript:;' data-text='img_txt' data-src='"+res.data+"' class='deleteImg layui-btn layui-btn-xs layui-btn-danger'>删除</a>";
+                    $("#img_txt").val(res.data);
+                    $("#img_preview").html(img);
+                }
+                //上传成功
+            }
+
+        });
+        $(document).on('click','.deleteImg',function(){
+            var that = $(this),img = $(this).data('src'),textId = $(this).data('text');
+            layer.confirm('确定要删除图片么?', {icon: 3, title:'提示'}, function(index){
+                var param = {
+                    'path' : img
+                };
+                $.post(deleteImgUrl,param,function(res){
+                    layer.close(index);
+                    if(res.code == 1){
+                        $("#"+textId).val('');
+                        that.parent().html('');
+                    }else{
+                        layer.msg(res.msg,{icon:2});
+                    }
+                });
+            });
+
+        });
+    });
+</script>
+{/block}

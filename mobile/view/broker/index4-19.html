@@ -1,0 +1,56 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="margin-bottom:2rem;background: none;">
+    <!-- 经纪人列表 S-->
+    <div class="comment-list agent-list">
+        <ul class="item">
+            {volist name='lists' id='vo'}
+            <li class="clearfix">
+                <div class="pic fl">
+                    <a href="{:url('Broker/detail',['id'=>$vo['id']])}" title="{$vo.nick_name}">
+                        <img src="{:getAvatar($vo['id'],90)}" alt="{$vo.nick_name}">
+                    </a>
+                </div>
+                <div class="comment-content fl">
+                    <div class="username-level clearfix">
+                        <div class="username fl">
+                            <a href="{:url('Broker/detail',['id'=>$vo['id']])}" title="{$vo.nick_name}">
+                                {$vo.nick_name}
+                            </a>
+                        </div>
+                        <div class="level level-{$vo.point} fl"></div><!-- 等级从0到5 -->
+                        <a href="tel:{$vo.mobile}" class="tel_phone fr">电话咨询</a>
+                    </div>
+                    <div class="desc_box">
+                        <p>
+                            <span>所属公司：</span>
+                            <span>{$vo.company}</span>
+                        </p>
+                        <p>
+                            <span>服务区域：</span>
+                            <span>
+                                {php}$area=array_filter(explode(',',$vo['service_area']));{/php}
+                                            {volist name='area' id='val'}
+                                            {:getCityName($val,'-')}
+                                            {/volist}
+                            </span>
+                        </p>
+                        <p><span>在售房源{$vo.second_total}套  在租房源{$vo.rental_total}套</span></p>
+                    </div>
+                    <div class="babel-list clearfix">
+                        {php}$tags=array_filter(explode(',',$vo['tags']));{/php}
+                        {volist name='tags' id='tag'}
+                        <em>{:getLinkMenuName(13,$tag)}</em>
+                        {/volist}
+                    </div>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+    <!-- 经纪人列表 E-->
+</div>
+{/block}

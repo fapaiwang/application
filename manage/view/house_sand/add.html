@@ -1,0 +1,91 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('HouseSand/addDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab-item layui-show">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="layui-form-alert">*</span>楼栋名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" lay-verify="title" id="title" placeholder="楼栋名称" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单元数</label>
+            <div class="layui-input-inline">
+                <input type="text" name="unit" id="unit" placeholder="单元数" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电梯数</label>
+            <div class="layui-input-inline">
+                <input type="text" name="elevator" id="elevator" placeholder="电梯数" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">总楼层</label>
+            <div class="layui-input-inline">
+                <input type="text" name="floor_num" class="layui-input" placeholder="12">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">总户数</label>
+            <div class="layui-input-inline">
+                <input type="text" name="room_num" class="layui-input" placeholder="22">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开盘时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="open_time" class="layui-input" placeholder="2017-12-22">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">交房时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="complate_time" class="layui-input" placeholder="2017-12-22">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">销售状态</label>
+            <div class="layui-input-block">
+                {:getLinkMenu(5,'sale_status','radio',30)}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">包含户型</label>
+            <div class="layui-input-block">
+                {volist name='type_list' id='vo'}
+                <input type="checkbox" lay-skin="primary" name="house_type_id[]" value="{$vo.id}" title="{$vo.title}">
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="house_id" value="{$houseInfo.id}">
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    function submitForm(){
+        var title = $("#title").val();
+        if(!title)
+        {
+            layer.msg('请填写楼栋名称');
+            $("#title").focus();
+            return false;
+        }else{
+            $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+        }
+    }
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.close(index);
+            parent.layer.msg(result.msg,{icon:1});
+            window.parent.location.reload();
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

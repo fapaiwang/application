@@ -1,0 +1,38 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .subnav{display:none;}
+    h6{font-size:14px;height:30px;line-height: 30px;padding:0 10px;border-bottom:1px solid #dce3ed;}
+    #file{padding:10px;}
+    #file li{line-height: 22px;}
+</style>
+<div class="pad_10 col_tab">
+    <div class="content_list" id="update_tips" style="height:100%; overflow:hidden;">
+        <h6>提示信息</h6>
+        <ul id="file" style="height:450px;overflow-y: auto;">
+            <li>正在采集内容……</li>
+        </ul>
+    </div>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+    var url   = "{:url('ajaxGetContent')}?c_id={$id}";
+    collection();
+    function collection(){
+        $.get(url,function(result){
+            // var result = eval('('+res+')');
+            if(result.code == 1){
+                var data = result.data;
+                    $("#file").append('<li>'+data[0]+'采集完成</li>');
+                collection();
+            }else if(result.code == 2){
+                $("#file").append('<li>'+result.msg+'</li>');
+            }else{
+                $("#file").append('<li>'+result.msg+'</li>');
+            }
+            $("#file").scrollTop(1000000);
+        });
+    }
+
+</script>
+{/block}

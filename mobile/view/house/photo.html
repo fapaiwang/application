@@ -1,0 +1,30 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__STATIC__/css/pic-preview.css">
+<div class="main" style="background: none;padding-bottom:2rem;">
+    <div class="house-type">
+        <div class="tab_hd clearfix">
+            <a href="{:url('House/photo',['house_id'=>$info['id']])}" {if condition='$cate_id eq 0'}class="on"{/if}>全部（{$cate.total}）</a>
+            {volist name='cate.data' id='vo'}
+            <a href="{:url('House/photo',['house_id'=>$info['id'],'cate_id'=>$vo['cate_id']])}" title="{$vo.name}" {if condition='$cate_id eq $vo.cate_id'}class="on"{/if}>{$vo.name}({$vo.total})</a>
+            {/volist}
+
+        </div>
+    </div>
+
+    <div class="build-picture" style="padding-top:.5rem;">
+        <div class="picture-item">
+            <ul class="list clearfix" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+                {volist name='lists' id='vo'}
+                    <li><a href="{$vo.url}"><img src="{$vo.url}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}"></a></li>
+                {/volist}
+            </ul>
+        </div>
+       
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+<script src="__STATIC__/js/plugins/amazeui.min.js"></script>
+{/block}

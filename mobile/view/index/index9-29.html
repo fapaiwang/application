@@ -1,0 +1,725 @@
+{extend name='public/layout' /}
+{block name='header'}
+<style type="text/css">
+  .sear_box{
+    width: 11.31rem;  
+    position: relative; 
+     height: 1.28rem; 
+      background: #fff; 
+      border-radius: .64rem;   
+    margin-left: .5rem;
+    border: 1px solid #bababa;
+  }
+.search-box:before {
+    width: .66rem;
+    height: .66rem;
+    content: "";
+    display: block;
+    background: url(../images/icon/search_icon.png) no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: .34rem;
+    left: .43rem;
+}
+
+</style>
+<!-- header S-->
+<script type="text/javascript" src="/static/js/plugins/swiper.min.js"></script>
+ <link href="/static/index/style.css" rel="stylesheet" type="text/css">
+<header id="header" style="height:1.9rem">
+    <div class="city-box">
+        <a href="javascript:;">{$cityInfo.name}</a>
+    </div>
+    <!-- <div class="logo-box">
+        <img src="{$site.mobile_logo}" alt="" style="height:30px">
+    </div> -->
+     <div class="sear_box" style="">
+            <form action="{:url('Second/index')}">
+                <div class="ipt_area fl" style=" background: #ffffff14; position:absolute; z-index:999;   width: 88%;  left: 14px;">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" style="  padding-left: 10px;    font-size: 15px;width: 96%;"  onClick='showhidediv("baip")';>
+                    
+                    <ul id="search-boxs" style="  padding-left: 10px; background:#fff;">
+                    </ul>
+                </div>
+            
+            </form>
+        </div>
+
+
+    <div class="person-center" onclick="window.location.href='{:url("Map/second")}'">
+     <a href="{:url('Map/second')}" class="map-find-room"></a>
+    </div>
+
+
+
+</header>
+
+
+
+
+
+<script type="text/javascript">
+  function showhidediv(id){
+var sbtitle=document.getElementById(id);
+
+if(sbtitle){
+   if(sbtitle.style.display=='block'){
+
+   sbtitle.style.display='none'; 
+   
+   }else{
+   sbtitle.style.display='block';
+   
+   }
+
+  
+   
+}
+
+} 
+</script>
+<style>
+.saleDetail li{
+padding:5px 0;
+}
+</style>
+<div   id="baip" style="display:none;position: absolute;margin-top:-2px;width: 100%; z-index:2">
+<div style="background-color: rgb(255, 255, 255);width:58%;margin:0 auto;">
+        <ul class="saleDetail" style="padding-left:10px;">
+            <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
+        </ul>
+        <ul class="saleDetail history" style="padding-left:10px;"></ul>
+        <div class="Storage"></div>
+        <div class="h80"></div>
+        <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
+       </div>
+
+</div>
+
+
+<script  type="text/javascript" src="jquery-2.1.4.min.js"></script>
+<script>
+var ItemName = "";  //localStorage的getItem 和 setItem的数组名字，主要用来做不同界面调用各自的历史记录。
+var menuHistory   = new Object();
+$(function(){
+  console.log(1111111111111111);
+  initLocalStorageArg("hi_001");
+  console.log(ItemName);
+ 
+ 
+});
+ 
+  $(document).delegate(".history>li","click",function(){
+    $("#keyword").val($(this).text());
+ 
+  });
+ 
+  /**
+   * 初始化相关参数，界面js调用
+   * menucode：可以是js的名字
+   */
+  function initLocalStorageArg(menucode){
+    //苹果手机不兼容出现input无法取值以下是解决方法
+    $('.history>li').click(function(){
+          var div = $(this).text();
+          $('#keyword').val(div);
+    });
+    ItemName = "hist_"+menucode;
+    initlocalStorage();
+    showHistDom();
+  }
+ 
+ 
+  /**
+   * 历史数据展示
+   */
+  function showHistDom(){
+    $(".history").html("");
+    for(  var i=0 ; i<menuHistory.length;i++){
+        $(".history").append('<li style="display: block;">'+menuHistory[i]+'</li>')
+      }
+  }
+ 
+ 
+/**
+ * 获取指定的localStorageobj对象，并转成Array对象。
+ */
+function initlocalStorage(){
+    var localStorageobj = localStorage.getItem(ItemName);
+    if(localStorageobj){
+    }else{
+     localStorage.setItem( ItemName,"[]");
+     localStorageobj = localStorage.getItem(ItemName);
+    }
+    menuHistory=JSON.parse( localStorageobj);
+}
+ 
+/**
+ * 执行记录历史数据
+ */
+function recordHist(){
+      initlocalStorage();
+      var value = $("#keyword").val();
+    if(!value){ //这里判断输入的value是否合法，也可以用自己的判断方式
+      alert("你未输入搜索内容");
+      return false;
+    }
+    //输入的内容localStorage有记录
+      if($.inArray(value,menuHistory)>=0){
+         var keyval = Object.keys(menuHistory).filter(function(x){return menuHistory[x] == value}).toString() ;
+         menuHistory.splice(Number(keyval), 1); //splice(index,1):index代表value值在数组中对应到下标，1：表示删除
+      }else {
+        if (menuHistory.length > 9) {
+            menuHistory.pop();
+        }else {
+        }
+      }
+      menuHistory.unshift(value);
+      localStorage.removeItem(ItemName);
+      localStorage.setItem( ItemName,JSON.stringify(menuHistory)); // 因为localStorage的value不能直接放数组，所以转换程json串后，再set
+ 
+      showHistDom();
+}
+ 
+ 
+//清除记录功能
+ $(".btnEmpty").click(function(){
+   localStorage.setItem( ItemName,JSON.stringify([]));
+    initlocalStorage();
+    showHistDom();
+ });
+ 
+ 
+ 
+ 
+/*执行搜索的一种方式，绑定回车键*/
+  $("#keyword").on("keypress",function(e){
+    var keycode=e.keyCode;
+    if(keycode=='13'){
+ 
+      recordHist();
+ 
+ 
+    }
+  });
+ 
+ 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- header E-->
+{/block}
+{block name='content'}
+<div class="select-city-box">
+    <div class="mc-header">
+        <a href="javascript:;" id="city-box-close" class="city-box-back"></a>
+        <h3>选择城市</h3>
+    </div>
+    <div class="city-lists">
+        {volist name='city.city' id='vo'}
+        <dl>
+            <dt>{$key}</dt>
+            {volist name='vo' id='val'}
+            <dd {if condition="$val.is_hot eq 1"}class="is-hot"{/if}><a href="{:config('mobile_domain')}/{$val.domain}/">{$val.name}</a></dd>
+            {/volist}
+        </dl>
+        {/volist}
+    </div>
+</div>
+<div class="main" style="background:#fff">
+
+<style type="text/css">
+    div.slideBox{ position:relative;  overflow:hidden;}
+div.slideBox ul.items{ position:absolute; float:left; background:none; list-style:none; padding:0px; margin:0px;}
+div.slideBox ul.items li{ float:left; background:none; list-style:none; padding:0px; margin:0px;}
+    .swiper-slide li.dcjf a:before{background-image: url(/static/mobile/images/icon/dcjf.png);}
+    .swiper-slide li.jrfw a:before{background-image: url(/static/mobile/images/icon/jrfw.png);}
+    .swiper-slide li.qyxf a:before{background-image: url(/static/mobile/images/icon/qyxf.png);}
+    .swiper-slide li.wtpm a:before{background-image: url(/static/mobile/images/icon/wtpm.png);}
+    .swiper-slide li.yjdz a:before{background-image: url(/static/mobile/images/icon/yjdz.png);}
+    .swiper-slide li.zqzr a:before{background-image: url(/static/mobile/images/icon/zqzr.png);}
+    .swiper-slide li.dtzf a:before{background-image: url(/static/mobile/images/icon/dtzf.png);}
+    .swiper-slide li.fdjs a:before{background-image: url(/static/mobile/images/icon/fdjs.png);}
+</style>
+   <!-- <div id="demo1" class="slideBox" style="width:100%; min-height:150px;">
+      <ul class="items">
+        <li><img src="{$site.apphdp_qrcode}"></li>
+      </ul>
+    </div> -->
+
+    <link rel="stylesheet" href="/css/idangerous.swiper.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+<script src="/js/idangerous.swiper-1.9.1.min.js"></script>
+<script src="/js/swiper-demos.js"></script>
+
+    <div id="demo1" class="slideBox" style="width:100%; min-height:100px;">
+  
+  <div class="home-device"><a class="arrow-left" href="#"></a> <a class="arrow-right" href="#"></a>
+    <div class="swiper-main">
+      <div class="swiper-container swiper1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide1"> <a  href="http://m.fangpaiwang.com/yjdz.html"> <img src="{$site.apphdp_qrcode}" style="width:70%;height:100px;"></a> </div>
+          {if !empty($site.apphdps_qrcode)}
+          <div class="swiper-slide1"> <a  href="http://m.fangpaiwang.com/yjdz.html"> <img src="{$site.apphdps_qrcode}" style="width:70%;height:100px;"></a> </div>
+          {/if}
+          {if !empty($site.apphdpss_qrcode)}
+          <div class="swiper-slide1"> <a  href="http://m.fangpaiwang.com/yjdz.html"> <img src="{$site.apphdpss_qrcode}" style="width:70%;height:100px;"></a> </div>
+          {/if}
+          
+        </div>
+      </div>
+    </div>
+<div class="pagination pagination1"></div>
+  </div> 
+  </div>
+  
+
+
+
+
+
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.slideBox.min.js" type="text/javascript"></script>
+<script>
+jQuery(function($){
+    $('#demo1').slideBox();
+    
+});
+</script>
+<!-- <div id="header" class="h-list-head" style="background: #fff;height:1.9rem;padding: 0;     border-radius: 2em;    display: block;align-items: center;    justify-content: space-between;    line-height: 1.28rem;width: 98%; margin: 5px auto;">
+
+       
+
+        <div class="sear_box" style="width:100%">
+            <form action="{:url('Second/index')}">
+                <div class="ipt_area fl" style="width:80%; border: 1px #00AC56 solid;background: #fff; ">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" style="line-height: 1.71rem;   padding-left: 10px;    font-size: 15px;width: 96%;">
+                    
+                    <ul id="search-boxs" style="  padding-left: 10px;">
+
+                    </ul>
+                </div>
+                <div class="btn_area fr" style="width:20%;text-align: center;border-radius: 0 1.8em 1.9em 0;    background: #00AC56;">
+                    <input type="submit" class="sbm_btn" value="开始找房" style="line-height: 1.8rem;color:#fff;    font-size: 15px;">
+                </div>
+            </form>
+        </div>
+
+    </div> -->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                 {{d[i].title}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#select select").on('change',function(){
+            var uri = $(this).find("option:selected").data('uri');
+            window.location.href = uri;
+        });
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-boxs');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-boxs').html(html);
+                    });
+                    box.show();
+                }else{
+                   
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+           // alert('22');
+            $('#search-box').style.display="none";
+
+        });
+    })
+</script>
+
+
+
+        
+
+  <div style="clear:both"></div>
+<div class="cate-box clearfix" style="border-top:1px solid #eee;">
+        
+            <div class="swiper-wrapper">
+                <ul class="swiper-slide">
+                    <li class="house" style="width: 19%;"><a href="erf.html?lx=18334" title="">住宅</a></li> 
+                    <li class="estate" style="width: 19%;"><a href="erf.html?lx=18333" title="">商办</a></li>
+                    <li class="office" style="width: 19%;"><a href="erf.html?lx=18331" title="">别墅</a></li>
+                    <li class="shops" style="width: 19%;"><a href="erf.html?lx=18332" title="">平房.四合院</a></li>
+                    <li class="qyxf" style="width: 18%;"><a href="/beijing/quyu.html" title="区域选房">区域选房</a></li>
+              
+                </ul>
+               <ul class="swiper-slide">
+                   
+                    
+                    <li class="jrfw" style="width: 19%;"><a href="/beijing/jinrong.html" title="金融服务">金融服务</a></li>
+                    <li class="wtpm" style="width: 19%;"><a href="/beijing/wtpm.html" title="委托拍卖">委托拍卖</a></li>
+                    <li class="zqzr" style="width: 19%;"><a href="" title="债权转让">债权转让</a></li> 
+					<li class="dcjf" style="width: 19%;"><a href="/beijing/chafeng.html" title="代解查封">代解查封</a></li> 
+					<li class="broker" style="width: 18%;"><a href="/beijing/jinjiren.html" title="法拍专员">法拍专员</a></li> 
+                  <!--  <li class="house"><a href="{:url('House/index')}" title="新房">新房</a></li> 
+                    <li class="shops"><a href="{:url('ShopsRental/index')}" title="商铺">商铺</a></li>
+                    <li class="office"><a href="{:url('OfficeRental/index')}" title="写字楼">写字楼</a></li>
+                    <li class="estate"><a href="{:url('Estate/index')}" title="找小区">找小区</a></li>
+                    <li class="group"><a href="{:url('Group/index')}" title="团购楼盘">团购</a></li>
+                    <li class="broker"><a href="{:url('Broker/index')}" title="经纪人">经纪人</a></li>
+                    <li class="news"><a href="{:url('News/index')}" title="资讯">资讯</a></li>
+                    <li class="map"><a href="{:url('Map/index')}" title="地图找房">地图找房</a></li>-->
+                </ul>
+            </div>
+            <div class="swiper-menu-pagination"></div>
+        
+    </div>
+    <!-- 类别 E-->
+    <div style="width:100%;border-top: 1px solid #eee;border-bottom: 1px solid #eee;background:#fff;">
+        <div style="width:100%;height:50px;border-bottom: 1px solid #eee;line-height:50px">
+            <div style="float:left;height:30px;width:15%;    text-align: center;"> 
+                <img src="../static/mobile/images/icon/gg.png" style="width:30px;height:30px;vertical-align: middle;">
+            </div>
+            <div class="top_bom fix" style="width:90%">
+<!--  <link rel="stylesheet" href="/static/newindex/common.css">
+
+    <link rel="stylesheet" href="/static/newindex/style.css"> -->
+
+  
+    <script src="/static/newindex/jquery-1.11.2.min.js"></script>
+    <script src="/static/newindex/jquery.SuperSlide.2.1.1.js"></script>
+   <div class="container auto fix" style="width:100%;">
+       <div class="txtScroll-top"style="width:100%;">
+           <div class="bd"style="width:100%;">
+
+
+               <span style=" display: block; color: red; float: left;">今日新增：</span>
+               <div class="tempWrap" style="overflow:hidden; position:relative; height:50px"><ul class="infoList" style="top: -757.588px; position: relative; padding: 0px; margin: 0px;">
+                 
+                 
+                 {fang:lists table='second_house' filed="id,title,estate_name,img,room,living_room,city,price,acreage,tags,update_time,qipai,marketprice" where="status = 1 and timeout > $time" order="create_time desc" limit="30" id="vo"}
+                 <li style="height: 50px; margin-left:5px; overflow:hidden"><a href="{:url('Second/detail',['id'=>$vo['id']])}" target="_blank">
+                       <!--  <span>{:getCityName($vo['city'])}111</span> -->
+                       <span> {$vo.title}</span><br/>
+                       <!-- <span>起拍价：<em class="n">{$vo.qipai|raw}万</em></span> -->
+                      <!--  <span>市场价：{$vo.price|raw}</span>
+                       <span>{$vo['update_time']|date="Y-m-d H:i:s"}</span> -->
+                       </a>
+                   </li>
+                                    
+                   {/fang:lists}
+                    
+               </ul></div>
+           </div>
+       </div>
+
+       <script type="text/javascript">
+           jQuery(".txtScroll-top").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"top",autoPlay:true,vis:1,delayTime:1000});
+       </script>
+   </div>
+</div>
+            
+        </div>
+      
+      
+      
+        <div style="width:100%;height:40px;line-height:40px;margin-top: 10px;">
+            <div style="float:left;line-height:40px;font-size:0.77rem;margin-left:15px;font-weight: bold;">法拍房行情</div>
+              <div style="float:right;line-height:40px;font-size:0.51rem;margin-right:10px;">
+                <a href="{:url('Fpwhq/index')}" style="font-size: 0.51rem; font-family: 幼圆; padding-right: .5rem; background: url(http://m.fangpaiwang.com/static/mobile/images/icon/more_icon.png) no-repeat right center; background-size: .26rem .47rem; margin-right: .3rem;">更多信息</a></div>
+            
+        </div>
+      
+   
+<div id="pricing-table">
+	<div class="plan plan1" style="width:47%;background-image: url(/static/mobile/images/icon/jjpm.png);background-size:100%;height:100px;    background-repeat: no-repeat;border: none;">
+		<div class="header" style="font-size:16px;padding:10px;font-weight: 100;display:none">即将拍卖</div>
+		
+		<div style="width:40px;height:23px;margin-top:17%;color:#fff;font-size:23px;    margin-left: 10px;    font-weight: bold;">{$jjpm}</div>
+    
+		<a class="signup"  style="    padding: 5px 10px;background:#00ac0d;display:none">{$jjpm}套</a>         
+	</div>
+	
+	
+	
+	<div class="plan plan2" style="width:47%;background-image: url(/static/mobile/images/icon/zzjx.png);background-size:100%;height:100px;    background-repeat: no-repeat;border: none;">
+		<div class="header" style="font-size:16px;padding:10px;font-weight: 100;display:none">正在进行</div>
+	
+		<div style="width:40px;height:23px;margin-top:17%;color:#fff;font-size:23px;    margin-left: 12px;    font-weight: bold;">{$zzjx}</div>
+		<a class="signup"  style="    padding: 5px 10px;background:#00ac0d;display:none">{$zzjx}套</a>        
+	</div> 	
+	
+</div>
+   
+      
+    </div>
+
+
+     <div style="clear:both"></div>
+
+
+
+ <div class="old-house house-show-box mt20">
+        <div class="title">
+            <h3>为您推荐</h3>
+            <a href="{:url('Second/index')}" title="为您推荐">更多</a>
+        </div>
+        <ul>
+            {fang:lists table='second_house' filed="id,estate_id,title,rec_position,fcstatus,estate_name,img,room,living_room,city,price,acreage,tags,average_price,update_time,pano_url,qipai,marketprice,kptime" where="status = 1 and rec_position = 1 and fcstatus=170 and city in ($cityIds) and timeout > $time"   order="ordid asc,update_time desc" limit="20" id="vo"}
+
+
+
+
+           <li>
+                
+
+                <div class="pic" style="width:43%;height:4.8rem;">
+
+                    <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+
+                        {if !empty($vo.pano_url)}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {else}
+                        <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" />
+                        {/if}
+
+                        <!-- <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.estate_name}" style="width:100%;height:142px" /> -->
+                        {if $vo.fcstatus eq 169}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app2.png" original="/static/images/status/app2.png" style="width:60px;height:auto; float:right;margin-left: 18px;">
+                        {if !empty($vo.pano_url)} <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 2rem;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 170}
+                        <div class="zzjx fix abs" style="float:right;top:0; right:0; z-inde:555; position: absolute;">
+                          <img src="/static/images/status/app1.png" original="/static/images/status/app1.png" style="width:60px;height:auto; float:right;margin-left: 18px;">
+                     {if !empty($vo.pano_url)}  <img src="/img/mvr.png" original="/img/mvr.png" style="width:56px;height:auto;     margin-top: 2rem;">  {/if}
+                      </div>
+                        {/if}
+                        {if $vo.fcstatus eq 171}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:60px;height:auto;  float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 172}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:60px;height:auto; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 173}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:60px;height:auto; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 174}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:60px;height:auto; float:right;"></div>
+                        {/if}
+                        {if $vo.fcstatus eq 175}
+                        <div class="zzjx fix abs" style="float:right;top:1.7rem; right:1.8rem; z-inde:555; position: absolute;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:60px;height:auto; float:right;"></div>
+                        {/if}
+
+
+                    </a>
+
+                </div>
+
+                <div class="intro-text" style="width:55%;margin-top:-5px">
+
+<p class="detail-text" style="color:#666;line-height:.8rem"><a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}"><b>{:msubstr(strip_tags($vo['title']),0,17)}</b></a></p>
+{if strstr($vo.acreage,'.')}
+<p class="detail-text" style="color:#666;line-height:.8rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.8rem">面积：{$vo.acreage}.00{:config('filter.acreage_unit')}</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p> -->
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">均价：{$vo.average_price|raw}</p> -->
+                    <!-- <p class="detail-text" style="color:#666;line-height:.9rem">市场价：{$vo.price|raw}</p> -->
+{if strstr($vo.qipai,'.')}
+<p class="detail-text" style="color:#666;line-height:.8rem">起拍价：<span style="color:red;">{$vo.qipai|raw}万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{else}
+<p class="detail-text" style="color:#666;line-height:.8rem">起拍价：<span style="color:red;">{$vo.qipai|raw}.00万</span>(<em>{$vo.average_price|raw}</em>)</p>
+{/if}
+                    <!-- <p class="detail-text" style="color:#000;line-height:.9rem">起拍价：{$vo.qipai|raw}(元/㎡)</p> -->
+                    <p class="detail-text" style="color:#666;line-height:.8rem">漏检指标：
+					
+					{if $vo.marketprice eq 1}
+							
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								{/if}
+								
+								
+								{if $vo.marketprice eq 2}
+							
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								{/if}
+								
+								{if $vo.marketprice eq 3}
+							
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								{/if}
+								
+								{if $vo.marketprice eq 4}
+							
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								{/if}
+								
+								{if $vo.marketprice eq 5}
+							
+
+                                <img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								<img src="/static/images/img-14.png" style="width:15px; height:15px;">
+								
+								{/if}
+					
+					
+					
+					</p>
+                    <p class="detail-text" style="color:#666;line-height:.8rem">开拍时间：<b>{$vo['kptime']}</b></p>
+                    <p class="good">
+
+                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                        {notempty name='tag'}
+                        {volist name='tag' id='val'}
+                        {if condition="is_numeric($val)"}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{:getLinkMenuName(14,$val)}</em>
+                        {else /}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$val}</em>
+                        {/if}
+                        {/volist}
+                        {/notempty}
+
+                   {php}$estate_id=$vo['estate_id'];{/php}
+                    {fang:lists table='estate' where='id=$estate_id' field='years'  id='answer'}
+                        <em style="margin-top:.1rem;padding-top:.1rem;padding-bottom:.1rem;">{$answer.years}年</em>
+                    {/fang:lists}
+                    </p>
+
+                </div>
+
+            </li> 
+
+
+            {/fang:lists}
+        </ul>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div style="height:50px;"></div>
+</div>
+<script>
+    var swiper = new Swiper('.box', {
+        pagination: {
+            el: '.swiper-menu-pagination',
+            type: 'fraction'
+        }
+    });
+    // 头条---------------S
+    var textH=$("#text-scroll li").height();
+    var mt=textH;
+    var timerA=null;
+
+    timerA=setInterval(function(){
+        textMove();
+    },4000);
+    setTimeout(timerA,2000);
+
+    $(".headlines .text").hover(function(){
+        clearInterval(timerA);
+    },function(){
+        timerA=setInterval(textMove,4000);
+    });
+
+    function textMove(){
+        $("#text-scroll").animate({marginTop:-mt+'px'},function(){
+            $(this).css({marginTop:0}).find('li:first').appendTo($(this));
+        });
+
+    }
+    // 头条---------------E
+    $(function(){
+        $(".city-box").on('click',function(){
+            $(".select-city-box").show();
+        });
+        $('#city-box-close').on('click',function(){
+            $(".select-city-box").hide();
+        }) ;
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+</script>
+{/block}
+

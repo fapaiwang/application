@@ -1,0 +1,140 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--列表-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" action="{:url('index')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="type">
+                            <option value="">-所有-</option>
+                            <option value="1" {eq name="search['type']" value="1"}selected="selected"{/eq}>预约看房</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+
+                    <input type="hidden" name="menuid" value="{$menuid}">
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="5%">
+                <col width="20%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <div class="layui-table-cell">
+                        <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                    </div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>联系人</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>联系电话</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>楼盘</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>类型</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>提交时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td>
+                    <div class="layui-table-cell laytable-cell-checkbox">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td data-field="title" date-edit="true">
+                    <div class="layui-table-cell">
+                        {$val.user_name}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.mobile}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {empty name='val.title'}{$val.house_name}{else /}{$val.title}{/empty}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {if condition='$val.type eq 1'}预约报名{else /}领取优惠{/if}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.create_time|date='Y-m-d H:i:s'}
+                    </div>
+                </td>
+
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="已联系|待联系" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {:rights($options,$val['id'],$val['user_name'],$menuid)}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '/static/manage/js/'
+    });
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['linkmenu'], function(){
+        var $ = layui.jquery,menu = layui.linkmenu;
+        $(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
+    });
+</script>
+{/block}

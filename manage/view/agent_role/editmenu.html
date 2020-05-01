@@ -1,0 +1,75 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+    .layui-table-cell{padding-left:0;}
+    .layui-table-view .layui-table td, .layui-table-view .layui-table th{text-align:left;}
+</style>
+<!--栏目列表-->
+<form class="layui-form" action="{:url('setrule')}" method="post" id="info_form">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" id="J_cate_tree" cellspacing="0" cellpadding="0" border="0" style="width:100%;" data-uri="{:url('ajaxEdit')}">
+                <tbody>
+                {volist name='list' id='val'}
+                <tr id="node-{$val.id}" {if condition="$val.pid neq 0"}class="child-of-node-{$val.pid}"{/if}>
+                <td width="30" align="center">
+                        <input type='checkbox' name='menuid[]' lay-ignore value='{$val.id}' class='J_checkitem' {if condition="in_array($val['id'],$menuarr)"}checked{/if}>
+                </td>
+                <td class="left">
+                    <div class="layui-table-cell">
+                        {$val.name}
+                    </div>
+                </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" name="role_id" value="{$roleid}" />
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.treetable.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    $(function(){
+        $("#J_cate_tree").treeTable({indent:20,treeColumn:1,expandable:true});
+        //选择
+        $('.J_checkitem').on('click',this,function(){
+            var parent = $(this).parents('tr');
+            var pid    = parent.attr('id');
+            var find   = "tr.child-of-"+pid;
+            var child  = $(find);
+            var checked = $(this).get(0).checked;
+            child.each(function(){
+                getChildMenu(child,checked);
+            });
+        });
+    });
+    function submitForm(){
+        $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+    }
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.msg(result.msg,{icon:1},function(){
+                window.parent.location.reload();
+            });
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+    function getChildMenu(o,c){
+        o.each(function(){
+            var pid = $(this).attr('id');
+            var find   = "tr.child-of-"+pid;
+            var child  = $(find);
+            $(this).children().find('.J_checkitem').get(0).checked=c;
+            if(child.length>0){
+                getChildMenu(child,c);
+            }
+        });
+    }
+</script>
+{/block}

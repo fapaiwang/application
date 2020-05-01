@@ -1,0 +1,368 @@
+{extend name='public/page' /}
+{block name='css'}
+    <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">{/block}
+{block name='js'}
+    <script src="/homeStatic/js/swiper.jquery.min.js"></script>
+    <script src="/homeStatic/js/swiper.min.js"></script>
+    <script src="/homeStatic/js/jquery.countup.min.js"></script>
+    <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
+    <script src="/homeStatic/js/home.js?v=3"></script>
+    <script src="/homeStatic/js/lunbo.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>{/block}
+{block name='content'}
+<div class="header">
+    <div class="header-swiper-container">
+        <div class="swiper-wrapper">
+            {volist name='top_bunner' id='vo'}
+            <div class="swiper-slide">
+                <img src="{$vo.fileurl}" alt="{$vo.alt}">
+            </div>
+            {/volist}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="header-search">
+        <ul class="header-search-nav">
+            <li class="active" data-value="">全部</li>
+            <li>住宅</li>
+            <li>商办</li>
+            <li>别墅</li>
+            <li>平方·四合院</li>
+            <li>写字楼</li>
+        </ul>
+        <form action="{:url('Second/index')}">
+            <div class="header-search-input">
+                <input type="hidden" name="types" id="index_cid" value="0">
+                <input type="text" class="s-inp fl" id="keyword" name="keyword" placeholder="" autocomplete="off" placeholder="输入小区名称/房源名称/法拍专员名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt"; onClick='showhidediv("baip")';>
+                <span class="header-search-button"> <img src="/homeStatic/img/search-button.png" alt=""> 地图找房</span>
+                <span class="header-search-button"><input type="submit" name="" class="s-btn fl" id="huiches" value="开始找房"></span>
+            </div>
+        </form>
+        <ul id="search-boxs">
+        </ul>
+        <!--overflow: hidden;-->
+        <div id="baip">
+            <ul class="saleDetail" style="padding-left:10px;">
+                <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
+            </ul>
+            <ul class="saleDetail history" style="padding-left:10px;"></ul>
+            <div class="Storage"></div>
+            <div class="h80"></div>
+            <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
+        </div>
+    </div>
+</div>
+
+<div class="box">
+    <div class="content">
+        <div class="num-content">
+            <ul class="num-ul">
+                <li>
+                    <img src="/homeStatic/img/jjpm.png" alt="">
+                    <p class="num-detail">
+                        <span class="num-a">{$statistics_num.soon_num}</span>套
+                    </p>
+                    <div class="num-line"></div>
+                    <div class="num-info">
+                        即将拍卖
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/zzjx.png" alt="">
+                    <p class="num-detail">
+                        <span class="num-a">{$statistics_num.underway_num}</span>套
+                    </p>
+                    <div class="num-line"></div>
+                    <div class="num-info">
+                        正在进行
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/jrxz.png" alt="">
+                    <p class="num-detail">
+                        <span class="num-a">{$statistics_num.add_num}</span>套
+                    </p>
+                    <div class="num-line"></div>
+                    <div class="num-info">
+                        今日新增
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/jrcj.png" alt="">
+                    <p class="num-detail">
+                        <span class="num-a">{$statistics_num.deal_num}</span>套
+                    </p>
+                    <div class="num-line"></div>
+                    <div class="num-info">
+                        今日成交
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">推荐房源</h2>
+            <div class="tuijian-fangyuan-info">重点推荐法拍房源，低于市场价20%起</div>
+            <ul class="tuijian-fangyuan-detail">
+                {volist name='recommend_house' id='vo'}
+                <li>
+                    <spam>
+                        <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
+                    </spam>
+                    <img src="{$vo.img}" alt="{$vo.title}">
+                    <div class="tuijian-fangyuan-prompt">
+                        {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
+                            {if condition="getLinkMenuName(29,$vo['toilet'])"}
+                            <p>
+                                <img src="/homeStatic//img/shi.png" alt="">
+                                <!--<span>2室</span>-->
+                                <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
+                            </p>
+                            {/if}
+                        {else}
+                            {if condition="getLinkMenuName(29,$vo['toilet']) =='独栋' ||  getLinkMenuName(29,$vo['toilet']) =='多居' ||
+                        getLinkMenuName(29,$vo['toilet']) =='土地' ||  getLinkMenuName(29,$vo['toilet']) =='厂房'"}
+                                <p>
+                                    <img src="/homeStatic//img/business.png" alt="">
+                                    <!--<span>2室</span>-->
+                                    <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
+                                </p>
+                            {else}
+                                {if condition="mbsubstr($toilet,0,2)"}
+                                <p>
+                                    <img src="/homeStatic//img/shi.png" alt="">
+                                    <!--<span>2室</span>-->
+                                    <span>{:mbsubstr($toilet,0,2)}</span>
+                                </p>
+                                {/if}
+                                {if condition="mbsubstr($toilet,2,4)"}
+                                <p>
+                                    <img src="/homeStatic//img/ting.png" alt="">
+                                    <span>{:mbsubstr($toilet,2,4)}</span>
+                                </p>
+                                {/if}
+                            {/if}
+                        {/if}
+                        <p>
+                            <img src="/homeStatic//img/nanbei.png" alt="">
+                            <span>{:getLinkMenuName(4,$vo['orientations'])}</span>
+                        </p>
+                        <p>
+                            <img src="/homeStatic//img/size.png" alt="">
+                            <span>{$vo.acreage}㎡</span>
+                        </p>
+                    </div>
+
+                    <div class="tuijian-fangyuan-address">
+                        {$vo.title}
+                    </div>
+                    <div class="tuijian-fangyuan-monty">
+                        <p>
+                            起拍价：
+                            <span class="tuijian-fangyuan-monty-qi"><b>{$vo.qipai}</b>万</span>
+                        </p>
+                        <p>
+                            市场价：
+                            <span class="tuijian-fangyuan-monty-shi"><b>{$vo.qipai}</b>万</span>
+                        </p>
+                    </div>
+                    <div class="tuijian-fangyuan-footer">
+                        <p>开拍时间：</p>
+                        <span class="tuijian-fangyuan-time">{$vo['create_time']|date="Y-m-d H:i:s"}</span>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="gengduo">
+            <span><a href="/erf.html?sort=9" target="_blank">更多推荐房源</a></span>
+        </div>
+        <div class="fapaidai">
+            <a href="{$waist_bunner.linkurl}"><img src="{$waist_bunner.fileurl}" alt="{$waist_bunner.alt}"></a>
+
+        </div>
+
+
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">明星小区</h2>
+            <div class="tuijian-fangyuan-info">受大家追捧的热门优质小区推荐</div>
+
+            <div class="mingxing-swiper-container">
+                <div class="swiper-wrapper">
+                    {volist name='quality_estate' id='vo'}
+                    <div class="swiper-slide">
+                        <div class="mingxing-slide-detail">
+                            <span style="display: none">{$vo.id}</span>
+                            <img src="{$vo.img}" alt="{$vo.title}">
+                            <p>【{$vo.area_name}】 {$vo.title}</p>
+                            <div class="mingxing-slide-detail-info">
+                                <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
+                                <span class="mingxing-slide-detail-info-color">{$vo.price}元/㎡</span>
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+                <!-- Add Pagination -->
+                <div class="mingxing-swiper-scrollbar"></div>
+            </div>
+        </div>
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">法拍房竞拍流程</h2>
+            <div class="tuijian-fangyuan-info">30秒整体了解拍房流程</div>
+            <img src="{$flow_chart.fileurl}" alt="{$flow_chart.alt}" class="jingpailiucheng-img">
+        </div>
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">特色房源</h2>
+            <div class="tuijian-fangyuan-info">各种特色房，更能满足您的个性化需求</div>
+        </div>
+        <div class="tese-img-list">
+            <div class="img-list-left">
+                {volist name='ts_left_banner' id='vo'}
+                <a href="{$vo.linkurl}"><img src="{$vo.fileurl}" data-url="" alt="{$vo.alt}"></a>
+                {/volist}
+            </div>
+            <div class="img-list-right">
+                <div class="img-list-right-top">
+                    {volist name='ts_right_banner' id='vo'}
+                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}" alt="{$vo['alt']}"></a>
+
+                    {/volist}
+                </div>
+                <div class="img-list-right-bottom">
+                    {volist name='ts_right_lower_banner' id='vo'}
+                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}" alt="{$vo['alt']}"></a>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">房拍网优势</h2>
+            <div class="tuijian-fangyuan-info">了解房拍网的优势，让您拍房更有信心</div>
+        </div>
+        <div class="fangpai-youshi">
+            <ul class="fangpai-youshi-list">
+                <li>
+                    <img src="/homeStatic/img/jingyan.png" alt="">
+                    <p class="fangpai-youshi-title">丰富的法拍房拍卖经验</p>
+                    <div class="fangpai-youshi-info">
+                        专业从事法拍行业15年，积累了上千个成交案例经验，能为客户规避执行当中的各种风险
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/jiaoyi.png" alt="">
+                    <p class="fangpai-youshi-title">专业二手房交易</p>
+                    <div class="fangpai-youshi-info">
+                        房拍网拍卖专员，都具有五年以上二手房及法拍房拍卖实操经验，可为客户规避各种风险及税费的精确计算
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/renmai.png" alt="">
+                    <p class="fangpai-youshi-title">广阔的人脉关系</p>
+                    <div class="fangpai-youshi-info">
+                        在15年的业务开展当中，与相关部门建立了良好的沟通关系，把标的报告做的更详细，保障客户的资金安全
+                    </div>
+                </li>
+                <li>
+                    <img src="/homeStatic/img/jinrong.png" alt="">
+                    <p class="fangpai-youshi-title">金融服务</p>
+                    <div class="fangpai-youshi-info">
+                        法拍贷、经营贷、应急贷等金融产品，可为客户提供应急资金，解决客户的资金不足问题
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">法拍房百科</h2>
+            <div class="tuijian-fangyuan-info">了解最新法拍房资讯，掌握更多法拍房攻略</div>
+        </div>
+        <div class="fapai-baige-tab">
+            <div class="fapai-baige-tab-nav">
+                <div class="fapai-baige-tab-nav-tap active">资讯</div>
+                <div class="fapai-baige-tab-nav-tap">问答</div>
+                <div class="fapai-baige-tab-nav-tap">攻略</div>
+                <!--<div class="fapai-baige-tab-nav-tap">更多</div>-->
+            </div>
+            <div class="fapai-baige-tab-content">
+                <div class="fapai-baige-tab-item fapai-baige-tab-item-active">
+                    <a href="{:url('News/detail',['id'=>$article_show_img.id])}"><img src="{$article_show_img.img}" alt=""></a>
+                    <ul class="fapai-baige-tab-item-list">
+                        {volist name='article_show_list' id='vo'}
+                            <li>
+                                <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
+                                <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
+                            </li>
+                        {/volist}
+                    </ul>
+
+                    <div class="fapai-baige-tab-item-all">
+                        <a href="/news-1.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" alt="">
+                    </div>
+                </div>
+                <div class="fapai-baige-tab-item ">
+                    <a href="{:url('News/detail',['id'=>$news_wd.id])}"><img src="{$news_wd.img}" alt=""></a>
+                    <ul class="fapai-baige-tab-item-list">
+                        {volist name='news_wd_list' id='vo'}
+                        <li>
+                            <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
+                            <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
+                        </li>
+                        {/volist}
+                    </ul>
+                    <div class="fapai-baige-tab-item-all">
+                        <a href="/news-9.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" alt="">
+                    </div>
+                </div>
+                <div class="fapai-baige-tab-item">
+                    <a href="{:url('News/detail',['id'=>$news_strategy.id])}"><img src="{$news_strategy.img}" alt=""></a>
+                    <ul class="fapai-baige-tab-item-list">
+                        {volist name='news_strategy_list' id='vo'}
+                        <li>
+                            <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
+                            <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
+                        </li>
+                        {/volist}
+                    </ul>
+                    <div class="fapai-baige-tab-item-all">
+                        <a href="/news-10.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">零风险安心拍房承诺</h2>
+            <div class="tuijian-fangyuan-info">解除您心中关于法拍房的各种忧虑，让您拍房更安心</div>
+        </div>
+        <div class="fangpai-chengnuo" id="fangpai-chengnuo-list">
+            <img src="/homeStatic/img/lunboLeft.png" alt="" class="fangpai-chengnuo-left">
+            <div class="fangpai-chengnuo-list">
+
+                {volist name='promise_banner' id='vo'}
+                <div class="fangpai-chengguo-list-detail">
+                    <img src="{$vo.fileurl}" alt="{$vo.alt}" class="fangpai-chengnuo-list-img">
+                </div>
+                {/volist}
+            </div>
+            <img src="/homeStatic/img/lunboRight.png" alt="" class="fangpai-chengnuo-right">
+        </div>
+    </div>
+    <div class="fangpai-footer-banner">
+        <img src="{$bottom_banner.fileurl}" alt="{$bottom_banner.alt}">
+    </div>
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li style="padding: 5px 0;">
+        <a href="{{d[i].url}}" target="_blank" style="text-decoration: none;color: #333; outline: none;">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address" style="color: #999;">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+{/block}

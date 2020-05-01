@@ -1,0 +1,359 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">用户点评</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="con_wrap comWidth clearfix">
+        <div class="leftArea cm_leftArea question">
+            <div class="title clearfix" style="padding:10px 30px;">
+                <h3>{$info.title}点评</h3>
+                <div class="ipt_box" style="display:block;float:none;">
+                    <form action="#">
+                        <div class="select-score clearfix">
+                            <ul class="select-score-left fl">
+                                <li>
+                                    <span class="score-name">价格：</span>
+                                    <span class="score-grade" data-title="price">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                                    <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+                                    <span class="score-desc">项目性价比情况</span>
+                                </li>
+                                <li>
+                                    <span class="score-name">地段：</span>
+                                    <span class="score-grade" data-title="place">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                                    <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+                                    <span class="score-desc">项目所在地理位置情况</span>
+                                </li>
+                                <li>
+                                    <span class="score-name">配套：</span>
+                                    <span class="score-grade" data-title="mating">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                                    <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+                                    <span class="score-desc">配套与项目的距离及规模大小</span>
+                                </li>
+                                <li>
+                                    <span class="score-name">交通：</span>
+                                    <span class="score-grade" data-title="traffic">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                                    <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+                                    <span class="score-desc">项目到交通实际距离远近</span>
+                                </li>
+                                <li>
+                                    <span class="score-name">环境：</span>
+                                    <span class="score-grade" data-title="science">
+                                        <i class="on" data-value="1"></i>
+                                        <i class="on" data-value="2"></i>
+                                        <i class="on" data-value="3"></i>
+                                        <i data-value="4"></i>
+                                        <i data-value="5"></i>
+                                    </span>
+                                    <span class="score-desc color-red"><span class="one-score">3</span>分</span>
+                                    <span class="score-desc">项目内绿化及周边污染情况</span>
+                                </li>
+                            </ul>
+                            <div class="select-score-right fl">
+                                <div class="score-average">综合评分</div>
+                                <div class="score-average-point color-red"><span id="average-score">3</span>分</div>
+                                <div class="score-average-desc">根据评分项目自动计算</div>
+                            </div>
+                        </div>
+                        <div class="form">
+                            {:token()}
+                            <input type="hidden" id="house_id" value="{$info.id}">
+                            <p>
+                                <textarea name="content" id="content" cols="30" rows="10" placeholder="请输入评论内容"></textarea>
+                            </p>
+                            <div class="submit clearfix">
+                                <div class="verify fl">
+                                    <input type="text" placeholder="填写验证码" name="verify" id="verify">
+                                    <img src="{:url('Verfiy/index')}"  class="changeVerify" id="verify-img" alt="验证码">
+                                    <span class="changeVerify">换一张</span>
+                                </div>
+                                <div class="sub-btn fr">
+                                    <input type="button" class="btn sub-comment" data-uri="{:url('Api/subHouseComment')}" value="提交">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 用户问答列表 S -->
+            <div class="comment-list">
+                {fang:lists table="comment" where="house_id = $id and pid = 0 and status = 1" order="create_time desc" page="true" limit="5" id="data"}
+                <div class="comment-row clearfix">
+                    <div class="comment-row-avatar fl">
+                        <img src="{:getAvatar($data['user_id'],45)}" alt="">
+                    </div>
+                    <div class="comment-row-content fl" style="width:845px;">
+                        <div class="comment-row-time">
+                            <span class="username">{$data.user_name}</span> {$data.create_time|date='Y-m-d H:i:s'}
+                        </div>
+                        <div class="comment-row-integral">
+                            <span class="star">
+                                <span class="star integral" style="width:{$data.average_score/5*100}%;"></span>
+                            </span>
+                            <span class="comment-row-per">
+                                价格：{$data.score.price} &nbsp;&nbsp;地段：{$data.score.place} &nbsp;&nbsp;配套：{$data.score.mating} &nbsp;&nbsp;交通：{$data.score.traffic} &nbsp;&nbsp;环境：{$data.score.science}
+                            </span>
+                        </div>
+                        <div class="comment-row-content">
+                            {$data.content}
+                        </div>
+                        <div class="comment-reply">
+                            <a href="javascript:;" class="support" onclick="support(this,'{$data.id}')">支持(<span>{$data.support}</span>)</a> <a href="javascript:;" class="reply-content">回复</a> <a href="javascript:;" class="reply">查看回复</a>
+                        </div>
+                        <div class="comment-reply-content" id="comment-reply-content-{$data.id}" style="display:none;">
+                            {php}$pid = $data['id'];{/php}
+                            {fang:lists table='comment' where="pid = $pid and status = 1" order="create_time desc" limit="15" id="val"}
+                            <div class="comment-row clearfix">
+                                <div class="comment-row-avatar fl">
+                                    <img src="{:getAvatar($val['user_id'],45)}" alt="{$val.user_name}">
+                                </div>
+                                <div class="comment-row-content fl" style="width:795px;">
+                                    <div class="comment-row-time">
+                                        <span class="username">{$val.user_name}</span> {$val.create_time|date='Y-m-d H:i:s'}
+                                    </div>
+                                    <div class="comment-row-content">
+                                        {$val.content}
+                                    </div>
+                                    <div class="comment-reply">
+                                        <a href="javascript:;" class="support" onclick="support(this,'{$val.id}')">支持(<span>{$val.support}</span>)</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {/fang:lists}
+                        </div>
+                        <div class="comment-reply-box">
+                            <div class="submit clearfix">
+                                <p>
+                                    <textarea name="reply_content" id="reply_content_{$data.id}" placeholder="请输入回复内容"></textarea>
+                                </p>
+                                <div class="verify fl">
+                                    <input type="text" placeholder="填写验证码" name="verify">
+                                    <img src="{:url('Verfiy/index')}"  class="changeVerify" alt="验证码">
+                                    <span class="changeVerify">换一张</span>
+                                </div>
+                                <div class="sub-btn fr">
+                                    <input type="button" data-pid="{$data.id}" class="btn sub-comment-reply" data-uri="{:url('Api/subHouseCommentReply')}" value="提交">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/fang:lists}
+            </div>
+        </div>
+        <div class="rightArea cm_rightArea ">
+            <!-- 待解决问题 S -->
+            <div class="for_anser mt_30">
+                <div class="title">
+                    <h3>周边楼盘</h3>
+                    <p class="b_l"></p>
+                </div>
+                <div class="con_box">
+                    <ul class="clearfix">
+                        {volist name='nearby_house' id='vo'}
+                        <li><a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank"><span style="float:right;color:#D32F2F;">{$vo.price}{$vo.unit}</span>{$vo.title}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+            <!-- 待解决问题 E -->
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <div class="comment-row clearfix">
+        <div class="comment-row-avatar fl">
+            <img src="{{d[i].avatar}}" alt="">
+        </div>
+        <div class="comment-row-content fl" style="width:795px;">
+            <div class="comment-row-time">
+                <span class="username">{{d[i].user_name}}</span> {{d[i].create_time}}
+            </div>
+            <div class="comment-row-content">
+                {{d[i].content}}
+            </div>
+            <div class="comment-reply">
+                <a href="javascrip:;" class="support" onclick="support(this,'{{d[i].id}}')">支持(<span>{{d[i].support}}</span>)</a>
+            </div>
+        </div>
+    </div>
+    {{# } }}
+</script>
+<script src="/static/js/layer/laytpl.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        var init = {'price':3,'place' : 3,'mating' : 3,'traffic' : 3,'science' : 3};
+        $('.score-grade i').on('mouseenter',function () {
+            var index = $(this).index()+ 1,score = $(this).data('value');
+            $(this).prevAll().addClass('on');
+            $(this).addClass('on');
+            $(this).nextAll().removeClass('on');
+            $(this).parent().parent().find('.one-score').text(score);
+        });
+        $('.score-grade').on('mouseleave',function () {
+            var title = $(this).data('title');
+            $(this).find('.on').removeClass('on');
+            var count = init[title];
+            if(count == 5) {
+                $(this).find('i').addClass('on');
+            } else {
+                $(this).find('i').eq(count).prevAll().addClass('on');
+            }
+            $(this).parent().find('.one-score').text(init[title]);
+        });
+        $('.score-grade i').on('click',function () {
+            var total = 0,len  = 5,average = 0,score = $(this).data('value'),parent = $(this).parent(),title = parent.data('title');
+            $(this).prevAll().addClass('on');
+            $(this).addClass('on');
+            init[title] = score;
+            parent.parent().find('.one-score').text(score);
+            for(var i in init)
+            {
+                total += init[i];
+            }
+            average = 1*(total / len).toFixed(1);
+            $("#average-score").text(average);
+        });
+        //弹出回复框
+        $(".reply-content").on('click',function(){
+            var parent = $(this).parents('.comment-row-content'),re_list = parent.find('.comment-reply-content'),
+                    re_box = parent.find('.comment-reply-box');
+            re_list.slideUp();
+            if(re_box.css('display') == 'block')
+            {
+                re_box.slideUp();
+            }else{
+                re_box.slideDown();
+            }
+        });
+        $(".reply").on('click',function(){
+            var parent = $(this).parents('.comment-row-content'),re_list = parent.find('.comment-reply-content'),
+                    re_box = parent.find('.comment-reply-box');
+            re_box.slideUp();
+            if(re_list.css('display') == 'block')
+            {
+                re_list.slideUp();
+            }else{
+                re_list.slideDown();
+            }
+        });
+        //提交点评
+        $(".sub-comment").on('click',function(){
+            var content = $("#content").val(),house_id = $("#house_id").val(),url = $(this).data('uri'),
+                    token = $("input[name='__token__']").val(),verify = $("#verify").val();
+            if(!content){
+                layer.msg('请填写您的评论内容',{icon:2});
+            }else if(!verify){
+                layer.msg('请填写验证码',{icon:2});
+            }else{
+                $.post(
+                        url,
+                        {
+                            content:content,
+                            house_id:house_id,
+                            token:token,
+                            verify : verify,
+                            score  : JSON.stringify(init)
+                        },
+                        function(result){
+                            if(result.code == 1)
+                            {
+                                $("#content").val('');
+                                layer.msg('评论提交成功',{icon:1});
+                            }else{
+                                layer.msg(result.msg,{icon:2});
+                            }
+                });
+            }
+        });
+        //点评回复
+        $(".sub-comment-reply").on('click',function(){
+            var parent = $(this).parents('.submit'),content = parent.find("textarea[name='reply_content']"),house_id = $("#house_id").val(),url = $(this).data('uri'),
+                    verify = parent.find("input[name='verify']"),pid = $(this).data('pid');
+            if(!content.val()){
+                layer.msg('请填写您的回复内容',{icon:2});
+            }else if(!verify.val()){
+                layer.msg('请填写验证码',{icon:2});
+            }else{
+                $.post(
+                        url,
+                        {
+                            content:content.val(),
+                            house_id:house_id,
+                            verify : verify.val(),
+                            pid : pid
+                        },
+                        function(result){
+                            if(result.code == 1)
+                            {
+                                content.val('');
+                                if(result.data){
+                                    var gettpl = document.getElementById('template').innerHTML;
+                                    laytpl(gettpl).render(result.data, function(html){
+                                        $('#comment-reply-content-'+pid).html(html);
+                                    });
+                                }
+                                layer.msg('提交成功',{icon:1});
+                            }else{
+                                layer.msg(result.msg,{icon:2});
+                            }
+                        });
+            }
+        });
+        $(".changeVerify").on('click',function(){
+            var img = $(this).parent().find('img'),url = img.attr('src');
+            img.attr('src',url+"?t="+Math.random());
+        });
+    });
+    function support(obj,id)
+    {
+        var url = "{:url('Api/support')}",o = $(obj).find('span'),num = parseInt(o.text());
+        $.get(url,{id:id},function(res){
+            if(res.code == 1){
+                o.text(num+1);
+                layer.msg(res.msg,{icon:1});
+            }else{
+                layer.msg(res.msg,{icon:2});
+            }
+        });
+    }
+</script>
+{/block}

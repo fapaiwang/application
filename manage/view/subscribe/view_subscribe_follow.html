@@ -1,0 +1,20 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--跟进列表-->
+<div class="layui-tab-content">
+    <ul class="layui-timeline">
+        {volist name='lists' id='vo' empty="暂无记录"}
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+            <div class="layui-timeline-content layui-text">
+                <h3 class="layui-timeline-title">{$vo.broker_name} &nbsp;&nbsp;{$vo.create_time|date='Y-m-d'}</h3>
+                <p>
+                    {$vo.content}
+                </p>
+            </div>
+        </li>
+        {/volist}
+
+    </ul>
+</div>
+{/block}

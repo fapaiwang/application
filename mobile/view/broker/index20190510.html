@@ -1,0 +1,135 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+
+<div class="main" style="margin-bottom:2rem;background: none;">
+
+    <!-- 经纪人列表 S-->
+
+    <div class="comment-list agent-list">
+
+        <ul class="item">
+
+            {volist name='lists' id='vo'}
+
+            <li class="clearfix">
+
+                <div class="pic fl" style="width:20%;height:auto;border-radius:20%;border:3px #00AC56 solid; margin-top:5px">
+
+                    <a href="{:url('Broker/detail',['id'=>$vo['id']])}" title="{$vo.nick_name}">
+
+                        <img src="{:getAvatar($vo['id'],90)}" alt="{$vo.nick_name}">
+
+                    </a>
+
+                </div>
+
+                <div class="comment-content fl" style="width:76%;">
+
+                    <div class="username-level clearfix">
+
+                        <div class="username fl" style="line-height:30px;height:30px;">
+
+                            <a href="{:url('Broker/detail',['id'=>$vo['id']])}" title="{$vo.nick_name}">
+
+                                <span style="font-size:18px;"><b>{$vo.nick_name}</b></span>服务专员
+
+                            </a>
+
+                        </div>
+
+                        <div class="level fr" style="width:120px;"><img src="../static/mobile/images/icon/xin.png" style="width:21px;height:19px;">好评率：<span style="color:red;">85%</span></div><!-- 等级从0到5 -->
+
+                        
+
+                    </div>
+                    <div class="desc_box" style="width:165px;float:left;line-height:20px;height:20px;">
+                    <p style="line-height:21px;font-size:.56rem">
+
+                            <span>从业年限:</span>
+
+                            <span>5年</span>
+
+                    </p>
+                    <p style="line-height:21px;font-size:.56rem">
+
+                            <span>评论:</span>
+
+                            <span>讲解耐心，服务用心！</span>
+
+                    </p>
+
+                    </div>
+                    <div style="float:right;line-height:20px;height:20px;margin-top: 10px;">
+                        <a href="tel:{$vo.mobile}">
+                            <img src="/static/images/xx.png" style="width:30px;height:30px;">
+                            <img src="/static/images/dh.png" style="width:30px;height:30px;">
+
+                        </a>
+                    </div>
+
+                    <!-- <div class="desc_box">
+
+                        <p>
+
+                            <span>所属公司：</span>
+
+                            <span>{$vo.company}</span>
+
+                        </p>
+
+                        <p>
+
+                            <span>服务区域：</span>
+
+                            <span>
+
+                                {php}$area=array_filter(explode(',',$vo['service_area']));{/php}
+
+                                            {volist name='area' id='val'}
+
+                                            {:getCityName($val,'-')}
+
+                                            {/volist}
+
+                            </span>
+
+                        </p>
+
+                        <p><span>在售房源{$vo.second_total}套  在租房源{$vo.rental_total}套</span></p>
+
+                    </div> -->
+
+                    <!-- <div class="babel-list clearfix">
+
+                        {php}$tags=array_filter(explode(',',$vo['tags']));{/php}
+
+                        {volist name='tags' id='tag'}
+
+                        <em>{:getLinkMenuName(13,$tag)}</em>
+
+                        {/volist}
+
+                    </div> -->
+
+                </div>
+
+            </li>
+
+            {/volist}
+
+        </ul>
+
+    </div>
+
+    <div class="page_list">
+
+        {$pages|raw}
+
+    </div>
+
+    <!-- 经纪人列表 E-->
+
+</div>
+
+{/block}

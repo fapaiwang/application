@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>房拍网</title>
+    <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<p>
+    <select name="" id="name">
+        <option value="">请选择自己的名字</option>
+        {volist name="user" id="val"}
+        <option value="{$val.user_name}">{$val.user_name}</option>
+        {/volist}
+    </select>
+</p>
+<div id="imgs">
+    <img src="/share/free.jpg" alt="每周自由购" title="每周自由购" width="220px" height="100px">
+    <img src="/share/day_add1.jpg" alt="今日新增" title="今日新增" width="220px" height="100px">
+    <img src="/share/day_deal1.jpg" alt="今日成交" title="今日成交" width="220px" height="100px">
+    <img src="/share/business.jpg" alt="每周商业" title="每周商业" width="220px" height="100px">
+    <img src="/share/recommended.jpg" alt="每周重点推荐" title="每周重点推荐" width="220px" height="100px">
+</div>
+
+</body>
+</html>

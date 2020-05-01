@@ -1,0 +1,99 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+
+<style>
+
+    .item,.house-show-box{font-size:.7rem;}
+
+</style>
+
+<div class="main" style="padding-bottom:1.92rem;">
+
+    <!-- 经纪人概况 S-->
+
+    {include file='broker/broker_info' /}
+
+    <!-- 经纪人概况 E-->
+
+    <!-- 在租房源 S-->
+
+    <div class="broker-shop-house">
+
+        <h2>在租房源</h2>
+
+        <div class="old-house house-show-box">
+
+            <ul>
+
+                {volist name='lists' id='vo' empty='暂无数据'}
+
+                <li>
+
+                    <div class="pic">
+
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+
+                        </a>
+
+                    </div>
+
+                    <div class="intro-text">
+
+                        <h4>
+
+                            <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+
+                                {$vo.title}
+
+                            </a>
+
+                        </h4>
+
+                        <p class="price"><span>{:getCityName($vo['city'])}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+
+                        <p class="detail-text">{$vo.room}室{$vo.living_room}厅 {$vo.acreage} {:config('filter.acreage_unit')}&nbsp;&nbsp;{:getLinkMenuName(8,$vo['renovation'])}</p>
+
+                        <p class="good">
+
+                            {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+
+                            {volist name='tag' id='val'}
+
+                            <em>{$val}</em>
+
+                            {/volist}
+
+                        </p>
+
+                    </div>
+
+                </li>
+
+                {/volist}
+
+
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- 在租房源 E-->
+
+    {notempty name='pages'}
+
+    <div class="page_list">
+
+        {$pages|raw}
+
+    </div>
+
+    {/notempty}
+
+</div>
+
+{/block}

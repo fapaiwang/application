@@ -1,0 +1,83 @@
+<!--编辑管理员-->
+{extend name='public/layout' /}
+{block name='content'}
+<div class="dialog-form">
+    <form class="layui-form" id="info_form" action="{:url('Admin/editDo')}" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" id="username" placeholder="管理员名称" value="{$info.username}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所属角色</label>
+                <div class="layui-input-inline">
+                    <select name="role_id">
+                        {volist name="role" id="vo"}
+                        <option value="{$vo.id}" {if condition="$vo.id eq $info.role_id"}selected="selected"{/if}>{$vo.title}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" id="password" placeholder="密码" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="repassword" id="repassword" placeholder="确认密码" value="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$info.id}" />
+    </form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+    var status = 0,check_name_url = "{:url('Admin/ajaxCheckName', ['id'=>$info['id']])}";
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#username").formValidator({onshow:'请填写名称',onfocus:'请填写名称'}).inputValidator({min:1,onerror:'请填写名称'}).ajaxValidator({
+            type : "get",
+            url : check_name_url,
+            datatype : "json",
+            async:'false',
+            success : function(result){
+                if(result == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            },
+            onerror : '名称已存在',
+            onwait : '查询中,请稍候...'
+        }).defaultPassed();
+        $("#repassword").formValidator({onfocus:"两次密码不同。",oncorrect:"密码输入一致"}).compareValidator({desid:"password",operateor:"=",onerror:"两次密码不同。"}).defaultPassed();
+
+    });
+    function submitForm(){
+        $("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+    }
+    layui.use(['form'], function(){
+        var form = layui.form
+
+    });
+    function complate(result){
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        if(result.code == 1){
+            parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+                parent.window.location.reload();
+            });
+        } else {
+            layer.msg(result.msg,{icon:2});
+        }
+    }
+</script>
+{/block}

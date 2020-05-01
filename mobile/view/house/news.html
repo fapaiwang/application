@@ -1,0 +1,25 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;">
+    <div class="build_dynamic">
+        <ul class="list">
+            {volist name='lists' id='vo'}
+            <li>
+                <a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                    <h3 class="name">{$vo.title}</h3>
+                    <p class="m_con">{$vo.description}</p>
+                    <time>{$vo.create_time|date='Y年m月d日'}</time>
+                </a>
+            </li>
+            {/volist}
+
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+    {include file='house/footer_bar' /}
+
+</div>
+
+{/block}

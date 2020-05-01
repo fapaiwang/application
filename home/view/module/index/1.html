@@ -1,0 +1,145 @@
+<!-- 头部 S-->
+    <div class="header" id="header">
+        <div class="comWidth clearfix">
+            <div class="logo fl">
+                <img src="{$site.pc_logo}" width="183" height="46" alt="">
+            </div>
+            <div class="fl sele_city">
+                <a href="javascript:;" class="sele_city_btn">{$cityInfo['name']}<span>[切换]</span></a>
+                <div class="city_list clearfix">
+                    <i class="city-close">关闭</i>
+                    {volist name='top_nav_city.city' id='vo'}
+                    <dl class="clearfix">
+                        <dt class="bold">{$key}</dt>
+                        {volist name='vo' id='val'}
+                        <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" title="{$val.name}">{$val.name}</a></dd>
+                        {/volist}
+                    </dl>
+                    {/volist}
+                </div>
+            </div>
+            <div class="sear_box clearfix">
+                <form action="{:url('House/index')}">
+                    <div class="ipt_area fl">
+                        <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入楼盘名称" data-uri="{:url('Ajax/searchHouse')}" class="ipt">
+                        <span class="placeholder">输入楼盘名称</span>
+                        <ul id="search-box">
+                        </ul>
+                    </div>
+                    <div class="btn_area fl">
+                        <input type="submit" class="sbm_btn" value="搜索">
+                    </div>
+                </form>
+            </div>
+            <a href="{:url('Map/index')}" class="map_btn fr">地图找房</a>
+        </div>
+    </div>
+    <!-- 头部 E-->
+    <!-- navBar S -->
+    <div class="navBar topBar">
+        <div class="comWidth clearfix">
+            <div class="fast_nav fl">
+                <h3>快速导航</h3>
+                <div class="m">
+                    <ul class="list">
+                        <li>
+                            <h4>区域</h4>
+                            <ol class="clearfix">
+                                {volist name='search_city' id='vo'}
+                                {if condition='$i lt 8'}
+                                {present name='area'}
+                                <li><a href="{:url('House/index')}?area={$vo.id}">{$vo.name}</a></li>
+                                {else /}
+                                {if condition="$site.city_domain eq 1"}
+                                <li><a href="{:url('House/index@'.$vo['domain'])}">{$vo.name}</a></li>
+                                {else /}
+                                <li><a href="{:url('House/index')}?area={$vo.id}" title="{$vo.name}">{$vo.name}</a></li>
+                                {/if}
+                                {/present}
+                                {/if}
+                                {/volist}
+                            </ol>
+                        </li>
+                        <li>
+                            <h4>价格</h4>
+                            <ol class="clearfix">
+                                {volist name=':getHousePrice()' id='vo'}
+                                {if condition='$i lt 5'}
+                                <li><a href="{:url('House/index')}?price={$key}">{$vo.name}</a></li>
+                                {/if}
+                                {/volist}
+                            </ol>
+                        </li>
+                        <li>
+                            <h4>类型</h4>
+                            <ol class="clearfix">
+                                {volist name='house_type' id='vo'}
+                                {if condition='$i lt 9'}
+                                <li><a href="{:url('House/index')}?type={$key}">{$vo.name}</a></li>
+                                {/if}
+                                {/volist}
+                            </ol>
+                        </li>
+                        <li>
+                            <h4>特色</h4>
+                            <ol class="clearfix">
+                                {volist name='special' id='vo'}
+                                {if condition='$i lt 7'}
+                                <li><a href="{:url('House/index')}?special={$key}">{$vo.name}</a></li>
+                                {/if}
+                                {/volist}
+                            </ol>
+                        </li>
+                    </ul>
+                    <div class="opacity"></div>
+                </div>
+            </div>
+            <ul class="nav_list fl">
+                {volist name='menu' id='vo'}
+                {if condition='$vo.pos eq 1'}
+                <li {if condition="$vo['model'] eq $cur_url"}class="active"{/if}>
+                    <a href="{$vo['url']}" title="{$vo.title}"  target="{$vo.open_type}">{$vo.title}</a>
+                    {present name="vo['_child']"}
+                    <ul>
+                        {volist name="vo['_child']" id="val"}
+                        <li><a href="{$val.url}" title="{$val.title}" target="{$val.open_type}">{$val.title}</a></li>
+                        {/volist}
+                    </ul>
+                    {/present}
+                </li>
+                {/if}
+                {/volist}
+
+            </ul>
+            <div class="log_link fr">
+                {notempty name='userInfo'}
+                <!-- 已登录状态 -->
+                <div class="loged">
+                    <div class="user_info">
+                        <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                        <span class="name">{:hideStr($userInfo['nick_name'])}</span>
+                    </div>
+                    <div class="slide_tog" style="display:none;">
+                        <a href="{:url('user.index/index')}">用户中心</a>
+                        <a href="{:url('Login/logout')}">退出登录</a>
+                    </div>
+                </div>
+                {else /}
+                <!-- 未登录状态 -->
+                <div class="not_log">
+                    <a href="{:url('Login/index')}">登录</a>
+                    /
+                    <a href="{:url('Login/register')}">注册</a>
+                </div>
+                {/notempty}
+            </div>
+        </div>
+    </div>
+    <!-- navBar E -->
+    <!-- banner S -->
+    <div class="banner">
+        <div class="banner-1">
+           <script type="text/javascript" src="/poster/index.html?id=1"></script>
+        </div>
+    </div>
+    <!-- banner E -->

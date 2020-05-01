@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="__CSS__/input.css">
+    <style>
+        /*预约弹窗*/
+        p{margin:0;padding:0;}
+        a{text-decoration: none;}
+        .dialog{width: 730px; height: 340px;position: relative;}
+        .dialog h1{margin:0 20px;font-size:20px;height:40px;border-bottom:1px solid #ccc;font-weight: normal;}
+        .dialog h1 span{display:inline-block;height:40px;border-bottom:1px solid #d32f2f;}
+        .dialog .dia-con1{width: 730px; height: 340px; background: #fff;}
+        .dialog .tc_left{overflow: hidden; width: 390px; float: left;}
+        .dialog .tc_left img{overflow: hidden; width: 330px; height: 180px; margin: 20px 20px 10px 20px; padding:10px; border: 1px solid #ddd; }
+        .dialog .tc_left span{width: 370px; padding-left: 20px; font-size: 14px; color: #333333;  display: block; margin: 10px auto;}
+        .dialog .tc_left .stm_p2{ font-size: 12px; padding-left: 10px; height: 30px; line-height: 4px; color: #666;}
+        .dialog .tc_left .stm_p2:before{content: ""; width: 30px; height: 10px; display: block;  background-position: -30px -270px;}
+        .dialog .tc_left .stm_p2 em{font-size: 12px; font-style: normal; color: #333; margin:0 5px;}
+        .dialog .tc_left .stm_p2 em.price{font-size:22px;margin-right:5px;font-style:normal;color:#d32f2f;}
+        .dialog .tc_right{overflow: hidden; float: left;}
+        .dialog .tc_right p{overflow: hidden; padding: 10px 0;}
+        .dialog .tc_right .tc_right_p1{font-size: 14px; color: #666666; font-weight: bold; padding-top: 20px;}
+        .dialog .tc_right .tc_right_p2 input{width:180px; margin-right: 10px;  padding: 0 10px; font-size: 12px; height: 35px; line-height: 35px; color: #999999; border: none; float: left; border: 1px solid #ddd;}
+        .dialog .tc_right .tc_right_p2 a{font-size: 12px;text-decoration: none; display: block; position:absolute;width:87px;right:0; height: 35px; line-height: 35px; color: #009900; border: 1px solid #ddd; padding: 0 5px;text-align:center; background: #eee;}
+        .dialog .tc_right .tc_right_p3 input{width: 180px; padding: 0 10px; font-size: 12px; height: 35px; line-height: 35px; color: #999999; border: none;border: 1px solid #ddd;}
+        .dialog .tc_right .tc_right_p4 a{width: 180px; height: 40px; line-height: 40px; background: #d32f2f; text-align: center; font-size: 14px; color: #fff; display: block; float: left; }
+        .dialog .tc_right .tc_right_p5{font-size: 12px; color: #999999;}
+        .dialog .tc_right .tc_right_p5 a{font-size: 12px; color: #0066cc; margin: 0 5px;}
+        .placeholder{display:none;line-height: 55px;}
+        .form_box .sct_ipt{width:300px;}
+        .dialog .tc_left .stm_p2 em.price i{font-size:14px;color:#333;}
+    </style>
+</head>
+<body>
+<div class="dialog">
+    <h1><span>{:subscribeType($data['type'])}</span></h1>
+    <div class="dia-con1">
+        <div class="tc_left">
+            <div>
+                <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" width="330" height="180" alt="">
+                <span>{$info.title}</span>
+            </div>
+            <p class="stm_p2"><em>{$info.price_txt}</em>{$info.price|raw}</p>
+            <p class="stm_p2"><em>地址</em>{$info.address}</p>
+        </div>
+        <div class="tc_right form_box">
+            <form action="{:url('Api/subscribe')}" id="form" method="post">
+                <p class="tc_right_p1">请填写您的联系信息</p>
+                <p class="tc_right_p2 sct_ipt">
+                    <input type="text" class="ipt" name="user_name" id="user_name" placeholder="请输入您的姓名">
+                    <span class="placeholder">请输入您的姓名</span>
+                </p>
+                <p class="tc_right_p2 sct_ipt">
+                    <input type="text" class="ipt" name="mobile" id="mobile" placeholder="请输入您的手机号码">
+                    <span class="placeholder">请输入您的手机号码</span>
+                </p>
+                {if condition='$user_setting.subscribe_sms eq 1'}
+                <p class="tc_right_p2 sct_ipt">
+                    <input type="text" class="ipt" name="sms_code" id="sms_code" placeholder="请输入您手机接收到的验证码">
+                    <a href="javascript:;" rel="nofollow" data-uri="{:url('Sms/sendSms')}" id="smsCode">获取验证码</a>
+                    <span class="placeholder">请输入您手机接收到的验证码</span>
+                </p>
+                {/if}
+                <p class="tc_right_p4"><a href="javascript:;" rel="nofollow" id="sub_btn">立即提交</a></p>
+                <input type="hidden" name="type" value="{$data.type}">
+                <input type="hidden" name="model" value="{$data.model}">
+                <input type="hidden" name="house_id" value="{$data.house_id}">
+                <input type="hidden" name="broker_id" value="{$info.broker_id}">
+                <input type="hidden" id="send_sms" value="{$user_setting.subscribe_sms}">
+                {:token()}
+            </form>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__STATIC__/js/plugins/jquery.ajax.form.js"></script>
+<script src="__JS__/placeholder.js"></script>
+<script>
+    $(function() {
+        $("#smsCode").on('click',function(){
+            getCode();
+        });
+        $('#sub_btn').on('click',function(){
+            var user_name = $('#user_name').val(),mobile = $('#mobile').val(),sms_code = $('#sms_code').val(),
+                    send_sms = $('#send_sms').val(),reg = /^1[3456789][0-9]{9}$/;
+            if(!user_name)
+            {
+                layer.msg('请填写用户名',{icon:2});
+                return false;
+            }else if(!reg.test(mobile)){
+                layer.msg('手机号码格式不正确',{icon:2});
+                return false;
+            }else if(!sms_code && send_sms == 1){
+                layer.msg('请填写短信验证码',{icon:2});
+                return false;
+            }else{
+                $('#form').submit();
+            }
+
+        });
+        $('#form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            var index = parent.layer.getFrameIndex(window.name);
+            if(result.code == 1){
+                parent.layer.msg(result.msg, {icon:1});
+                parent.layer.close(index);
+            }else {
+                layer.msg(result.msg, {icon:2});
+            }
+        }
+    });
+    var time=60,times='';
+    function getCode(){
+        if(time<60) return false;
+        var mobile=$("#mobile").val(),reg = /^1[3456789][0-9]{9}$/;
+        if(!reg.test(mobile)){
+            layer.msg('请填写正确的手机号码',{icon:2});
+            return false;
+        }
+        $.post("{:url('Sms/sendSms')}",{'mobile':mobile,'exists':8},function(data){
+            if(data.code==1){
+                time --;
+                layer.msg('验证码发送成功，请注意查收',{icon:1});
+                times = setInterval(timer,1000);
+            }else{
+                layer.msg(data.msg,{icon:2});
+            }
+        });
+    }
+    function timer(){
+        var code = $("#smsCode");
+        if(time == 0){
+            time = 61;
+            code.text('获取验证码');
+            clearInterval(times);
+        }else{
+            code.text(time+'秒后获取');
+        }
+        time --;
+    }
+</script>
+</body>
+</html>

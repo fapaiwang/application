@@ -1,0 +1,41 @@
+{extend name="public/layout" /}
+{block name='content'}
+<style>
+    .layui-table-cell{display:block;text-align:left;}
+    .layui-table-view .layui-table td{text-align:left;padding-left:20px;}
+</style>
+<div class="layui-form layui-border-box layui-table-view">
+    <div class="layui-table-header">
+        <table id="tree-table" style="width:100%" class="layui-table list-table" lay-filter="tree-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="50%">
+                <col width="50%">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td colspan="2">代理商：{$info.company_name}</td>
+            </tr>
+            <tr>
+                <td>代理城市：{:getCityNameByIds($info['city'])}</td>
+                <td>代理类型 ：{$info.title}</td>
+            </tr>
+            <tr>
+                <td>过期时间：
+                    {if condition='$info.service_time_end lt time()'}
+                    <span style="color:#ff0000;">{$info.service_time_end|date='Y-m-d'}已过期</span>
+                    {else /}
+                    {$info.service_time_end|date='Y-m-d'}
+                    {/if}
+                </td>
+                <td>状态 ：{if condition='$info.status eq 1'}正常{else /}禁用{/if}</td>
+            </tr>
+            <tr>
+                <td>联系人：{$info.contact_name}</td>
+                <td>联系电话 ：{$info.mobile}</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}

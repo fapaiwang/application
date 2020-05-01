@@ -1,0 +1,88 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--菜单列表-->
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <div class="layui-table-header">
+            <table class="layui-table list-table" id="J_cate_tree" cellspacing="0" cellpadding="0" border="0" style="width:100%;" data-uri="{:url('ajaxEdit')}">
+                <colgroup>
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="50%">
+                    <col width="20%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell">
+                            <input name="checkAll" lay-skin="primary" lay-filter="checkAll" type="checkbox">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>菜单名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>排序</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell" align="center"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name='list' id='val'}
+                <tr id="node-{$val.id}" pid="{$val.pid}" {if condition="$val.pid neq 0"}class="child-of-node-{$val.pid}"{/if}>
+                <td>
+                    <div class="layui-table-cell">
+                        <input lay-skin="primary" lay-filter="checkOne" value="{$val.id}" type="checkbox" />
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.id}
+                    </div>
+                </td>
+                <td style="text-align:left;">
+                    <div class="layui-table-cell">
+                        {$val.name}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit" style="">{$val.ordid}</span>
+                    </div>
+                </td>
+                <td align="">
+                    <div class="layui-table-cell">
+                        {:rights($options,$val['id'],$val['name'])}
+                    </div>
+                </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div class="kaifazhe-list-option layui-fl">
+            <input name="checkAll" lay-filter="checkAll" lay-skin="primary" title="全选/取消" type="checkbox">
+            <button type="button" lay-submit lay-filter="optionAll" data-msg="确定要删除所选项目么？" data-uri="{:url('delete')}" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+        </div>
+
+    </div>
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/jquery.treetable.js"></script>
+<script>
+    $(function(){
+        $("#J_cate_tree").treeTable({indent:20,treeColumn:2,expandable:false});
+    });
+    layui.use(['form'], function() {
+        var form = layui.form;
+    });
+</script>
+{/block}

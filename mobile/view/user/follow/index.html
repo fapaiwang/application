@@ -1,0 +1,45 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<div class="main" style="background: none;">
+    {include file='user/follow/nav' /}
+    <div class="house-show-box">
+        <ul>
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li>
+                <div class="pic">
+                    <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                    </a>
+                </div>
+                <div class="intro-text">
+                    <h4 class="saleing">
+                        <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            {$vo.title}
+                            <span class="house-status-{$vo.sale_status}">{:getLinkMenuName(1,$vo['sale_status'])}</span>
+                        </a>
+                    </h4>
+                    <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num">{if condition="$vo.price gt 0"}<em>{$vo.price}</em>{:getUnitData($vo['unit'])}{else /}待定{/if}</span></p>
+                    <p><span>{$vo.min_acreage}-{$vo.max_acreage}{:config('filter.acreage_unit')}</span><i>|</i><span>{$vo.min_type}-{$vo.max_type}室</span> <span class="cancel-follow" data-id="{$vo.id}" data-model="house">取消</span></p>
+                    <p class="good">
+                        {php}$tags = array_filter(explode(',',$vo['tags_id']));{/php}
+                        {notempty name='tags'}
+                        {volist name='tags' key='n' id='val'}
+                        {if condition='$n lt 4'}
+                        <em>{:getLinkMenuName(3,$val)}</em>
+                        {/if}
+                        {/volist}
+                        {/notempty}
+                    </p>
+
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+{/block}

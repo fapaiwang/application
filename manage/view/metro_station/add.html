@@ -1,0 +1,108 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="dialog_content">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">地铁线</label>
+			<div class="layui-input-inline" style="line-height: 40px;">
+				{$metro.name}
+			</div>
+			<input type="hidden" value="{$metro.city}" id="city_id">
+			<input type="hidden" value="{$metro.id}" name="metro_id">
+			<input type="hidden" value="{$metro.name}" name="metro_name" />
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">站点名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" id="name"  placeholder="站点名称" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">站点地址</label>
+			<div class="layui-input-inline">
+				<input type="text" name="address" id="address"  placeholder="填写站点所在地址可以自动定位地理位置" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">地理位置</label>
+			<div class="layui-input-inline" style="width:200px;">
+				<input type="text" class="layui-input" name="map" id="map" placeholder="115.345,22.1349"  autocomplete="off" value="" >
+			</div>
+			<div class="layui-input-inline" style="width:80px;">
+				<button type="button" id="mark" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn">标注位置</button>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="status" value="1" checked="checked" title="正常">&nbsp;&nbsp;
+				<input type="radio" name="status" value="0" title="禁用">
+			</div>
+		</div>
+
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+	var d = "{$prev_location.lng},{$prev_location.lat}";
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#name").formValidator({onshow:'请填写名称',onfocus:'请填写名称'}).inputValidator({min:1,onerror:'请填写名称'});
+		$("#address").on('blur',function(){
+			var city = $("#city_id").val();
+			var address = $(this).val(),url = "{:addon_url('map://Map/getLocationByAddress')}";
+			var param = {
+				city : city,
+				address : address
+			};
+			$.get(url,param,function(res){
+				if(res.code == 1)
+				{
+					$("#map").val(res.data.map);
+				}
+			});
+		});
+		$("#mark").on('click',function(){
+			var url = $(this).data('uri');
+			var map = $('#map').val();
+			var city = $("#city_id").val();
+			if(!map)
+			{
+				if(!city)
+				{
+					layer.msg('请选择城市',{icon:2});
+					return false;
+				}
+				map = d;
+			}
+			url += '?map='+map+'&city='+city;
+			parent.layer.open(
+					{
+						type : 2,
+						title : '地图标注',
+						area : ['100%','100%'],
+						shade : 0.2,
+						content : url,
+						iframeAuto:true
+					}
+			);
+		});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

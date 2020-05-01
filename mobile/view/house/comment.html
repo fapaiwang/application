@@ -1,0 +1,119 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;padding:1rem .66rem 3rem;">
+    <div class="comment-lists">
+        {fang:lists table='comment' where="house_id = $id and status = 1 and pid=0" field="id,user_id,score,average_score,user_name,content,create_time,support" order="create_time desc" limit="10" page="true" id='data'}
+        <div class="comment-row">
+            <div class="comment-img">
+                <img src="{:getAvatar($data['user_id'],45)}" alt="{$data.user_name}">
+            </div>
+            <div class="comment-content">
+                <div class="comment-top">
+                    <span class="nickname">{$data.user_name}</span>
+                    {$data.create_time|date='Y-m-d H:i:s'}
+                </div>
+                <div class="comment-score">
+                    价格：{$data.score.price} &nbsp;&nbsp;地段：{$data.score.place} &nbsp;&nbsp;配套：{$data.score.mating} &nbsp;&nbsp;交通：{$data.score.traffic} &nbsp;&nbsp;环境：{$data.score.science}
+                </div>
+                <div class="comment-con">
+                    {$data.content}
+                </div>
+                <div class="comment-view">
+                    <div class="reply"><img src="__IMG__/icon/reply.png">回复</div>
+                    <div class="view-reply"><img src="__IMG__/icon/list-view.png">查看回复</div>
+                </div>
+                <div class="comment-reply" style="display:none;">
+                    {php}$pid = $data['id'];{/php}
+                    {fang:lists table='comment' where="pid = $pid and status = 1" order="create_time desc" limit="15" id="val"}
+                    <div class="comment-row">
+                        <div class="comment-img">
+                            <img src="{:getAvatar($val['user_id'],45)}" alt="{$val.user_name}">
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-top">
+                                <span class="nickname">{$val.user_name}</span>
+                                {$val.create_time|date='Y-m-d H:i:s'}
+                            </div>
+                            <div class="comment-con">
+                                {$val.content}
+                            </div>
+                        </div>
+                    </div>
+                    {/fang:lists}
+                </div>
+                <div class="reply-box" style="display:none;">
+                    <textarea name="content" class="comment-content-textarea" placeholder="请入回复内容"></textarea>
+                    <div class="comment-inptu-box">
+                        <input type="text" class="comment-input" name="code" style="width:80px;" placeholder="请输入验证码">
+                        <img src="{:url('Verfiy/index')}" style="width:80px;height:40px;" class="verify" alt="验证码">
+                        <a href="javascript:;" class="sub-reply" data-pid="{$data.id}">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/fang:lists}
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+</div>
+<input type="hidden" id="house_id" value="{$info.id}">
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+    $(function(){
+        //弹出回复框
+        $(".reply").on('click',function(){
+            var parent = $(this).parents('.comment-content'),re_list = parent.find('.comment-reply'),
+                    re_box = parent.find('.reply-box');
+            re_list.slideUp();
+            if(re_box.css('display') == 'block')
+            {
+                re_box.slideUp();
+            }else{
+                re_box.slideDown();
+            }
+        });
+        $(".view-reply").on('click',function(){
+            var parent = $(this).parents('.comment-content'),re_list = parent.find('.comment-reply'),
+                    re_box = parent.find('.reply-box');
+            re_box.slideUp();
+            if(re_list.css('display') == 'block')
+            {
+                re_list.slideUp();
+            }else{
+                re_list.slideDown();
+            }
+        });
+        $(".verify").on('click',function(){
+            var s = $(this).attr('src');
+            $(this).attr('src',s+"?t="+Math.random());
+        });
+        $(".sub-reply").on('click',function(){
+            var url = "{:url('Api/subHouseCommentReply')}",pid = $(this).data('pid'),house_id = $("#house_id").val(),parent = $(this).parents('.reply-box'),
+                    content = parent.find("textarea[name='content']"),code = parent.find("input[name='code']");
+            if(content.val().length == 0){
+                layer.msg('请填写回复内容');
+            }else if(code.val().length == 0){
+                layer.msg('请填写验证码');
+            }else{
+                $.post(url,{
+                    pid      : pid,
+                    house_id : house_id,
+                    content  : content.val(),
+                    verify     : code.val()
+                },function(res){
+                    if(res.code == 1){
+                        content.val('');
+                        code.val('');
+                        layer.msg(res.msg,{icon:1},function(){
+                            window.location.href = window.location.href +"?t="+Math.random();
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:2});
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}

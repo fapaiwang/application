@@ -1,0 +1,63 @@
+{extend file='public/layout' /}
+{block name='content'}
+<!--编辑敏感-->
+<div class="dialog_content">
+	<form id="info_form" action="{:url('Badword/editDo')}" method="post">
+	<table width="100%" class="table_form">
+		<tr> 
+			<th width="90">敏感词 :</th>
+			<td>
+				<input type="text" class="input-text" name="word" id="word" value="{$info.word}" size="30">
+			</td>
+		</tr>
+		<tr>
+			<th>替换词 :</th>
+			<td><input type="text" name="replace_word" id="replace_word" value="{$info.replace_word}" class="input-text" size="30"></td>
+		</tr>
+		<tr>
+			<th>敏感等级 :</th>
+			<td>
+				<select name="level" id="level">
+				{volist name='level' id='vo'}
+					<option value="{$key}" {if condition="$info['level'] eq $key"}selected{/if}>{$vo}</option>
+				{/volist}
+				</select><span>(一般: 用替换词替换 , 危险: 直接去除)</span>
+			</td>
+		</tr>
+
+        <tr>
+		<th>状态 :</th>
+            <td>
+                <label><input type="radio" name="status" value="1" {if condition="$info['status'] eq 1"}checked="checked"{/if}> 启用</label>&nbsp;&nbsp;
+                <label><input type="radio" name="status" value="0" {if condition="$info['status'] eq 0"}checked="checked"{/if}> 禁用</label>
+            </td>
+        </tr>
+		<input type="hidden" name="id" value="{$info.id}">
+	</table>
+	</form>
+</div>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/js/plugins/formvalidator.js"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/plugins/jquery.ajax.form.js"></script>
+<script src="__JS__/jquery.linkmenu.js"></script>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#word").formValidator({onshow:'请填写敏感词',onfocus:'请填写敏感词'}).inputValidator({min:1,onerror:'请填写敏感词'}).defaultPassed();
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

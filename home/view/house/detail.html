@@ -1,0 +1,820 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link type="text/css" href="/static/js/photo/css/prettyPhoto.css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/storage/qiniuoss/qiniuplayer.min.css">
+<!-- 页面标识 S-->
+<div class="page_tit">
+    <div class="comWidth clearfix">
+        <a href="javascript:;" rel="nofollow">您的位置：</a>
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt; <a href="{:url('House/index')}" title="新房">新房</a> &gt; <a href="javascript:void(0);" rel="nofollow">{$info.title}</a>
+    </div>
+</div>
+<!-- 页面标识 E-->
+<!-- 楼盘详情 S-->
+<div class="house_detail newhouse_detail">
+    <div class="comWidth">
+        <!-- main_info S -->
+        <div class="main_info">
+            <div class="con_box clearfix">
+                <div class="leftArea">
+                    <!-- 轮播图 S -->
+                    <div class="l_slide">
+                        <ul class="bigImg">
+                            {if condition="$storage_open eq 1 and $info['video']"}
+                            <li style="height:396px;">
+                                <video id="qiniu-video" class="video-js vjs-big-play-centered"></video>
+                            </li>
+                            {/if}
+                            {notempty name='info.photo'}
+                            {volist name='info.photo' id='vo'}
+                            <li>
+                                <a href="javascript:;"><img src="{$vo.url}" alt="{$vo.cate_name}"></a>
+                            </li>
+                            {/volist}
+                            {else /}
+                            <li>
+                                <a href="javascript:;"><img src="{$info.img}" alt="{$info.title}"></a>
+                            </li>
+                            {/notempty}
+                        </ul>
+                        <div class="smallScroll">
+                            <a class="sPrev" href="javascript:void(0)">←</a>
+                            <div class="smallImg">
+                                <ul>
+                                    {if condition="$storage_open eq 1 and $info['video']"}
+                                    <li style="position:relative;">
+                                        <a href="javascript:;">
+                                            <img src="{:thumb($info['img'],160,80)}" alt="视频" />
+                                        </a>
+                                        <img src="/static/images/video.png" class="video-play" alt="">
+                                    </li>
+                                    {/if}
+                                    {notempty name='info.photo'}
+                                    {volist name='info.photo' id='vo'}
+                                    <li>
+                                        <a href="javascript:;"><img src="{:thumb($vo['url'],160,80)}" alt="{$vo.cate_name}"></a>
+                                    </li>
+                                    {/volist}
+                                    {else /}
+                                    <li>
+                                        <a href="javascript:;"><img src="{:thumb($info['img'],160,80)}" alt="{$info.title}"></a>
+                                    </li>
+                                    {/notempty}
+                                </ul>
+                            </div>
+                            <a class="sNext" href="javascript:void(0)">→</a>
+                        </div>
+                    </div>
+                    <!-- 轮播图 E -->
+                </div>
+                <div class="rightArea">
+                    <div class="hd_box clearfix">
+                        <h2 class="fl">{$info.title} </h2>
+                        <!-- on表示已收藏 -->
+                        <span class="collect_btn follow fr" data-model="house" data-id="{$info.id}" data-uri="{:url('Api/follow')}">关注楼盘</span>
+                    </div>
+                    <div class="t_box clearfix">
+                        <div class="price fl">
+                            <span><strong>{$info.price}</strong>{$info.unit}</span>
+                        </div>
+                        <div class="calc fr">
+                            <a href="{:url('Tools/index')}" target="_blank">房贷计算器</a>
+                        </div>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">物业类型 : </span><span class="desc">{$info.attr.property_type}</span>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">开盘时间 : </span><span class="desc">{if condition='$info.opening_time gt 0'}{$info.opening_time|date='Y年m月d日'}{/if}{$info.opening_time_memo}</span>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">交房时间 : </span><span class="desc">{if condition='$info.complate_time gt 0'}{$info.complate_time|date='Y年m月d日'}{/if}{$info.complate_time_memo}</span>
+                    </div>
+                    <div class="col_1 clearfix">
+                        <span class="label">主力户型 : </span>
+                        <span class="desc">
+                            {fang:lists table='house_type' where='house_id=$id' field='room,living_room,acreage' limit='5' order='room asc' id='data'}
+						        {if condition='$i gt 1'}|{/if}{$data.room}室{$data.living_room}厅({$data.acreage}㎡)
+					        {/fang:lists}
+                        </span>
+                    </div>
+
+                    <div class="col_1 clearfix">
+                        <span class="label">楼盘地址 : </span><span class="desc">{$info.address}</span>
+                    </div>
+                    <div class="agent_info clearfix">
+                        <div class="c_con new-house fl" style="margin-top:16px;">
+                            <div class="phone-text clearfix">
+                                苦苦寻找楼盘信息？不如一个电话全部搞定
+                            </div>
+                            <div class="row">
+                                <p class="phone">
+                                    {$info.sale_phone.phone}{notempty name='info.sale_phone.extension'}转{$info.sale_phone.extension}{/notempty}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="r_con fr">
+                            <a href="http://wpa.qq.com/msgrd?v=3&uin={$qq[0]}&site=qq&menu=yes" target="_blank" class="btn consult">在线咨询</a>
+                            <a href="javascript:void(0);" class="btn appoint J_dialog" data-id="{$info.id}" data-model="house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--优惠-->
+        {if condition='$info.is_discount'}
+        <div class="discount">
+            {$info.discount}
+            <a href="javascript:;" class="J_dialog" data-id="{$info.id}" data-model="house" data-type="2" data-uri="{:url('Dialog/subscribe')}"></a>
+        </div>
+        {/if}
+        <!-- main_info E -->
+        <!-- 锚链接导航 S -->
+        <div class="scroll_nav_wrap">
+            <div class="scroll_nav">
+                <div class="comWidth clearfix">
+                    <ul>
+                        <li class="active"><a href="{:url('House/news',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}动态">楼盘动态</a></li>
+                        <li><a href="{:url('House/room',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}在售户型">在售户型</a></li>
+                        <li><a href="{:url('House/question',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}用户问答">用户问答</a></li>
+                        {notempty name='info.pano_url'}<li><a href="{:url('House/pano',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}全景相册">全景看房</a></li>{/notempty}
+                        <li><a href="{:url('House/photo',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}楼盘相册">楼盘相册</a></li>
+                        <li><a href="{:url('House/build',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}楼栋信息">楼栋信息</a></li>
+                        <li><a href="{:url('House/info',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}楼盘详情">楼盘详情</a></li>
+                        <li><a href="{:url('House/support',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}周边配套">周边配套</a></li>
+                        <li><a href="{:url('House/comment',['house_id'=>$info['id']])}" target="_blank" title="{$info.title}点评">楼盘点评</a></li>
+                        <li><a href="javascript:void(0);">为你推荐</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 锚链接导航 E -->
+        <div class="con_wrap" id="main">
+            <div class="clearfix floor">
+                <!-- 楼盘动态 S-->
+                <div class="dynamic fl">
+                    <div class="title clearfix">
+                        <h2>楼盘动态</h2>
+                        <a href="{:url('House/news',['house_id'=>$info['id']])}" title="{$info.title}动态" class="more">查看更多</a>
+                    </div>
+                    <div class="con_box">
+                        <ul class="list">
+                            {fang:lists table='article' where='status=1 and house_id=$id' field='id,cate_id,title,create_time,description' order='ordid asc,id desc' limit='5' id='data'}
+                            <li class="clearfix">
+                                <div class="r_con">
+                                    <div class="hd clearfix">
+                                        <h4 class="tit fl">[{:getCateName('articleCate',$data['cate_id'])}] <a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}">{$data.title}</a></h4>
+                                        <p class="time fr">{$data.create_time|date='Y-m-d'}</p>
+                                    </div>
+                                    <p class="desc">{:msubstr($data.description,0,80)}</p>
+                                </div>
+                            </li>
+                            {/fang:lists}
+                        </ul>
+                    </div>
+                </div>
+                <!-- 楼盘动态 E-->
+                <!-- 时间轴 S -->
+                <div class="time_line fr">
+                    <div class="title clearfix">
+                        <h2>时间轴</h2>
+                    </div>
+                    <div class="con_box">
+                        <ul class="list">
+                            <li class="clearfix">
+                                <div class="l_con">
+                                    <span class="c"></span>
+                                    <span class="l"></span>
+                                </div>
+                                <div class="r_con">
+                                    {if condition='$info.opening_time gt 0'}<p class="time">{$info.opening_time|date='Y年m月d日'}</p>{/if}
+                                    <p class="txt">{$info.opening_time_memo}</p>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="l_con">
+                                    <span class="c"></span>
+                                    <span class="l"></span>
+                                </div>
+                                <div class="r_con">
+                                    {if condition='$info.complate_time gt 0'}<p class="time">{$info.complate_time|date='Y年m月d日'}</p>{/if}
+                                    <p class="txt">{$info.complate_time_memo}</p>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 时间轴 E -->
+            </div>
+            <!-- 户型介绍 S -->
+            <div class="house_type floor">
+                <div class="title clearfix">
+                    <h2>户型介绍</h2>
+                    <a href="{:url('House/room',['house_id'=>$info['id']])}" title="{$info.title}户型介绍" class="more">查看更多</a>
+                    <ul class="tab_hd fr">
+                        <li><a href="{:url('House/room',['house_id'=>$info['id']])}" title="{$info.title}全部户型" class="on">全部户型（<span id="room_total"></span>）</a></li>
+                        {volist name='info.room_count' id='vo'}
+                        <li><a href="{:url('House/room',['house_id'=>$info['id'],'room'=>$vo['room']])}" title="{$info.title}{$vo.room}室">{$vo.room}室（<span class="room_count">{$vo.total}</span>）</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="con_box">
+                    <div class="picScroll">
+                        <ul>
+                            {php}$sale_status = getLinkMenuCache(5);{/php}
+                            {fang:lists table='house_type' field='id,img,title,room,living_room,toilet,kitchen,sale_status,acreage' where='house_id=$id' order='id' id='data'}
+                            <li>
+                                <a href="{:url('House/roomDetail',['id'=>$data['id']])}" title="{$info.title}{$data.room}室{$data.living_room}厅{$data.acreage}平米" class="img">
+                                    <img src="{$data.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$data.title}" />
+                                    <!--  on在售 off售罄 for待售 -->
+                                    <p class="sale_type {$sale_status[$data['sale_status']]['alias']}">{$sale_status[$data['sale_status']]['name']}</p>
+                                </a>
+                                <div class="con">
+                                    <p>{$data.title} {$data.room}室{$data.living_room}厅{$data.kitchen}厨{$data.toilet}卫</p>
+                                    <p>建筑面积{$data.acreage}㎡ </p>
+                                </div>
+                            </li>
+                            {/fang:lists}
+
+                        </ul>
+                        <a class="prev" href="javascript:void(0)"></a>
+                        <a class="next" href="javascript:void(0)"></a>
+                    </div>
+                </div>
+            </div>
+            <!-- 户型介绍 E -->
+            <!-- 用户问答 S -->
+            <div class="question floor">
+                <div class="title clearfix">
+                    <h2>楼盘问答</h2>
+                    <a href="{:url('House/question',['house_id'=>$info['id']])}" style="margin-top:10px;line-height: 45px;color:#fff;" title="{$info.title}问答" class="more">我要提问</a>
+                </div>
+                <div class="con_box">
+                    <ul class="list">
+                        {fang:lists table='question' where='house_id=$id and status=1' field='id,content' order="id desc" limit='2' id='data'}
+                        <li>
+                            {php}$question_id=$data['id'];{/php}
+                            <p class="ask"><a target="_blank" href="{:url('Question/detail',['id'=>$data['id']])}" title="{$data.content}">{$data.content}</a></p>
+                            {fang:lists table='answer' where='question_id=$question_id and status=1' field='content,create_time' order='id' empty='' id='answer'}
+                            <p class="anser">答：{$answer.content}</p>
+                            <p class="time">{$answer.create_time|date='Y-m-d H:i'}</p>
+                            {/fang:lists}
+                        </li>
+                        {/fang:lists}
+                    </ul>
+                </div>
+            </div>
+            <!-- 用户问答 E -->
+            {notempty name='info.pano_url'}
+            <div class="build_picture similar_house floor">
+                <div class="title clearfix">
+                    <h2>全景看房</h2>
+                </div>
+                <div class="con_box">
+                    <iframe src="{$info.pano_url}" width="100%" height="500" scrolling="no" frameborder="0"></iframe>
+                </div>
+            </div>
+            {/notempty}
+            <!-- 楼盘相册 S -->
+            <div class="build_picture similar_house floor">
+                <div class="title clearfix">
+                    <h2>楼盘相册</h2>
+                    <a href="{:url('House/photo',['house_id'=>$id])}" title="{$info.title}相册" class="more">查看更多</a>
+                    <ul class="tab_hd fr">
+                        {volist name='info.photo_cate.data' id='vo'}
+                        <li><a href="{:url('House/photo',['house_id'=>$id,'cate_id'=>$vo['cate_id']])}">{$vo.name}（{$vo.total}）</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="con_box">
+                    <ul class="list clearfix" id="photo">
+                        {fang:lists table='house_photo' where='house_id=$id and status=1' field='url,cate_name,title' order='ordid' limit='8' id='data'}
+                        <li>
+                            <a href="{$data.url}" title="{$data.cate_name}-{$data.title}" rel="prettyPhoto[]">
+                                <div class="img">
+                                    <img src="/static/images/nopic.jpg" data-original="{:thumb($data['url'],285,205)}" class="lazy" >
+                                    <div class="mask">
+                                        <p class="name">{$data.title}</p>
+                                        <div class="opacity"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {/fang:lists}
+                    </ul>
+                </div>
+            </div>
+            <!-- 楼盘相册 E -->
+            {notempty name='points'}
+            <!-- 楼栋信息 S -->
+            <div class="buildNum_info floor">
+                <div class="title clearfix">
+                    <h2>楼栋信息</h2>
+                </div>
+                <div class="con_box clearfix">
+                    <div class="l_con fl" id="ldxx-img">
+                        <div class="img"  draggable="false" id="img" style="position: absolute;cursor:move;">
+                            <img src="{$points.img}" alt="{$info.title}楼栋信息">
+                            {volist name='points.data' id='vo'}
+                            {php}$point=explode(',',$vo['point']);{/php}
+                            <div class="tit ban {$sale_status[$vo['sale']]['alias']}" data-id="{$vo.id}" style="left:{$point[0]}px;top:{$point[1]}px;cursor:pointer;">
+                                {$vo.title}
+                                <div class="riangle"></div>
+                            </div>
+                            {/volist}
+                        </div>
+                        <div class="label">
+                            <div class="item clearfix">
+                                <span class="bg on"></span>
+                                <span class="txt">在售</span>
+                            </div>
+                            <div class="item clearfix">
+                                <span class="bg for"></span>
+                                <span class="txt">待售</span>
+                            </div>
+                            <div class="item clearfix">
+                                <span class="bg off"></span>
+                                <span class="txt">售罄</span>
+                            </div>
+                            <div class="opacity"></div>
+                        </div>
+
+                    </div>
+                    <div class="r_con fr">
+                        <div class="tab_nav">
+                            <ul class="clearfix" id="ban_lists" data-uri="{:url('Api/getBanInfoById')}">
+                                {volist name='ban_lists' id='vo'}
+                                <li><a href="javascript:;" data-id="{$vo.id}" {if condition='$i eq 1'}class="active"{/if}>{$vo.title}</a></li>
+                                {/volist}
+                            </ul>
+                            <div class="b_l"></div>
+                        </div>
+                        <div id="ban_info"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 楼栋信息 E -->
+            {/notempty}
+            <!-- 楼盘详情 S -->
+            <div class="build_detail floor">
+                <div class="title clearfix">
+                    <h2>楼盘详情</h2>
+                </div>
+                <div class="con_box clearfix">
+                    <table cellpadding="0" cellspacing="1" border="0" width="100%">
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">项目地址：</span>
+                                <span class="txt">{$info.address}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">开发商：</span>
+                                <span class="txt">{$info.developer_name}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">售楼处地址：</span>
+                                <span class="txt">{$info.sale_address}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">物业公司：</span>
+                                <span class="txt">{empty name='info.attr.property_company'}暂无资料{else /}{$info.attr.property_company}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">开盘时间：</span>
+                                <span class="txt">{notempty name='info.opening_time'}{$info.opening_time|date='Y-m-d'}{/notempty}{$info.opening_time_memo}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">交房时间：</span>
+                                <span class="txt">{notempty name='info.complate_time'}{$info.complate_time|date='Y-m-d'}{/notempty}{$info.complate_time_memo}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">产权年限：</span>
+                                <span class="txt">{empty name='info.attr.property_right'}暂无资料{else /}{$info.attr.property_right}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">物业类型：</span>
+                                <span class="txt">{empty name='info.attr.property_type'}暂无资料{else /}{$info.attr.property_type}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">车位情况：</span>
+                                <span class="txt">{empty name='info.attr.parking_space'}暂无资料{else /}{$info.attr.parking_space}{/empty}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">建筑类型：</span>
+                                <span class="txt">{empty name='info.attr.building_type'}暂无资料{else /}{$info.attr.building_type}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">计划户数：</span>
+                                <span class="txt">{empty name='info.attr.plan_number'}暂无资料{else /}{$info.attr.plan_number}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">占地面积：</span>
+                                <span class="txt">{empty name='info.attr.area_covered'}暂无资料{else /}{$info.attr.area_covered}{/empty}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <span class="tit">物业费用：</span>
+                                <span class="txt">{empty name='info.attr.property_fee'}暂无资料{else /}{$info.attr.property_fee}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">建筑面积：</span>
+                                <span class="txt">{empty name='info.attr.area_build'}暂无资料{else /}{$info.attr.area_build}{/empty}</span>
+                            </td>
+                            <td width="33.33%">
+                                <span class="tit">装修情况：</span>
+                                <span class="txt">{empty name='info.renovation'}暂无资料{else /}{:getLinkMenuName(8,$info.renovation)}{/empty}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="house-content">
+                        {$info.info|raw}
+                    </div>
+                </div>
+            </div>
+            <!-- 楼盘详情 E -->
+            <!-- 周边配套 S-->
+            {include file='public/peitao' /}
+            <!-- 周边配套 E-->
+            <!-- 用户点评 S -->
+            <div class="question floor">
+                <div class="title clearfix">
+                    <h2>楼盘点评</h2>
+                    <a href="{:url('House/comment',['house_id'=>$info['id']])}" style="margin-top:10px;line-height: 45px;color:#fff;" title="{$info.title}点评" class="more">我要点评</a>
+                </div>
+                <div class="con_box">
+                    <div class="comment-list">
+                        {fang:lists table='comment' where="house_id = $id and status = 1 and pid=0" field="id,user_id,score,average_score,user_name,content,create_time,support" order="create_time desc" limit="2" id='data'}
+                        <div class="comment-row clearfix">
+                            <div class="comment-row-avatar fl">
+                                <img src="{:getAvatar($data['user_id'],45)}" alt="{$data.user_name}">
+                            </div>
+                            <div class="comment-row-content fl">
+                                <div class="comment-row-time">
+                                    <span class="username">{$data.user_name}</span> {$data.create_time|date='Y-m-d H:i:s'}
+                                </div>
+                                <div class="comment-row-integral">
+                                    <span class="star">
+                                        <span class="star integral" style="width:{$data['average_score']/5*100}%;"></span>
+                                    </span>
+                                    <span class="comment-row-per">
+                                        <span class="comment-row-per">
+                                价格：{$data.score.price} &nbsp;&nbsp;地段：{$data.score.place} &nbsp;&nbsp;配套：{$data.score.mating} &nbsp;&nbsp;交通：{$data.score.traffic} &nbsp;&nbsp;环境：{$data.score.science}
+                            </span>
+                                    </span>
+                                </div>
+                                <div class="comment-row-content">
+                                    {$data.content}
+                                </div>
+                                <div class="comment-reply">
+                                    <a href="javascript:;" class="support" onclick="support(this,'{$data.id}')">支持(<span>{$data.support}</span>)</a> <a href="javascript:;" class="reply">查看回复</a>
+                                </div>
+                                <div class="comment-reply-content" id="comment-reply-content-{$data.id}" style="display:none;">
+                                    {php}$pid = $data['id'];{/php}
+                                    {fang:lists table='comment' where="pid = $pid and status = 1" order="create_time desc" limit="15" id="val"}
+                                    <div class="comment-row clearfix">
+                                        <div class="comment-row-avatar fl">
+                                            <img src="{:getAvatar($val['user_id'],45)}" alt="{$val.user_name}">
+                                        </div>
+                                        <div class="comment-row-content fl">
+                                            <div class="comment-row-time">
+                                                <span class="username">{$val.user_name}</span> {$val.create_time|date='Y-m-d H:i:s'}
+                                            </div>
+                                            <div class="comment-row-content">
+                                                {$val.content}
+                                            </div>
+                                            <div class="comment-reply">
+                                                <a href="javascript:;" class="support" onclick="support(this,'{$val.id}')">支持(<span>{$val.support}</span>)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/fang:lists}
+                                </div>
+                            </div>
+                        </div>
+                        {/fang:lists}
+                        <p style="padding:10px 0;text-align:center;"><a href="{:url('House/comment',['house_id'=>$info['id']])}" target="_blank">查看更多∨</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 用户点评 E -->
+            <!-- 为您推荐 S -->
+            <div class="similar_house floor">
+                <div class="title clearfix">
+                    <h2>为您推荐</h2>
+                </div>
+                <div class="con_box">
+                    <ul class="list clearfix">
+                        {volist name='nearby_house' id='vo'}
+                        <li>
+                            <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                <div class="img">
+                                    <img src="/static/images/nopic.jpg" data-original="{$vo.img}" class="lazy" alt="{$vo.title}">
+                                </div>
+                                <div class="ft_con clearfix">
+                                    <p class="fl">{$vo.title}</p>
+                                    <p class="price fr"><strong>{$vo.price}</strong>{$vo.unit}</p>
+                                </div>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+            <!-- 为您推荐 E -->
+        </div>
+    </div>
+</div>
+{if condition="getSettingCache('site','red_packet') eq 1 and $info.red_packet gt 0"}
+<div class="hb-right J_dialog"  data-id="{$info.id}" data-model="house" data-type="3" data-uri="{:url('Dialog/subscribe')}">
+    <p class="hb-p1">最高<strong>{$info.red_packet}</strong>元</p>
+    <p class="hb-p2">买新房 领红包 人人有份</p>
+    <div class="detailPopClose"></div>
+</div>
+<script>
+    $(function(){
+       $(".detailPopClose").on('click',function(e){
+           e.stopPropagation();
+           e.preventDefault();
+           $(this).parent().hide();
+       });
+    });
+</script>
+{/if}
+<!-- 楼盘详情 E-->
+<script type="text/html" id="template">
+    <div class="m_info">
+        <ul class="clearfix">
+            <li>
+                <span class="tit">单元:</span>
+                <span class="txt">{{# if(d['ban_info']['unit']){ }}{{d.ban_info.unit}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">电梯数:</span>
+                <span class="txt">{{# if(d['ban_info']['elevator']){ }}{{d.ban_info.elevator}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">楼层:</span>
+                <span class="txt">{{# if(d['ban_info']['floor_num']){ }}{{d.ban_info.floor_num}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">户数:</span>
+                <span class="txt">{{# if(d['ban_info']['room_num']){ }}{{d.ban_info.room_num}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">开盘时间:</span>
+                <span class="txt">{{# if(d['ban_info']['open_time']){ }}{{d.ban_info.open_time}}{{# } }}</span>
+            </li>
+            <li>
+                <span class="tit">交房时间:</span>
+                <span class="txt">{{# if(d['ban_info']['complate_time']){ }}{{d.ban_info.complate_time}}{{# } }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="s_info">
+        <h4>{{d.ban_info.title}}</h4>
+        <ul class="table clearfix">
+            {{# if(d.type_lists.length>0){ }}
+            <li class="thd">
+                <ol>
+                    <li class="th">名称</li>
+                    <li class="th">户型</li>
+                    <li class="th">价格</li>
+                    <li class="th">状态</li>
+                </ol>
+            </li>
+            <li class="tbd">
+                {{# for(var i = 0, len = d.type_lists.length; i < len; i++){ }}
+                <a href="{{d.type_lists[i].url}}">
+                    <ol class="clearfix">
+                        <li class="td">{{d.type_lists[i].title}}</li>
+                        <li class="td">{{d.type_lists[i].room}}室{{d.type_lists[i].living_room}}厅{{d.type_lists[i].acreage}}㎡</li>
+                        <li class="td">{{d.type_lists[i].price}}万</li>
+                        <li class="td">{{d.type_lists[i].sale_status}}</li>
+                    </ol>
+                </a>
+                {{# } }}
+            </li>
+            {{# } }}
+        </ul>
+    </div>
+</script>
+<script src="/static/storage/qiniuoss/qiniuplayer.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="__JS__/l_slide.js"></script>
+<script type="text/javascript" src="__JS__/scroll_nav.js"></script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script type="text/javascript" src="__STATIC__/js/photo/jquery.prettyPhoto.js"></script>
+<script type="text/javascript">
+    var total = 0,storage = "{$storage_open}",video = "{$info['video']}" && storage == 1 ? true : false;
+    $(function(){
+        var options = {
+            controls: true,
+            url:  "{:getVideoUrl($info['video'])}",
+            type: 'hls',
+            poster : "{$info.img}",
+            width  : 670,
+            height : 396,
+            preload: true,
+            autoplay: false // 如为 true，则视频将会自动播放
+        };
+        // 判断播放器是否存在,渲染页面时如果为观看时间该元素才会存在
+        video && new QiniuPlayer('qiniu-video', options);
+        $("#photo:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+        jQuery(".picScroll").slide({
+            mainCell:"ul",
+            effect:"leftLoop",
+            vis:5,
+            scroll:5,
+            autoPage:true,
+            switchLoad:"_src"
+        });
+        $(".room_count").each(function(){
+           total += parseInt($(this).text());
+        });
+        $('#room_total').text(total);
+        //图片拖动
+        window.onload = function(){
+            var draging = false, lastPoint;
+            var body = document.body;
+            var img = document.getElementById('img') || false;
+            img.onmousedown = function(e){
+                e = e || window.event;
+                var x = e.clientX;
+                var y = e.clientY;
+                if(!lastPoint){
+                    lastPoint = {};
+                }
+                lastPoint.x = x;
+                lastPoint.y = y;
+                draging = true;
+                if(e.preventDefault){
+                    e.preventDefault();
+                }else{
+                    return false;
+                }
+            }
+            img.ondragstart = function(e){
+                e = e || window.event;
+                if(e.preventDefault){
+                    e.preventDefault();
+                }else{
+                    return false;
+                }
+            }
+            img.onmouseup = function(){
+                draging = false;
+                lastPoint = undefined;
+            }
+            if(document.addEventListener){
+                body.addEventListener('mousemove',function(e){
+                    onMouseMove(e);
+                },false);
+                body.addEventListener('mouseup',onMouseUp,false);
+            }else{
+                body.attachEvent('onmousemove',function(){
+                    var event = window.event;
+                    onMouseMove(event);
+                })
+                body.attachEvent('onmouseup',onMouseUp);
+            }
+
+            function onMouseMove(e){
+                if(!draging){
+                    return;
+                }
+                var img = document.getElementById('img');
+                var ldxx_img = document.getElementById('ldxx-img');
+                if(lastPoint){
+                    var x = e.clientX , y = e.clientY;
+                    var imgTop = parseFloat(img.style.top || '0');
+                    var imgLeft = parseFloat(img.style.left || '0');
+                    var changeX = x - lastPoint.x , changeY = y - lastPoint.y;
+                    var dis_X = imgLeft + changeX;
+                    var dis_Y = imgTop + changeY;
+                    var sub_img = img.getElementsByTagName('img')[0];
+                    var sub_img_width = sub_img.offsetWidth;
+                    var sub_img_height = sub_img.offsetHeight;
+                    var img_width = ldxx_img.offsetWidth;
+                    var img_height = ldxx_img.offsetHeight;
+                    var dis_w = img_width -  sub_img_width;
+                    var dis_h = img_height - sub_img_height;
+                    if(dis_X>0){
+                        dis_X = 0;
+                    }
+                    if(dis_X < dis_w){
+                        dis_X = dis_w;
+                    }
+
+                    if(dis_Y>0){
+                        dis_Y = 0;
+                    }
+                    if(dis_Y < dis_h){
+                        dis_Y = dis_h;
+                    }
+
+                    img.style.top = dis_Y + 'px';
+                    img.style.left = dis_X + 'px';
+                    lastPoint.x = x, lastPoint.y = y;
+                }
+            }
+            function onMouseUp(){
+                draging = false;
+                lastPoint = undefined;
+            }
+        }
+        getBanInfo($("#ban_lists a.active").data('id'));
+        $("#ban_lists a").on('click',function(){
+            var id = $(this).data('id');
+            $(this).addClass('active').parent().siblings().find('.active').removeClass('active');
+            getBanInfo(id);
+        });
+        $(".ban").on('click',function(){
+            var id = $(this).data('id');
+            $("#ban_lists").find('.active').removeClass('active');
+            $("#ban_lists").find("a[data-id='"+id+"']").addClass('active');
+            getBanInfo(id);
+        });
+        //弹出回复框
+        $(".reply-content").on('click',function(){
+            var parent = $(this).parents('.comment-row-content'),re_list = parent.find('.comment-reply-content'),
+                    re_box = parent.find('.comment-reply-box');
+            re_list.slideUp();
+            if(re_box.css('display') == 'block')
+            {
+                re_box.slideUp();
+            }else{
+                re_box.slideDown();
+            }
+        });
+        $(".reply").on('click',function(){
+            var parent = $(this).parents('.comment-row-content'),re_list = parent.find('.comment-reply-content'),
+                    re_box = parent.find('.comment-reply-box');
+            re_box.slideUp();
+            if(re_list.css('display') == 'block')
+            {
+                re_list.slideUp();
+            }else{
+                re_list.slideDown();
+            }
+        });
+        $('.J_dialog').on('click',function(){
+            var me=$(this),w = 750,h = 400,house_id=me.data('id'),model = me.data('model'),type = me.data('type'),url = me.data('uri');
+                url = url + '?house_id='+house_id+'&type='+type+'&model='+model;
+            layer.open({
+                type: 2,
+                title: false,
+                fix:true,
+                move:false,
+                area: [w+'px', h+'px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: url
+            });
+        });
+    });
+    function support(obj,id)
+    {
+        var url = "{:url('Api/support')}",o = $(obj).find('span'),num = parseInt(o.text());
+        $.get(url,{id:id},function(res){
+            if(res.code == 1){
+                o.text(num+1);
+                layer.msg(res.msg,{icon:1});
+            }else{
+                layer.msg(res.msg,{icon:2});
+            }
+        });
+    }
+    function getBanInfo(id)
+    {
+        var url   = $("#ban_lists").data('uri');
+        var param = {id:id};
+        if(url)
+        {
+            $.get(url,param,function(result){
+                if(result.code == 1)
+                {
+                    if(result.data){
+                        var gettpl = document.getElementById('template').innerHTML;
+                        laytpl(gettpl).render(result.data, function(html){
+                            document.getElementById('ban_info').innerHTML = html;
+                        });
+                    }
+                }else{
+                    console.log('get data error');
+                }
+            });
+        }
+
+    }
+</script>
+{/block}

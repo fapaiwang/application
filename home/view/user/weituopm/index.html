@@ -1,0 +1,180 @@
+{extend name='user/public/layout' /}
+
+{block name='content'}
+
+<div class="layui-tab layui-tab-brief">
+
+    
+
+    <form class="layui-form" action="">
+
+        <div class="layui-form layui-border-box layui-table-view">
+
+            <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+
+                <colgroup>
+
+                    <col width="10%">
+
+                    <col width="15%">
+
+                    <col width="20%">
+
+                    <col width="15%">
+
+                    <col width="15%">
+
+                    <col width="15%">
+
+                    <col width="10%">
+
+                </colgroup>
+
+                <thead>
+
+                <tr>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>称呼</span></div>
+
+                    </th>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>联系电话</span></div>
+
+                    </th>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>详细地址</span></div>
+
+                    </th>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>售价</span></div>
+
+                    </th>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>小区</span></div>
+
+                    </th>
+
+                    <th>
+
+                        <div class="layui-table-cell"><span>面积</span></div>
+
+                    </th>
+
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+             
+
+                {volist name="lists" id="vo"}
+
+                <tr>
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.user_name}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.mobile}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.address}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.price}
+
+                        </div>
+
+                    </td>
+
+
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.xq}
+
+                        </div>
+
+                    </td>
+
+
+
+                    <td>
+
+                        <div class="layui-table-cell">
+
+                            {$vo.mj}
+
+                        </div>
+
+                    </td>
+
+
+                </tr>
+
+                {/volist}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        
+
+    </form>
+
+</div>
+
+<!-- 列表 E-->
+
+{/block}
+
+
+
+
+
+
+
+
+
+
+
+

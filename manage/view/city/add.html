@@ -1,0 +1,147 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-select{width:110px;display:inline-block;margin-right:5px;}
+</style>
+<div class="dialog_content">
+	<form class="layui-form" id="info_form" action="{:url('addDo')}" method="post">
+		<input type="hidden" name="province_id" value="{$province_id}">
+		<div class="layui-form-item">
+			<label class="layui-form-label">上级栏目</label>
+			<input type="hidden" name="pid" id="J_city_id" />
+			<div class="layui-input-block">
+				<select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds',['province_id'=>$province_id])}" data-selected="{$spid}">
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">栏目名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="name" id="name" class="layui-input" placeholder="栏目名称" data-uri="{:addon_url('map://Map/getLocationByAddress')}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-block">
+				<label class="layui-form-label">地理位置</label>
+				<div class="layui-input-inline" style="width:205px;">
+					<input type="text" name="map" id="map" class="layui-input" placeholder="地理位置坐标" />
+				</div>
+				<div class="layui-input-inline" style="width:100px;">
+					<button type="button" id="mark" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn">标注位置</button>
+				</div>
+			</div>
+		</div>
+		{if condition='$spid eq 0'}
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">绑定域名</label>
+				<div class="layui-input-inline" style="width:150px;">
+					<input type="text" name="domain" id="domain" class="layui-input" placeholder="绑定域名">
+				</div>
+				<div class="layui-input-inline" style="width:150px;">
+					.{:config('url_domain_root')}
+				</div>
+			</div>
+		</div>
+		{/if}
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否热门</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="is_hot" value="1" title="是" />
+				<input type="radio" name="is_hot" value="0" title="否" checked="checked"/>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">seo标题</label>
+			<div class="layui-input-inline">
+				<input type="text" name="seo_title" id="seo_title" placeholder="seo标题" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">seo关键词</label>
+			<div class="layui-input-inline">
+				<input type="text" name="seo_keys" id="seo_keys" placeholder="seo关键词" value="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">seo描述</label>
+			<div class="layui-input-inline">
+				<textarea name="seo_desc" id="seo_desc" class="layui-textarea" placeholder="seo描述"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/plugins/formvalidator.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/plugins/jquery.ajax.form.js"></script>
+<script>
+	var uploadUrl = "{:url('ajaxUploadImg')}",deleteImgUrl = "{:url('deleteImg')}";
+	layui.config({
+		base: '/static/manage/js/'
+	});
+	layui.use(['form','linkmenu'], function(){
+		var $ = layui.jquery;
+		$(".J_city_select").select({field : 'J_city_id',id : 'J_city_select'});
+		$("#name").on('blur',function(){
+			var city = $("#J_city_id").val(),area = $(this).val(),url = $(this).data('uri');
+			var param = {
+				city : city,
+				area : area
+			};
+			$.get(url,param,function(res){
+				if(res.code == 1)
+				{
+					//$("#lng").val(res.data.lng);
+					//$("#lat").val(res.data.lat);
+					$("#map").val(res.data.lng+','+res.data.lat);
+				}
+			});
+		});
+		$("#mark").on('click',function(){
+			var url = $(this).data('uri');
+			var map = $('#map').val();
+			var city = $("#J_city_id").val();
+			if(!map)
+			{
+				if(!city)
+				{
+					layer.msg('请选择城市',{icon:2});
+					return false;
+				}
+			}
+			url += '?map='+map+'&city='+city;
+			parent.layer.open(
+					{
+						type : 2,
+						title : '地图标注',
+						area : ['100%','100%'],
+						shade : 0.2,
+						content : url,
+						iframeAuto:true
+					}
+			);
+		});
+	});
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#name").formValidator({onshow:'请填写栏目名称',onfocus:'请填写栏目名称'}).inputValidator({min:1,onerror:'请填写名称'});
+	});
+	function submitForm(){
+		$("#info_form").ajaxForm({success:complate,dataType:'json'}).submit();
+	}
+	function complate(result){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		if(result.code == 1){
+			//parent.layer.close(index);
+			parent.layer.msg(result.msg,{icon:1,time:1500},function(){
+				parent.window.location.reload();
+			});
+		} else {
+			layer.msg(result.msg,{icon:2});
+		}
+	}
+</script>
+{/block}

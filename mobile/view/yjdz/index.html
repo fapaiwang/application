@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0168)http://www.17sucai.com/preview/67981/2013-12-05/jQueryCSS3%E5%88%86%E6%AD%A5%E9%AA%A4%E6%B3%A8%E5%86%8C%E8%A1%A8%E5%8D%95%E5%88%87%E6%8D%A2%E5%8A%A8%E7%94%BB/index.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<title></title>
+<link rel="stylesheet" media="screen" href="/dz/style.css">
+<style type="text/css">
+*{margin:0; padding:0;list-style-type:none;}
+</style>
+
+<script src="/ld/jquery.js" type="text/javascript"></script>
+<script src="/ld/jquery.inputbox.js" type="text/javascript"></script>
+<script src="/ld/jquery.ganged.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/ld/jquery.inputbox.css" type="text/css">
+
+
+</head>
+
+<body>
+ <style>
+.sb{width:100%!important;margin-bottom: 10px!important;}
+ .clear {
+	clear: both
+	}
+.RadioStyle input {
+	display: none
+	}
+.RadioStyle label {
+	border: 1px solid #CCC;
+	color: #666;
+	padding: 10px 20px;
+	line-height: 28px;
+	min-width: 200px;
+	text-align: center;
+	float: left;
+	margin: 2px;
+	border-radius: 4px
+	}
+.RadioStyle input:checked + label {
+	background: url(/dz/ico_checkon.svg) no-repeat right bottom;
+	border: 1px solid #00a4ff;
+	background-size: 30px 30px;
+	color: #00a4ff
+	}
+.RadioStyle input:disabled + label {
+	opacity: 0.7;
+	}
+
+ </style>
+<form action="{:url('Yjdz/tijiao')}" id="msform" method="post">
+	<!-- progressbar -->
+	<ul id="progressbar">
+		<li class="active">购房预算</li>
+		<li>地段选择</li>
+		<li>购房目的</li>
+	</ul>
+	<!-- fieldsets -->
+	<fieldset>
+		<h2 class="fs-title">房款总额</h2>
+		<h3 class="fs-subtitle">请拖拽下方滑块选择您的购房预算</h3>
+	
+		 <input min="300" max="1500" id="range" oninput="change()" type="range" value="1" style="text-align:center; width:100%; margin:0 auto"><br>
+		 <div style="height:34px;line-height:34px;width:100%;">
+		 	<div style="float:left;width:15%;">300</div>
+		 	<div style="float:left;width:15%;">500</div>
+		 	<div style="float:left;width:55%;">1000</div>
+		 	<div style="float:left;width:10%;">1500</div></div>
+      <div style="width:230px; margin:0 auto">购房预算：<input id="zonge"  name="zonge" type="number" style="border:none; font-size:36px; font-weight:bold; text-align:center; width:110px;padding:10px; color:#ff6600">万元</div>
+		
+		<input type="button" name="next" class="next action-button" value="下一步">
+	</fieldset>
+	<fieldset>
+		<h2 class="fs-title">地段选择</h2>
+		<h3 class="fs-subtitle">请选择您购房区域</h3>
+		
+
+
+
+
+<div id="test1" style="float:left; width:100%">
+<select id="province" name="province" style=" width: 100%; height: 45px;">
+  <option>---请选择---</option>
+</select>
+<select id="city" name="city" style="margin-top: 13px; width: 100%; height: 45px;">
+  <option>---请选择---</option>
+</select>
+<select id="country" name="area" style="margin-top: 13px; width: 100%; height: 45px;">
+  <option>---请选择---</option>
+</select>
+<script type="text/javascript">
+var num1; 
+var num2;
+var provinces=["北京","天津","河北"];
+var cities=[["北京市"],["天津市"],["石家庄市"]];
+var countires=[[["东城区","西城区","朝阳区","丰台区","石景山区","海淀区","门头沟区","房山区","通州区","顺义区","昌平区","大兴区","怀柔区","密云区","延庆区"]],[["河西区","河东区","河北区","和平区","东丽区","塘沽区","西青区","武清区","津南区","红桥区","蓟县","静海县","南开区","宁河县","汉沽区","大港区","北辰区","宝坻区"]],[["新华区","裕华区","长安区","桥东区","桥西区","辛集市","元氏县","藁城市","无极县","鹿泉市","深泽县","正定县","赞皇县","井陉矿区","井陉县","栾城县","行唐县","灵寿县","高邑县","赵县","晋州市","新乐市","平山县"]]];
+
+
+
+// var countires=[[["海淀区","朝阳区"]],[["和平区","南开区"]],[["新华区","裕华区","长安区"],["市南","市北"],["市中区","天桥区"],["文登市","乳山市"]]];
+$(function(){
+    for(var i=0;i<provinces.length;i++){
+    $("#province").append("<option>"+provinces[i]+"</option>");
+    }
+    $("#province").change(function(){
+        $("#city").children().not(":eq(0)").remove();
+        num1=$(this).children("option:selected").index();
+        var acity1=cities[num1-1];
+        for(var j=0;j<acity1.length;j++){
+        $("#city").append("<option>"+acity1[j]+"</option>");
+        }
+    $("#city").change(function(){
+        $("#country").children().not(":eq(0)").remove();
+        num2=$(this).children("option:selected").index();
+        var contries1=countires[num1-1][num2-1];
+        for( var z=0;z<contries1.length;z++){
+        $("#country").append("<option>"+contries1[z]+"</option>");
+        }
+        });
+        });
+    });
+</script>
+	 
+</div>
+
+
+
+
+
+
+
+
+
+
+		<input type="button" name="previous" class="previous action-button" value="上一步">
+		<input type="button" name="next" class="next action-button" value="下一步">
+	</fieldset>
+	<fieldset>
+		<h2 class="fs-title">购房目的</h2>
+		<h3 class="fs-subtitle">我们将会为您甄选优质好房</h3>
+		
+		
+		<div class="RadioStyle">
+    <div class="Block PaddingL">
+        <input type="radio" name="Storage" id="model1" value="改善型购房" checked/>
+        <label for="model1">改善型购房</label>
+        <input type="radio" name="Storage" id="model2" value="投资型购房" />
+        <label for="model2">投资型购房</label>
+        <input type="radio" name="Storage" id="model3" value="自住型购房" />
+        <label for="model3">自住型购房</label>
+       
+    </div>
+</div>
+		
+		
+		<div style="clear:both"></div>
+		
+		
+		
+		<input type="button" name="previous" class="previous action-button" value="上一步">
+		<!-- <input type="submit" name="submit" class="submit action-button" value="完成"> -->
+		<a href="javascript:;" class="submit action-button" rel="nofollow" id="sub_btn" style="padding-left:35px;padding-right:36px;font-size:13px;text-decoration:none;">完成</a>
+	</fieldset>
+</form>
+
+
+
+<script type="text/javascript" src="/dz/jquery.easing.min.js"></script>
+<script type="text/javascript" src="/dz/script.js"></script>
+  <script>
+      function change(){ 
+      var num=document.getElementById("range"); 
+      var location=document.getElementById("zonge"); 
+      location.value=num.value; 
+  } 
+  </script>
+
+<script src="xg/js/jquery.selectlist.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		
+
+        
+
+        $('#sub_btn').on('click',function(){
+
+            var user_name = $('#user_name').val(),mobile = $('#mobile').val(),sms_code = $('#sms_code').val(),
+
+                    send_sms = $('#send_sms').val(),reg = /^1[3456789][0-9]{9}$/;
+
+            if(!zonge)
+
+            {
+
+                layer.msg('请填写购房预算',{icon:2});
+
+                return false;
+
+            }else{
+
+                $('#msform').submit();
+
+            }
+
+
+
+        });
+
+        $('#msform').ajaxForm({success:complate,dataType:'json'});
+
+        function complate(result){
+
+            var index = parent.layer.getFrameIndex(window.name);
+
+            if(result.code == 1){
+
+                parent.layer.msg(result.msg, {icon:1});
+
+                parent.layer.close(index);
+
+            }else {
+
+                layer.msg(result.msg, {icon:2});
+
+            }
+
+        }
+
+
+		$('select').selectlist({
+			zIndex: 10,
+			width: 300,
+			height: 40
+		});		
+	})
+</script>
+
+</html>

@@ -1,0 +1,44 @@
+<div class="fangpai-footer">
+    <div class="footer-erweima">
+        <div class="footer-left">
+            <img src="{$site.weixin_qrcode}" alt="">
+            <div class="footer-left-saoyisao">
+                <p>扫一扫</p>
+                <p>关注我们</p>
+            </div>
+
+
+        </div>
+        <div class="footer-right">
+            <p>全国服务咨询热线:</p>
+            <p class="footer-phone">{$site.telphone}</p>
+            <p>地址：{$site.address}</p>
+        </div>
+    </div>
+    <div class="footer-line"></div>
+    <div class="footer-about">
+        <div class="footer-about-left">
+            {volist name='footer_nav' id='vo'}
+            <span><a href="$vo.url}">关于我们</a></span>|
+            {/volist}
+            <!--<span><a href="/single-aboutus.html">关于我们</a></span>|-->
+            <!--<span><a href="/single-contacts.html">联系我们</a></span>|-->
+            <!--<span><a href="/single-huiyuanquanyi.html">法拍房贷款</a></span>|-->
+            <!--<span><a href="/single-yonghuxieyi.html">用户注册协议</a></span>|-->
+            <!--<span><a href="/map/second.html?mod5=6">网站地图</a></span>-->
+        </div>
+        <div class="footer-about-right">
+            {$site.icp}
+        </div>
+    </div>
+    <div class="footer-line"></div>
+    <div class="footer-about">
+        <div class="footer-about-left">
+            <a href="javascript:;" style="text-decoration: none;color:#fff;">友情链接：</a>
+            {volist name='link' id='vo'}
+            <span><a href="{$vo.url}">{$vo.name}</a></span>
+            {/volist}
+        </div>
+    </div>
+
+</div>

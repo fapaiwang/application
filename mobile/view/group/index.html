@@ -1,0 +1,123 @@
+{extend name='public/layout' /}
+{block name='header'}
+<style>
+    .search-box{background: none;text-align:center;color:#fff;}
+    .search-box::before{background: none;}
+</style>
+<!-- header-top S-->
+<div class="header-top">
+    <header id="header" class="h-list-head">
+        <a href="javascript:;" class="go-back"></a>
+        <div class="search-box">
+            团购优惠
+        </div>
+        <a href="javascript:;">&nbsp;</a>
+    </header>
+</div>
+<div id="select_bg"></div>
+<!-- header-top E-->
+{/block}
+{block name='content'}
+<div class="main" style="background: #fff;padding-top:2.5rem;">
+    <!-- 团购列表 S-->
+    <div class="old-house house-show-box">
+        <ul id="lists" data-uri="{:url('Group/getGroupLists')}" data-total="{$total_page}">
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li>
+                <a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                    <div class="clearfix">
+                        <div class="pic">
+                            <img src="{:thumb($vo['img'],200,150)}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" />
+                        </div>
+                        <div class="intro-text">
+                            <h4>
+                                {$vo.house_title}
+                            </h4>
+                            <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price}</em>{:config('filter.house_price_unit')}</span></p>
+                            <p style="padding-top:10px;">
+                                <span class="time-remain" data-down="{$vo.end_time-time()}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="list-discount">
+                        <span>惠</span>{$vo.discount}
+                    </div>
+                </a>
+
+            </li>
+            {/volist}
+
+        </ul>
+        <div class="load-more">
+            {notempty name='pages'}
+            <a href="javascript:;" id="load-more">加载更多</a>
+            {else /}
+            <p>数据加载完成</p>
+            {/notempty}
+        </div>
+    </div>
+    <!--二手房项目细节 E-->
+
+    {include file='public/footer' /}
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <div class="pic">
+            <a href="{{d[i].url}}" title="{{d[i].title}}" class="clearfix">
+                <img src="{{d[i].img}}" alt="{{d[i].title}}" onerror="this.src='/static/images/nopic.jpg'" />
+            </a>
+        </div>
+        <div class="intro-text">
+            <h4>
+                <a href="{{d[i].url}}" title="{{d[i].house_title}}" class="clearfix">
+                    {{d[i].house_title}}
+                </a>
+            </h4>
+            <p class="price"><span>{{d[i].city}}</span><span class="price-num"><em>{{d[i].price}}{{d[i].end_time}}</em></span></p>
+            <p class="good">{{d[i].discount}}</p>
+            <p style="padding-top:10px;">
+                <span class="time-remain" data-down="{{d[i].end_time}}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+            </p>
+        </div>
+    </li>
+    {{# } }}
+
+</script>
+<script src="__STATIC__/js/layer/laytpl.js"></script>
+<script src="__JS__/search.js"></script>
+<script src="__JS__/getData.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#load-more').on('click',function(){
+            Lists.requestParam = {};
+            Lists.getData();
+        });
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,74 @@
+{extend name='public/layout' /}
+{block name='content'}
+<div class="main" style="padding-bottom:1.95rem;">
+    <!-- 新闻资讯 S-->
+    <div class="news">
+
+        <!-- 新闻资讯详情 S -->
+        <div class="news-detail">
+            <div class="head">
+                <h3>{$info.title}</h3>
+                <div class="ft">
+                    <span class="news-type">{empty name='info.come_from'}{$site.title}{else /}{$info.come_from}{/empty}</span>
+                    <span class="time">&nbsp;&nbsp;{$info.create_time|date='Y-m-d H:i'}</span>
+                </div>
+            </div>
+            <div class="art_desc">
+                {$info.info|raw}
+            </div>
+            {notempty name='house_info'}
+            <ul class="house-show-box">
+                <li>
+                    <a href="{$house_info.url}" title="{$house_info.title}">
+                        <div class="clearfix">
+                            <div class="pic">
+                                <img src="{$house_info.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$house_info.title}">
+                            </div>
+                            <div class="intro-text">
+                                <h4 class="saleing">
+                                    {$house_info.title}
+                                </h4>
+                                <p class="price"><span>{:getCityName($house_info['city'])}</span><span class="price-num"><em>{$house_info.price}</em>{$house_info.unit}</span></p>
+                                <p style="font-size:.65rem;margin-top:5px;">
+                                    <a href="tel:{$house_info.sale_phone.phone}{notempty name='house_info.sale_phone.extension'},{$house_info.sale_phone.extension}{/notempty}">{$house_info.sale_phone.phone}{notempty name='house_info.sale_phone.extension'}转{$house_info.sale_phone.extension}{/notempty}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            {/notempty}
+        </div>
+        <!-- 新闻资讯详情 E -->
+
+        <div class="news-list mt20">
+            <div class="title">
+                <h3>相关资讯</h3>
+            </div>
+            <!-- 新闻列表 && 2列 S -->
+            <div class="col-2">
+                <ul>
+                    {volist name='relation' id='vo'}
+                    <li>
+                        <a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            <span class="l_con ">
+                              <h4 class="art_tit">{$vo.title}</h4>
+                              <div class="ft">
+                                  <span class="news-type">{empty name='vo.come_from'}{$site.title}{else /}{$vo.come_from}{/empty}</span>
+                                  <span class="time">&nbsp;&nbsp;{$vo.create_time|date='Y-m-d'}</span>
+                              </div>
+                            </span>
+                            <span class="r_con">
+                              <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}" class="img">
+                            </span>
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+            <!-- 新闻列表 && 2列 E -->
+        </div>
+    </div>
+    <!-- 新闻资讯 E-->
+</div>
+{/block}

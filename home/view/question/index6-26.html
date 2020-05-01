@@ -1,0 +1,251 @@
+{extend name='public/layout' /}
+
+
+
+{block name='content'}
+
+<div class="searBar ">
+
+    <div class="comWidth clearfix">
+
+        <div class="sear_box fl">
+
+            <form action="{:url('House/index')}">
+
+                <div class="ipt_area fl">
+
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入楼盘名称" data-uri="{:url('Ajax/searchHouse')}" class="ipt">
+
+                    <span class="placeholder">输入楼盘名称</span>
+
+                    <ul id="search-box">
+
+                    </ul>
+
+                </div>
+
+                <div class="btn_area fl">
+
+                    <input type="submit" class="sbm_btn" value="搜索">
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <a href="{:url('Map/index')}" class="map_btn fr">地图找房</a>
+
+    </div>
+
+</div>
+
+<div class="comWidth">
+
+    <!-- 页面标识 S-->
+
+    <div class="page_tit position-bottom">
+
+        <a href="javascript:;">您的位置：</a>
+
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+
+        <a href="javascript:void(0);">问答</a>
+
+    </div>
+
+    <!-- 页面标识 E-->
+
+</div>
+
+<div class="question comWidth clearfix">
+
+    <div class="question-left">
+
+        <div class="question-pannel">
+
+            <a href="{:url('Question/index')}" {if condition='$answer eq 0'}class="active"{/if}>全部问题</a>
+
+            <a href="{:url('Question/index',['answer'=>1])}" {if condition='$answer eq 1'}class="active"{/if}>已回答</a>
+
+            <a href="{:url('Question/index',['answer'=>2])}" {if condition='$answer eq 2'}class="active"{/if}>待回答</a>
+
+        </div>
+
+        <ul class="question-lists">
+
+            <li>
+
+                <dl>
+
+                    <dd>标题</dd>
+
+                    <dd>状态</dd>
+
+                    <dd>回答</dd>
+
+                    <dd>更新时间</dd>
+
+                </dl>
+
+            </li>
+
+            {volist name='lists' id='vo'}
+
+            <li>
+
+                <dl>
+
+                    <dd>
+
+                        <a href="{:url('House/question',['house_id'=>$vo['house_id']])}" title="{$vo.title}" class="question-house-title">[{$vo.title}]</a>
+
+                        <a href="{:url('Question/detail',['id'=>$vo['id']])}" title="{$vo.content}">{$vo.content}</a>
+
+                    </dd>
+
+                    <dd>{if condition="$vo.reply_num eq 0"}<span class="wait-answer">待回答</span>{else /}<span class="answered">已回答</span>{/if}</dd>
+
+                    <dd>{$vo.reply_num}</dd>
+
+                    <dd>{:getTime($vo['create_time'],'day')}</dd>
+
+                </dl>
+
+            </li>
+
+            {/volist}
+
+        </ul>
+
+        {notempty name='pages'}
+
+        <div class="page_list clearfix">
+
+            {$pages|raw}
+
+        </div>
+
+        {/notempty}
+
+    </div>
+
+    <div class="question-right">
+
+        <div class="question-right-title">
+
+            <span>热门楼盘问答</span>
+
+        </div>
+
+        <ul class="question-right-lists clearfix">
+
+            {volist name='hot_question' id='vo'}
+
+            <li>
+
+                <a href="{:url('House/question',['house_id'=>$vo['id']])}" title="{$vo.title}问答">
+
+                    <dl>
+
+                        <dt><img src="{$vo.img}" alt="{$vo.title}" onerror="this.src='/static/images/nopic.jpg'"></dt>
+
+                        <dd class="question-house-title">{$vo.title}</dd>
+
+                        <dd>共有<span>{$vo.total}</span>条问答</dd>
+
+                    </dl>
+
+                </a>
+
+            </li>
+
+            {/volist}
+
+        </ul>
+
+    </div>
+
+</div>
+
+<script type="text/html" id="template">
+
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+
+    <li>
+
+        <a href="{{d[i].url}}" target="_blank">
+
+            <span>
+
+                <em>{{d[i].price}}{{d[i].unit}}</em>
+
+                 {{d[i].title}}
+
+            </span>
+
+            <span class="address">
+
+                {{d[i].address}}
+
+            </span>
+
+        </a>
+
+    </li>
+
+    {{# } }}
+
+</script>
+
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+
+<script>
+
+    $(function(){
+
+        $("#keyword").on('keyup click',function(e){
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+
+                if(result.code == 1)
+
+                {
+
+                    var gettpl = document.getElementById('template').innerHTML;
+
+                    laytpl(gettpl).render(result.data, function(html){
+
+                        $('#search-box').html(html);
+
+                    });
+
+                    box.show();
+
+                }else{
+
+                    box.hide();
+
+                }
+
+            });
+
+        });
+
+        $('body').on('click',function(){
+
+            $('#search-box').hide();
+
+        });
+
+    });
+
+</script>
+
+{/block}

@@ -1,0 +1,85 @@
+<style>
+
+    .follow-h-switch li{width:33.33%;text-align:center;display:inline-block;font-size:.7rem;height:1.77rem;line-height: 1.77rem;}
+
+    .follow-h-switch li.active a{color:#F54848;}
+
+    .house-show-box .intro-text .price-num{top:0;}
+
+    .btn{padding:0 .2rem;border:1px solid #999;color:#999;display:inline-block;margin-top:8px;margin-left:5px;}
+
+</style>
+
+<!-- 我的预约 -->
+
+<ul class="follow-h-switch">
+
+    <!-- <li {if condition='$action eq "index"'}class="active"{/if}>
+
+        <a href="{:url('user.subscribe_manage/index')}">新房</a>
+
+    </li> -->
+    <li {if condition='$action eq "second"'}class="active"{/if}>
+
+    <a href="{:url('user.subscribe_manage/second')}">法拍房</a>
+
+    </li>
+<!-- <li {if condition='$action eq "rental"'}class="active"{/if}>
+
+    <a href="{:url('user.subscribe_manage/rental')}">出租房</a>
+
+</li> -->
+
+</ul>
+
+<!-- 我的预约 -->
+
+
+
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('.delete').on('click',function(){
+
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = "{:url('delete')}";
+
+            var param = {
+
+                house_id : house_id,
+
+                model    : model
+
+            };
+
+            layer.confirm('您确定要取消关注么？', function(){
+
+                $.get(url,param,function(result){
+
+                    if(result.code == 1)
+
+                    {
+
+                        layer.msg(result.msg,{icon:1},function(){
+
+                            window.location.reload();
+
+                        });
+
+                    }else{
+
+                        layer.msg(result.msg,{icon:2});
+
+                    }
+
+                });
+
+            });
+
+        });
+
+    });
+
+</script>

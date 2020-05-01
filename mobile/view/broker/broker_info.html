@@ -1,0 +1,123 @@
+<style>
+
+    .page_list{background-color: #fff;padding-bottom:1rem;}
+
+</style>
+
+<div class="agent-survey" style="background:#fff;color:#000;border-top:1px solid #eee;height:125px;">
+
+    <div class="pic"><img src="{:getAvatar($userInfo['id'],90)}" alt="{$userInfo.nick_name}"></div>
+
+    <div class="survey" style="float:left;height:90px;">
+
+       
+<span style="font-size:18px;"><b>{$userInfo.nick_name}</b></span>服务专员
+
+
+<div class="desc_box" style="width:190px;float:left;line-height:25px;height:50px;">
+<p><img src="../static/mobile/images/icon/xin.png" style="width:21px;height:19px;">好评率：<span style="color:red;">100%</span></p>
+                    <p>
+
+                            <span>从业年限：</span>
+{php}$userinfoid=$userInfo['id'];{/php}
+                    {fang:lists table='user_info' where='user_id=$userinfoid' field='history_complate'  id='answer'}
+                            <span>{$answer.history_complate}年</span>
+{/fang:lists}
+                            
+                       
+
+                    </p>
+                    
+
+                    </div>
+                    <!-- <div style="float:right;line-height:20px;height:20px;">
+                        <a href="">
+                            <img src="../static/mobile/images/icon/xiaoxi.png" style="width:40px;height:40px;">
+                            <img src="../static/mobile/images/icon/dianhua.png" style="width:40px;height:40px;">
+                        </a>
+                    </div> -->
+        <!-- <h3>{$userInfo.nick_name}</h3>
+        <p>
+
+            所属公司1：
+
+            <em>{$userInfo['userInfo']['company']}</em>
+
+        </p>
+
+        <p>服务范围2：<em>
+
+
+
+            {php}$area=array_filter(explode(',',$userInfo['userInfo']['service_area']));{/php}
+
+            {volist name='area' id='val'}
+
+            {:getCityName($val,'-')}
+
+            {/volist}
+
+        </em></p>
+
+        <p>
+
+            {php}$tags=array_filter(explode(',',$userInfo['userInfo']['tags']));{/php}
+
+            {volist name='tags' id='tag'}
+
+            <em>{:getLinkMenuName(13,$tag)}</em>
+
+            {/volist}
+
+        </p> -->
+
+    </div>
+
+    <ul class="star-level clearfix">
+
+        <!-- {for start='1' end='6'}
+
+        <li {if condition='$i elt $userInfo["userInfo"]["point"]'}class="on"{/if}></li>
+
+        {/for} -->
+
+      <!--     {if condition="$userInfo.id eq 0"}
+                           <a href="{:url('Login/index')}">
+                           <img src="/static/images/xx.png" style="width:35px;height:35px;"></a>
+                           {else}
+        <a  href="{$userInfo.online_consulting}">
+        <img src="/static/images/xx.png" style="width:35px;height:35px;"></a>
+        {/if} -->
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {if condition="$userInfo.id eq 0"}
+                           <a href="{:url('Login/index')}">
+                           <img src="/static/images/xx.png" style="width:35px;height:35px;"></a>
+                           {else}
+                           <a href="{$userInfo.online_consulting}">
+                            <img src="/static/images/xx.png" style="width:35px;height:35px;"></a> 
+                             {/if}
+        <a href="tel:{$userInfo.mobile}">
+        <img src="/static/images/dh.png" style="width:35px;height:35px;">
+        </a>
+
+    </ul>
+
+
+</div>
+
+<p style="width:100%;background:#fff;padding-left:3.5rem;padding-right:1rem;white-space:normal; word-break:break-all; word-wrap:break-word">个人介绍：{$userInfo.description}</p>

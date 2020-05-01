@@ -1,0 +1,56 @@
+<div class="comWidth clearfix">
+    <div class="sear_box fl">
+        <form action="{:url('House/index')}">
+            <div class="ipt_area fl">
+                <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入楼盘名称" data-uri="{:url('Ajax/searchHouse')}" class="ipt">
+                <span class="placeholder">输入楼盘名称</span>
+                <ul id="search-box">
+                </ul>
+            </div>
+            <div class="btn_area fl">
+                <input type="submit" class="sbm_btn" value="搜索">
+            </div>
+        </form>
+    </div>
+    <a href="{:url('Map/index')}" class="map_btn fr">地图找房</a>
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                <em>{{d[i].price}}{{d[i].unit}}</em>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script>
+    $(function(){
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    });
+</script>

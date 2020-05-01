@@ -1,0 +1,197 @@
+{extend name='public/layout' /}
+{block name='header'}{/block}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<div class="main">
+    <!-- 返回键 S-->
+    <a href="javascript:;" class="detail-go-back"></a>
+    <!-- 返回键 E-->
+    <!-- 房子图片滚动展示 S-->
+    <div class="scroll-roomPic-box">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {notempty name='info.file'}
+                {volist name='info.file' id='vo'}
+                <div class="swiper-slide">
+                    <img src="{$vo.url}" alt="{$vo.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/volist}
+                {else /}
+                <div class="swiper-slide">
+                    <img src="{$info.img}" alt="{$info.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/notempty}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 房子图片滚动展示 E-->
+
+    <!-- 房子细节介绍 S-->
+    <div class="house-detail-intro">
+        <h3>{$info.title}</h3>
+        <ul class="price-house-area">
+            <li>
+                <p>团购价</p>
+                <em>{$info.price}{:config('filter.house_price_unit')}</em>
+            </li>
+            <li>
+                <p>均价</p>
+                <em>{$info.old_price}{:config('filter.house_price_unit')}</em>
+            </li>
+            <li>
+                <p>区域</p>
+                <em>{:getCityName($info['city'])}</em>
+            </li>
+        </ul>
+        <ul class="intro-small-detail">
+            <li class="after-three"><a href="{:url('House/detail',['id'=>$info['house_id']])}"><span>楼盘名称：<em>{$info.house_title}</em></span></a></li>
+            <li class="after-three"><a href="javascript:;" rel="nofollow"><span>报名人数：<em>已有 {$info.sign_num} 人报名</em></span></a></li>
+            <li class="after-three"><a href="javascript:;" rel="nofollow"><span>剩余时间：
+                <em>
+                    <span class="time-remain" data-down="{$info.end_time-time()}"><i class="icon iconfont icon-clock text20"></i> <i class="text20" time_id="d">0</i> 天 <i class="text20" time_id="h">0</i> 小时 <i class="text20" time_id="m">0</i> 分钟  <i class="text20" time_id="s">0</i> 秒</span>
+                </em>
+            </span></a></li>
+            <li class="after-three"><a href="javascript:;" rel="nofollow"><span>楼盘地址：<em>{$info.address}</em></span></a></li>
+        </ul>
+    </div>
+    <div class="group-box">
+        <div class="group-phone">
+            <h2><a href="tel:{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'},{$info.sale_phone.extension}{/notempty}">{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'}转{$info.sale_phone.extension}{/notempty}</a></h2>
+            <p>号码加密拨打，放心了解详情</p>
+        </div>
+        <div class="group-call">
+            <a href="tel:{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'},{$info.sale_phone.extension}{/notempty}">电话咨询</a>
+        </div>
+    </div>
+    <!-- 房子细节介绍 E-->
+    <div class="discount-box">
+        <div class="discount-cont">
+            <h4 class="discount-title">免费专车看房</h4>
+            <p class="discount-text">{$info.discount}</p>
+        </div>
+        <div class="discount-info">
+            <span class="btn dialog" data-id="{$info.house_id}" data-model="house" data-type="4" data-uri="{:url('Dialog/subscribe')}">团购报名</span>
+        </div>
+    </div>
+    {notempty name='info.special'}
+    <div class="house-res">
+        <h2>楼盘特色</h2>
+        <div class="info" id="special">
+            {$info.special|raw}
+        </div>
+    </div>
+    {/notempty}
+    <!-- 房源描述 S-->
+    <div class="house-res">
+        <h2>项目介绍</h2>
+        <div class="info" id="info">
+            {$info.info|raw}
+        </div>
+    </div>
+    <!-- 房源描述 E-->
+
+    <!-- 位置周边 S-->
+    <div class="per-pos">
+        <h2>位置周边</h2>
+        {include file='public/peitao' /}
+    </div>
+    <!-- 位置周边 E-->
+
+    <!-- 猜你喜欢 S-->
+    <div class="guess-love-room">
+        <h2>猜你喜欢</h2>
+        <div class="old-house house-show-box">
+            <ul>
+                {volist name='relation_group' id='vo'}
+                <li>
+                    <div class="pic">
+                        <a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                        </a>
+                    </div>
+                    <div class="intro-text">
+                        <h4>
+                            <a href="{:url('Group/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                {$vo.title}
+                            </a>
+                        </h4>
+                        <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price}</em>{:config('filter.house_price_unit')}</span></p>
+                        <p class="good">
+                            {$vo.discount}
+                        </p>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <a href="{:url('Group/index')}" class="more-house-btn">更多团购</a>
+    </div>
+    <!-- 猜你喜欢 E-->
+    <!-- 白块  S-->
+    <div class="white-block"></div>
+    <!-- 白块  E-->
+
+    <!-- 导航行为 S-->
+    <div class="nav-act">
+        <a style="width:50%;" href="tel:{notempty name='info.sale_phone.phone'}{$info.sale_phone.phone}{notempty name='info.sale_phone.extension'},{$info.sale_phone.extension}{/notempty}{else /}{$site.telphone}{/notempty}" class="call-tel">拨打电话</a>
+        <a style="width:50%;" href="javascript:;" class="order-l-house dialog" data-id="{$info.house_id}" data-model="house" data-type="4" data-uri="{:url('Dialog/subscribe')}">我要报名</a>
+    </div>
+    <!-- 导航行为 E-->
+
+
+    {include file='public/footer' /}
+</div>
+<style>
+    a{overflow: visible;}
+</style>
+<script src="__JS__/swiper.min.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/subscribe.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        loop : true,
+        autoplay: 4000,//可选选项，自动滑动
+        initialSlide :0,
+        pagination : '.swiper-pagination',
+        paginationType: 'fraction'
+    });
+    $(function(){
+       $('#expand').on('click',function(){
+           if($(this).hasClass('expand'))
+           {
+               $(this).removeClass('expand').text('展开');
+               $('#info').css({'overflow':'hidden','height':'8rem'});
+           }else{
+               $(this).addClass('expand').text('收起');
+               $('#info').css({'overflow':'visible','height':'auto'});
+           }
+       });
+        setTimeout(takeCount,1000);
+    });
+    function takeCount() {
+        setTimeout("takeCount()", 1000);
+        $(".time-remain").each(function(){
+            var obj = $(this);
+            var tms = obj.data("down");
+            if (tms>0) {
+                tms = parseInt(tms)-1;
+                var days = Math.floor(tms / (1 * 60 * 60 * 24));
+                var hours = Math.floor(tms / (1 * 60 * 60)) % 24;
+                var minutes = Math.floor(tms / (1 * 60)) % 60;
+                var seconds = Math.floor(tms / 1) % 60;
+
+                if (days < 0) days = 0;
+                if (hours < 0) hours = 0;
+                if (minutes < 0) minutes = 0;
+                if (seconds < 0) seconds = 0;
+                obj.find("[time_id='d']").html(days);
+                obj.find("[time_id='h']").html(hours);
+                obj.find("[time_id='m']").html(minutes);
+                obj.find("[time_id='s']").html(seconds);
+                obj.data("down",tms);
+            }
+        });
+    }
+</script>
+{/block}

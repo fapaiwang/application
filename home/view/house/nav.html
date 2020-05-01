@@ -1,0 +1,63 @@
+{php}$sale_status = getLinkMenuCache(1);{/php}
+<div class="head">
+    <div class="comWidth clearfix">
+        <h2>{$info.title}</h2>
+        <p class="sale_state house-status-{$info['sale_status']}">{$sale_status[$info['sale_status']]['name']}</p>
+        <ul class="label_list">
+            {php}$tags = array_filter(explode(',',$info['tags_id']));{/php}
+            {notempty name='tags'}
+            {volist name='tags' key='n' id='val'}
+            <li class="item ">{:getLinkMenuName(3,$val)}</li>
+            {/volist}
+            {/notempty}
+        </ul>
+        <span class="collect_btn follow" data-id="{$info.id}" data-model="house" data-uri="{:url('Api/follow')}">关注楼盘</span>
+    </div>
+</div>
+<div class="sub_nav">
+    <div class="comWidth clearfix">
+        <ul>
+            <li><a href="{:url('House/detail',['id'=>$info['id']])}" title="{$info.title}">首页</a></li>
+            <li><a href="{:url('House/news',['house_id'=>$info['id']])}" title="{$info.title}楼盘动态" {if condition='$action eq "news"'}class="active"{/if}>楼盘动态</a></li>
+            <li><a href="{:url('House/room',['house_id'=>$info['id']])}" title="{$info.title}在售户型" {if condition='$action eq "room" or $action eq "roomdetail"'}class="active"{/if}>在售户型</a></li>
+            <li><a href="{:url('House/question',['house_id'=>$info['id']])}" title="{$info.title}用户问答" {if condition='$action eq "question" or $action eq "questiondetail"'}class="active"{/if}>用户问答</a></li>
+            {notempty name='info.pano_url'}<li><a href="{:url('House/pano',['house_id'=>$info['id']])}" title="{$info.title}全景相册" {if condition='$action eq "pano"'}class="active"{/if}>全景看房</a></li>{/notempty}
+            <li><a href="{:url('House/photo',['house_id'=>$info['id']])}" title="{$info.title}楼盘相册" {if condition='$action eq "photo"'}class="active"{/if}>楼盘相册</a></li>
+            <li><a href="{:url('House/build',['house_id'=>$info['id']])}" title="{$info.title}楼栋信息" {if condition='$action eq "build"'}class="active"{/if}>楼栋信息</a></li>
+            <li><a href="{:url('House/info',['house_id'=>$info['id']])}" title="{$info.title}楼盘详情" {if condition='$action eq "info"'}class="active"{/if}>楼盘详情</a></li>
+            <li><a href="{:url('House/comment',['house_id'=>$info['id']])}" title="{$info.title}楼盘点评" {if condition='$action eq "comment"'}class="active"{/if}>楼盘点评</a></li>
+            <li><a href="{:url('House/support',['house_id'=>$info['id']])}" title="{$info.title}周边配套" {if condition='$action eq "support"'}class="active"{/if}>周边配套</a></li>
+        </ul>
+    </div>
+</div>
+{if condition="getSettingCache('site','red_packet') eq 1 and $info.red_packet gt 0"}
+<div class="hb-right J_dialog"  data-id="{$info.id}" data-model="house" data-type="3" data-uri="{:url('Dialog/subscribe')}">
+    <p class="hb-p1">最高<strong>{$info.red_packet}</strong>元</p>
+    <p class="hb-p2">买新房 领红包 人人有份</p>
+    <div class="detailPopClose"></div>
+</div>
+<script>
+    $(function(){
+        $(".detailPopClose").on('click',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            $(this).parent().hide();
+        });
+        $('.J_dialog').on('click',function(){
+            var me=$(this),w = 750,h = 400,house_id=me.data('id'),model = me.data('model'),type = me.data('type'),url = me.data('uri');
+            url = url + '?house_id='+house_id+'&type='+type+'&model='+model;
+            layer.open({
+                type: 2,
+                title: false,
+                fix:true,
+                move:false,
+                area: [w+'px', h+'px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: url
+            });
+        });
+    });
+</script>
+{/if}

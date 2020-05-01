@@ -1,0 +1,115 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('School/editDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>所属区域</label>
+                    <input type="hidden" name="city" id="J_city_id" value="" />
+                    {php}$province_id = getProvinceIdByAreaId($info['city']);{/php}
+                    <div class="layui-input-block">
+                        <select name="" lay-filter="province" id="province" data-uri="{:url('City/ajaxGetchilds')}" data-level="2">
+                            <option value="0">--请选择--</option>
+                            {volist name=':getProvinceLists()' id='vo'}
+                            <option value="{$vo.id}" {if condition="$vo.id eq $province_id"}selected="selected"{/if}>{$vo.name}</option>
+                            {/volist}
+                        </select>
+                        <select class="J_city_select mr10" lay-filter="J_city_select" data-pid="0" data-uri="{:url('City/ajaxGetchilds',['province_id'=>$province_id])}" data-selected="{:getCitySpidById($info['city'])}">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>学校名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" placeholder="学校名称" value="{$info.title}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学校地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="address" id="address" placeholder="学校地址" value="{$info.address}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学校性质</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nature" id="nature" placeholder="例：公立学校" value="{$info.nature}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学校等级</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="grade" id="grade" placeholder="例：省重点中学" value="{$info.grade}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">地图坐标 </label>
+                        <div class="layui-input-inline" style="width:200px;">
+                            <input type="text" class="layui-input" name="map" id="map" placeholder="115.345,22.1349"  autocomplete="off" value="{$info.lng},{$info.lat}" >
+                        </div>
+                        <div class="layui-input-inline">
+                            <button type="button" id="mark" data-autouri="{:addon_url('map://Map/getLocationByAddress')}" data-uri="{:addon_url('map://Map/updateLocation')}" class="layui-btn">标注位置</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>类型</label>
+                    <div class="layui-input-block">
+                        {:getLinkMenu(22,'type','radio',$info['type'])}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">缩略图</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <input type="hidden" name="img" value="{$info.img}" id="img_txt">
+                            <button type="button" class="layui-btn" id="img">上传图片</button>
+                            <div id="img_preview">
+                                {notempty name='info.img'}
+                                <img class='layui-upload-img' src="{$info.img}" alt="" width="100" />
+                                <a href='javascript:;' data-text='img_txt' data-src='{$info.img}' class='deleteImg layui-btn layui-btn-xs layui-btn-danger'>删除</a>
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">介绍</label>
+                    <div class="layui-input-block">
+                        <script id="info" name="info" type="text/plain">{$info.info|raw}</script>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <input type="hidden" name="id" id="id" value="{$info.id}" />
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+<input type="hidden" id="uploadUrl" value="{:url('School/ajaxUploadImg')}">
+<input type="hidden" id="deleteUrl" value="{:url('School/deleteImg')}">
+{:hook('ueditor',['id'=>'info'])}
+<script src="__JS__/option.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','upload'], function(){
+        var $ = layui.jquery,form = layui.form,upload = layui.upload;
+        //自定义验证规则
+        form.verify({
+            title : function (value) {
+                if(value.length < 2){
+                    return '请填写学校名称,最少2个字符'
+                }
+            }
+        });
+    });
+</script>
+{/block}

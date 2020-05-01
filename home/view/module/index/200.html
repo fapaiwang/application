@@ -1,0 +1,124 @@
+<div class="topBar">
+        <div class="comWidth clearfix">
+            <div class="logo fl">
+                <a href="{:url('Index/index')}" title="{$site.title}">
+                    <img src="{$site.pc_logo_white}" alt="{$site.title}" />
+                </a>
+            </div>
+            <div class="fl sele_city">
+                <a href="javascript:;"  class="sele_city_btn">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
+                <div class="city_list clearfix">
+                    <i class="city-close">关闭</i>
+                  
+                    {volist name='top_nav_city.city' id='vo'}
+                    <dl class="clearfix">
+                        <dt class="bold">{$key}</dt>
+                        {volist name='vo' id='val'}
+                        <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" title="{$val.name}">{$val.name}</a></dd>
+                        {/volist}
+                    </dl>
+                    {/volist}
+                 
+                </div>
+            </div>
+            <div class="navBar fl">
+                <ul class="nav_list fl">
+                    {volist name='menu' id='vo'}
+                    {if condition='$vo.pos eq 1'}
+                    <li {if condition="$vo['model'] eq $cur_url"}class="active"{/if}>
+                    <a href="{$vo['url']}" title="{$vo.title}"  target="{$vo.open_type}">{$vo.title}</a>
+                    {present name="vo['_child']"}
+                    <ul>
+                        {volist name="vo['_child']" id="val"}
+                        <li><a href="{$val.url}" title="{$val.title}" target="{$val.open_type}">{$val.title}</a></li>
+                        {/volist}
+                    </ul>
+                    {/present}
+                </li>
+                    {/if}
+                    {/volist}
+                </ul>
+            </div>
+            <div class="log_link fr">
+                {notempty name='userInfo'}
+                <!-- 已登录状态 -->
+                <div class="loged">
+                    <div class="user_info">
+                        <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                        <span class="name">{:hideStr($userInfo['nick_name'])}</span>
+                    </div>
+                    <div class="slide_tog" style="display:none;">
+                        <a rel="nofollow" href="{:url('user.index/index')}">用户中心</a>
+                        <a rel="nofollow" href="{:url('Login/logout')}">退出登录</a>
+                    </div>
+                </div>
+                {else /}
+                <!-- 未登录状态 -->
+                <div class="not_log">
+                    <a rel="nofollow" href="{:url('Login/index')}">登录</a>
+                    /
+                    <a rel="nofollow" href="{:url('Login/register')}">注册</a>
+                </div>
+                {/notempty}
+            </div>
+        </div>
+    </div>
+    <!-- banner S -->
+    <div class="banner" >
+        <div class="banner-2">
+            <script type="text/javascript" src="/poster/index.html?id=1"></script>
+			
+			
+			
+			
+            <div class="search-box" style="height:300px; top:100px">
+                <div class="opacity"></div>
+				<div style="width:560px; height:150px; margin:0 auto;position: absolute;top:0px;color:#fff;z-index: 999;">
+			
+			
+			
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr style="height:70px; text-align:center;font-size:16px">
+    <td width="33.3%"><span style="font-size:36px;color:#fff352;margin-right: 5px;">300</span>套</td>
+    <td width="33.3%"><span style="font-size:36px;color:#fff352;margin-right: 5px;">50</span>套</td>
+    <td width="33.3%"><span style="font-size:36px;color:#fff352;margin-right: 5px;">10</span>套</td>
+  </tr>
+  
+  <tr style="height:70px; text-align:center; font-size:16px">
+    <td>即将拍卖</td>
+    <td>正在进行</td>
+    <td>今日新增</td>
+  </tr>
+
+</table>
+
+			
+			
+			
+			
+			</div>
+                <div class="search-content" style="top:150px">
+                    <div class="search-type">
+                        <a href="javascript:;" class="active" data-uri="{:url('House/index')}">法拍房源</a>
+                        <a href="javascript:;" data-uri="{:url('Second/index')}">国有资产</a>
+                        <a href="javascript:;" data-uri="{:url('Rental/index')}">涉诉房产</a>
+                        <a href="javascript:;" data-uri="{:url('Estate/index')}">社会委托</a>
+                    </div>
+                    <div class="search-input clearfix">
+                        <form action="{:url('House/index')}" method="get" id="form">
+                            <input type="text" name="keyword" class="search-input-text fl" placeholder="输入关键词搜索">
+                            <a href="javascript:;" class="search-btn fl">搜索</a>
+                        </form>
+                    </div>
+                    <div class="search-keyword">
+                        <span>热门搜索：</span>
+                        {fang:lists table='link' filed='url,name' where='status=1 and cate_id=2' order='ordid asc,id desc' limit='6' id='data'}
+                        <a href="{$data.url}" title="{$data.name}" target="_blank">{$data.name}</a>
+                        {/fang:lists}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- banner E -->

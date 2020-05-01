@@ -1,0 +1,116 @@
+<!-- 写字楼 S -->
+            <div class="build_office cm_wrap">
+                <div class="head clearfix">
+                    <h2 class="fl icon-office margin-right-120">写字楼</h2>
+                    <ul class="r_nav fl">
+                        {volist name=':getLinkMenuCache(15)' id='vo'}
+                        <li>
+                            <a href="{:url('OfficeRental/index')}?type={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                            <div class="b_l"></div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="content clearfix">
+                    <!-- 写字楼筛选条件 S-->
+                    <div class="l_box fl">
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">区域</li>
+                            <li class="filter-val">
+                                {volist name='area' id='vo' offset='0' length='6'}
+                                <a href="{:url('OfficeRental/index')}?area={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='area' id='vo' offset='6'}
+                                <a href="{:url('OfficeRental/index')}?area={$vo.id}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">面积</li>
+                            <li class="filter-val">
+                                {php}$office_acreage = getBussinessCondition('office_acreage');{/php}
+                                {volist name="office_acreage" id="vo" offset='0' length='5'}
+                                <a href="{:url('OfficeRental/index')}?acreage={$key}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name="office_acreage" id="vo" offset='5'}
+                                <a href="{:url('OfficeRental/index')}?acreage={$key}" title="{$vo.name}" target="_blank">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">价格</li>
+                            <li class="filter-val">
+                                {php}$office_price = getBussinessCondition('office_rental_price');{/php}
+                                {volist name='office_price' id='vo' length='4'}
+                                <a href="{:url('OfficeRental/index')}?price={$key}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='office_price' id='vo' offset='4'}
+                                <a href="{:url('OfficeRental/index')}?price={$key}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                        <ul class="filter-row">
+                            <li class="filter-row-title iconfont">特色</li>
+                            <li class="filter-val">
+                                {php}$office_tags = getLinkMenuCache(16);{/php}
+                                {volist name='office_tags' id='vo' length='6'}
+                                <a href="{:url('OfficeRental/index')}?tags={$vo.id}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                            <li class="filter-more">
+                                {volist name='office_tags' id='vo' offset='6'}
+                                <a href="{:url('OfficeRental/index')}?tags={$vo.id}" target="_blank" title="{$vo.name}">{$vo.name}</a>
+                                {/volist}
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 写字楼筛选条件 E-->
+                    <!-- 写字楼列表 S -->
+                    <div class="c_box build_list fl">
+                        <div>
+                            <ul class="clearfix">
+                                {fang:position table='office_rental' posid='8' field='t.id,t.title,t.img,t.city,t.price' where="t.timeout > $time and city in ($city_all_child)" limit='6' id='vo'}
+                            <li>
+                                <a href="{:url('OfficeRental/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
+									<span class="img">
+										<img src="__IMG__/nopic.jpg" data-original="{:thumb($vo['img'],200,140)}" class="lazy" width="200" height="140" alt="{$vo.title}">
+										<span class="img_ft">
+											<span class="txt_box clearfix">
+												<span class="tit fl">{$vo.title}</span>
+											</span>
+											<span class="tit_bg"></span>
+										</span>
+									</span>
+									<span class="ft clearfix">
+										<span class="fl area">{:getCityName($vo['city'])}</span>
+										<span class="fr price">{$vo.price}{if condition='$vo.price gt 0'}{:config('filter.rental_price_unit')}{/if}</span>
+									</span>
+                                </a>
+                            </li>
+                            {/fang:position}
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- 写字楼列表 E -->
+                    <!-- 写字楼出售 S-->
+                    <div class="r_box fr">
+                        <div class="sct_item buy_way">
+                            <h3>写字楼出售</h3>
+                            <ul class="list office-list">
+                                {fang:lists table='office' field='id,title,price' where="status = 1 and timeout > $time and city in ($city_all_child)" order='ordid asc,id desc' limit='12' id='vo'}
+                                <li class="clearfix"><span>{$vo.price|raw}</span><a href="{:url('Office/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">{$vo.title}</a></li>
+                                {/fang:lists}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 写字楼出售 E-->
+                </div>
+            </div>
+            <!-- 写字楼 E -->

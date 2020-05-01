@@ -1,0 +1,168 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<div class="searBar ">
+    <div class="comWidth clearfix">
+        <div class="sear_box fl">
+            <form action="{:url('House/index')}">
+                <div class="ipt_area fl">
+                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入楼盘名称" data-uri="{:url('Ajax/searchHouse')}" class="ipt">
+                    <span class="placeholder">输入楼盘名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area fl">
+                    <input type="submit" class="sbm_btn" value="搜索">
+                </div>
+            </form>
+        </div>
+        <a href="{:url('Map/index')}" class="map_btn fr">地图找房</a>
+    </div>
+</div>
+<div class="comWidth">
+    <!-- 页面标识 S-->
+    <div class="page_tit position-bottom">
+        <a href="javascript:;">您的位置：</a>
+        <a href="{:url('Index/index')}" title="{$site.title}">首页</a> &gt;
+        <a href="{:url('Question/index')}">问答</a>
+    </div>
+    <!-- 页面标识 E-->
+</div>
+<div class="question comWidth clearfix">
+    <div class="question-left">
+        <div class="ask_show01">
+            <div class="ask_show01_n1">
+                <h2>{$info.title}问题</h2>
+                <p>{notempty name='info.user_name'}提问者：{$info.user_name} |{/notempty} 浏览次数 {$info.hits} 次 | {$info.create_time|date='Y-m-d H:i:s'}</p>
+            </div>
+            <div class="ask_show01_n2">
+                <div class="ask_info">
+                    {$info.content}
+                </div>
+                <div class="ask_house">
+                    <span>相关楼盘:</span><a title="{$info.title}" href="{:url('House/detail',['id'=>$info['house_id']])}">{$info.title}</a>
+                </div>
+                <h2><a href="javascript:;" class="but36 myanswer">我来回答</a></h2>
+                <div id="ask_answer">
+                    {:token()}
+                    <input type="hidden" name="question_id" id="question_id" value="{$info.id}">
+                    <p><textarea class="inp09" name="content" id="content" placeholder="请在这输入您要回答的内容" cols="45" rows="5"></textarea></p>
+                    <p class="clearfix" style="text-align:right;"><a id="answerBut" data-uri="{:url('Api/answer')}" href="javascript:;" class="submit-btn answer-btn">提交</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="ask_show02">
+            <h1>更多网友回答：(共<span class="question-answer-number">{$answer->total()}</span>条)</h1>
+            {volist name='answer' id='vo'}
+            <div class="ask_show03 clearfix">
+                <span class="ask_show03_img"><a href="{:url('Broker/second',['id'=>$vo['broker_id']])}" target="_blank"><img alt="whyshl" src="{:getAvatar($vo['broker_id'],90)}" onerror="this.src='/static/images/nopic.jpg'" style="display: inline;" width="52" height="52"></a></span>
+                <div class="ask_show03_t">
+                    <h2><span class="ask_show03_t_s1">{$vo.create_time|date='Y-m-d H:i'}</span>回答者：<span class="org04"><a target="_blank" href="{:url('Broker/second',['id'=>$vo['broker_id']])}" title="{$vo.broker_name}">{$vo.broker_name}</a></span></h2>
+                    <div><pre>{$vo.content}</pre></div>
+                </div>
+            </div>
+            {/volist}
+            {notempty name='pages'}
+            <div class="page_list clearfix">
+                {$pages|raw}
+            </div>
+            {/notempty}
+        </div>
+        <div class="ask_show04">
+            <h1 class="ask_title"><span>相关问答</span><span class="more"><a href="{:url('Question/index')}">更多</a></span></h1>
+            <ul>
+                {volist name='relation' id='vo'}
+                <li><a title="{$vo.content}" href="{:url('Question/detail',['id'=>$vo['id']])}">{$vo.content}</a></li>
+                {/volist}
+            </ul>
+        </div>
+
+    </div>
+    <div class="question-right">
+        <div class="question-right-title">
+            <span>热门楼盘问答</span>
+        </div>
+        <ul class="question-right-lists clearfix">
+            {volist name='hot_question' id='vo'}
+            <li>
+                <a href="{:url('House/question',['house_id'=>$vo['id']])}" title="{$vo.title}问答">
+                    <dl>
+                        <dt><img src="{$vo.img}" alt="{$vo.title}" onerror="this.src='/static/images/nopic.jpg'"></dt>
+                        <dd class="question-house-title">{$vo.title}</dd>
+                        <dd>共有<span>{$vo.total}</span>条问答</dd>
+                    </dl>
+                </a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                <em>{{d[i].price}}{{d[i].unit}}</em>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script>
+    $(function(){
+
+        $('.myanswer').click(function  (argument) {
+            $('#ask_answer').slideToggle(100);
+        });
+        $(".answer-btn").on('click',function(){
+            var content = $("#content").val(),question_id = $("#question_id").val(),url = $(this).data('uri'),
+                    token = $("input[name='__token__']").val();
+            if(!content){
+                layer.msg('请填写您的回答内容',{icon:2});
+            }else{
+                $.post(url,{content:content,question_id:question_id,token:token},function(result){
+                    if(result.code == 1)
+                    {
+                        $("#content").val('');
+                        layer.msg('回答提交成功',{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            }
+        });
+    })
+</script>
+<script>
+    $(function(){
+        $("#keyword").on('keyup click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
+            $.get(url,{keyword: $.trim(keyword)},function(result){
+                if(result.code == 1)
+                {
+                    var gettpl = document.getElementById('template').innerHTML;
+                    laytpl(gettpl).render(result.data, function(html){
+                        $('#search-box').html(html);
+                    });
+                    box.show();
+                }else{
+                    box.hide();
+                }
+            });
+        });
+        $('body').on('click',function(){
+            $('#search-box').hide();
+        });
+    });
+</script>
+{/block}

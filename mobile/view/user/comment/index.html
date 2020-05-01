@@ -1,0 +1,61 @@
+{extend name='user/public/layout' /}
+{block name='content'}
+<div class="main" style="background: none;">
+    <!-- 点评列表 S-->
+    <div class="comment-list">
+        <ul class="item">
+            {volist name='lists' id='vo' empty='暂无数据'}
+            <li class="clearfix">
+                <div class="pic fl"><img src="{:getAvatar($vo['broker_id'],90)}" alt="{$vo.nick_name}"></div>
+                <div class="comment-content fl">
+                    <div class="username-level clearfix">
+                        <div class="username fl">{$vo.nick_name}</div>
+                        <div class="level level-{$vo.point} fr"></div><!-- 等级从0到5 -->
+                    </div>
+                    <div class="desc_box">
+                        <p>{$vo.content}</p>
+                    </div>
+                    <div class="babel-list clearfix">
+                        {php}$c_tags=array_filter(explode(',',$vo['tags']));{/php}
+                        {volist name='c_tags' id='t'}
+                        <em>{:getLinkMenuName(13,$t)}</em>
+                        {/volist}
+                    </div>
+                    <time class="time">
+                        <span class="delete" data-id="{$vo.id}">删除</span>
+                        {$vo.create_time|date='Y-m-d H:i'}
+                    </time>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="page_list">
+        {$pages|raw}
+    </div>
+    <!-- 点评列表 E-->
+</div>
+<script type="text/javascript" src="__STATIC__/js/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.delete').on('click',function(){
+            var url = "{:url('delete')}";
+            var param = {
+                id : $(this).data('id')
+            };
+            layer.confirm('您确定要删除该条评论么？', function(){
+                $.get(url,param,function(result){
+                    if(result.code == 1)
+                    {
+                        layer.msg(result.msg,{icon:1},function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.msg(result.msg,{icon:2});
+                    }
+                });
+            });
+        });
+    });
+</script>
+{/block}

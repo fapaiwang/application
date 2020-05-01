@@ -1,0 +1,803 @@
+{extend name='public/layout' /}
+
+{block name='header'}{/block}
+
+{block name='content'}
+<link rel="stylesheet" type="text/css" href="/jl/css/default.css" />
+		<link rel="stylesheet" type="text/css" href="/jl/css/component.css" />
+		<script src="/jl/js/modernizr.custom.js"></script>
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+
+<style type="text/css">
+tr{height:30px; line-height:30px}
+.goods{font-size: 0.51rem;
+    color: #919191;
+    line-height: .7rem;}
+    .goods em{
+        margin-left: .15rem;
+    line-height: 0.6rem;
+    text-align: center;
+    display: inline-block;
+    font-size: .6rem;
+    padding: .2rem;
+    margin-top: .3rem;
+    color: #999;
+    background: rgba(245,246,247,1);
+    }
+</style>
+<div class="main">
+
+    <!-- 返回键 S-->
+
+    <a href="javascript:;" class="detail-go-back"></a>
+
+    <!-- 返回键 E-->
+
+    <!-- 房子图片滚动展示 S-->
+
+    <div class="scroll-roomPic-box">
+
+        <div class="swiper-container">
+
+            <div class="swiper-wrapper">
+
+                {if condition='$storage_open eq 1 and $info.video'}
+
+                <div class="swiper-slide">
+
+                    <video src="{:getVideoUrl($info['video'])}" style="width:100%;height:10rem;" controls="controls" poster="{$info.img}"></video>
+
+                </div>
+
+                {/if}
+
+                {notempty name='info.file'}
+
+                {volist name='info.file' id='vo'}
+
+                <div class="swiper-slide">
+
+                    <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+
+                </div>
+
+                {/volist}
+
+                {else /}
+
+                <div class="swiper-slide">
+
+                    <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+
+                </div>
+
+                {/notempty}
+
+            </div>
+
+            <div class="swiper-pagination"></div>
+
+        </div>
+
+    </div>
+
+    <!-- 房子图片滚动展示 E-->
+
+
+
+    <!-- 房子细节介绍 S-->
+
+<style>
+
+       .tab-headn span {
+               
+                width: 25%;
+                height: 40px;
+                margin: 0;
+                float: left;
+				line-height:40px;
+				color:#fff;
+				font-weight:bold;
+                text-align: center;
+				
+            }
+            
+            .tab-contentd {
+              
+                width: 100%;
+                height: auto;
+            }
+            
+           .tab-contentd .hide{
+                display: none;
+            }
+            
+            .selectedd {
+                background-color: #00AC56;
+            }
+			 .noselectedd {
+                background-color:#5ECB95;
+            }
+            
+            .tab-contentd .show{
+                display: block;
+            }
+    </style>     
+ <div class="tab-headn" style="background-color:#000">
+            <span id="tab1" onmouseover="changeTab1()" class="selectedd">基本信息</span>
+            <span id="tab2" onmouseover="changeTab2()" class="noselectedd">法院公告</span>
+            <span id="tab3" onmouseover="changeTab3()" class="noselectedd">周边设施</span>
+			<span id="tab4" onmouseover="changeTab4()" class="noselectedd">户型图</span>
+        </div>
+		<div style="clear:both"></div>
+        <div class="tab-contentd">
+            <div id="c1" class="show">
+	 
+	 
+	  <div class="house-detail-intro" style="margin-bottom:0px">
+                <h3 style="font-size:.7rem; padding:0rem 0rem 0rem;margin-bottom:.5rem; padding-top:10px">{$info.title}{notempty name='info.pano_url'}<a href="{:url('Ajax/pano')}?pano_url={:base64_encode($info.pano_url)}" title="{$info.title}全景" class="house-pano"></a>{/notempty}</h3>
+                <div style="width:100%; height:40px; background:#EEE0E5;">
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">**人报名</div>
+                    <div style="width:50%; float:left; text-align:center;line-height:40px;">**人围观</div>
+                </div>
+                <ul class="intro-small-detail">
+
+                    <li class="top-three"><span>起拍价：<em>{$info.price|raw}</em></span><span>市场价：<em>{$info.price|raw}</em></span></li>
+
+                    <li class="top-three"><span>漏检指数：四星</span><span>保证金：<em>{$info.baozheng|raw}</em></span></li>
+                </ul>
+                <div style="width:100%; height:40px;">
+                    <p class="goods" >
+
+                        {php}$tag = array_filter(explode(',',$info['tags']));{/php}
+
+                        {notempty name='tag'}
+
+                        {volist name='tag' id='val'}
+
+                        <em>{:getLinkMenuName(14,$val)}</em>
+
+                        {/volist}
+
+                        {/notempty}
+
+                    </p>
+                </div>
+                <ul class="price-house-area">
+                    <li>
+
+                        <p>户型</p>
+
+                        <em>{$info.room}室{$info.living_room}厅{$info.toilet}卫</em>
+
+                    </li>
+
+                    <li>
+
+                        <p>朝向</p>
+
+                        <em>{:getLinkMenuName(4,$info['orientations'])}</em>
+
+                    </li>
+
+                    
+
+                    <li>
+
+                        <p>面积</p>
+
+                        <em>{$info.acreage}{:config('filter.acreage_unit')}</em>
+
+                    </li>
+
+                </ul>
+
+         <ul class="intro-small-detail" style="margin-left:10px;">
+
+                <li class="top-three">
+                    <span>形式：{$info.xingshi}</span><span>楼层：<em class="floor">{:getLinkMenuName(7,$info['floor'])}/{$info.total_floor}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>类型：<em>{:getLinkMenuName(9,$info['house_type'])}</em></span><span>年代：<em class="year">{$estate.years}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>名称：<em>{$estate.title}</em></span><span>编号：<em>{$info.bianhao}</em></span>
+                </li>
+                <li class="top-three">
+                    <span>区域：{$quyu.name}</span><span>阶段：<em>{$info.jieduan}</em></span>
+                </li>
+                <li class="after-three">
+
+                    <span>开始截止时间：</span>
+
+                    <em>**天**时**分**秒</em>
+
+                </li>
+
+                <li class="after-three"><a href="javascript:;"><span>开拍时间：<em>{:getTime($info['create_time'])}</em></span></a></li>
+
+            </ul>
+        
+        
+            </div>
+           
+            <div style="width:98%; height:50px; margin:10px auto">
+                <div style="width:31%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#ff6600; margin:5px">预约看房</div>
+                <div style="width:30%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#d63333; margin:5px">我要关注</div>
+                <div style="width:31%; float:left; text-align:center;line-height:40px;height:40px;color:#fff;background-color:#00AC56; margin:5px">贷款计算器</div>
+            </div>
+            <div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">房源瑕疵</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                <div class="info">
+                    {$info.xiaci}
+                </div>
+
+            </div>
+            <div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">欠费情况</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                <div class="info">
+                    {$info.qianfei}
+                </div>
+
+            </div>
+            <div class="house-res" style="padding-top:.2rem">
+
+        <div style="width:100%;">
+            <div style="width:65%; float:left;height:40px; line-height:40px;font-weight: normal;font-size: .7rem;font-weight: normal;font-size: .7rem;">小区介绍</div>
+            <div style="width:80px; float:right;height:30px; line-height:30px;font-weight: normal;font-size: .7rem;font-weight: normal;font-size: .5rem; text-align:center; color:#fff; margin-top:5px; background-color:#00adff">关注此小区</div>
+        </div>  
+
+
+                
+        <ul class="house-confi-point">
+
+           <!--  {php}$val = getLinkMenuCache(12);{/php}
+
+            {php}$support = array_filter(explode(',',$info['supporting']));{/php}
+
+            {volist name='support' id='vo'}
+
+            <li class="{$val[$vo]['alias']}">{$val[$vo]['name']}</li>
+
+            {/volist} -->
+
+        </ul>
+
+
+            <div class="old-house house-show-box" style=" padding-right:0px">
+
+            <ul>
+
+                <li>
+
+                    <div class="pic"style="width:100%; height:123px; margin-bottom:20px;">
+                        <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+                    </div>
+            <div class="intro-text" style="width:100%;">
+
+                <style type="text/css">
+                    .house-show-box li{ padding:0rem 0; border-bottom: none;}
+                    .aa li span{ font-size: .64rem; width:50%; float:left; color:#999; line-height:30px}
+                    .aa li{ font-size: .64rem; width:100%; color:#999}
+                </style>
+                <ul class="aa" style="height:120px;">
+
+                <li>
+                    <span>建筑年代：{$estate.years}</span><span>建筑面积：<em class="floor">{$xqinfo.area_build}</em></span>
+                </li>
+                <li>
+                    <span>所属板块：<em>{$xqinfo.property_type}</em></span><span>总户数：<em class="year">{$xqinfo.plan_number}</em></span>
+                </li>
+                <li>
+                    <span>容积：<em>{$xqinfo.volume_ratio}</em></span><span>停车位：<em>{$xqinfo.parking_space}</em></span>
+                </li>
+                <li>
+                    <span>物业费：{$xqinfo.property_fee}</span><span>绿化：<em>{$xqinfo.greening_rate}</em></span>
+                </li>
+                <li><span style="width:100%;">详细地址：{$estate.address}</span></li>
+                <li><span style="width:100%;">开发商：<em>{$xqinfo.developer}</em></span></li>
+
+            </ul>         
+                        
+
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+      
+
+
+            
+
+        </div>
+		 <div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">交易记录</h4>
+
+                <ul class="house-confi-point"></ul>
+
+              <div class="container" style="width:90%; margin:0 auto">
+			<div class="main" style="background:#fff">
+				<ul class="cbp_tmtimeline">
+					<li>
+						<time class="cbp_tmtime" datetime="2019-02-21 18:30"><span>
+						18:30</span> <span>2019-02-21 </span></time>
+						<div class="cbp_tmicon cbp_tmicon-screen"></div>
+						<div class="cbp_tmlabel">
+							<h2 style="color:#fff">二拍流拍</h2>
+							<p>
+							  
+						  
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td>2019年02月20日</td>
+                                <td>开始</td>
+                                <td>流拍价</td>
+                              </tr>
+                              <tr>
+                                <td>2019年02月21日</td>
+                                <td>结束</td>
+                                <td>500万</td>
+                              </tr>
+                            </table>
+
+							</p>
+						</div>
+					</li>
+					<li>
+						<time class="cbp_tmtime" datetime="2018-12-21 12:04"><span>
+						12:04</span> <span>2018-12-21 </span></time>
+						<div class="cbp_tmicon cbp_tmicon-screen"></div>
+						<div class="cbp_tmlabel">
+							<h2 style="color:#fff">一拍流拍</h2>
+							<p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td>2018年12月20日</td>
+                                <td>开始</td>
+                                <td>流拍价</td>
+                              </tr>
+                              <tr>
+                                <td>2018年12月21日</td>
+                                <td>结束</td>
+                                <td>600万</td>
+                              </tr>
+                            </table>
+							</p>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+
+
+            </div>
+      
+        <div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">同小区历史成交记录</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                <div class="container" style="width:90%; margin:0 auto">
+			<div class="main" style="background:#fff">
+				<ul class="cbp_tmtimeline">
+					<li>
+						<time class="cbp_tmtime" datetime="2019-02-21 18:30"><span>
+						18:30</span> <span>2019-02-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							  
+						  
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+
+							</p>
+						</div>
+					</li>
+					<li>
+						<time class="cbp_tmtime" datetime="2018-12-21 12:04"><span>
+						12:04</span> <span>2018-12-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                             <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+							</p>
+						</div>
+					</li>
+					<li>
+						<time class="cbp_tmtime" datetime="2018-12-21 12:04"><span>
+						12:04</span> <span>2018-12-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                             <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+<div style="width:100px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:0 auto;">查看更多</div>
+
+<div style="height:20px"></div>
+            </div> 
+
+
+          
+        <div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">二手房成交记录</h4>
+
+                <ul class="house-confi-point"></ul>
+
+               <div class="container" style="width:90%; margin:0 auto">
+			<div class="main" style="background:#fff">
+				<ul class="cbp_tmtimeline">
+					<li>
+						<time class="cbp_tmtime" datetime="2019-02-21 18:30"><span>
+						18:30</span> <span>2019-02-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							  
+						  
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+
+							</p>
+						</div>
+					</li>
+					<li>
+						<time class="cbp_tmtime" datetime="2018-12-21 12:04"><span>
+						12:04</span> <span>2018-12-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                             <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+							</p>
+						</div>
+					</li>
+					<li>
+						<time class="cbp_tmtime" datetime="2018-12-21 12:04"><span>
+						12:04</span> <span>2018-12-21 </span></time>
+						<!--<div class="cbp_tmicon cbp_tmicon-phone"></div>-->
+						<div class="cbp_tmlabel">
+							
+							<p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                             <tr>
+							   <td>昌平区</td>
+                                <td colspan="3">北京人家25号楼5单元302室</td>
+                              </tr>
+                              <tr>
+                                <td>面积：</td>
+                                <td>119.06㎡</td>
+                                <td>单价：</td>
+								  <td>33596.51元/㎡</td>
+                              </tr>
+                            </table>
+							</p>
+						</div>
+					</li>
+					
+					
+					
+					<div style="width:100px; height:40px; line-height:40px; background:#5ECB95; text-align:center; color:#fff; margin:0 auto; margin-bottom:20px">查看更多</div>
+
+					<div style="height:20px"></div>
+				</ul>
+			</div>
+		</div>
+
+            </div>
+        <style type="text/css">
+    .house-show-box{padding-left: 0rem;}
+        </style>
+    
+	<div class="house-res" style="padding:0 0;">
+
+                <h4 style="padding-left:15px; height:50px; line-height:50px;font-family: 微软雅黑;font-weight: normal;font-size: .7rem;">推荐法派员</h4>
+
+                <ul class="house-confi-point"></ul>
+
+                
+
+            </div>
+	
+
+      
+
+	 
+	 
+	 
+	 
+		</div>
+            <div id="c2" class="hide">
+		 <div style="width:98%; padding:10px;">
+                北京市顺义区人民法院将于2019年4月26日10时
+                至2019年4月27日10时
+                （延时的除外）进行公开拍卖活动，现公告如下：
+                一、拍卖标的位于北京市顺义区丽喜花园8号楼6
+                     层二单元601
+                二、竞买人条件：凡具备完全民事行为能力的公
+                民、法人和其他组织均可参加竞买。
+                特别提醒：竞买人在竞买前应清楚知晓相关房
+                产政策（包含但不限于国办发〔2011〕1号、
+                京政办发〔2011〕8号、京建发〔2011〕65号）
+                中有关住房限购政策的规定以及房产过户的相关
+                北京市顺义区人民法院
+                二0一九年三月二十五日  
+            </div>
+			</div>
+            <div id="c3" class="hide"><div class="per-pos">
+
+                <h2>位置周边</h2>
+
+                {include file='public/peitao' /}
+
+            </div></div>
+			 <div id="c4" class="hide">
+  <div class="swiper-slide">
+
+                <img src="{$info.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$info.title}">
+
+            </div>
+  
+  </div>
+        </div>
+	<script type="text/javascript">
+    var tab1 = document.getElementById('tab1'),
+                tab2 = document.getElementById('tab2'),
+                tab3 = document.getElementById('tab3'),
+				tab4 = document.getElementById('tab4'),
+                c1 = document.getElementById('c1'),
+                c2 = document.getElementById('c2'),
+                c3 = document.getElementById('c3'),
+				c4 = document.getElementById('c4');
+
+            function changeTab1() {
+                tab1.className = 'selectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'noselectedd';
+				tab4.className = 'noselectedd';
+                c1.className = 'show'
+                c2.className = 'hide';
+                c3.className = 'hide';
+				c4.className = 'hide';
+            }
+
+            function changeTab2() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'selectedd';
+                tab3.className = 'noselectedd';
+				tab4.className = 'noselectedd';
+                c1.className = 'hide';
+                c2.className = 'show';
+                c3.className = 'hide';
+				c4.className = 'hide';
+            }
+
+            function changeTab3() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'selectedd';
+				tab4.className = 'noselectedd';
+                c1.className = 'hide'
+                c2.className = 'hide';
+                c3.className = 'show';
+				c4.className = 'hide';
+            }
+			function changeTab4() {
+                tab1.className = 'noselectedd';
+                tab2.className = 'noselectedd';
+                tab3.className = 'noselectedd';
+				tab4.className = 'selectedd';
+                c1.className = 'hide'
+                c2.className = 'hide';
+                c3.className = 'hide';
+				c4.className = 'show';
+            }
+ </script>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 猜你喜欢 E-->
+
+    <!-- 白块  S-->
+
+    <div class="white-block" style="display:none;"></div>
+
+    <!-- 白块  E-->
+
+
+
+    <!-- 导航行为 S-->
+
+    <div class="nav-act">
+
+        <a href="javascript:;" class="follow" data-id="{$info.id}" data-model="second_house" data-uri="{:url('Api/follow')}">关注</a>
+
+        <a href="{:url('Ajax/consult')}" class="consult">咨询</a>
+
+        <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" class="call-tel">拨打电话</a>
+
+        <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="second_house" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+
+    </div>
+
+    <!-- 导航行为 E-->
+
+
+
+
+
+   <!-- {include file='public/footer' /}E-->
+
+</div>
+
+<style>
+
+    a{overflow: visible;}
+
+</style>
+
+<script src="__JS__/swiper.min.js"></script>
+
+<script src="__STATIC__/js/layer/layer.js"></script>
+
+<script src="__JS__/subscribe.js"></script>
+
+<script>
+
+    var mySwiper = new Swiper('.swiper-container', {
+
+        loop : true,
+
+        autoplay: 4000,//可选选项，自动滑动
+
+        initialSlide :0,
+
+        pagination : '.swiper-pagination',
+
+        paginationType: 'fraction'
+
+    });
+
+    $(function(){
+
+       $('#expand').on('click',function(){
+
+           if($(this).hasClass('expand'))
+
+           {
+
+               $(this).removeClass('expand').text('展开');
+
+               $('#info').css({'overflow':'hidden','height':'8rem'});
+
+           }else{
+
+               $(this).addClass('expand').text('收起');
+
+               $('#info').css({'overflow':'visible','height':'auto'});
+
+           }
+
+       });
+
+    });
+
+</script>
+
+{/block}

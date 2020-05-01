@@ -1,0 +1,81 @@
+{extend name='public/layout' /}
+
+{block name='header'}
+
+<!-- header-top S-->
+
+<div class="header-top">
+
+    <header id="header" class="h-list-head">
+
+        <a href="javascript:;" class="go-back"></a>
+
+       
+
+        <div style="text-align:center;width:95%;color:#fff;font-size:18px;">委托拍卖</div>
+
+        
+
+
+    </header>
+
+</div>
+
+<div id="select_bg"></div>
+
+<!-- header-top E-->
+
+{/block}
+
+{block name='content'}
+
+<div class="main" style="background: #fff;">
+
+    <!-- 小区项目细节 S-->
+
+    <div class="house-show-box" style="margin-top:60px;">
+
+    
+
+      <div class="pec-relLink addhouse mb20">
+        <a><span>称呼:</span><span><input type="text" name="name" id="name" value="" placeholder="请输入您的姓名"></span></a>
+       
+        <a><span>小区:</span><span><input type="text" name="xq" value="" placeholder="委托房源所在小区"></span></a>
+        <a><span>面积:</span><span><input type="text" name="mj" value="" placeholder="请输入面积"></span></a>
+
+        <a class="holder-name"><span>售价:</span><span><input type="text" name="price" value="" placeholder="期望售价"></span></a>
+        <a><span>详细地址:</span><span><input type="text" name="address" value="" placeholder="***号楼***单元***室"></span></a>
+        <a><span>联系方式:</span><span><input type="text" name="tel" value="" placeholder="请输入手机号"></span></a>
+        <a class="tel">
+            <span>验&nbsp;&nbsp;证&nbsp;&nbsp;码:</span>
+            <span><input type="text" name="yzm" value="" placeholder="请输入验证码"></span>
+        </a>
+       
+        
+       
+        <a class="holder-name">
+            <div id="img-list">
+
+            </div>
+        </a>
+    </div>
+<div class="bt-box pt30  pb30">
+        <button type="submit" class="btn sub-btn" id="btn" onclick="btn()">确认委托</button>
+        <!-- <button type="submit" id="btn" onclick="btn()">btn</button> -->
+    </div>
+
+<script type="text/javascript">
+
+function btn(){
+alert('提交成功！');
+}
+</script>
+
+
+
+
+    </div>
+
+
+</div>
+{/block}

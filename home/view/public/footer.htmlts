@@ -1,0 +1,124 @@
+<style>
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 1200px;}
+
+.container {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 1200px;
+}
+
+
+  .footer {
+  height: 245px;
+    padding:0px;
+  background: url("../images/27.jpg") no-repeat center bottom;
+  position: relative; }    
+
+  .footer .tops {
+    padding-top: 53px; }
+    .footer .tops .left {
+      background: url("../images/27.png") no-repeat right bottom;
+      padding-right: 80px; }
+      .footer .tops .left h1 {
+        font-size: 40px;
+        color: #fff; }
+      .footer .tops .left p {
+        font-size: 26px;
+        color: #fff; }
+    .footer .tops .content {
+      padding-left: 77px;
+      background: url("../images/27.png") no-repeat right bottom;
+      padding-right: 80px; }
+      .footer .tops .content h5 {
+        font-size: 14px;
+        color: #ffffff;
+        font-weight: normal; }
+      .footer .tops .content span {
+        font-size: 36px;
+        color: #d91615; }
+      .footer .tops .content p {
+        font-size: 12px;
+        color: #ABABAB; }
+    .footer .tops .right {
+      position: relative; }
+      .footer .tops .right .wx {
+        width: 131px;
+        float: left; }
+        .footer .tops .right .wx img {
+          float: right; }
+        .footer .tops .right .wx span {
+          width: 20px;
+          background: #d9d9d9;
+          padding: 6px;
+          line-height: 1.2;
+          display: inline-block;
+          font-size: 14px;
+          color: #666666;
+          height: 83px;
+          text-align: center;
+          margin-left: 4px; }
+  .footer .copyright {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 49px;
+    line-height: 49px;
+    background: #d91615; }
+    .footer .copyright a {
+      color: #fff;
+      font-size: 12px; }
+    .footer .copyright span {
+      color: #fff;
+      margin: 0px 3px; }
+    .footer .copyright .fr {
+      color: #fff;
+      font-size: 12px; }
+
+
+</style>
+
+<div class="footer" style="background: url(/img/27.jpg) no-repeat center bottom;">
+  <div class="container auto fix">
+      <div class="tops fix">
+          <div class="fl left">
+              <h1>房拍网</h1>
+              <p>您值得信赖的房产拍卖网站</p>
+          </div>
+          <div class="content fl">
+              <h5>全国服务资讯热线：</h5>
+              <span class="db">400 677 8008</span>
+              <p>地址：北京市东城区朝阳门南小街6号楼5层</p>
+          </div>
+          <div class="right fr">
+                             <div class="wx fl ml20">
+                    <span>微信服务号</span>
+                    <img width="95" height="95"  src="{$site.weixin_qrcode}" style="display: block;">
+                </div>
+                              <div class="wx fl ml20">
+                    <span>网站二维码</span>
+                    <img width="95" height="95"  src="{$site.weixin_qrcode}" style="display: block;">
+                </div>
+                        </div>
+      </div>
+      <div class="copyright fix" style="background:#00AC56">
+          <div class="container auto fix">
+              <div class="fl">
+                  <a href="">服务专员</a><span>|</span>
+                                    <a href="">加入我们</a><span>|</span>
+                                    <a href="">联系我们</a><span>|</span>
+                                    <a href="">法拍房贷款</a><span>|</span>
+                                    <a href="">用户注册协议</a><span>|</span>
+                                    <a href="" target="_blank">员工通道</a>
+              </div>
+              <div class="fr">北京金铂顺昌资产管理有限公司 版权所有 京ICP备11017857号</div>
+          </div>
+      </div>
+  </div>
+</div>

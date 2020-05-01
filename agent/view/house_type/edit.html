@@ -1,0 +1,189 @@
+{extend name="public/layout" /}
+{block name='content'}
+<form class="layui-form" id="info_form" action="{:url('HouseType/editDo')}" method="post" enctype="multipart/form-data">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">户型信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">所属楼盘 </label>
+                        <div class="layui-form-mid layui-word-aux">
+                            <input type="hidden" name="house_id" value="{$houseInfo.id}">
+                            {$houseInfo.title}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>户型名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="title" placeholder="户型名称" value="{$info.title}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>房型</label>
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="room"  lay-verify="room" size="10" placeholder="1" value="{$info.room}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">室</div>
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="living_room"  lay-verify="living_room" size="10" placeholder="1" value="{$info.living_room}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厅</div>
+
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="toilet"  lay-verify="toilet" size="10" placeholder="1" value="{$info.toilet}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">卫</div>
+                        <div class="layui-input-inline" style="width:50px;">
+                            <input type="text" name="kitchen"  lay-verify="kitchen" size="10" placeholder="1" value="{$info.kitchen}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">厨</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span class="layui-form-alert">*</span>面积 </label>
+                        <div class="layui-input-inline" style="width:110px;">
+                            <input type="hidden" id="unit" value="{$houseInfo->getData('unit')}">
+                            <input type="hidden" id="house_price" value="{$houseInfo.price}">
+                            <input type="text" class="layui-input" lay-verify="acreage" id="acreage" name="acreage" placeholder="122"  autocomplete="off" value="{$info.acreage}" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡</div>
+                        <div class="layui-input-inline" style="width:122px;">
+                            <input type="text" class="layui-input" lay-verify="price" id="price" name="price" placeholder="122"  autocomplete="off" value="{$info.price}" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">万</div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">朝向 </label>
+                        <div class="layui-input-inline">
+                            {:getLinkMenu(4,'orientation','select',$info['orientation'])}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">销售状态 </label>
+                        <div class="layui-input-block">
+                            {:getLinkMenu(5,'sale_status','radio',$info['sale_status'])}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-block">
+                        <label class="layui-form-label">户型特色 </label>
+                        <div class="layui-input-block">
+                            <textarea name="characteristic" id="characteristic" class="layui-textarea">{$info.characteristic}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">户型图</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <input type="hidden" name="img" value="{$info.img}" id="img_txt">
+                            <button type="button" class="layui-btn" id="img">上传图片</button>
+                            <div id="img_preview">
+                                {notempty name='info.img'}
+                                <img class='layui-upload-img' src="{$info.img}" alt="" width="100" />
+                                <a href='javascript:;' data-text='img_txt' data-src='{$info.img}' class='deleteImg layui-btn layui-btn-xs layui-btn-danger'>删除</a>
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <input type="hidden" name="id" id="id" value="{$info.id}">
+        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+    </div>
+</form>
+{:hook('ueditor',['id'=>'info'])}
+<script>
+    var uploadUrl = "{:url('HouseType/ajaxUploadImg')}",deleteImgUrl = "{:url('HouseType/deleteImg')}";
+    layui.config({
+        base: '/static/manage/js/'
+    });
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element','upload','linkmenu'], function(){
+        var $ = layui.jquery,element = layui.element,layer = layui.layer,form = layui.form,upload = layui.upload,menu = layui.linkmenu;
+        $(".J_city_select").select({field : 'J_city_id',id : 'J_city_select'});
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length == 0){
+                    return '请填写户型名称';
+                }
+            },
+            acreage : function(value){
+                if(!/\d+$/.test(value)){
+                    return '请填写户型面积';
+                }
+            },
+            price : function(value){
+                if(!/\d+$/.test(value)){
+                    return '价格只能为数字';
+                }
+            }
+
+        });
+//普通图片上传
+        upload.render({
+            elem: '#img'
+            ,url: ''
+            ,auto:false
+            ,choose: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    var img = "<img class='layui-upload-img' src='"+result+"' width='100'/>";
+                    $('#img_preview').html(img); //图片链接（base64）
+                });
+            }
+        });
+        $(document).on('click','.deleteImg',function(){
+            var that = $(this),img = $(this).data('src'),textId = $(this).data('text'),id = $("#id").val();
+            layer.confirm('确定要删除图片么?', {icon: 3, title:'提示'}, function(index){
+                var param = {
+                    'path' : img,
+                    'id'   : id,
+                    'field': 'img'
+                };
+                $.post(deleteImgUrl,param,function(res){
+                    layer.close(index);
+                    if(res.code == 1){
+                        $("#"+textId).val('');
+                        that.parent().html('');
+                    }else{
+                        layer.msg(res.msg,{icon:2});
+                    }
+                });
+            });
+
+        });
+        $("#acreage").on('blur',function(){
+            var price = $("#house_price").val(),acreage = $(this).val(),unit = $("#unit").val(),total_price = 0;
+            if(acreage)
+            {
+                total_price = parseInt((price * acreage) / 10000);
+                if(unit == 2)
+                {
+                    total_price = price;
+                }
+                $("#price").val(total_price);
+            }
+        });
+
+    });
+</script>
+{/block}

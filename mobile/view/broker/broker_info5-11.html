@@ -1,0 +1,92 @@
+<style>
+
+    .page_list{background-color: #fff;padding-bottom:1rem;}
+
+</style>
+
+<div class="agent-survey mb20" style="background:#fff;color:#000;border-top:1px solid #eee;height:150px;">
+
+    <div class="pic"><img src="{:getAvatar($userInfo['id'],90)}" alt="{$userInfo.nick_name}"></div>
+
+    <div class="survey" style="float:left;height:100px;">
+
+       
+<span style="font-size:18px;"><b>{$userInfo.nick_name}</b></span>服务专员
+
+
+<div class="desc_box" style="width:200px;float:left;line-height:25px;height:25px;">
+<p><img src="../static/mobile/images/icon/xin.png" style="width:21px;height:19px;">好评率：<span style="color:red;">85%</span></p>
+                    <p>
+
+                            <span>从业年限：</span>
+
+                            <span>5年</span>
+
+                    </p>
+                    <p>
+
+        <button type="submit" style="background-color: #4CAF50;border: none;color: white;padding: 2px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;background-color: #f44336;border-radius: 4px;">评价</button>
+
+                            
+
+                    </p>
+
+                    </div>
+                    <!-- <div style="float:right;line-height:20px;height:20px;">
+                        <a href="">
+                            <img src="../static/mobile/images/icon/xiaoxi.png" style="width:40px;height:40px;">
+                            <img src="../static/mobile/images/icon/dianhua.png" style="width:40px;height:40px;">
+                        </a>
+                    </div> -->
+        <!-- <h3>{$userInfo.nick_name}</h3>
+        <p>
+
+            所属公司1：
+
+            <em>{$userInfo['userInfo']['company']}</em>
+
+        </p>
+
+        <p>服务范围2：<em>
+
+
+
+            {php}$area=array_filter(explode(',',$userInfo['userInfo']['service_area']));{/php}
+
+            {volist name='area' id='val'}
+
+            {:getCityName($val,'-')}
+
+            {/volist}
+
+        </em></p>
+
+        <p>
+
+            {php}$tags=array_filter(explode(',',$userInfo['userInfo']['tags']));{/php}
+
+            {volist name='tags' id='tag'}
+
+            <em>{:getLinkMenuName(13,$tag)}</em>
+
+            {/volist}
+
+        </p> -->
+
+    </div>
+
+    <ul class="star-level clearfix">
+
+        <!-- {for start='1' end='6'}
+
+        <li {if condition='$i elt $userInfo["userInfo"]["point"]'}class="on"{/if}></li>
+
+        {/for} -->
+        <img src="/static/images/xx.png" style="width:35px;height:35px;">
+        <a href="tel:{$userInfo.mobile}">
+        <img src="/static/images/dh.png" style="width:35px;height:35px;margin-left:5px;">
+        </a>
+
+    </ul>
+
+</div>

@@ -1,0 +1,100 @@
+{extend name='public/layout' /}
+{block name='content'}
+<!--管理员管理-->
+<form class="layui-form" action="">
+<div class="layui-form layui-border-box layui-table-view">
+    <div class="layui-table-header">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('ajaxEdit')}">
+            <colgroup>
+                <col width="15%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="15%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+
+                <th>
+                    <div class="layui-table-cell"><span>用户名</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>角色</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>最后登录时间</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>最后登录IP</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>状态</span></div>
+                </th>
+                <th>
+                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr data-index="{$i}" class="">
+
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.username}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val['role']['title']}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.last_time|date='Y-m-d H:i:s'}
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {$val.last_ip}
+                    </div>
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        <input type="checkbox" name="switch" lay-filter="switchStatus" lay-skin="switch" data-field="status" data-id="{$val.id}" value="{$val.status}" lay-text="正常|禁用" {if condition="$val.status eq 1"}checked{/if}>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-table-cell">
+                        {if condition="$val['role_id'] neq $adminInfo['role'] and $adminInfo['role'] neq $superroleid"}无权限{else /}
+                        <a href="javascript:;" class="J_showDialog layui-btn layui-btn-xs layui-btn-normal"  lay-event="edit" data-uri="{:url('Admin/edit',['id'=>$val['id']])}" data-title="编辑 - {$val.username}"  data-id="edit" data-width="500" data-height="400">编辑</a>
+
+                        {/if}
+                        {if condition="$val['role_id'] lt $adminInfo['role'] or $val['id'] eq $adminInfo['id']"}
+                        无权限
+                        {else /}
+                        <a href="javascript:;" class="J_confirm layui-btn layui-btn-xs layui-btn-danger" lay-event="del" data-uri="{:url('Admin/delete', ['id'=>$val['id']])}" data-msg="{:sprintf('确定删除用户%s么?',$val['username'])}">删除</a>
+                        {/if}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="kaifazhe-fix-bottom layui-clear">
+
+    <div id="pages" class="layui-layout-right">
+        {$pages|raw}
+    </div>
+</div>
+</form>
+<script>
+    layui.use(['form'], function() {
+        var form = layui.form;
+    });
+</script>
+{/block}

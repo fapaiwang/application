@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$seo_s.seo_title}</title>
+    <meta name="keywords" content="{$seo_s.seo_keys}" />
+    <meta name="description" content="{$seo_s.seo_desc}" />
+    <link rel="stylesheet"  href="/homeStatic/css/common.css?v=1">
+    <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
+    <link rel="stylesheet"  href="/homeStatic/css/headList.css?version=3">
+    <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
+    {block name='css'}{/block}
+
+</head>
+<body>
+<div class="header-box">
+    <div class="header-content">
+        <a href="{:url('Index/index')}" title="{$site.title}">
+            <img src="/homeStatic/img/redLogo.png" alt="logo">
+        </a>
+        <ul class="header-nav">
+            <!--{volist name='head_nav' id='vo'}-->
+            <!--<li><a href="{$vo.url}"  {if $vo.id eq $page_t } class="active" {/if}>{$vo.title}</a></li>-->
+            <!--{/volist}-->
+        </ul>
+        <div class="log_link fr" style="margin-left: 80px">
+            {notempty name='userInfo'}
+            <!-- 已登录状态 -->
+            <div class="loged" style="line-height:70px">
+                <div class="user_info" style="line-height:70px">
+                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                    <span class="name" style="color:#fff">{:hideStr($userInfo['nick_name'])}</span>
+                </div>
+                <div class="slide_tog" style="display:none;">
+                    <a class="login_label" href="{:url('user.index/index')}">用户中心</a>
+                    <a class="login_label" href="{:url('Login/logout')}">退出登录</a>
+                </div>
+            </div>
+            {else /}
+            <!-- 未登录状态 -->
+            <div class="not_log" style="line-height:70px;color:#000">
+                <a href="{:url('Login/index')}" class="login_label" rel="nofollow">登录</a>
+                <span style="color: #fff">|</span>
+                <a href="{:url('Login/register')}" class="login_label" rel="nofollow">注册</a>
+            </div>
+            {/notempty}
+        </div>
+    </div>
+
+</div>
+
+<script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
+{block name='content'}{/block}
+<div class="footer">
+    {include file='public/footers' /}
+</div>
+{block name='js'}{/block}
+</body>
+</html>
+<!--</body>-->
+<!--统计代码-->
+<!--<script>-->
+    <!--var _hmt = _hmt || [];-->
+    <!--(function() {-->
+        <!--var hm = document.createElement("script");-->
+        <!--hm.src = "https://hm.baidu.com/hm.js?382a05b9ea5e121e9efe1520d2febe1b";-->
+        <!--var s = document.getElementsByTagName("script")[0];-->
+        <!--s.parentNode.insertBefore(hm, s);-->
+    <!--})();-->
+<!--</script>-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+<!--客服代码-->
+<!--<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->

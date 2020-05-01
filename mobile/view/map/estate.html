@@ -1,0 +1,110 @@
+{extend name='public/layout' /}
+{block name='header'}
+<div class="lookRoom-head">
+    {include file='map/header' /}
+</div>
+
+{/block}
+{block name='content'}
+<div class="main">
+    <div class="lookRoom-head">
+        <!-- 筛选 S -->
+        <div class="lr-select-box">
+            <div class="select_head" id="select_head">
+                <div class="item" id="area" data-id="0">
+                    <span class="tit">区域</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+                <div class="item" id="price" data-id="0">
+                    <span class="tit">均价</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+                <div class="item" id="years" data-id="0">
+                    <span class="tit">房龄</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+                <div class="item" id="type" data-id="0">
+                    <span class="tit">类型</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+            </div>
+            <div class="select_body" id="select_body">
+                <div class="item common">
+                    <div class="item_box">
+                        <ul class="one-level" data-uri="{:url('Api/getCityChild')}">
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name='area' id='vo'}
+                            <li data-id="{$vo.id}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                        <ul class="two-level">
+                        </ul>
+                    </div>
+                </div>
+                <div class="item common">
+                    <div class="item_box attr">
+                        <ul>
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name=':getEstatePrice()' id='vo'}
+                            <li data-id="{$key}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="item common">
+                    <div class="item_box attr">
+                        <ul>
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name=':getYears()' id='vo'}
+                            <li data-id="{$key}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <div class="item common">
+                    <div class="item_box attr">
+                        <ul>
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name='house_type' id='vo'}
+                            <li data-id="{$vo.id}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选 E -->
+    </div>
+    <div id="select_bg"></div>
+    <div class="map-show-box">
+        <div id="map"></div>
+    </div>
+</div>
+<!-- 筛选 -->
+<script src="__JS__/map-search.js"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+<script type="text/javascript" src="__JS__/map.js"></script>
+<script type="text/javascript" src="__JS__/baiduEvent.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var lng = '{$lng}';
+        var lat = '{$lat}';
+        BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+        BMapApplication.requestUrl = "{:url('Map/getEstateLists')}";
+        BMapApplication.requestParam = getParam();
+        BMapApplication.getMap();
+    });
+    function getParam()
+    {
+        var area = $('#area').attr('data-id'),price = $('#price').attr('data-id'),
+                years = $('#years').attr('data-id'),type = $('#type').attr('data-id');
+        return {
+            area : area,
+            price : price,
+            type  : type,
+            years : years
+        };
+    }
+</script>
+{/block}

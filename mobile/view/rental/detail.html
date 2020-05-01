@@ -1,0 +1,182 @@
+{extend name='public/layout' /}
+{block name='header'}{/block}
+{block name='content'}
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<div class="main">
+    <!-- 返回键 S-->
+    <a href="javascript:;" class="detail-go-back"></a>
+    <!-- 返回键 E-->
+    <!-- 房子图片滚动展示 S-->
+    <div class="scroll-roomPic-box">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {notempty name='info.file'}
+                {volist name='info.file' id='vo'}
+                <div class="swiper-slide">
+                    <img src="{$vo.url}" alt="{$vo.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/volist}
+                {else /}
+                <div class="swiper-slide">
+                    <img src="{$info.img}" alt="{$info.title}" onerror="this.src='__STATIC__/images/nopic.jpg'">
+                </div>
+                {/notempty}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 房子图片滚动展示 E-->
+
+    <!-- 房子细节介绍 S-->
+    <div class="house-detail-intro">
+        <h3>{$info.title}{notempty name='info.pano_url'}<a href="{:url('Ajax/pano')}?pano_url={:base64_encode($info.pano_url)}" title="{$info.title}全景" class="house-pano"></a>{/notempty}</h3>
+        <ul class="price-house-area">
+            <li>
+                <p>租金</p>
+                <em><b>{$info.price|raw}</b></em>
+            </li>
+            <li>
+                <p>户型</p>
+                <em><b>{$info.room}</b>室<b>{$info.living_room}</b>厅<b>{$info.toilet}</b>卫</em>
+            </li>
+            <li>
+                <p>面积</p>
+                <em><b>{$info.acreage}</b>{:config('filter.acreage_unit')}</em>
+            </li>
+        </ul>
+        <ul class="intro-small-detail">
+            <li class="top-three"><span>户型：<em>{$info.room}室{$info.living_room}厅</em></span><span>面积：<em>{$info.acreage}{:config('filter.acreage_unit')}</em></span></li>
+            <li class="top-three"><span>方式：<em>{:getLinkMenuName(10,$info['rent_type'])}</em></span><span>朝向：<em>{:getLinkMenuName(4,$info['orientations'])}</em></span></li>
+            <li class="top-three"><span>装修：<em>{:getLinkMenuName(8,$info['renovation'])}</em></span><span>楼层：<em class="floor">{:getLinkMenuName(7,$info['floor'])}/{$info['total_floor']}</em></span></li>
+            <li class="top-three"><span>支付：<em>{:getLinkMenuName(11,$info['pay_type'])}</em></span></li>
+            <li class="after-three">
+                <span>更新：</span>
+                <em>{:getTime($info['update_time'],'mohu')}</em>
+            </li>
+            <li class="after-three"><a href="{:url('Estate/detail',['id'=>$info['estate_id']])}"><span>小区：<em>{$estate.title}</em></span></a></li>
+            <li class="after-three"><a href="javascript:;"><span>地址：<em>{$info.address}</em></span></a></li>
+        </ul>
+    </div>
+    <!-- 房子细节介绍 E-->
+
+    <!-- 房源描述 S-->
+    <div class="house-res">
+        <h2>房源介绍</h2>
+        <ul class="house-confi-point">
+            {php}$val = getLinkMenuCache(12);{/php}
+            {php}$support = array_filter(explode(',',$info['supporting']));{/php}
+            {volist name='support' id='vo'}
+            <li class="{$val[$vo]['alias']}">{$val[$vo]['name']}</li>
+            {/volist}
+
+        </ul>
+        <div class="info">
+            {$info.info|raw}
+        </div>
+    </div>
+    <!-- 房源描述 E-->
+
+    <!-- 位置周边 S-->
+    <div class="per-pos">
+        <h2>位置周边</h2>
+        {include file='public/peitao' /}
+    </div>
+    <!-- 位置周边 E-->
+
+    <!-- 同小区房源 S-->
+    <div class="village-lease-room">
+        <h2>附近房源</h2>
+        <div class="old-house house-show-box">
+            <ul>
+                {volist name='near_by_house' id='vo'}
+                <li>
+                    <div class="pic">
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                        </a>
+                    </div>
+                    <div class="intro-text">
+                        <h4>
+                            <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                {$vo.title}
+                            </a>
+                        </h4>
+                        <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+                        <p class="detail-text">{$vo.room}室{$vo.living_room}厅 {$vo.acreage}  {:config('filter.acreage_unit')} {:getLinkMenuName(8,$vo['orientations'])}</p>
+                        <p class="good">
+                            {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                            {volist name='tag' id='val'}
+                            <em>{$val}</em>
+                            {/volist}
+                        </p>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <!-- 同小区房源 E-->
+
+    <!-- 猜你喜欢 S-->
+    <div class="village-lease-room">
+        <h2>猜你喜欢</h2>
+        <div class="old-house house-show-box">
+            <ul>
+                {volist name='same_price_house' id='vo'}
+                <li>
+                    <div class="pic">
+                        <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            <img src="{$vo.img}" onerror="this.src='__STATIC__/images/nopic.jpg'" alt="{$vo.title}">
+                        </a>
+                    </div>
+                    <div class="intro-text">
+                        <h4>
+                            <a href="{:url('Rental/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                                {$vo.title}
+                            </a>
+                        </h4>
+                        <p class="price"><span>{:getCityName($vo['city'],'-')}</span><span class="price-num"><em>{$vo.price|raw}</em></span></p>
+                        <p class="detail-text">{$vo.room}室{$vo.living_room}厅 {$vo.acreage}  {:config('filter.acreage_unit')} {:getLinkMenuName(8,$vo['orientations'])}</p>
+                        <p class="good">
+                            {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
+                            {volist name='tag' id='val'}
+                            <em>{$val}</em>
+                            {/volist}
+                        </p>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <a href="{:url('Rental/index')}" class="more-house-btn">更多房源</a>
+    </div>
+    <!-- 猜你喜欢 E-->
+    <!-- 白块  S-->
+    <div class="white-block"></div>
+    <!-- 白块  E-->
+
+    <!-- 导航行为 S-->
+    <div class="nav-act">
+        <a href="javascript:;" class="follow" data-id="{$info.id}" data-model="rental" data-uri="{:url('Api/follow')}">关注</a>
+        <a href="{:url('Ajax/consult')}" class="consult">咨询</a>
+        <a href="tel:{notempty name='info.contacts.contact_phone'}{$info.contacts.contact_phone}{else /}{$site.telphone}{/notempty}" class="call-tel">拨打电话</a>
+        <a href="javascript:;" class="order-l-house dialog" data-id="{$info.id}" data-model="rental" data-type="1" data-uri="{:url('Dialog/subscribe')}">预约看房</a>
+    </div>
+    <!-- 导航行为 E-->
+
+    {include file='public/footer' /}
+</div>
+
+<script src="__JS__/swiper.min.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__JS__/subscribe.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        loop : true,
+        autoplay: 4000,//可选选项，自动滑动
+        initialSlide :0,
+        pagination : '.swiper-pagination',
+        paginationType: 'fraction',
+    });
+</script>
+{/block}

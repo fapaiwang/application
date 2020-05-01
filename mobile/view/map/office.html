@@ -1,0 +1,137 @@
+{extend name='public/layout' /}
+{block name='header'}
+<div class="lookRoom-head">
+    {include file='map/header' /}
+</div>
+{/block}
+{block name='content'}
+<div class="main">
+    <div class="lookRoom-head">
+        <!-- 筛选 S -->
+        <div class="lr-select-box">
+            <div class="select_head" id="select_head">
+                <div class="item" id="area" data-id="0">
+                    <span class="tit">区域</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+                <div class="item">
+                    <span class="tit">写字楼出售</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+                <div class="item" id="price" data-id="0">
+                    <span class="tit">价格</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+
+                <div class="item">
+                    <span class="tit">更多</span>
+                    <span class="iconfont icon-xialajiantouxiangxia"></span>
+                </div>
+            </div>
+            <div class="select_body" id="select_body">
+                <div class="item common">
+                    <div class="item_box">
+                        <ul class="one-level" data-uri="{:url('Api/getCityChild')}">
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name='area' id='vo'}
+                            <li data-id="{$vo.id}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                        <ul class="two-level">
+                        </ul>
+                    </div>
+                </div>
+                <div class="item common">
+                    <div class="item_box">
+                        <ul>
+                            <li><a href="{:url('Map/office')}">写字楼出售</a></li>
+                            <li><a href="{:url('Map/officeRental')}">写字楼出租</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="item common">
+                    <div class="item_box attr">
+                        <ul>
+                            <li data-id="0" class="active"><a href="javascript:;">不限</a></li>
+                            {volist name=':getBussinessCondition("office_price")' id='vo'}
+                            <li data-id="{$key}"><a href="javascript:;">{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <div class="item more"  id="more">
+                    <form action="">
+                        <article class="select_area">
+
+                            <section class="section" id="acreage">
+                                <div class="tit">面积</div>
+                                <ul class="clearfix">
+                                    <li class="active" data-id="0">全部</li>
+                                    {volist name=':getBussinessCondition("office_acreage")' id='vo'}
+                                    <li data-id="{$key}">{$vo.name}</li>
+                                    {/volist}
+                                </ul>
+                            </section>
+                            <section class="section" id="type">
+                                <div class="tit">类型</div>
+                                <ul class="clearfix">
+                                    <li class="active" data-id="0">全部</li>
+                                    {volist name='type' id='vo'}
+                                    <li data-id="{$vo.id}">{$vo.name}</li>
+                                    {/volist}
+                                </ul>
+                            </section>
+                            <section class="section" id="tags">
+                                <div class="tit">特色</div>
+                                <ul class="clearfix">
+                                    <li class="active" data-id="0">全部</li>
+                                    {volist name='tags' id='vo'}
+                                    <li data-id="{$vo.id}">{$vo.name}</li>
+                                    {/volist}
+                                </ul>
+                            </section>
+                        </article>
+                        <article class="submit_area">
+                            <input type="reset" id="more_reset" class="reset" value="清空条件">
+                            <input type="button" id="search-btn" class="submit" value="确定">
+                        </article>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选 E -->
+    </div>
+    <div id="select_bg"></div>
+    <div class="map-show-box">
+        <div id="map"></div>
+    </div>
+</div>
+<!-- 筛选 -->
+<script src="__JS__/map-search.js"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
+<script type="text/javascript" src="__JS__/map.js"></script>
+<script type="text/javascript" src="__JS__/baiduEvent.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var lng = '{$lng}';
+        var lat = '{$lat}';
+        BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
+        BMapApplication.requestUrl = "{:url('Map/getOfficeLists')}";
+        BMapApplication.requestParam = getParam();
+        BMapApplication.getMap();
+    });
+    function getParam()
+    {
+        var area = $('#area').attr('data-id'),price = $('#price').attr('data-id'),
+                acreage = $('#acreage li.active').attr('data-id'),tags = $('#tags li.active').attr('data-id'),
+                type = $('#type li.active').attr('data-id');
+        return {
+            area : area,
+            price : price,
+            type  : type,
+            acreage : acreage,
+            tags : tags
+        };
+    }
+</script>
+{/block}

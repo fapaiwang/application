@@ -1,0 +1,62 @@
+{extend name='public/layout' /}
+
+{block name='content'}
+<!-- 楼盘详情 S-->
+<div class="newhouse_detail">
+    <!-- 页面标识 S-->
+    <div class="page_tit">
+        <div class="comWidth">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="{:url('House/index')}">新房</a> &gt;
+            <a href="{:url('House/detail',['id'=>$info['id']])}">{$info.title}</a> &gt;
+            <a href="javascript:void(0);">在售户型</a>
+        </div>
+    </div>
+    <!-- 页面标识 E-->
+    {include file='house/nav' /}
+    <div class="con_wrap comWidth clearfix">
+        <div class="houseType_wrap">
+            <ul class="tab_nav clearfix">
+                <li><a href="{:url('House/room',['house_id'=>$info['id']])}" {if condition='$room eq 0'}class="active"{/if}>全部（<span id="total">0</span>）</a></li>
+                {volist name='info.room_cate' id='vo'}
+                <li><a href="{:url('House/room',['house_id'=>$info['id'],'room'=>$vo['room']])}" {if condition='$room eq $vo.room'}class="active"{/if}>{$vo.room}室(<span class="room-cate">{$vo.total}</span>)</a></li>
+                {/volist}
+            </ul>
+            <ul class="list_box clearfix">
+                {php}$sale_status = getLinkMenuCache(5);{/php}
+                {volist name='room_list' id='vo'}
+                <li>
+                    <div class="img">
+                        <a href="{:url('House/roomDetail',['id'=>$vo['id']])}" title="{$vo.title}">
+                            <img src="/static/images/nopic.jpg" data-original="{$vo.img}" class="lazy" alt="{$vo.title}">
+                            <p class="sale_state {$sale_status[$vo['sale_status']]['alias']}">{$sale_status[$vo['sale_status']]['name']}</p>
+                        </a>
+                    </div>
+                    <div class="con">
+                        <p>{$vo.title} {$vo.room}室{$vo.living_room}厅{$vo.kitchen}厨{$vo.toilet}卫</p>
+                        <p><span>{$vo.price}万</span>建筑面积{$vo.acreage}㎡</p>
+                    </div>
+                </li>
+                {/volist}
+
+            </ul>
+            {notempty name='pages'}
+            <div class="page_list clearfix">
+                {$pages|raw}
+            </div>
+            {/notempty}
+        </div>
+    </div>
+</div>
+<!-- 楼盘详情 E-->
+<script type="text/javascript">
+    var total = 0;
+    $(function(){
+       $(".room-cate").each(function(){
+           total += parseInt($(this).text());
+       });
+        $("#total").text(total);
+    });
+</script>
+{/block}
