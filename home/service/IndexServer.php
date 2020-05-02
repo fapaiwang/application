@@ -86,14 +86,31 @@ class IndexServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function get_recommend_house(){//
+    public function get_recommend_house($limit = 6){//
         $objs   = model('second_house');
         $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
-            ->order('rec_position desc')->limit(6)->cache(1800)->select();
+            ->order('rec_position desc')->limit($limit)->cache(1800)->select();
         return $second_house;
     }
-
+    
+    /**
+     * @description 自由购
+     * @param int $limit 需要查询几条，默认6条
+     * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @auther xiaobin
+     */
+    public function get_restrict_house($limit = 6){
+        $objs   = model('second_house');
+        $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
+            ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170],["is_free", "=", 1]])
+            ->order('rec_position desc')->limit($limit)->select();
+        return $second_house;
+    }
+    
     /**
      * 获取小区房源前10的房源
      * @param mixed

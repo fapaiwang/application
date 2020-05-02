@@ -3,29 +3,55 @@
 namespace app\api\controller;
 
 use app\common\controller\ApiBase;
+use app\home\service\IndexServer;
+use think\facade\Config;
+use think\facade\Log;
 use think\Request;
 
 class Index extends ApiBase
 {
+    protected $home;
+    public function __construct()
+    {
+        $this->home = new IndexServer();
+    }
     /**
      * 显示资源列表
      *
      * @return \think\Response
      */
+//    public function index()
+//    {
+//        $return['code'] = 200;
+//        $return['data'] = [
+//            'slides' => $this->getSlides(5),
+//            'news' => $this->getTopNews(),
+//            'house' => $this->houseLists(1),
+//            'second' => $this->getNewSecond(),
+//            'group'  => $this->getGroupLists(),
+//            'cityInfo' => $this->cityInfo
+//        ];
+//        return json($return);
+//    }
     public function index()
     {
         $return['code'] = 200;
         $return['data'] = [
-            'slides' => $this->getSlides(5),
-            'news' => $this->getTopNews(),
-            'house' => $this->houseLists(1),
-            'second' => $this->getNewSecond(),
-            'group'  => $this->getGroupLists(),
-            'cityInfo' => $this->cityInfo
+            'slides' => $this->home->get_home_banner(4),//轮播图
+            'middle' => $this->home->get_home_banner(14),//首页中间论坛
+            'news' => $this->getTopNews(),//今日新增 资讯
+            'house' => $this->home->get_recommend_house(2),//推荐新房
+            'second' => $this->getNewSecond(),//二手房
+            'group'  => $this->getGroupLists(),//团购列表
+            'cityInfo' => $this->cityInfo,
+            "menu" => Config::get("setting.menu"),//导航
+            "sale" => Config::get("setting.sale"),//导航
+            "restrict" => $this->home->get_restrict_house(2),//自由购
+            "quality" => $this->home->get_quality_estate(),//精选小区
+            //为你选房  特色房源 学校周边及房源 其他房 todo
         ];
         return json($return);
     }
-
     /**
      * @param $id
      * @return array|\PDOStatement|string|\think\Collection
@@ -57,11 +83,18 @@ class Index extends ApiBase
      * @return array|\PDOStatement|string|\think\Collection
      * 资讯
      */
+//    private function getTopNews($num = 5)
+//    {
+//        $where['status'] = 1;
+//        $this->city && $where['city'] = $this->city;
+//        $lists = model('article')->where($where)->field('id,title')->order(['ordid'=>'asc','id'=>'desc'])->limit($num)->select();
+//        return $lists;
+//    }
     private function getTopNews($num = 5)
     {
         $where['status'] = 1;
         $this->city && $where['city'] = $this->city;
-        $lists = model('article')->where($where)->field('id,title')->order(['ordid'=>'asc','id'=>'desc'])->limit($num)->select();
+        $lists = model('article')->where($where)->field('id,title')->order(['ordid'=>'asc','id'=>'desc'])->limit($num)->cache(1800)->select();
         return $lists;
     }
     /**
