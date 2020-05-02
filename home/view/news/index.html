@@ -4,7 +4,7 @@
 <title>法拍房资讯_知识_攻略_问答等-房产百科</title>
     <meta name="keywords" content="法拍房百科知识，法拍房资讯、知识、攻略、问答，房产百科" />
     <meta name="description" content="法拍百科提供法拍房资讯、知识、攻略、问答等房产百科等相关资讯知识。" />
-    
+
     <meta charset="UTF-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -31,11 +31,12 @@
             window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
         }
     </script>
-    
+
     <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
     <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
     <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
     <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/news.css">
     <script src="__STATIC__/js/jquery.min.js"></script>
 </head>
 <body>
@@ -44,7 +45,7 @@
 .nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
 .navBar .nav_list a { color: #000;}
 </style>
-  
+
 <!-- topBar S -->
 <div class="topBar" style="    margin-bottom: 2px;">
     <div class="comWidth clearfix">
@@ -118,15 +119,16 @@
 {block name='content'}
 
 <!-- 资讯 S-->
-
+<section class="article_banner">
+    {volist name='bannerList' id='banner'}
+        <img src="{$banner.setting['fileurl']}" alt="{$banner.name}" href="{$banner.setting['linkurl']}">
+    {/volist}
+</section>
 <div class="flash">
 
     <div class="con_wrap comWidth clearfix">
-
         <div class="sub_nav">
-
             <ul>
-
                 <li><a href="{:url('News/index')}" {if condition='$cate_id eq 0'}class="active"{/if}>全部</a></li>
 
                 {volist name='cate' id='vo'}
@@ -134,13 +136,21 @@
                 <li><a href="{:url('News/index',['cate'=>$vo['id']])}" {if condition='$cate_id eq $vo.id'}class="active"{/if}>{$vo.name}</a></li>
 
                 {/volist}
-
             </ul>
-
         </div>
-
         <div class="leftArea cm_leftArea">
-
+            <section class="ans">
+                <ul class="ans_hot">
+                    <a href="javascript:;">热门问题</a>
+                    <a href="javascript:;">最新问题</a>
+                </ul>
+                <section class="search_key">
+                    <form class="keyword_search" action="#">
+                        <input type="text" placeholder="输入关键词搜索" class="art_keyword">
+                        <button class="search_btn">搜索</button>
+                    </form>
+                </section>
+            </section>
             <ul class="flash_list clearfix">
 
                 {volist name='lists' id='vo' empty='暂无数据'}
@@ -211,6 +221,7 @@
 </div>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
+<script type="text/javascript" src="__JS__/new.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
   <!--客服-->
   <!--<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>-->
@@ -242,4 +253,4 @@
 </script>
 </body>
 </html>
-<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>
+<!--<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->

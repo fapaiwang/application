@@ -3,8 +3,15 @@
 
 namespace app\home\controller;
 use app\common\controller\HomeBase;
+use app\home\service\IndexServer;
+use app\home\service\NewsService;
+use http\Message;
+use think\facade\Log;
+use think\facade\Request;
+
 class News extends HomeBase
 {
+  
     /**
      * @return mixed
      * 新闻列表
@@ -13,6 +20,8 @@ class News extends HomeBase
     {
         $cate    = getCate('articleCate','tree');
         $cate_id = input('param.cate/d',0);
+        $hits = input('hits',"");
+        $keyword = input('keyword',"");
         $where['status'] = 1;
         $cateObj         = model('article_cate');
         if($cate_id)
@@ -22,12 +31,25 @@ class News extends HomeBase
             $where[] = ['cate_id','in',$cate_ids];
             $this->setSeo($info,'name');
         }
+        $news = new NewsService();
         $this->cityInfo['id'] && $where[] = ['city','eq',$this->cityInfo['id']];
-        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order('ordid asc,id desc')->paginate(10);
+        if ($keyword != "") {
+            $where[] = ['title','like','%' . $keyword . '%'];
+        }
+        $order = "ordid asc,id desc";
+        if ($hits != "" && $hits == 'hot') {
+            $order = "cate_id asc";
+        }
+        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(10);
+        $index = new IndexServer();
+        $this->assign("bannerList",$index->get_home_banner(16));
         $this->assign('cate_id',$cate_id);
         $this->assign('lists',$lists);
         $this->assign('pages',$lists->render());
         $this->assign('cate',$cate);
+        $this->assign('hotArticle',$news->get_new_list(5));
+        $this->assign('hotAns',$news->get_ans_list(5));
+        $this->assign('smallBanner',$index->get_home_banner(17));
         return $this->fetch();
     }
 
@@ -65,8 +87,12 @@ class News extends HomeBase
             }
             $this->setSeo($info);
             updateHits($info['id'],'article');
+    
+            $news = new NewsService();
             $this->assign('cate',$cate);
             $this->assign('info',$info);
+            $this->assign('hotArticle',$news->get_new_list(5));
+            $this->assign('hotAns',$news->get_ans_list(5));
             $this->assign('relation',$this->relationArticle($info['cate_id']));
         }else{
             return  $this->fetch('public/404');
@@ -80,5 +106,34 @@ class News extends HomeBase
         $this->cityInfo['id'] && $where['city'] = $this->cityInfo['id'];
         $lists = model('article')->where($where)->field('id,title,create_time')->order('create_time desc')->limit($num)->select();
         return $lists;
+    }
+    
+    /***
+     * @description 预约咨询
+     * @auther xiaobin
+     */
+    public function reserve()
+    {
+        $news = new NewsService();
+        $tel  = input('post.phone');
+        $code = input('post.code');
+        if (!$news->checkMobile($tel)) {
+            return $news->Error("手机号码不正确");
+        }
+        if ($code == 111 || $code != cache($tel)){
+            return $news->Error("验证码不正确");
+        }
+        
+        $data["user_name"] = "游客";
+        $data['mobile'] = $tel;
+        $msg = "预约的人太多了，请稍后尝试";
+        
+        if (model("tijiao")->save($data)) {
+            $msg = "预约成功";
+        }
+        return json(array(
+            "code" => 200,
+            "msg" => $msg,
+        ));
     }
 }
