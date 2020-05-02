@@ -9,6 +9,7 @@ class UserBase extends \think\Controller
     public function initialize()
     {
         parent::initialize();
+        dd(1);
         if(!$this->checkUserLogin())
         {
             $this->error('请登录后再操作！',url('Login/index'));

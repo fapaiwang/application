@@ -7,6 +7,7 @@ namespace app\home\service;
 use app\home\controller\Poster;
 use think\console\command\make\Model;
 use think\facade\Cache;
+use think\Log;
 
 class IndexServer
 {
@@ -77,6 +78,7 @@ class IndexServer
     }
 
     /**
+     * todo 有注释条件
      * 获取推荐房源(6套)
      * @param mixed
      * @return array|null|\PDOStatement|string|\think\Model
@@ -88,7 +90,7 @@ class IndexServer
     public function get_recommend_house(){//
         $objs   = model('second_house');
         $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
-            ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
+//            ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit(6)->cache(1800)->select();
         return $second_house;
     }

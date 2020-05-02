@@ -22,7 +22,7 @@ use think\facade\Log;
 
 
 class Second extends HomeBase{
-    public function index()
+    public function index1243()
 
 
 
@@ -127,7 +127,7 @@ class Second extends HomeBase{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function index12345(){
+    public function index(){
         $result = $this->getLists();
 //        dd($result['lists'][0]);
         $lists  = $result['lists'];
@@ -140,12 +140,12 @@ class Second extends HomeBase{
         $IndexServer= new IndexServer();
         //问答
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
-        $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
+        $hot_news = model('article')->field('id,title,area_name')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
         $quality_estate =$IndexServer->get_quality_estate(10);
 
         $this->assign('answer',$answer);
         $this->assign('hot_news',$hot_news);
-        $this->assign('quality_estate',$quality_estate);
+        $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('keywords',$keywords);
         $this->assign('page_t',1);
         $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线

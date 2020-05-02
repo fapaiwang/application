@@ -1,282 +1,173 @@
-<!doctype html>
-<html lang="en">
-<head>
-<title>司法拍卖房源_法拍房_房屋拍卖信息_房拍网房源栏目</title>
-    <meta name="keywords" content="司法拍卖房源，法拍房，房屋拍卖信息" />
-    <meta name="description" content="房拍网房源栏目汇聚千余套低于市场价25%的优质司法拍卖房产、法拍房源，丰富的房屋拍卖信息，可以便宜放心拍房，安心住新家。咨询电话400 677 0028" />
-    
-    <meta charset="UTF-8">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <script>
-        var browser = {
-            versions: function() {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                return {     //移动终端浏览器版本信息
-                    trident: u.indexOf('Trident') > -1, //IE内核
-                    presto: u.indexOf('Presto') > -1, //opera内核
-                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-                    iPad: u.indexOf('iPad') > -1, //是否iPad
-                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-                };
-            } (),
-            language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        };
-        if (browser.versions.mobile) {
-            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
-        }
-    </script>
-    <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
-    <script src="__STATIC__/js/jquery.min.js"></script>
-</head>
-<body>
-  <style type="text/css">
-.topBar{background: linear-gradient(#ffffff, #e3e3e3);box-shadow:1px 2px 2px #888}
-.nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
-.navBar .nav_list a { color: #000;}
-</style>
+{extend name='public/page_list' /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v=1">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+{/block}
+{block name='js'}
+<script src="/homeStatic/js/swiper.jquery.min.js"></script>
+<script src="/homeStatic/js/swiper.min.js"></script>
+<script src="/homeStatic/js/jquery.waypoints.min.js"></script>
+<script src="/homeStatic/js/homeList.js?v=1"></script>
 
-<!-- topBar S -->
-<div class="topBar" style="    margin-bottom: 2px;">
-    <div class="comWidth clearfix">
-        <div class="logo fl" style="line-height:70px">
-            <a href="{:url('Index/index')}" title="{$site.title}">
-                <img src="{$site.pc_logo_white}" alt="{$site.title}" style="height:66px" />
-            </a>
-        </div>
-        <div class="fl sele_city" style="height:70px">
-            <a href="javascript:;"  class="sele_city_btn" style="line-height:70px;color:#000">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
-            <div class="city_list clearfix">
-                <i class="city-close">关闭</i>
-                {volist name='top_nav_city.city' id='vo'}
-                <dl class="clearfix">
-                    <dt class="bold">{$key}</dt>
-                    {volist name='vo' id='val'}
-                    <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" rel="nofollow" title="{$val.name}">{$val.name}</a></dd>
-                    {/volist}
-                </dl>
-                {/volist}
-            </div>
-        </div>
-        <div class="navBar fl" style="height:70px">
-            <ul class="nav_list fl">
-                 <li style="padding: 10px 30px;"><a href="/" title="网站首页" target="_self" >网站首页</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/erf.html?sort=9" title="推荐房源" target="_self" {if !empty( $_GET['sort']) eq '9' }style="color:#00AC56"{/if} >推荐房源</a> </li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/xiaoqu.html?mod4=4" title="优质小区" target="_self" {if !empty( $_GET['mod4']) eq '4' }style="color:#00AC56"{/if} >优质小区</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/map/second.html?mod5=6" rel="nofollow" title="地图找房" target="_self" {if !empty( $_GET['mod5']) eq '6' }style="color:#00AC56"{/if} >地图找房</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/news.html?mod=5" title="资讯中心" target="_self" >资讯中心</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/single-aboutus.html?mod6=8" rel="nofollow" title="关于我们" target="_self" {if !empty( $_GET['mod6']) eq '8' }style="color:#00AC56"{/if} >关于我们</a></li>
-            </ul>
-        </div>
-        <div class="log_link fr">
-            {notempty name='userInfo'}
-            <!-- 已登录状态 -->
-            <div class="loged" style="line-height:70px">
-                <div class="user_info">
-                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
-                    <span class="name" style="color:#000">{:hideStr($userInfo['nick_name'])}</span>
-                </div>
-                <div class="slide_tog" style="display:none;">
-                    <a href="{:url('user.index/index')}" style="color:#000">用户中心</a>
-                    <a href="{:url('Login/logout')}" style="color:#000">退出登录</a>
-                </div>
-            </div>
-            {else /}
-            <!-- 未登录状态 -->
-            <div class="not_log" style="line-height:70px;color:#000">
-                <a href="{:url('Login/index')}" rel="nofollow" style="color:#000">登录</a>
-                /
-                <a href="{:url('Login/register')}" rel="nofollow" style="color:#000">注册</a>
-            </div>
-            {/notempty}
-        </div>
-    </div>
-</div>
+<script src="__STATIC__/layui/layui.js"></script>
+{/block}
 {block name='content'}
+
 <!-- 搜索栏 S -->
-<div class="searBar ">
-    <div class="comWidth clearfix">
-        <div class="sear_box fl">
-            <form action="{:url('Second/index')}">
-                <div class="ipt_area fl">
-                    <input type="text" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keywords}" onClick='showhidediv("baip")';>
+<div class="searBar " style="margin-top: 70px;">
+    <div class="comWidth">
+        <div class="sear_box">
+            <form action="{:url('Second/index')}" style="display: flex;">
+                <div class="ipt_area">
+                    <input type="text" style="width: 600px;height: 48px;" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keywords}" onClick='showhidediv("baip")';>
                     <span class="placeholder">输入小区名称或房源名称</span>
                     <ul id="search-box">
                     </ul>
                 </div>
-                <div class="btn_area fl">
-                    <input type="submit" class="sbm_btn" id="huiches" value="搜索">
+                <div class="btn_area">
+                    <input type="submit" class="sbm_btn"  value="搜索">
                 </div>
             </form>
         </div>
-        <a href="{:url('Map/second')}" rel="nofollow" class="map_btn fr">地图找房</a>
+        <!--<a href="{:url('Map/second')}" rel="nofollow" class="map_btn fr">地图找房</a>-->
     </div>
-<script type="text/javascript">
-  function showhidediv(id){
-var sbtitle=document.getElementById(id);
-if(sbtitle){
-   if(sbtitle.style.display=='block'){
-   sbtitle.style.display='none';
-   }else{
-   sbtitle.style.display='block';
-   }
-}
-} 
-</script>
-
-<style>
-.saleDetail li{
-padding:5px 0;
-}
-</style>
-<div class="comWidth clearfix">
-<div id="baip" style="display:none;position: absolute;margin-top:-3px;width: 466px; background-color: rgb(255, 255, 255);border-right: 2px solid rgb(0, 172, 86); border-bottom: 2px solid rgb(0, 172, 86); border-left: 2px solid rgb(0, 172, 86); border-top: none rgb(0, 172, 86);">
-        <ul class="saleDetail" style="padding-left:10px;">
-            <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
-        </ul>
-        <ul class="saleDetail history" style="padding-left:10px;"></ul>
-        <div class="Storage"></div>
-        <div class="h80"></div>
-        <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
-       </div>
-</div>
-<script  type="text/javascript" src="/static/home/js/jquery-2.1.4.min.js"></script>
-<script>
-var ItemName = "";  //localStorage的getItem 和 setItem的数组名字，主要用来做不同界面调用各自的历史记录。
-var menuHistory   = new Object();
-$(function(){
-  initLocalStorageArg("hi_001");
-});
-  $(document).delegate(".history>li","click",function(){
-    $("#keyword").val($(this).text());
-  });
-  /**
-   * 初始化相关参数，界面js调用
-   * menucode：可以是js的名字
-   */
-  function initLocalStorageArg(menucode){
-    //苹果手机不兼容出现input无法取值以下是解决方法
-    $('.history>li').click(function(){
-          var div = $(this).text();
-          $('#keyword').val(div);
-    });
-    ItemName = "hist_"+menucode;
-    initlocalStorage();
-    showHistDom();
-  }
-  /**
-   * 历史数据展示
-   */
-  function showHistDom(){
-    $(".history").html("");
-    for(  var i=0 ; i<menuHistory.length;i++){
-        $(".history").append('<li style="display: block;">'+menuHistory[i]+'</li>')
-      }
-  }
-/**
- * 获取指定的localStorageobj对象，并转成Array对象。
- */
-function initlocalStorage(){
-    var localStorageobj = localStorage.getItem(ItemName);
-    if(localStorageobj){
-    }else{
-     localStorage.setItem( ItemName,"[]");
-     localStorageobj = localStorage.getItem(ItemName);
-    }
-    menuHistory=JSON.parse( localStorageobj);
-}
- 
-/**
- * 执行记录历史数据
- */
-function recordHist(){
-      initlocalStorage();
-      var value = $("#keyword").val();
-    // if(!value){ //这里判断输入的value是否合法，也可以用自己的判断方式
-    //   alert("你未输入搜索内容");
-    //   return false;
-    // }
-    //输入的内容localStorage有记录
-      if($.inArray(value,menuHistory)>=0){
-         var keyval = Object.keys(menuHistory).filter(function(x){return menuHistory[x] == value}).toString() ;
-         menuHistory.splice(Number(keyval), 1); //splice(index,1):index代表value值在数组中对应到下标，1：表示删除
-      }else {
-        if (menuHistory.length > 9) {
-            menuHistory.pop();
-        }else {
+    <script type="text/javascript">
+        function showhidediv(id){
+            var sbtitle=document.getElementById(id);
+            if(sbtitle){
+                if(sbtitle.style.display=='block'){
+                    sbtitle.style.display='none';
+                }else{
+                    sbtitle.style.display='block';
+                }
+            }
         }
-      }
-      menuHistory.unshift(value);
-      localStorage.removeItem(ItemName);
-      localStorage.setItem( ItemName,JSON.stringify(menuHistory)); // 因为localStorage的value不能直接放数组，所以转换程json串后，再set
-      showHistDom();
-}
-//清除记录功能
- $(".btnEmpty").click(function(){
-   localStorage.setItem( ItemName,JSON.stringify([]));
-    initlocalStorage();
-    showHistDom();
- });
-/*执行搜索的一种方式，绑定回车键*/
-  $("#keyword").on("keypress",function(e){
-    var keycode=e.keyCode;
-    if(keycode=='13'){
-      recordHist();
-    }
-  });
-   $("#huiches").click(function(){
-      recordHist();
-  });
-</script>
+    </script>
+
+    <style>
+        .saleDetail li{
+            padding:5px 0;
+        }
+    </style>
+    <div class="comWidth clearfix">
+        <div id="baip">
+            <ul class="saleDetail" style="padding-left:10px;">
+                <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
+            </ul>
+            <ul class="saleDetail history" style="padding-left:10px;"></ul>
+            <div class="Storage"></div>
+            <div class="h80"></div>
+            <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
+        </div>
+    </div>
+    <script  type="text/javascript" src="/static/home/js/jquery-2.1.4.min.js"></script>
+    <script>
+        var ItemName = "";  //localStorage的getItem 和 setItem的数组名字，主要用来做不同界面调用各自的历史记录。
+        var menuHistory   = new Object();
+        $(function(){
+            initLocalStorageArg("hi_001");
+        });
+        $(document).delegate(".history>li","click",function(){
+            $("#keyword").val($(this).text());
+        });
+        /**
+         * 初始化相关参数，界面js调用
+         * menucode：可以是js的名字
+         */
+        function initLocalStorageArg(menucode){
+            //苹果手机不兼容出现input无法取值以下是解决方法
+            $('.history>li').click(function(){
+                var div = $(this).text();
+                $('#keyword').val(div);
+            });
+            ItemName = "hist_"+menucode;
+            initlocalStorage();
+            showHistDom();
+        }
+        /**
+         * 历史数据展示
+         */
+        function showHistDom(){
+            $(".history").html("");
+            for(  var i=0 ; i<menuHistory.length;i++){
+                $(".history").append('<li style="display: block;">'+menuHistory[i]+'</li>')
+            }
+        }
+        /**
+         * 获取指定的localStorageobj对象，并转成Array对象。
+         */
+        function initlocalStorage(){
+            var localStorageobj = localStorage.getItem(ItemName);
+            if(localStorageobj){
+            }else{
+                localStorage.setItem( ItemName,"[]");
+                localStorageobj = localStorage.getItem(ItemName);
+            }
+            menuHistory=JSON.parse( localStorageobj);
+        }
+
+        /**
+         * 执行记录历史数据
+         */
+        function recordHist(){
+            initlocalStorage();
+            var value = $("#keyword").val();
+            // if(!value){ //这里判断输入的value是否合法，也可以用自己的判断方式
+            //   alert("你未输入搜索内容");
+            //   return false;
+            // }
+            //输入的内容localStorage有记录
+            if($.inArray(value,menuHistory)>=0){
+                var keyval = Object.keys(menuHistory).filter(function(x){return menuHistory[x] == value}).toString() ;
+                menuHistory.splice(Number(keyval), 1); //splice(index,1):index代表value值在数组中对应到下标，1：表示删除
+            }else {
+                if (menuHistory.length > 9) {
+                    menuHistory.pop();
+                }else {
+                }
+            }
+            menuHistory.unshift(value);
+            localStorage.removeItem(ItemName);
+            localStorage.setItem( ItemName,JSON.stringify(menuHistory)); // 因为localStorage的value不能直接放数组，所以转换程json串后，再set
+            showHistDom();
+        }
+        //清除记录功能
+        $(".btnEmpty").click(function(){
+            localStorage.setItem( ItemName,JSON.stringify([]));
+            initlocalStorage();
+            showHistDom();
+        });
+        /*执行搜索的一种方式，绑定回车键*/
+        $("#keyword").on("keypress",function(e){
+            var keycode=e.keyCode;
+            if(keycode=='13'){
+                recordHist();
+            }
+        });
+        $("#huiches").click(function(){
+            recordHist();
+        });
+    </script>
 </div>
 <style type="text/css">
     .seleBar .item {
         height:35px;
     }
-    /*.active{
-        width:55px; text-align: center;background: #eaeaea;border-radius: 3px;
-    }*/
-
-    .housing-filtering .box-cont .box .s-box .inp-01 {
-    width: 66px;
-    height: 22px;
-    border: 1px solid #d2d2d2;
-    text-align: center;
-}
-.housing-filtering .box-cont .box .s-box span {
-    display: inline-block;
-    margin: 0 5px;
-}
-.housing-filtering .box-cont .box .btn-01 {
-    width: 48px;
-    background: #d91615;
-    color: #ffffff;
-    border-radius: 5px;
-    text-align: center;
-    border: none;
-    height: 26px;
-}
-.fix:after {
-    content: " ";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    font-size: 0;}
-    .r_con { width:930px;}
+    .housing-filtering .box-cont .box .s-box span {
+        display: inline-block;
+        margin: 0 5px;
+    }
+    .fix:after {
+        content: " ";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+        font-size: 0;}
     .cm_leftArea {
         width: 1200px;
     }
@@ -293,34 +184,14 @@ function recordHist(){
         </div>
         <!-- 页面标识 E-->
         <!-- 筛选栏 S -->
-        <div class="seleBar">
+        <div class="seleBar fangpai-select">
             {notempty name='metro'}
             <div class="search-tab clearfix">
-                <a href="{:getUrl('Second/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont">&#xe609;</i>按区域查询</a>
-                <a href="{:getUrl('Second/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont">&#xe61e;</i>按地铁查询</a>
+                <a href="{:getUrl('Second/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
+                <a href="{:getUrl('Second/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
             </div>
             {/notempty}
             <div class="box">
-            <div class="item clearfix">
-                    <h3>形式:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name='house_type' id='vo'}
-                        <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
-                        {/volist}
-
-                    </ul>
-                </div>
-                <div class="item clearfix">
-                    <h3>类型:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name='types' id='vo'}
-                        <li><a href="{:getUrl('Second/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
-                        {/volist}
-
-                    </ul>
-                </div>
                 {if condition="$search.search_type eq 2"}
                 <div class="item clearfix">
                     <h3>地铁:</h3>
@@ -354,7 +225,7 @@ function recordHist(){
                 </div>
                 {notempty name='rading'}
                 <div class="item clearfix">
-                    <h3>商圈:</h3>
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
                     <ul class="list">
                         <li><a href="{:getUrl('Second/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='rading' id='vo'}
@@ -365,6 +236,27 @@ function recordHist(){
                 {/notempty}
                 {/if}
                 <div class="item clearfix">
+                    <h3>形式:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='house_type' id='vo'}
+                        <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>类型:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='types' id='vo'}
+                        <li><a href="{:getUrl('Second/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+
+                    </ul>
+                </div>
+
+                <div class="item clearfix">
                     <h3>总价:</h3>
                     <ul class="list">
                         <li><a href="{:getUrl('Second/index','qipai',$param,0)}" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
@@ -372,72 +264,108 @@ function recordHist(){
                         <li><a href="{:getUrl('Second/index','qipai',$param,$key)}" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                         <li>
-                        <form action="{:url('Second/index')}">
-                            <div class="s-box fix">
-                                <input type="text" class="zprice1" name="zprice1" id="zprice1" value="{$search.zprice1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
-                                <span>——</span>
-                                <input type="text" class="zprice2" name="zprice2" id="zprice2" value="{$search.zprice2}"  data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
-                                <span>万元</span>
-                                <input type="submit" name="" value="搜索" class="zprice" style="background:#00AC56;border:1px solid #00AC56;     margin-left: 10px;color:#fff;">
-                            </div>
-                        </form>
+                            <form action="{:url('Second/index')}">
+                                <div class="s-box fix">
+                                    <input type="text" class="zprice1" name="zprice1" id="zprice1" value="{$search.zprice1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
+                                    <span style="margin: 0 5px">-</span>
+                                    <input type="text" class="zprice2" name="zprice2" id="zprice2" value="{$search.zprice2}"  data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
+                                    <span>万元</span>
+                                    <input type="submit" name="" value="确定" class="zprice">
+                                </div>
+                            </form>
                         </li>
                     </ul>
+                </div>
+                <div class="search-content-shou">
+                    <div class="search-content">
+                        <h3 class="item-title">搜索条件:</h3>
+                        <ul class="search-tiaojian">
+                        </ul>
+                        <div class="search-tiaojian-buttons">
+                            <p>
+                                <img src="/homeStatic/img/baocun.png" alt=""/>
+                                <span>保存</span>
+                            </p>
+                            <p class="search-tiaojian-buttons-clear">
+                                <img src="/homeStatic/img/laji.png" alt=""/>
+                                <span>清除</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div id="box" style="display:none">
-				<div class="item clearfix">
-                    <h3>面积:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name=':getAcreage()' id='vo'}
-                        <li><a href="{:getUrl('Second/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
-                        {/volist}
-                        <li>
-                        <form action="{:url('Second/index')}">
-                            <div class="s-box fix">
-                                <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
-                                <span>——</span>
-                                <input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
-                                <span>平米</span>
-                                <input type="submit" name="" value="搜索" class="zmianji" style="background:#00AC56;border:1px solid #00AC56;     margin-left: 10px; color:#fff;">
+
+                    <div class="item clearfix">
+                        <h3>面积:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name=':getAcreage()' id='vo'}
+                            <li><a href="{:getUrl('Second/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                            <li>
+                                <form action="{:url('Second/index')}">
+                                    <div class="s-box fix">
+                                        <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
+                                        <span>——</span>
+                                        <input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
+                                        <span>平米</span>
+                                        <input type="submit" name="" value="确定" class="zprice">
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>户型:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name=':getRoom()' id='vo'}
+                            <li><a href="{:getUrl('Second/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>阶段:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name='jieduan' id='vo'}
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                            {if condition="$search.is_free eq 0"}
+                            <li><a href="{:getUrl('Second/index','is_free',$param,1)}"><b>自由购</b></a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Second/index','is_free',$param,0)}" class="active"><b>自由购</b></a></li>
+                            {/if}
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>状态:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name='fcstatus' id='vo'}
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+
+                    <div class="item clearfix search-content-gengduo">
+                        <div class=" search-content">
+                            <h3 class="item-title">搜索条件:</h3>
+                            <ul class="search-tiaojian">
+                            </ul>
+                            <div class="search-tiaojian-buttons">
+                                <p>
+                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <span>保存</span>
+                                </p>
+                                <p class="search-tiaojian-buttons-clear">
+                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <span>清除</span>
+                                </p>
                             </div>
-                        </form>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="item clearfix">
-                    <h3>户型:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name=':getRoom()' id='vo'}
-                        <li><a href="{:getUrl('Second/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
-                        {/volist}
-                    </ul>
-                </div>
-                <div class="item clearfix">
-                    <h3>阶段:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name='jieduan' id='vo'}
-                        <li><a href="{:getUrl('Second/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
-                        {/volist}
-                        {if condition="$search.is_free eq 0"}
-                        <li><a href="{:getUrl('Second/index','is_free',$param,1)}"><b>自由购</b></a></li>
-                        {else /}
-                        <li><a href="{:getUrl('Second/index','is_free',$param,0)}" class="active"><b>自由购</b></a></li>
-                        {/if}
-                    </ul>
-                </div>
-                <div class="item clearfix">
-                    <h3>状态:</h3>
-                    <ul class="list">
-                        <li><a href="{:getUrl('Second/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
-                        {volist name='fcstatus' id='vo'}
-                        <li><a href="{:getUrl('Second/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
-                        {/volist}
-                    </ul>
-                </div>
-				</div>
                 <div class="item clearfix" style="display:none;">
                     <h3>标签:</h3>
                     <ul class="list">
@@ -480,16 +408,24 @@ function recordHist(){
                 </div>
             </div>
         </div>
-		<div style="text-align:center"><input name="" type="button"  value="显示更多"  id="btn" onclick="btn()"  style=" width:130px;color: #606060;border: solid 1px #b7b7b7;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));border-radius: 2em; padding:5px 10px; margin:5px"></div>
+        <div style="text-align:center" class="fangpai-gengduo-button">
+            <input name="" type="button"  value="更多"  id="btn" onclick="btn()" >
+            <img src="/homeStatic/img/daosanjiao.png" alt=""/>
+        </div>
         <!-- 筛选栏 E -->
         <div class="main clearfix">
             <!-- 二手房列表 S-->
             <div class="houseList_wrap leftArea cm_leftArea">
                 <div class="head clearfix">
-                    <div class="tab sort-tab fr" style="display:black; float:left;">
+                    <div class="tabButtons">
+                        <img src="/homeStatic/img/tabMenuH.png" id="fangpai-shu-btn" alt="" />
+                        <img src="/homeStatic/img/tabMenu.png" id="fangpai-lie-btn" id="" alt="" />
+                    </div>
+                    <div class="tab sort-tab fr" style="display:black; float:right;">
                         <ul>
                             <li style="margin-left:0px;"><a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}>全部房源</a></li>
                             <li ><a href="{:getUrl('Second/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>
                             {if condition='$search.sort eq 1'}
                             <li><a href="{:getUrl('Second/index','sort',$param,2)}" class="active up">房屋总价</a></li>
                             {elseif condition='$search.sort eq 2'}
@@ -511,324 +447,232 @@ function recordHist(){
                             {else /}
                             <li><a href="{:getUrl('Second/index','sort',$param,5)}">房屋面积</a></li>
                             {/if}
-                            <li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>
+
                             <!-- <li><a href="{:getUrl('Second/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 9'}class="active"{/if}>推荐房源</a></li> -->
                         </ul>
                     </div>
                 </div>
-                <div class="list_con sh_house_list">
-                    <ul class="clearfix">
-                        {volist name='top_lists' id='vo'}
-                        <li>
-                            <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
-								<span class="l_img fl">
-									<img src="/static/images/noimg.jpg" data-original="{:thumb($vo['img'],290,185)}" class="lazy" alt="{$vo.title}">
-                                <!--<img src="$vo['img']" onerror="javascript:this.src='/static/images/noimg.jpg';" class="lazy" alt="{$vo.title}" width="290" height="185">-->
-								</span>
-								<span class="r_con fr">
-									<h2>{$vo.title}<i class="top-icon">顶</i></h2>
-									<p>
-                                        <span class="info">{$vo.room}室{$vo.living_room}厅{$vo.toilet}卫</span>
-                                        <span class="l">|</span>
+                <div class="fangpai-shu-list-content">
+                    <div class="fangpai-shu-list-content-left">
+                        <!--块-->
+                        <ul class="fangpai-shu-list">
+                            {volist name='lists' id='vo' empty='暂无数据'}
+                            <li>
+                                <div class="fangpai-shu-list-img">
+                                    <a href="{:url('Second/detail',['id'=>$vo.id])}" target="_blank">
+                                        <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                    </a>
+
+                                    <div class="fangpai-shu-list-img-footer">
+                                        <span>开拍时间：2020-04-16 10:00:00</span>|<span>住宅</span>|<span>一拍</span>
+                                    </div>
+                                </div>
+                                <h3 class="fangpai-shu-list-title">{$vo.title}</h3>
+                                <div class="fangpai-shu-list-info">
+                                    <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                    {if strstr($vo.acreage,'.')}
                                         <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(4,$vo['orientations'])}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span>
-                                    </p>
-                                <p>
-                                    <span class="tit">{$vo.estate_name}</span>
-                                    <span class="address">{$vo.address}</span>
-                                </p>
-                                    <p class="user-info">
-                                        <span><i class="iconfont">&#xe605;</i>{$vo.contacts.contact_name}{if condition="$vo.user_type eq 1"}(个人){else /}(法拍专员){/if}</span>
-                                        <span>{:getTime($vo['update_time'],'mohu')}</span>
-                                    </p>
-									<span class="label_list clearfix">
-                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
-                                        {notempty name='tag'}
-                                        {volist name='tag' key='n' id='val'}
-                                        <i class="item item{$n}">{:getLinkMenuName(14,$val)}</i>
-                                        {/volist}
-                                        {/notempty}
-									</span>
-									<span class="price">
-										<h5><strong>{$vo.price|raw}</strong></h5>
-										<p>{$vo.average_price}</p>
-									</span>
-                                </span>
-                            </a>
-                        </li>
-                        {/volist}
-                        {if condition="$search.fcstatus eq 175"}
-                        {volist name='lists' id='vo' empty='暂无数据'}
-                        <li>
-                            <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
-                                <span class="l_img fl">
-                                    {if !empty($vo['pano_url'])}
-                        <img src="/img/pcvr.png" data-original="{:thumb($vo['img'],290,185)}" class="lazy" id="1" alt="{$vo.title}">
-                        {else}
-                        <img src="/img/pcvr.png" data-original="{:thumb($vo['img'],290,185)}" class="lazy" id="2" alt="{$vo.title}">
-                        {/if}
-                                      <!--{if $vo['fcstatus'] eq 169}-->
-                                    <!--<div class="zzjx fix abs" style="float:right; margin-top:-185px; z-inde:555; position: absolute;margin-left: 190px;"></div>-->
-                                    <!--{/if}-->
-                                    <!---->
-                                    <!-- <img src="/static/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}"> -->
-                                    {if $vo['fcstatus'] eq 169}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-185px; z-inde:555; position: absolute;margin-left: 190px;"><img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:100%;height:100%;"></div>
+                                      {else}
+                                        <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
                                     {/if}
-                                    {if $vo['fcstatus'] eq 170}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-185px; z-index:555; position: absolute;margin-left: 190px;"><img src="/static/images/status/status1.png" original="/static/images/status/status1.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 171}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 172}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 173}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 174}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 175}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                {if condition='$storage_open eq 1 and $vo.video'}<em class="video-play-btn"></em>{/if}
-                                </span>
-                                <span class="r_con fr" style="width:180px;height:189px;line-height:189px;padding-left:20px;"><p style="margin-top:-10px;">成交价：￥{$vo.cjprice}万</p><p>市场价：￥{$vo.price|raw}</p></span>
-                                <span class="r_con fr" style="width:690px;">
-                                    <!--<h2>{$vo.title}</h2>-->
-                                    <h2>{$vo['city']}  &nbsp&nbsp&nbsp&nbsp {$vo['estate_name']}</h2>
-                                    <p>
-                                        <span class="info">{$vo.estate_name}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(29,$vo['toilet'])}</span>
-                                        <!-- <span class="info">{$vo.room}室{$vo.living_room}厅</span> -->
-                                        <span class="l">|</span>
-          {if strstr($vo.acreage,'.')}
-            <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
-          {else}
-            <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
-          {/if}
-                       <!-- <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span> -->
-                                        <!-- <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(4,$vo['orientations'])}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span> -->
-                                    </p>
-                               <!--  <p>
-                                    
-                                    <span class="tit">单价：{$vo['average_price']|raw}</span>
-                                </p> -->
-                                <p>
-                                    <!-- <span class="tit">{:getLinkMenuName(7,$vo['floor'])}/{$vo['total_floor']}层</span> -->
-                                    <span class="tit">{$vo['floor']}/{$vo['total_floor']}层</span>
-                                    <span class="address" style="margin-left:10px;">{:getLinkMenuName(4,$vo['orientations'])}向</span>
-                                </p>
-                                <p>
-                                    <span class="tit"><!--{:getCityName($vo['city'])}-->{$vo['city']}</span>
-                                    <span class="address" style="margin-left:10px;">{$vo.estate_name}</span>
-                                </p>
-                                <p>
-                                    <span class="tit">漏检指数：</span>
-                                    <span class="address" style="margin-left:10px;">
-                                        {if $vo.marketprice eq 1}
-                                            <img src="/static/images/img-14.png">
+                                </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
+                                </div>
+                                <div class="fangpai-shu-list-money">
+                                    <div class="fangpai-shu-list-left">
+                                        <p><span>{$vo.qipai}</span>万
+                                            <b>市场价：{$vo.price|raw}</b>
+                                        </p>
+                                    </div>
+                                    <div class="fangpai-shu-list-right">
+                                        {if $vo.fydp_num gt 0 }
+                                        <div class="fangpai-shu-list-shoucang">
+                                            <p><img src="/homeStatic/img/hongxin.png" alt=""></p>
+                                            <p><span>收藏11</span></p>
+                                        </div>
+                                        {else}
+                                        <div class="fangpai-shu-list-shoucang">
+                                            <p><img src="/homeStatic/img/jrcj.png" alt=""></p>
+                                            <p><span>收藏</span></p>
+                                        </div>
                                         {/if}
-                                {if $vo.marketprice eq 2}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
+                                        <!--<div class="box-s fix fl ml20">-->
+                                        <!--<span class="icon fl"><img src="/static/images/img-79.png" alt=""></span>-->
+                                        <!--<span class="collect_btn follow txt fl" data-id="{$vo.id}" data-model="second_house" data-uri="{:url('Api/follow')}">-->
+                                        <!--{if $vo.fydp_num gt 0 }-->
+                                        <!--已关注-->
+                                        <!--{else}-->
+                                        <!--关注房源-->
+                                        <!--{/if}-->
+                                        <!--</span>-->
+                                        <!--</div>-->
+                                        <!--<span class="collect_btn follow txt fl" data-id="{$vo.id}" data-model="second_house" data-uri="{:url('Api/follow')}">-->
+                                        <!--{if $vo.fydp_num gt 0 }已收藏{else} 收藏{/if}-->
+                                        <!--</span>-->
+                                        <div class="fangpai-shu-list-zixun">
+                                            <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
+                                            <p><span>咨询</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {if condition="$vo.fcstatus eq 169"}
+                                <!--进行中-->
+                                <div class="fangpai-shu-list-absolute">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {elseif condition="$vo.fcstatus eq 170"}
+                                <!--预告中-->
+                                <div class="fangpai-shu-list-absolute-lan">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {else /}
+                                <!--已成交-->
+                                <div class="fangpai-shu-list-over">
+                                    <span style="display: none">{$vo.id}</span>
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
                                 {/if}
-                                {if $vo.marketprice eq 3}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
+                                {if condition="$vo.is_free eq 1"}
+                                <div class="fangpai-shu-list-left-absolute">
+                                    自由购
+                                </div>
                                 {/if}
-                                {if $vo.marketprice eq 4}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                {if $vo.marketprice eq 5}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                    </span>
-                                </p>
-                                    <p class="user-info" style="display:none;">
-                                        <span><i class="iconfont">&#xe605;</i>{$vo.contacts.contact_name}{if condition="$vo.user_type eq 1"}(个人){else /}(法拍专员){/if}</span>
-                                        <span>{:getTime($vo['update_time'],'mohu')}</span>
-                                    </p>
-                                    <span class="label_list clearfix">
-                                       <i class="item item4">{$vo.years}年</i>
-                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
-                                        {notempty name='tag'}
-                                        {volist name='tag' key='n' id='val'}
-                                        <i class="item item{$n}">{:getLinkMenuName(14,$val)}</i>
-                                        {/volist}
-                                        {/notempty}
-                                    </span>
-                                    <span class="price">
-                                        <span style="float: left;margin-left: -60px;margin-top: 10px;font-size: 14px;color: #999;">差额:</span>
-                                                  {if strstr($vo.chajia,'.')}
-                                                    <h5 style="color:red;"><strong style="color:red;">{$vo.chajia|raw}</strong>万</h5>
-                                                  {else}
-                                                    <h5 style="color:red;"><strong style="color:red;">{$vo.chajia|raw}.00</strong>万</h5>
-                                                  {/if}
-                                        <!-- <h5 style="color:red;"><strong style="color:red;">{$vo.qipai|raw}</strong>万</h5> -->
-                                        <!-- <p>{$vo.average_price|raw}</p> -->
-                                          <!-- <span style="color:#333;margin-left: -60px;">单价：{$vo['average_price']|raw}</span> -->
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                        {/volist}
-                        {else}
-                        {volist name='lists' id='vo' empty='暂无数据'}
-                        <li>
-                            <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
-                                <span class="l_img fl">
-                                    {if !empty($vo['pano_url'])}
-                        <img src="/static/images/noimg.jpg" data-original="{$vo['img']}" class="lazy" id="3" alt="{$vo.title}" width="290" height="185">
-                                    <!--<img src="$vo['img']" onerror="javascript:this.src='/static/images/noimg.jpg';" class="lazy" id="3"   alt="{$vo.title}" width="290" height="185">-->
-                        {else}
-                        <img src="/static/images/noimg.jpg" data-original="{$vo['img']}" class="lazy" id="4" alt="{$vo.title}" width="290" height="185">
-                        <!--<img src="{:thumb($vo['img'],290,185)}" onerror="javascript:this.src='/static/images/noimg.jpg';" class="lazy" id="4"   alt="{$vo.title}" >-->
 
+                            </li>
+                            {/volist}
+                        </ul>
+                        <ul class="fangpai-lie-list">
+                            {volist name='lists' id='vo' empty='暂无数据'}
+                            <li>
+                                <span style="display: none">{$vo.id}</span>
+                                <div class="fangpai-lie-list-img">
+                                    <a href="{:url('Second/detail',['id'=>$vo.id])}" target="_blank">
+                                        <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                    </a>
+                                </div>
+                                <div class="fangpai-lie-list-content">
+                                    <div class="fangpai-lie-list-content-title">
+                                        <h3>{$vo.title}</h3>
+                                        <span class="fangpai-lie-list-content-title-red">{:getLinkMenuName(26,$vo['types'])}</span>
+                                        <span class="fangpai-lie-list-content-title-blue">{:getLinkMenuName(25,$vo['jieduan'])}</span>
+                                    </div>
+                                    <div class="fangpai-lie-list-info">
+                                        <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                            {if strstr($vo.acreage,'.')}
+                                                <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                              {else}
+                                                <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+                                            {/if}
+                                        </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
+                                    </div>
+                                    <div class="fangpai-lie-list-time">
+                                        <span>开拍时间：{$vo.kptime}</span>
+                                        <p><b>{$vo.qipai}</b>万</p>
+                                    </div>
+                                    <div class="fangpai-lie-list-footer">
+                                        <div class="fangpai-lie-list-footer-left">
+                                            <div class="fangpai-lie-list-shoucang">
+                                                <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
+                                                <p><span>收藏</span></p>
+                                            </div>
+                                            <div class="fangpai-lie-list-zixun">
+                                                <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
+                                                <p><span>咨询</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="fangpai-lie-list-danjia">
+                                            <span>单价：{$vo.average_price|raw}</span>
+                                            <span>市场价：{$vo.price|raw}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--todo 旗帜颜色问题/已结束在中间-->
+                                {if condition="$vo.fcstatus eq 169"}
+                                <div class="fangpai-heng-list-absolute">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {elseif condition="$vo.fcstatus eq 170"}
+                                <div class="fangpai-heng-list-absolute-lan">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {else /}
+                                <div class="fangpai-heng-list-absolute-over">
+                                    <span style="display: none">{$vo.id}</span>
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
                                 {/if}
-                                {if $vo['is_free'] eq 1}
-                                    <span  style="float:right; margin-top:-185px; z-inde:555; position: absolute;background:red;color: azure;font-size: 16px;width: 60px;height:31px;text-align:center;line-height: 31px;">自由购</span>
+                                {if condition="$vo.is_free eq 1"}
+                                <div class="fangpai-shu-list-left-absolute">
+                                    自由购
+                                </div>
                                 {/if}
-                                    {if $vo['fcstatus'] eq 169}
-
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-185px; z-inde:555; position: absolute;margin-left: 190px;">
-                                      <img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:100%;height:100%;">
-                                   {if !empty($vo['pano_url'])} <img src="/img/pcvr.png" original="/img/pcvr.png" style="width:50px;height:50px;position: absolute;    top: 70px;    right: 116px;">         {/if}
-                                  </div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 170}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-185px; z-index:555; position: absolute;margin-left: 190px;">
-                                      <img src="/static/images/status/status1.png" original="/static/images/status/status1.png" style="width:100%;height:100%;">
-                                   {if !empty($vo['pano_url'])} <img src="/img/pcvr.png" original="/img/pcvr.png" style="width:50px;height:50px;position: absolute;    top: 70px;    right: 116px;">         {/if}
-                                  </div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 171}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 172}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 173}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 174}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 175}
-                                    <div class="zzjx fix abs" style="float:right; margin-top:-130px; z-index:555; position: absolute;margin-left: 90px;"><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:100%;height:100%;"></div>
-                                    {/if}
-                                {if condition='$storage_open eq 1 and $vo.video'}<em class="video-play-btn"></em>{/if}
-                                </span>
-                                <span class="r_con fr" style="width:890px;">
-                                    <!--标题-->
-                                    <h2>{:msubstr(strip_tags($vo['title']),0,22)}</h2>
-                                    <p>
-                                        <span class="info">{$vo.estate_name}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(29,$vo['toilet'])}</span>
-                                        <!-- <span class="info">{$vo.room}室{$vo.living_room}厅</span> -->
-                                        <span class="l">|</span>
-          {if strstr($vo.acreage,'.')}
-            <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
-          {else}
-            <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
-
-          {/if}
-                       <!-- <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span> -->
-                                        <!-- <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(4,$vo['orientations'])}</span>
-                                        <span class="l">|</span>
-                                        <span class="info">{:getLinkMenuName(8,$vo['renovation'])}</span> -->
-                                    </p>
-                               <!--  <p>
-                                    <span class="tit">单价：{$vo['average_price']|raw}</span>
-                                </p> -->
-                                <p>
-                                    <!-- <span class="tit">{:getLinkMenuName(7,$vo['floor'])}/{$vo['total_floor']}层</span> -->
-                                    <span class="tit">{$vo['floor']}/{$vo['total_floor']}层</span>
-                                    <span class="address" style="margin-left:10px;">{:getLinkMenuName(4,$vo['orientations'])}向</span>
-                                </p>
-                                <p>
-                                    <span class="tit"><!--{:getCityName($vo['city'])}-->{$vo['city']}</span>
-                                    <span class="address" style="margin-left:10px;">{$vo.estate_name}</span>
-                                </p>
-                                <p>
-                                    <span class="tit">捡漏指数：</span>
-                                    <span class="address" style="margin-left:10px;">
-                                        {if $vo.marketprice eq 1}
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                {if $vo.marketprice eq 2}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                {if $vo.marketprice eq 3}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                {if $vo.marketprice eq 4}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                {if $vo.marketprice eq 5}
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                <img src="/static/images/img-14.png">
-                                {/if}
-                                    </span>
-                                </p>
-                                    <p class="user-info" style="display:none;">
-                                        <span><i class="iconfont">&#xe605;</i>{$vo.contacts.contact_name}{if condition="$vo.user_type eq 1"}(个人){else /}(法拍专员){/if}</span>
-                                        <span>{:getTime($vo['update_time'],'mohu')}</span>
-                                    </p>
-                                    <span class="label_list clearfix">
-                                       <i class="item item4">{$vo.years}年</i>
-                                        {php}$tag = array_filter(explode(',',$vo['tags']));{/php}
-                                        {notempty name='tag'}
-                                        {volist name='tag' key='n' id='val'}
-                                        <i class="item item{$n}">{:getLinkMenuName(14,$val)}</i>
-                                        {/volist}
-                                        {/notempty}
-                                    </span>
-                                    <span class="price">
-                                        <span style="float: left;margin-left: -60px;margin-top: 10px;font-size: 14px;color: #999;">起拍价:</span>
-                                                  {if strstr($vo.qipai,'.')}
-                                                    <h5 style="color:red;"><strong style="color:red;">{$vo.qipai|raw}</strong>万</h5>
-                                                  {else}
-                                                    <h5 style="color:red;"><strong style="color:red;">{$vo.qipai|raw}.00</strong>万</h5>
-                                                  {/if}
-                                        <!-- <h5 style="color:red;"><strong style="color:red;">{$vo.qipai|raw}</strong>万</h5> -->
-                                        <!-- <p>{$vo.average_price|raw}</p> -->
-                                          <span style="color:#333;margin-left: -60px;">单价：{$vo['average_price']|raw}</span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                        {/volist}
-                        {/if}
-                    </ul>
+                                <!--<div class="fangpai-heng-list-absolute-over">-->
+                                <!--已结束-->
+                                <!--</div>-->
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="fangpai-shu-tuijian">
+                            <h2>推荐小区</h2>
+                            <div class="tuijian-swiper-container">
+                                <div class="swiper-wrapper">
+                                    {volist name='quality_estate' id='vo'}
+                                    <div class="swiper-slide">
+                                        <span style="display: none">{$vo.id}</span>
+                                        <div class="tuijian-slide-detail">
+                                            <img src="{$vo.img}" alt="">
+                                            <p>【{$vo.area_name}】{$vo.title}</p>
+                                            <div class="tuijian-slide-detail-info">
+                                                <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
+                                                <span class="tuijian-slide-detail-info-color">{$vo.price}元/㎡</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/volist}
+                                </div>
+                                <div class="tuijian-swiper-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fangpai-shu-list-content-right">
+                        <div class="fangpai-shu-list-content-right-map">
+                            <a href="/map/second.html?mod5=6"><img src="/homeStatic/img/dituzhaofang98.png" alt=""></a>
+                            <p><a href="/map/second.html?mod5=6">试试地图找房</a></p>
+                        </div>
+                        <div class="fangpai-shu-list-content-right-title">
+                            <span>热门问答</span>
+                            <span></span>
+                        </div>
+                        <ul class="fangpai-shu-list-content-right-wenda">
+                            {volist name='answer' id='vo' empty='暂无数据'}
+                            <li>
+                                <p><a href="{:url('News/detail',['id'=>$vo.id])}" target="_blank">{$vo.title}</a></p>
+                                <span>{$vo.hits}个浏览/{$vo.create_time|date="Y-m-d"}</span>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="fangpai-shu-list-content-right-title">
+                            <span>热门百科</span>
+                            <span><a href="/news.html?mod=5">更多</a></span>
+                        </div>
+                        <ul class="fangpai-shu-list-content-right-baike">
+                            {volist name='hot_news' id='vo' empty='暂无数据'}
+                            <li>
+                                <p><a href="{:url('News/detail',['id'=>$vo.id])}" target="_blank">{$vo.title}</a></p>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="fangpai-gongzhonghao-box">
+                            <div class="fangpai-shu-list-content-right-title">
+                                <span>房拍网公众号</span>
+                                <span></span>
+                            </div>
+                            <div class="fangpai-shu-list-content-right-gongzhonghao">
+                                <img src="{$site.weixin_qrcode}" alt="">
+                                <p>扫一扫</p>
+                                <p>关注我们</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {notempty name='pages'}
                 <div class="page_list clearfix">
@@ -836,61 +680,6 @@ function recordHist(){
                 </div>
                 {/notempty}
             </div>
-            <!-- 二手房列表 E-->
-            <!-- 右边内容 S -->
-            <div class="cm_rightArea rightArea">
-                <!-- 我要卖房 S -->
-                <a href="{:url('user.index/index')}" class="sale_btn mt_25" style="display:none">我要卖房</a>
-                <!-- 我要卖房 E -->
-                <!-- 最新房源 S -->
-                <div class="rcmd_house new_house " style="display:none;">
-                    <div class="title">
-                        <h3>推荐房源</h3>
-                        <p class="b_l"></p>
-                    </div>
-                    <div class="con_box">
-                        <ul class="clearfix">
-                            {volist name='position' id='vo'}
-                            <li>
-                                <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
-                                    <div class="img">
-                                        <!--onerror="this.src='/static/images/download.png'"-->
-                                        <img src="{$vo.img}"  alt="{$vo.title}">
-                                    </div>
-                                    <div class="con">
-                                        <div class="row clearfix">
-                                            <p class="name fl">{$vo.estate_name}</p>
-                                            <p class="price fr">{$vo.price}{if condition="$vo.price gt 0"}万{/if}</p>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <p class="type fl">{$vo.room}室{$vo.living_room}厅</p>
-                                            <p class="area fr">{$vo.acreage}{:config('filter.acreage_unit')}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            {/volist}
-                        </ul>
-                    </div>
-                </div>
-                <!-- 最新房源 E -->
-                <!-- 购房知识 S -->
-                <div class="buy_way house_klg mt_25" style="display:none;">
-                    <div class="title">
-                        <h3>{:getCateName('articleCate',6)}</h3>
-                        <p class="b_l"></p>
-                    </div>
-                    <div class="con_box">
-                        <ul class="list">
-                            {fang:lists table='article' where='cate_id=6 and status=1 and city=$cityId' field='id,title' order='ordid asc' limit='8' id='data'}
-                            <li class="clearfix"><a href="{:url('News/detail',['id'=>$data['id']])}" title="{$data.title}">{$data.title}</a></li>
-                            {/fang:lists}
-                        </ul>
-                    </div>
-                </div>
-                <!-- 购房知识S -->
-            </div>
-            <!-- 右边内容 E -->
         </div>
     </div>
 </div>
@@ -912,12 +701,6 @@ function recordHist(){
 </script>
 <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
 <script type="text/javascript">
-var btn1=document.getElementById('btn');
-var box1=document.getElementById('box');
-function btn(){ if(btn1.value=="收起"){box1.style.display='none';btn1.value="显示更多";
- }else{box1.style.display='';btn1.value="收起";
-}
-}
 </script>
 <script type="text/javascript">
     $(function(){
@@ -948,11 +731,8 @@ function btn(){ if(btn1.value=="收起"){box1.style.display='none';btn1.value="�
     })
 </script>
 {/block}
-<div class="footer">
-    {include file='public/footer' /}
-</div>
-  <!--客服-->
-  <!--<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>-->
+
+
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
@@ -963,34 +743,23 @@ function btn(){ if(btn1.value=="收起"){box1.style.display='none';btn1.value="�
         //event: "scrollstop"
     });
     $(function(){
-       $('.follow').on('click',function(){
-           var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
-           $.post(url,{house_id:house_id,model:model},function(result){
-               if(result.code == 1)
-               {
-                   layer.msg(result.msg,{icon:1});
-                   if(me.hasClass('on'))
-                   {
-                       me.removeClass('on').text(result.text);
-                   }else{
-                       me.addClass('on').text(result.text);
-                   }
-               }else{
-                   layer.msg(result.msg,{icon:2});
-               }
-           });
-       });
+        $('.follow').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+            $.post(url,{house_id:house_id,model:model},function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg,{icon:1});
+                    if(me.hasClass('on'))
+                    {
+                        me.removeClass('on').text(result.text);
+                    }else{
+                        me.addClass('on').text(result.text);
+                    }
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
     });
 </script>
-  <script>
-      var _hmt = _hmt || [];
-      (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?382a05b9ea5e121e9efe1520d2febe1b";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-      })();
-  </script>
-</body>
-</html>
-<script language="javascript" src="http://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>
+{/block}
