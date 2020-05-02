@@ -225,7 +225,7 @@
                 </div>
                 {notempty name='rading'}
                 <div class="item clearfix">
-                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+                    <h3>商圈:</h3>
                     <ul class="list">
                         <li><a href="{:getUrl('Second/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='rading' id='vo'}
@@ -242,7 +242,6 @@
                         {volist name='house_type' id='vo'}
                         <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
-
                     </ul>
                 </div>
                 <div class="item clearfix">
@@ -484,35 +483,22 @@
                                         </p>
                                     </div>
                                     <div class="fangpai-shu-list-right">
-                                        {if $vo.fydp_num gt 0 }
-                                        <div class="fangpai-shu-list-shoucang">
-                                            <p><img src="/homeStatic/img/hongxin.png" alt=""></p>
-                                            <p><span>收藏11</span></p>
-                                        </div>
-                                        {else}
-                                        <div class="fangpai-shu-list-shoucang">
-                                            <p><img src="/homeStatic/img/jrcj.png" alt=""></p>
-                                            <p><span>收藏</span></p>
-                                        </div>
-                                        {/if}
-                                        <!--<div class="box-s fix fl ml20">-->
-                                        <!--<span class="icon fl"><img src="/static/images/img-79.png" alt=""></span>-->
-                                        <!--<span class="collect_btn follow txt fl" data-id="{$vo.id}" data-model="second_house" data-uri="{:url('Api/follow')}">-->
                                         <!--{if $vo.fydp_num gt 0 }-->
-                                        <!--已关注-->
-                                        <!--{else}-->
-                                        <!--关注房源-->
-                                        <!--{/if}-->
-                                        <!--</span>-->
+                                        <!--<div class="fangpai-shu-list-shoucang">-->
+                                            <!--<p><img src="/homeStatic/img/hongxin.png" alt=""></p>-->
+                                            <!--<p><span>收藏11</span></p>-->
                                         <!--</div>-->
-                                        <!--<span class="collect_btn follow txt fl" data-id="{$vo.id}" data-model="second_house" data-uri="{:url('Api/follow')}">-->
-                                        <!--{if $vo.fydp_num gt 0 }已收藏{else} 收藏{/if}-->
-                                        <!--</span>-->
-                                        <div class="fangpai-shu-list-zixun">
-                                            <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
-                                            <p><span>咨询</span></p>
-                                        </div>
-                                    </div>
+                                        <!--{else}-->
+                                        <!--<div class="fangpai-shu-list-shoucang">-->
+                                            <!--<p><img src="/homeStatic/img/jrcj.png" alt=""></p>-->
+                                            <!--<p><span>收藏</span></p>-->
+                                        <!--</div>-->
+                                        <!--{/if}-->
+                                        <!--<div class="fangpai-shu-list-zixun">-->
+                                            <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
+                                            <!--<p><span>咨询</span></p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                                 {if condition="$vo.fcstatus eq 169"}
                                 <!--进行中-->
@@ -569,16 +555,16 @@
                                         <p><b>{$vo.qipai}</b>万</p>
                                     </div>
                                     <div class="fangpai-lie-list-footer">
-                                        <div class="fangpai-lie-list-footer-left">
-                                            <div class="fangpai-lie-list-shoucang">
-                                                <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
-                                                <p><span>收藏</span></p>
-                                            </div>
-                                            <div class="fangpai-lie-list-zixun">
-                                                <p><img src="./homeStatic/img/jrcj.png" alt=""></p>
-                                                <p><span>咨询</span></p>
-                                            </div>
-                                        </div>
+                                        <!--<div class="fangpai-lie-list-footer-left">-->
+                                            <!--<div class="fangpai-lie-list-shoucang">-->
+                                                <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
+                                                <!--<p><span>收藏</span></p>-->
+                                            <!--</div>-->
+                                            <!--<div class="fangpai-lie-list-zixun">-->
+                                                <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
+                                                <!--<p><span>咨询</span></p>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
                                         <div class="fangpai-lie-list-danjia">
                                             <span>单价：{$vo.average_price|raw}</span>
                                             <span>市场价：{$vo.price|raw}</span>
@@ -611,6 +597,8 @@
                             </li>
                             {/volist}
                         </ul>
+                        <input type="text" id="selected_nav" value="{$selected_nav}">
+                        <input type="hidden" id="list_page_search_field" value="{$list_page_search_field}">
                         <div class="fangpai-shu-tuijian">
                             <h2>推荐小区</h2>
                             <div class="tuijian-swiper-container">
@@ -730,7 +718,7 @@
         });
     })
 </script>
-{/block}
+
 
 
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>

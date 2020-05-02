@@ -1,22 +1,10 @@
 <?php
-
-
-
-
-
-
-
-
 namespace app\home\controller;
 
-
-
 use app\common\controller\HomeBase;
-
-
-
 use app\common\service\Metro;
 use app\home\service\IndexServer;
+use app\home\service\SecondServer;
 use app\home\service\UserService;
 use think\facade\Log;
 
@@ -128,6 +116,7 @@ class Second extends HomeBase{
      * @throws \think\exception\DbException
      */
     public function index(){
+
         $result = $this->getLists();
 //        dd($result['lists'][0]);
         $lists  = $result['lists'];
@@ -138,14 +127,26 @@ class Second extends HomeBase{
             $keywords='';
         }
         $IndexServer= new IndexServer();
+        $SecondServer= new SecondServer();
+
+
+
         //问答
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
-        $hot_news = model('article')->field('id,title,area_name')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
+        $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
+        $area = input('param.area/d', $this->cityInfo['id']);
+        if ($area < 57){
+            $street=0;
+        }
+
         $quality_estate =$IndexServer->get_quality_estate(10);
+
+        $list_page_search_field = $SecondServer->list_page_search_field(0);
 
         $this->assign('answer',$answer);
         $this->assign('hot_news',$hot_news);
         $this->assign('quality_estate',$quality_estate);//推荐小区
+        $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
         $this->assign('keywords',$keywords);
         $this->assign('page_t',1);
         $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线
@@ -153,17 +154,213 @@ class Second extends HomeBase{
         $this->assign('orientations',getLinkMenuCache(4));//朝向
         $this->assign('floor',getLinkMenuCache(7));//朝向
         $this->assign('types',getLinkMenuCache(26));//类型s
-        $this->assign('jieduan',getLinkMenuCache(25));//类型s
-        $this->assign('fcstatus',getLinkMenuCache(27));//类型s
+        $this->assign('jieduan',getLinkMenuCache(25));//阶段
+        $this->assign('fcstatus',getLinkMenuCache(27));//状态
         $this->assign('renovation',getLinkMenuCache(8));//装修情况
         $this->assign('tags',getLinkMenuCache(14));//标签
-        $this->assign('area',$this->getAreaByCityId());
+        $this->assign('area',$this->getAreaByCityId());//区域
         $this->assign('position',$this->getPositionHouse(5,4));
         $this->assign('lists',$lists);
         $this->assign('pages',$lists->render());
         $this->assign('top_lists',$result['top']);
         $this->assign('storage_open',getSettingCache('storage','open'));
 //        dd(1);
+        return $this->fetch();
+    }
+
+    public function detail(){
+        $second_house_id = input('param.id/d',0);
+        if($second_house_id){
+            //增加围观次数
+            db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
+            $where['h.id']     = $second_house_id;
+            $where['h.status'] = 1;
+//            $second_house_field  ="title,bianhao,qipai,price,marketprice";
+            $obj  = model('second_house');
+            $join = [['second_house_data d','h.id=d.house_id']];
+            $info = $obj->alias('h')->join($join)->where($where)->cache('second_house_'.$second_house_id,3600)->find();
+//            dd($info);
+            if($info){
+                $info['file'] = json_decode($info['file'],true);
+                //添加浏览量
+                updateHits($info['id'],'second_house');
+
+                //小区详情
+                $estate = model('estate')->where('id',$info['estate_id'])->cache('estate'.$info['estate_id'],84000)->find();
+                //小区房屋套数
+//                $info['total'] = $obj->where('estate_id',$info['estate_id'])->where('status',1)->count();
+                //单价
+                $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
+                //差价
+                $info['chajia']=intval($info['price'])-intval($info['qipai']);
+                //类型
+//                $xsname =getLinkMenuCache(26)[$info['types']];
+//                $info['xsname']=$xsname['name'];
+                //差价
+                $info['cjprice']=sprintf("%.2f",$info['cjprice']);
+                $this->assign('info',$info);
+                $info['qp_price'] = substr($info['price'],0,-10);
+
+                //法拍专员信息
+                $pinglun = model('user')->field('lxtel_zhuan,kflj')->where('id',$info['broker_id'])
+                    ->cache('user_common_'.$second_house_id)->find();
+                $this->assign('pinglun',$pinglun);
+                $nianxian = model('user_info')->field('history_complate')->where('user_id',$info['broker_id'])
+                    ->cache('user_info_common_'.$second_house_id)->find();
+                $this->assign('nianxian',$nianxian);
+
+
+                //本小区拍卖套数
+                $estate_second_house_num ='estate_second_house_num_'.$second_house_id.'_'.$info['estate_name'];
+                $estate_num = model('second_house')->where('estate_name',$info['estate_name'])
+                    ->cache($estate_second_house_num,3600)->count();
+                $this->assign('estate_num',$estate_num);
+
+
+                $xiaoqu=$info['estate_id'];
+//                $objs   = model('second_house');
+//                $objss   = model('second_house')->alias('s');
+//                $joinss  = [['estate m','m.id = s.estate_id']];
+//                $field   = "s.*,s.endtime";
+//                $field .= ',m.years';
+//                $tong1 = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->limit('0,5')->select();
+//                dd($tong1);
+//                $tong = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->limit('5,200')->select();
+//
+//                $tcou = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->count();
+//
+//                $this->assign('tcou',$tcou);
+//
+//                $this->assign('tong',$tong);
+//
+//                $this->assign('tong1',$tong1);
+
+
+//                $jilu1 =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('0,5')->select();
+//
+//                $this->assign('jilu1',$jilu1);
+
+// print_r($jilu1);
+
+//                $jilu =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('5,200')->select();
+
+//                $this->assign('jilu',$jilu);
+
+// print_r($jilu);exit();
+
+//                $tcou1 = model('transaction_record')->where('estate_id',$xiaoqu)->count();
+//
+//                $this->assign('tcou1',$tcou1);
+//
+//                $yeares1 =  model('estate')->where('id',$xiaoqu)->field('years')->find();
+//
+//                $yeares=$yeares1['years'];
+//
+//                $this->assign('yeares',$yeares);
+//
+//
+//
+//
+//
+//                $allcount=$tcou+$tcou1;
+//
+//                $this->assign('allcount',$allcount);
+
+
+
+
+
+//                $qipai=$info['qipai'];
+//
+//                $info['qipai']=number_format("$qipai",2,".","");
+//
+//                $acreage=$info['acreage'];
+//
+//                $info['acreage']=number_format("$acreage",2,".","");
+
+
+
+                //用户信息
+                $infos = cookie('userInfo');
+                $infos = \org\Crypt::decrypt($infos);
+                $this->assign('pdfpy',$infos);
+
+                $user_id  = $infos['id'];
+                $follow   = model('follow');
+                $guanzhu = $follow->where('house_id',$xiaoqu)->where('user_id',$user_id)->where('model','estate')->count();
+                $this->assign('guanzhu',$guanzhu);
+                $fangid=$info['id'];
+                $gzfang = $follow->where('house_id',$fangid)->where('user_id',$user_id)->where('model','second_house')->count();
+
+                //获取是否推荐 和 登录手机号
+                $userInfo = $this->getUserInfo();
+                $this->assign('gzfang',$gzfang);
+                $this->assign('userInfo',$userInfo);
+
+//                $models = model('fydp')->where('house_id',$fangid)->where('model','second_house')->count();
+                $this->assign('models',$gzfang);
+                $ud = model('fydp')->where('house_id',$fangid)->where('model','second_house')->group('user_id')->select();
+                $obj     = model('fydp')->alias('s');
+                $join  = [['user m','m.id = s.user_id']];
+                $jjr = model('fydp')->where('house_id',$fangid)->where('user_id',$info['broker_id'])->group('user_id')->count();
+                $gl=$obj->join($join)->where('s.house_id',$fangid)->where('s.model','second_house')->group('s.user_id')->limit(3)->select();
+                $count_gl = count($gl);
+                $this->assign('jjr',$jjr);
+                $this->assign('gl',$gl);
+                $this->assign('count_gl',$count_gl);
+                $this->assign('ud',$ud);
+                $citys=$info['city'];
+                $map = "estate_id=$xiaoqu or city=$citys";
+
+                $txq = model('second_house')
+                    ->where('status',1)
+                    ->where('fcstatus','eq',170)
+                    ->where('id','neq',$info['id'])
+                    ->where($map)
+                    ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+                    ->order('id desc')
+                    ->limit(4)
+                    ->select();
+                $txq_count=count($txq);
+                if ($txq_count < 4){
+                    $txq = model('second_house')
+                        ->where('status',1)
+                        ->where('fcstatus','eq',170)
+                        ->where('id','neq',$info['id'])
+                        ->where("estate_id=$xiaoqu or city=$citys or id > 0")
+                        ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+                        ->order('id desc')
+                        ->limit(4)
+                        ->select();
+                    $txq_count=count($txq);
+                }
+                $this->assign('txq_count',$txq_count);
+                $city=$info['city'];
+                $lists = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city)->find();
+                $spid=$lists['spid'];
+                $city_name=$lists['name'];
+                if(substr_count($spid,'|')==2){
+
+                    $listsss = model('city')->field('id,name')->where('id','eq',$lists['pid'])->find();
+                    $shi=$listsss['name'];
+                    $citys=$shi.$city_name;
+                }else{
+                    $citys=$city_name;
+                }
+                $this->assign('citys',$citys);
+                $this->assign('estate',$estate);
+                $this->assign('txq',$txq);
+                $this->assign('storage_open',getSettingCache('storage','open'));
+                $this->assign('near_by_house',$this->getNearByHouse($info['lat'],$info['lng'],$info['city']));
+                $this->assign('same_price_house',$this->samePriceHouse($info->getData('price'),$txq_count,$info['id']));
+                $this->assign('sames_price_house',$this->samesPriceHouse());
+                $this->assign('page_t',1);
+            }else{
+                return $this->fetch('public/404');
+            }
+        }else{
+            return $this->fetch('public/404');
+        }
         return $this->fetch();
     }
 
@@ -206,9 +403,12 @@ class Second extends HomeBase{
 
 
 
-    public function detail()
+    public function detail1243()
 
     {
+
+
+
         $id = input('param.id/d',0);
 
         $wg = model('second_house')->where('id',$id)->find();
@@ -742,316 +942,63 @@ $this->assign('txq_count',$txq_count);
 
 
     /**
-
-
-
      * @return array
-
-
-
      * 获取列表
-
-
-
      */
-
-
-
-    private function getLists()
-
-
-
-    {
-
-
-
+    private function getLists(){
         $time    = time();
-
-
-
         $where   = $this->search();
-
-
-
         $sort    = input('param.sort/d',0);
-
-        // print_r($sort);exit();
-
-
-
         $keyword = input('get.keyword');
-
-
-
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
-
-
-
         $obj     = model('second_house')->alias('s');
-
-//         print_r($keyword);
-
-// print_r($where);
-
         //二手房列表
-
-
-
-        if(isset($where['m.metro_id']) || isset($where['m.station_id']))
-
-
-
-        {
-
-
-
+        if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
             //查询地铁关联表
-
-
-
             $field .= ',m.metro_name,m.station_name,m.distance';
-
-
-
             $join  = [['metro_relation m','m.house_id = s.id']];
-
-
-
             $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-
-
-
         }else{
-
-        if($sort==8){
-
-            $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-
-        }else if($sort==7){
-
-            $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-
-        }else
-
-        {
-
-            $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-			
-			
-			
-			
-			
-			//print_r($lists);
-			
-
+            if($sort==8){
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }else if($sort==7){
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }else{
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }
         }
-
-
-
-        }
-
-
-
-        if($lists->currentPage() == 1)
-
-
-
-        {
-
-
-
+        if($lists->currentPage() == 1){
             //二手房置顶列表
-
-
-
             $obj = $obj->removeOption()->alias('s');
-
-
-
             //关联地铁表
-
-
-
-            if(isset($where['m.metro_id']) || isset($where['m.station_id']))
-
-
-
-            {
-
-
-
+            if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
                 $field .= ',m.metro_name,m.station_name,m.distance';
-
-
-
                 $join  = [['metro_relation m','m.house_id = s.id']];
-
-
-
                 $obj->join($join)->where('m.model','second_house')->group('s.id');
-
-
-
             }
-
-
-
-            // $top   = $obj->field($field)->where($where)->where('top_time','gt',$time)->order(['top_time'=>'desc','id'=>'desc'])->select();
-
             $top   = $obj->field($field)->where($where)->where('top_time','gt',$time)->order(['timeout'=>'desc','id'=>'desc'])->select();
-
-
-
         }else{
-
-
-
             $top   = false;
-
-
-
         }
-
-
-
-
-
-
-
-            // $join  = [['fang_estate f','f.id = s.estate_id']];
-
-        //print_r($lists);
-
             foreach ($lists as $key => $value) {
-
-                
-
                 $estate_id=$lists[$key]['estate_id'];
-
-
-
-               $sql=model('estate')->where('id','eq',$estate_id)->alias('years')->find();
-
-               $years=$sql['years'];
-
-               $lists[$key]['years']=$years;
-
-
-
-
-
-
-
-                 $city_id=$lists[$key]['city'];
-
-
-
-               // $sqls=model('city')->where('id','eq',$city_id)->alias('city')->find();
-
-               // $citys=$sqls['name'];
-
-               // $lists[$key]['city']=$citys;
-
-
-
-
-
-
-
-             $sqls = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city_id)->find();
-
-              $spid=$sqls['spid'];
-
-              $city_name=$sqls['name'];
-
-
-
+                $sql=model('estate')->where('id','eq',$estate_id)->alias('years')->find();
+                $years=$sql['years'];
+                $lists[$key]['years']=$years;
+                $city_id=$lists[$key]['city'];
+                $sqls = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city_id)->find();
+                $spid=$sqls['spid'];
+                $city_name=$sqls['name'];
                  if(substr_count($spid,'|')==2){
-
                     $listsss = model('city')->field('id,name')->where('id','eq',$sqls['pid'])->find();
-
-                    $shi=$listsss['name'];  
-
-                    $lists[$key]['city']=$shi.$city_name; 
-
+                    $shi=$listsss['name'];
+                    $lists[$key]['city']=$shi.$city_name;
                  }else{
-
                     $lists[$key]['city']=$city_name;
-
                  }
-
-
-
-
-
-
-
-
-
-               $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
-
-               
-
-              
-
-// $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
-
-// $sTime=time();
-
-// print_r($lists[$key]['fcstatus']);
-
-// if($lists[$key]['fcstatus']==169 || $lists[$key]['fcstatus']==170){
-
-
-
-//     $ctimes=$sTime-$lists[$key]['kptimes'];
-
-//     print_r($ctimes);
-
-//     if($ctimes >= 0 && $ctimes < 3600*24){
-
-//         model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行
-
-//         // print_r($ctimes);echo "aaa";
-
-//         }elseif($ctimes >= (3600*24)){
-
-//         model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
-
-//          // print_r($ctimes);echo "aaa";
-
-//         }else{
-
-//         model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
-
-//          // print_r($ctimes);echo "aaa";
-
-//         }
-
-// }
-
-
-
-
-
-
-
+                $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
             }
-
-
-
-
-
-// print_r($lists);
-
-
-
-
-
         return ['lists'=>$lists,'top'=>$top];
-
-
-
     }
 
 
@@ -1437,702 +1384,240 @@ $this->assign('txq_count',$txq_count);
 
 
 
-    private function search()
-
-
-
-    {
-
+    private function search(){
         $estate_id     = input('param.estate_id/d',0);//小区id
-
-        
-
-
-
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
-
-
-
         $param['rading']     = 0;
-
-
-
         $param['tags']       = input('param.tags/d',0);
-
-
-
         $param['qipai']      = input('param.qipai',0);
-
-
-        
-
         $param['acreage']    = input('param.acreage',0);//面积
-
-
-
         $param['room']       = input('param.room',0);//户型
-
         $param['types']       = input('param.types',0);//户型
-
         $param['jieduan']       = input('param.jieduan',0);//户型
-//        dd($param['jieduan']);
-
         $param['fcstatus']       = input('param.fcstatus',0);//状态
-
-// print_r($param);exit();
-
         $param['type']       = input('param.type',0);//物业类型
-
-
-
         $param['renovation'] = input('param.renovation',0);//装修情况
-
-
-
         $param['metro']      = input('param.metro/d',0);//地铁线
-
-
-
         $param['metro_station'] = input('param.metro_station/d',0);//地铁站点
-
-
-
         $param['sort']          = input('param.sort/d',0);//排序
-
         $param['is_free']          = input('param.is_free/d',0);//自由购
-
-
-
         $param['orientations']  = input('param.orientations/d',0);//朝向
-
-
-
         $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
-
-
-
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
-
-
-
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
-
-
-
         $data['s.status']    = 1;
 
-$arr=$this->request->param();
-Log::write('--------$arr---------'.json_encode($arr));
-
-// print_r($arr);
-
-if(!empty($arr['keyword'])){
-
-// print_r($arr['keyword']);
-
-$keyword = $arr['keyword'];
-
-}else{
-
-    $keyword = input('get.keyword');
-
-}
-
-
-
-        
-
-        
-
-      
-
-
-
-        
-
-
-
-
-
-        if(!empty($_GET['rec_position'])){
-
-            $rec_position=$_GET['rec_position'];
-
+        //获取当前请求的参数
+        $arr=$this->request->param();
+        if(!empty($arr['keyword'])){
+            $keyword = $arr['keyword'];
+        }else{
+            $keyword = input('get.keyword');
         }
-
-
+        //显示街道时
+        if ($param['area']  > 57){
+            $param['street'] =$param['area'];
+        }
+        if(!empty($_GET['rec_position'])){
+            $rec_position=$_GET['rec_position'];
+        }
         $zprice1 =0;
         $param['zprice1']=$_GET['zprice1'] ??"";
         $param['zprice2']=$_GET['zprice2'] ?? "";
         $param['zmianji1']=$_GET['zmianji1'] ?? "";
         $param['zmianji2']=$_GET['zmianji2'] ?? "";
-
         if(!empty($_GET['zprice1'])){
-
             $zprice1=$_GET['zprice1'];
-
-
         }
         if(!empty($_GET['zprice2'])){
-
             $zprice2=$_GET['zprice2'];
-
-
         }
-
-
-
-
         $zmianji1 =0;
         if(!empty($_GET['zmianji1'])){
-
             $zmianji1=$_GET['zmianji1'];
-
-
-
         }
         if(!empty($_GET['zmianji2'])){
-
             $zmianji2=$_GET['zmianji2'];
-
         }
-
-
-
-
-
         $seo_title = '';
-
-
-
-        if($estate_id)
-
-
-
-        {
-
-
-
+        if($estate_id) {
             $data['s.estate_id'] = $estate_id;
-
-
-
             $estate_name = model('estate')->where('id',$estate_id)->value('title');
-
-
-
             $seo_title .= '_'.$estate_name.'二手房';
-
-
-
         }
-
-
-
-        if(!empty($param['type']))
-
-
-
-        {
-
-
-
+        if(!empty($param['type'])){
             $data['s.house_type'] = $param['type'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(9,$param['type']);
-
-
-
         }
-
-
-
-        if(!empty($param['user_type']))
-
-
-
-        {
-
-
-
+        if(!empty($param['user_type'])){
             $data['s.user_type'] = $param['user_type'];
-
-
-
         }
-
-
-
-        if(!empty($param['orientations']))
-
-
-
-        {
-
-
-
+        if(!empty($param['orientations'])){
             $data['s.orientations'] = $param['orientations'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(4,$param['orientations']).'朝向';
-
-
-
         }
-
-
-
-        if($param['renovation'])
-
-
-
-        {
-
-
-
+        if($param['renovation']){
             $data['s.renovation'] = $param['renovation'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(8,$param['renovation']);
-
-
-
         }
-
-// print_r($keyword);exit();
-
-        if($keyword)
-
-
-
-        {
-
+        if($keyword){
             if(!empty($_GET['type'])){
-
                 $house_type=$_GET['type'];
-
                 $param['types']=$house_type;
-
             }
-
-            
-
             $param['keyword'] = $keyword;
-
-            
-
-
-
             $data[] = ['s.title','like','%'.$keyword.'%'];
-
             $seo_title .= '_'.$keyword;
-
-
-
         }
-
-// print_r($param);exit();
-
-        if($param['search_type'] == 2)
-
-
-
-        {
-
-
-
-            if(!empty($param['metro']))
-
-
-
-            {
-
-
-
+        if($param['search_type'] == 2) {
+            if(!empty($param['metro'])){
                 $data['m.metro_id'] = $param['metro'];
-
-
-
                 $seo_title .= '_地铁'.Metro::getMetroName($param['metro']);
-
-
-
                 $this->assign('metro_station',Metro::metroStation($param['metro']));
-
-
-
             }else{
-
-
-
                 $data[] = ['s.city','in',$this->getCityChild()];
-
-
-
             }
-
-
-
-            if(!empty($param['metro_station']))
-
-
-
-            {
-
-
-
+            if(!empty($param['metro_station'])){
                 $data['m.station_id'] = $param['metro_station'];
-
-
-
                 $seo_title .= '_'.Metro::getStationName($param['metro_station']);
-
-
-
             }
-
-
-
         }else{
-
-
-
-            if(!empty($param['area']))
-
-
-
-            {
-
-
-
+            if(!empty($param['area'])){
                 $data[] = ['s.city','in',$this->getCityChild($param['area'])];
-
-
-
                 $rading = $this->getRadingByAreaId($param['area']);
-
-
-
                 //读取商圈
-
-
-
                 $param['rading'] = 0;
-
-
-
-                if($rading && array_key_exists($param['area'],$rading))
-
-
-
-                {
-
-
-
+                if($rading && array_key_exists($param['area'],$rading)){
                     $param['rading']  = $param['area'];
-
-
-
                     $param['area']    = $rading[$param['area']]['pid'];
-
-
-
                 }
-
-
-
                 $param['area']!=$this->cityInfo['id'] && $seo_title .= '_'.getCityName($param['area'],'').'二手房';
-
-
-
                 $this->assign('rading',$rading);
-
-
-
             }
-
-
-
         }
-
-
-
-        // if(!empty($param['price']))
-
-
-
-        // {
-
-
-
-        //     $data[] = getSecondPrice($param['price'],'s.price');
-
-
-
-        //     $price  = config('filter.second_price');
-
-
-
-        //     isset($price[$param['price']]) && $seo_title .= '_'.$price[$param['price']]['name'];
-
-
-
-        // }
-
-        if(!empty($param['qipai']))
-
-
-
-        {
-
-
-
+        if(!empty($param['qipai'])) {
             $data[] = getSecondPrice($param['qipai'],'s.qipai');
-
-
-
             $qipai  = config('filter.second_qipai');
-
-
-
             isset($qipai[$param['qipai']]) && $seo_title .= '_'.$qipai[$param['qipai']]['name'];
-
-
-
         }
-
-
-
-        if(!empty($param['room']))
-
-
-
-        {
-
-
-
+        if(!empty($param['room'])){
             $data[] = getRoom($param['room'],'s.room');
-
-
-
             $room   = config('filter.room');
-
-
-
             isset($room[$param['room']]) && $seo_title .= '_'.$room[$param['room']];
-
-
-
         }
-
-        if(!empty($param['types']))
-
-
-
-        {
-
-
-
+        if(!empty($param['types'])){
             $data['s.types'] = $param['types'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(26,$param['types']);
-
-
-
         }
-
-        if(!empty($param['jieduan']))
-
-
-
-        {
-
-
-
+        if(!empty($param['jieduan'])) {
             $data['s.jieduan'] = $param['jieduan'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(25,$param['jieduan']);
-
-
-
         }
-
-        if(!empty($param['fcstatus']))
-
-
-
-        {
-
-
-
+        if(!empty($param['fcstatus'])) {
             $data['s.fcstatus'] = $param['fcstatus'];
-
-
-
             $seo_title .= '_'.getLinkMenuName(27,$param['fcstatus']);
-
-
-
         }
-
-
-
-        if(!empty($param['acreage']))
-
-
-
-        {
-
-
-
+        if(!empty($param['acreage'])){
             $data[] = getAcreage($param['acreage'],'s.acreage');
-
-
-
             $acreage = config('filter.acreage');
-
-
-
             isset($acreage[$param['acreage']]) && $seo_title .= '_'.$acreage[$param['acreage']]['name'];
-
-
-
         }
-
-
-
-
-
-
-
         if(!empty($param['tags'])){
-
-
-
             $data[] = ['','exp',\think\Db::raw("find_in_set({$param['tags']},s.tags)")];
-
-
-
             $seo_title .= '_'.getLinkMenuName(14,$param['tags']);
-
-
-
         }
-
-
-
         $data[] = ['s.timeout','gt',time()];
         //是否是自由购
         if(!empty($param['is_free'])){
             $data['s.is_free'] = $param['is_free'];
         }
-
-        // if(!empty($_GET['zprice1']) && !empty($_GET['zprice2'])){
-
-        //     $data[] = ['s.price','between',[$zprice1,$zprice2]];
-
-        // }
-
         if(!empty($_GET['zprice2'])){
-
             $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
-
         }
-
         if(!empty($_GET['rec_position'])){
-
             $data[] = ['rec_position','eq',1];
-
         }
-
-        // print_r($_GET['zmianji1']);
-
-        // print_r($_GET['zmianji2']);exit();
-
         if(!empty($_GET['zmianji2'])){
-
             $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
-
         }
-
-
-
-
-
         $search = $param;
-
-
-
         $seo_title  = trim($seo_title,'_');
-
-
-
         $seo_title && $this->setSeo(['seo_title'=>$seo_title,'seo_keys'=>str_replace('_',',',$seo_title)]);
-
-
-
         unset($param['rading']);
-
-
-
         $data = array_filter($data);
-
-
-
         $this->assign('search',$search);
-
-        
-
         if(!empty($_GET['rec_position'])){
-
             $param['rec_position']=$_GET['rec_position'];
-
         }
-
         if(!empty($_GET['zprice1'])){
-
             $param['zprice1']=$_GET['zprice1'];
-
         }
-
         if(!empty($_GET['zprice2'])){
-
             $param['zprice2']=$_GET['zprice2'];
-
         }
-
         if(!empty($_GET['zmianji1'])){
-
             $param['zmianji1']=$_GET['zmianji1'];
-
         }
-
         if(!empty($_GET['zmianji2'])){
-
             $param['zmianji2']=$_GET['zmianji2'];
-
         }
-
-        // print_r($param);
+        $this->search_arr(array_filter($param));
 
         $this->assign('param',$param);
-
-        // print_r($data);exit();
-
         return $data;
-
-
-
     }
 
+    function search_arr($param){
+        $res =[];
+        //区域
+        if ($param['area'] && $param['area'] != 39){
+            $area = getCityName($param['area'],',');
+            if ($area){
+                $ex_area = explode(',',$area);
+                $res[] =$ex_area[1];
+            }
+        }
+        //商圈
+        if (!empty($param['street'])){
+            $street = getCityName($param['street'],',');
+            if ($street){
+                $ex_street = explode(',',$street);
+                $res[] =$ex_street[2];
+            }
+        }
+        //形式
+        if (!empty($param['type'])){
+            $res[] = getLinkMenuName(9,$param['type']);
+        }
+        //类型
+        if (!empty($param['types'])){
+            $res[] = getLinkMenuName(26,$param['types']);
+        }
+        //总价
+        if (!empty($param['qipai'])){
+            $qipai  = config('filter.second_qipai');
+            $res[] =$qipai[$param['qipai']]['name'];
+        }
+        //总价
+        if (!empty($param['acreage'])){
+            $acreage  = config('filter.acreage');
+            $res[] =$acreage[$param['acreage']]['name'];
+        }
+        //户型
+        if (!empty($param['room'])){
+            $room = config('filter.room');
+            $res[] =$room[$param['room']];
+        }
+        //阶段
+        if (!empty($param['jieduan'])){
+            $res[] = getLinkMenuName(25,$param['jieduan']);
+        }
+        //状态
+        if (!empty($param['fcstatus'])){
+            $res[] = getLinkMenuName(27,$param['fcstatus']);
+        }
+        $this->assign('selected_nav',json_encode($res));
+    }
 
 
 
