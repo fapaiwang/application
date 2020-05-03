@@ -40,16 +40,16 @@ class News extends HomeBase
         if ($hits != "" && $hits == 'hot') {
             $order = "cate_id asc";
         }
-        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(10);
-        $index = new IndexServer();
-        $this->assign("bannerList",$index->get_home_banner(16));
+        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(6);
+        $this->assign("newPic",$news->get_banner(16));
         $this->assign('cate_id',$cate_id);
         $this->assign('lists',$lists);
         $this->assign('pages',$lists->render());
         $this->assign('cate',$cate);
         $this->assign('hotArticle',$news->get_new_list(5));
         $this->assign('hotAns',$news->get_ans_list(5));
-        $this->assign('smallBanner',$index->get_home_banner(17));
+        $this->assign('smallPic',$news->get_banner(17));
+        $this->assign("page_t",5);
         return $this->fetch();
     }
 
@@ -89,11 +89,15 @@ class News extends HomeBase
             updateHits($info['id'],'article');
     
             $news = new NewsService();
+            $index = new IndexServer();
             $this->assign('cate',$cate);
             $this->assign('info',$info);
             $this->assign('hotArticle',$news->get_new_list(5));
             $this->assign('hotAns',$news->get_ans_list(5));
             $this->assign('relation',$this->relationArticle($info['cate_id']));
+            $this->assign("page_t",5);
+            $this->assign('smallPic',$news->get_banner(17));
+            $this->assign('bottomPic',$index->get_home_banner(18,2));
         }else{
             return  $this->fetch('public/404');
         }

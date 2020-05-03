@@ -2,8 +2,36 @@
 
 namespace app\home\service;
 
+use think\facade\Cache;
+
 class NewsService
 {
+    /**
+     * @description 获取轮播图
+     * @param int $space_id 父ID
+     * @param int $limit 获取条数
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @auther xiaobin
+     */
+    public function get_banner($space_id=1,$limit=1)
+    {
+        $cache_name = 'poster_img'.$space_id;
+        $banner = Cache::get($cache_name);
+        if (!$banner){
+            $cache_name = 'poster_img'.$space_id;
+            $param = [
+                ['spaceid', '=', $space_id],
+                ['startdate', '<', time()],
+                ['enddate', '>', time()]
+            ];
+            $poster_space = model('poster')->field('name,setting')->where($param)->limit($limit)->select();
+            \think\facade\Cache::set($cache_name,$poster_space);
+        }
+        return $banner;
+    }
     /**
      * @description 热门文章
      * @param int $limit 读取条数

@@ -1,7 +1,7 @@
 <!--轮播图-->
 <section class="rb">
-    {volist name='smallBanner' id='vo'}
-    <img src="{$vo.setting['fileurl']}" alt="{$vo.name}" href="{$vo.setting['linkurl']}">
+    {volist name="smallPic" id="pic"}
+    <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.name}"></a>
     {/volist}
 </section>
 <!--预约咨询-->

@@ -1,11 +1,34 @@
-{extend name='public/layout' /}
+{extend name='public/page_list' /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/news.css?v={:time()}">
+{/block}
+{block name='js'}
+<script type="text/javascript" src="__JS__/new.js?v={:time()}"></script>
+{/block}
+
 {block name='content'}
-
 <!-- 资讯详情 S-->
-
-<div class="flash">
+<div class="flash mt70">
 
     <div class="con_wrap comWidth clearfix">
+        <!-- 页面标识 S-->
+
+        <div class="page_tit">
+
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+
+            <a href="{:url('Index/index')}">首页</a> &gt;
+
+            <a href="{:url('News/index')}">资讯</a> &gt;
+
+            <a href="{:url('News/index',['cate'=>$info['cate_id']])}" title="{:getCateName('articleCate',$info['cate_id'])}">{:getCateName('articleCate',$info['cate_id'])}</a> &gt;
+
+            <a href="javascript:void(0);">正文</a>
+
+        </div>
 
         <div class="sub_nav">
 
@@ -25,21 +48,7 @@
 
         <div class="leftArea cm_leftArea">
 
-            <!-- 页面标识 S-->
 
-            <div class="page_tit">
-
-                <a href="javascript:;" rel="nofollow">您的位置：</a>
-
-                <a href="{:url('Index/index')}">首页</a> &gt;
-
-                <a href="{:url('News/index')}">资讯</a> &gt;
-
-                <a href="{:url('News/index',['cate'=>$info['cate_id']])}" title="{:getCateName('articleCate',$info['cate_id'])}">{:getCateName('articleCate',$info['cate_id'])}</a> &gt;
-
-                <a href="javascript:void(0);">正文</a>
-
-            </div>
 
             <!-- 页面标识 E-->
 
@@ -112,7 +121,6 @@
                         <p>编辑者：{$info.editor}</p>
 
                     </div>
-
                     <div class="fr">
 
                         <p>分享到：</p>
@@ -128,14 +136,21 @@
                     </div>
 
                 </div>
+                <section class="news_img clearfix">
 
+
+
+                    {volist name="bottomPic" id="pic"}
+                        <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.name}"></a>
+                    {/volist}
+                </section>
                 <div class="relative_artc">
 
                     <div class="title">
 
                         <h3>相关文章</h3>
 
-                        <a href="{:url('News/index')}" class="more">更多+</a>
+                        <a href="{:url('News/index')}" class="more">更多</a>
 
                         <p class="b_l"></p>
 
@@ -179,5 +194,4 @@
 <!--客服-->
 <!--<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>-->
 <!-- 资讯详情 E-->
-<script type="text/javascript" src="__JS__/new.js"></script>
 {/block}
