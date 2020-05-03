@@ -21,7 +21,7 @@
         </a>
         <ul class="header-nav">
             {volist name='head_nav' id='vo'}
-                <li><a href="{$vo.url}"  {if $vo.id eq $page_t } class="active" {/if}>{$vo.title}</a></li>
+                <li><a href="{$vo.url}"  {if $vo.model_action eq $model_url } class="active" {/if}>{$vo.title}</a></li>
             {/volist}
         </ul>
         <div class="log_link fr" style="margin-left: 80px">

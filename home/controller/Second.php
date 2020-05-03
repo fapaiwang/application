@@ -7,6 +7,7 @@ use app\home\service\IndexServer;
 use app\home\service\SecondServer;
 use app\home\service\UserService;
 use think\facade\Log;
+use think\Request;
 
 
 class Second extends HomeBase{
@@ -169,56 +170,42 @@ class Second extends HomeBase{
     }
 
     public function detail(){
+        $arr=$this->request->param();
         $second_house_id = input('param.id/d',0);
+
         if($second_house_id){
+            $second_Server = new SecondServer();
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
-            $where['h.id']     = $second_house_id;
-            $where['h.status'] = 1;
-//            $second_house_field  ="title,bianhao,qipai,price,marketprice";
-            $obj  = model('second_house');
-            $join = [['second_house_data d','h.id=d.house_id']];
-            $info = $obj->alias('h')->join($join)->where($where)->cache('second_house_'.$second_house_id,3600)->find();
-//            dd($info);
+            //second_house详情
+            $info = $second_Server->second_model($second_house_id);
+
             if($info){
-                $info['file'] = json_decode($info['file'],true);
                 //添加浏览量
                 updateHits($info['id'],'second_house');
-
                 //小区详情
-                $estate = model('estate')->where('id',$info['estate_id'])->cache('estate'.$info['estate_id'],84000)->find();
+                $estate = $second_Server->estate($info['estate_id']);
+
+                $this->assign('info',$info);
+
                 //小区房屋套数
 //                $info['total'] = $obj->where('estate_id',$info['estate_id'])->where('status',1)->count();
-                //单价
-                $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
-                //差价
-                $info['chajia']=intval($info['price'])-intval($info['qipai']);
-                //类型
-//                $xsname =getLinkMenuCache(26)[$info['types']];
-//                $info['xsname']=$xsname['name'];
-                //差价
-                $info['cjprice']=sprintf("%.2f",$info['cjprice']);
-                $this->assign('info',$info);
-                $info['qp_price'] = substr($info['price'],0,-10);
 
                 //法拍专员信息
-                $pinglun = model('user')->field('lxtel_zhuan,kflj')->where('id',$info['broker_id'])
-                    ->cache('user_common_'.$second_house_id)->find();
-                $this->assign('pinglun',$pinglun);
-                $nianxian = model('user_info')->field('history_complate')->where('user_id',$info['broker_id'])
-                    ->cache('user_info_common_'.$second_house_id)->find();
-                $this->assign('nianxian',$nianxian);
-
+                $user = $second_Server->user($second_house_id,$info['broker_id']);
+                $user_info = $second_Server->user_info($second_house_id,$info['broker_id']);
+                $this->assign('user',$user);
+                $this->assign('user_info',$user_info);
 
                 //本小区拍卖套数
                 $estate_second_house_num ='estate_second_house_num_'.$second_house_id.'_'.$info['estate_name'];
                 $estate_num = model('second_house')->where('estate_name',$info['estate_name'])
                     ->cache($estate_second_house_num,3600)->count();
                 $this->assign('estate_num',$estate_num);
-
-
                 $xiaoqu=$info['estate_id'];
-//                $objs   = model('second_house');
+
+
+                $objs   = model('second_house');
 //                $objss   = model('second_house')->alias('s');
 //                $joinss  = [['estate m','m.id = s.estate_id']];
 //                $field   = "s.*,s.endtime";
@@ -400,9 +387,6 @@ class Second extends HomeBase{
 
 
      */
-
-
-
     public function detail1243()
 
     {
@@ -495,9 +479,9 @@ class Second extends HomeBase{
 
                 $info['rental_total'] = model('rental')->where('estate_id',$info['estate_id'])->where('status',1)->count();
 
-				
 
-				// $info['junjia']=ceil(intval($info['qipai'])/intval($info['acreage']));
+
+                // $info['junjia']=ceil(intval($info['qipai'])/intval($info['acreage']));
 
 
 
@@ -516,29 +500,29 @@ class Second extends HomeBase{
 
                 $info['chajia']=intval($info['price'])-intval($info['qipai']);
 
-				
 
-				
 
-				
 
-				$xsname = model('linkmenu')->where('id',$info['types'])->find();
 
-                
+
+
+                $xsname = model('linkmenu')->where('id',$info['types'])->find();
+
+
 
                 $info['xsname']=$xsname['name'];
 
-				
 
-				//print_r($info['price']/$info['qipai']);
 
-				$info['cjprice']=sprintf("%.2f",$info['cjprice']);
+                //print_r($info['price']/$info['qipai']);
 
-				
+                $info['cjprice']=sprintf("%.2f",$info['cjprice']);
 
-				//exit();
 
-				// print_r($info);
+
+                //exit();
+
+                // print_r($info);
 
                 $this->assign('info',$info);
 
@@ -582,13 +566,13 @@ class Second extends HomeBase{
 
                 $joinss  = [['estate m','m.id = s.estate_id']];
 
-                
 
-                
 
-$field   = "s.*,s.endtime";
 
-$field .= ',m.years';
+
+                $field   = "s.*,s.endtime";
+
+                $field .= ',m.years';
 
 
 
@@ -604,9 +588,9 @@ $field .= ',m.years';
 
 
 
-              	$tcou = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->count();
+                $tcou = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->count();
 
-           		$this->assign('tcou',$tcou);
+                $this->assign('tcou',$tcou);
 
                 $this->assign('tong',$tong);
 
@@ -658,7 +642,7 @@ $field .= ',m.years';
 
 // print_r($tcou);exit();
 
-                
+
 
                 $qipai=$info['qipai'];
 
@@ -728,7 +712,7 @@ $field .= ',m.years';
 //
 //                }
 
-                    $count_gl = count($gl);
+                $count_gl = count($gl);
 
                 // $gl=$obj->join($join)->where('s.house_id',$fangid)->where('s.model','second_house')->group('s.user_id')->limit(3)->select();
 
@@ -748,105 +732,105 @@ $field .= ',m.years';
 
 
 
-$citys=$info['city'];
-$map = "estate_id=$xiaoqu or city=$citys";
+                $citys=$info['city'];
+                $map = "estate_id=$xiaoqu or city=$citys";
 
- // print_r($citys);
+                // print_r($citys);
 
- // print_r($xiaoqu);exit();  
+                // print_r($xiaoqu);exit();
 
-            $txq = model('second_house')
-
-
-
-                 ->where('status',1)
+                $txq = model('second_house')
 
 
 
-                 ->where('fcstatus','eq',170)
+                    ->where('status',1)
 
 
 
-                 ->where('id','neq',$info['id'])
-
-                 
-
-                 ->where($map)
+                    ->where('fcstatus','eq',170)
 
 
 
-                 ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+                    ->where('id','neq',$info['id'])
 
 
 
-                ->order('id desc')
+                    ->where($map)
 
 
 
-                 ->limit(4)
+                    ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
 
 
 
-         
-
-                 ->select();
+                    ->order('id desc')
 
 
 
-              $txq_count=count($txq);
-              if ($txq_count < 4){
-                  $txq = model('second_house')
-                      ->where('status',1)
-                      ->where('fcstatus','eq',170)
-                      ->where('id','neq',$info['id'])
-                      ->where("estate_id=$xiaoqu or city=$citys or id > 0")
-                      ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
-                      ->order('id desc')
-                      ->limit(4)
-                      ->select();
-                  $txq_count=count($txq);
-              }
-              // print_r($txq);
-
-
-
-$this->assign('txq_count',$txq_count);
+                    ->limit(4)
 
 
 
 
 
-             // print_r($txq);
+                    ->select();
+
+
+
+                $txq_count=count($txq);
+                if ($txq_count < 4){
+                    $txq = model('second_house')
+                        ->where('status',1)
+                        ->where('fcstatus','eq',170)
+                        ->where('id','neq',$info['id'])
+                        ->where("estate_id=$xiaoqu or city=$citys or id > 0")
+                        ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+                        ->order('id desc')
+                        ->limit(4)
+                        ->select();
+                    $txq_count=count($txq);
+                }
+                // print_r($txq);
+
+
+
+                $this->assign('txq_count',$txq_count);
+
+
+
+
+
+                // print_r($txq);
 
                 // print_r($guanzhu);exit();
 
                 // $estateid=$info['estate_id'];
 
-               $city=$info['city'];
+                $city=$info['city'];
 
-              $lists = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city)->find();
+                $lists = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city)->find();
 
-              $spid=$lists['spid'];
+                $spid=$lists['spid'];
 
-              $city_name=$lists['name'];
+                $city_name=$lists['name'];
 
-                 if(substr_count($spid,'|')==2){
+                if(substr_count($spid,'|')==2){
 
                     $listsss = model('city')->field('id,name')->where('id','eq',$lists['pid'])->find();
 
-                    $shi=$listsss['name'];  
+                    $shi=$listsss['name'];
 
-                    $citys=$shi.$city_name; 
+                    $citys=$shi.$city_name;
 
-                 }else{
+                }else{
 
                     $citys=$city_name;
 
-                 }
+                }
 
                 // $v['city'] = getCityName($info['city']);
 
-                  // var_dump($v['city']);
+                // var_dump($v['city']);
 
                 $this->assign('citys',$citys);
 
@@ -858,7 +842,7 @@ $this->assign('txq_count',$txq_count);
 
 
 
-                 $this->assign('txq',$txq);
+                $this->assign('txq',$txq);
 
 
 
@@ -877,11 +861,11 @@ $this->assign('txq_count',$txq_count);
                 $this->assign('same_price_house',$this->samePriceHouse($info->getData('price'),$txq_count,$info['id']));
 
 
-				$this->assign('sames_price_house',$this->samesPriceHouse());
+                $this->assign('sames_price_house',$this->samesPriceHouse());
 
 
 
-                
+
 
 
 
@@ -916,6 +900,10 @@ $this->assign('txq_count',$txq_count);
 
 
     }
+
+
+
+
 
 
 

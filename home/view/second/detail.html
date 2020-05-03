@@ -14,11 +14,11 @@
 
 <div class="fangpai-detail-box">
     <div class="fangpai-detail-weizhi">
-        您的位置：<span>房拍网 > 房源列表 >{$info.title}</span>
+        您的位置：<span>房拍网 > 房源详情 >{$info.title}</span>
     </div>
     <div class="fangpai-detail-header">
         <div class="fangpai-detail-header-title">
-            <h2>>{$info.title}</h2>
+            <h2>{$info.title}</h2>
             <div class="fangpai-detail-header-right-bianhao">
                 <div class="fangpai-detail-header-right-bianhao-yuyue">
                     <img src="./homeStatic/img/jrxz.png" alt="">
@@ -34,32 +34,22 @@
         <div class="fangpai-detail-header-content">
             <div class="fangpai-detail-header-left">
                 <div class="fangpai-detail-header-left-top">
-                    <img src="./homeStatic/img/banner.jpg" alt="" class="fangpai-detail-header-left-top-img">
+                    <img src="{$info.img}" alt="{$info.title}" onerror="javascript:this.src='/static/images/noimg.jpg';" class="fangpai-detail-header-left-top-img">
                 </div>
                 <div class="fangpai-detail-header-left-bottom">
                     <div class="fangpai-detail-header-left-bottom-list">
                         <ul>
-                            <li class="fangpai-detail-header-left-bottom-list-cur">
-                                <img src="./homeStatic/img/banner.jpg" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/jinrong.png" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/nanbei.png" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/renmai.png" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/rightAll.png" alt="">
-                            </li>
-                            <li>
-                                <img src="./homeStatic/img/ting.png" alt="">
-                            </li>
+                            {notempty name='info.file'}
+                                {volist name='info.file' id='vo'}
+                                    <li class="fangpai-detail-header-left-bottom-list-cur">
+                                        <img src="{$vo.url}" onerror="javascript:this.src='/static/images/noimg.jpg';" alt="{$info.title}">
+                                    </li>
+                                {/volist}
+                            {else /}
+                                <li class="fangpai-detail-header-left-bottom-list-cur">
+                                    <img src="/static/images/noimg.jpg" alt="">
+                                </li>
+                            {/notempty}
                         </ul>
                         <div class="fangpai-detail-header-left-bottom-prev">
                             <button>
@@ -95,53 +85,75 @@
                     <li>
                         <span>捡漏指数：</span>
                         <span>
-                            for(var i=0;i<5;i++){
+                            {for start="0" end="$info.marketprice"}
                             <img src="/static/images/img-14.png">
-                            }
+                            {/for}
                         </span>
                     </li>
                     <li>
                         <span>保证金：</span>
-                        <span>60万</span>
+                        <span>{$info.baozheng}万</span>
                     </li>
                 </ul>
                 <ul class="fangpai-detail-header-right-detail">
                     <li>
-                        <p><b>两室一厅</b></p>
-                        <p>2层/共7层</p>
+                        <p><b>{:getLinkMenuName(29,$info['toilet'])}</b></p>
+                        <p>{$info.floor}层/共{$info.total_floor}层</p>
                     </li>
                     <li>
-                        <p><b>南北</b></p>
-                        <p>住宅</p>
+                        <p><b>{:getLinkMenuName(4,$info['orientations'])}</b></p>
+                        <p>{$info.xsname}</p>
                     </li>
                     <li>
-                        <p><b>86.16㎡</b></p>
-                        <p>2003年</p>
+                        <p><b>{$info.acreage}{:config('filter.acreage_unit')}</b></p>
+                        <p>{$estate.years}年</p>
                     </li>
                 </ul>
                 <div class="fangpai-detail-header-right-people">
                     <div class="fangpai-detail-header-right-people-left">
-                        <img src="./homeStatic/img/banner.jpg" alt="">
+                        <img src="/uploads/avatar/{$info['broker_id']}/avatar.jpg" alt="">
                     </div>
                     <div class="fangpai-detail-header-right-people-right">
                         <div class="fangpai-detail-header-right-people-right-name">
-                            <b>张晓岩</b>
+                            <b>{$info.contacts.contact_name}</b>
                             <span>法拍专员</span>
-                            <p>法拍服务从业经验0年</p>
+                            <p>法拍服务从业经验{$user.history_complate}年</p>
                         </div>
                         <div class="fangpai-detail-header-right-people-right-zixun">
                             <img src="./homeStatic/img/jrxz.png" alt="">
                             <span>在线咨询</span>
                         </div>
                         <div class="fangpai-detail-header-right-people-right-phone">
-                            4006770028转688
+                            {$user_info.lxtel_zhuan}
                         </div>
                     </div>
                 </div>
                 <div class="fangpai-detail-header-right-begin">
                     <div class="fangpai-detail-header-right-begin-jiezhitime">
                         <span>开拍截止时间：</span>
-                        <b>31天12时56分9.4秒</b>
+                        <b id="reciprocal">
+                            {if $info.fcstatus=='175'}
+                                <div class="fix">
+                                    <div class="fl">
+                                        成交价：{$info.cjprice}<span>万元</span>
+                                    </div>　
+                                    <div class="fl">
+                                        结束时间：<span class="s-2">{$info.endtime}</span>
+                                    </div>
+                                </div>
+                                {elseif $info.fcstatus=='172'}
+                                    拍卖已中止
+                                {elseif $info.fcstatus=='174'}
+                                    拍卖已暂缓
+                                {elseif $info.fcstatus=='173'}
+                                    拍卖已撤回
+                            {/if}
+                        </b>
+                        <input type="text" name="usernames" id="usernames" value="{$info.jieduan}" style="display:none;">
+                        {if $info.jieduan eq 163}
+                        <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
+                        {/if}
+                        <input type="text" name="username" id="username" value="{$info.kptime}" style="display:none;">
                     </div>
                     <div class="fangpai-detail-header-right-begin-time">
                         <span>开拍时间：</span>
@@ -149,10 +161,14 @@
                     </div>
                     <div class="fangpai-detail-header-right-begin-baoming">
                         <div class="fangpai-detail-header-right-begin-baoming-left">
-                            <span>151</span>人报名
+                            {if condition="!empty($userInfo)"}
+                            <span>{$info.bmrs }</span>人报名
+                            {else \}
+                            <span> *** </span>人报名
+                            {/if}
                         </div>
                         <div class="fangpai-detail-header-right-begin-baoming-right">
-                            <span>1511</span>人围观
+                            <span>{$info.weiguan}</span>人围观
                         </div>
                     </div>
                 </div>
@@ -206,14 +222,14 @@
         <div class="fangpai-detail-fangyuan-basic">
             <p>基本信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
-                <li><span>小区名称：</span>兴隆都市馨园</li>
-                <li><span>所在区域：</span>朝阳区北苑</li>
-                <li><span>户型结构：</span>平层</li>
-                <li><span>电梯情况：</span>南北</li>
-                <li><span>装修情况：</span>简装</li>
-                <li><span>供暖情况：</span>集中供暖</li>
-                <li><span>车位情况：</span>地下车位</li>
-                <li><span>物业情况：</span>顺天通物业有限公司</li>
+                <li><span>小区名称：</span>{$estate.title}</li>
+                <li><span>所在区域：</span>{$estate.address}</li>
+                <li><span>户型结构：</span>平层``</li>
+                <li><span>电梯情况：</span>南北11</li>
+                <li><span>装修情况：</span>简装11</li>
+                <li><span>供暖情况：</span>集中供暖11</li>
+                <li><span>车位情况：</span>{$estate.data.parking_space}</li>
+                <li><span>物业情况：</span>{$estate.data.property_company}</li>
             </ul>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
