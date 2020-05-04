@@ -26,6 +26,8 @@ class HomeBase extends \think\Controller
     protected $cityInfo;
 
     protected $cur_url;
+    protected $model_action;
+
 
     public function initialize(){
 
@@ -100,9 +102,15 @@ class HomeBase extends \think\Controller
         $this->getMenu();
 
         $this->setSeo();
+        //当前所在页面
+        $module = $this->request->module();//模块名
+        $controller = $this->request->controller();//控制器名
+        $action = $this->request->action();//方法名
+        $model_url = $module.'/'.$controller.'@'.$action;
         //获取页头 页脚 导航栏
-        $head_nav = model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>1])->cache('86401')->select();
+        $head_nav = model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')->where([['status','=',1],['pos','=',1]])->select();
         $this->assign('head_nav',$head_nav);
+        $this->assign('model_url',$model_url);
 
         $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->cache('86400')->select();
         $this->assign('footer_nav',$footer_nav);
