@@ -2,6 +2,8 @@
 
 namespace app\home\controller;
 use app\common\controller\HomeBase;
+use app\server;
+
 class Estate extends HomeBase
 {
     public function initialize()
@@ -238,5 +240,27 @@ class Estate extends HomeBase
                 break;
         }
         return $order;
+    }
+    
+    /**
+     * @description 获取房源信息（模态框接口）
+     * @param $id
+     * @return \think\response\Json
+     * @auther xiaobin
+     */
+    public function houseDetail($id)
+    {
+        $house = new server();
+        $houseRes = $house->second_model($id);
+        $houseRes['toilet'] = getLinkMenuName(29,$houseRes['toilet']);
+        $houseRes['acreage'] = $houseRes['acreage'].config('filter.acreage_unit');
+        $houseRes['estate'] = $house->estate($houseRes['estate_id']);
+        $houseRes['orientations'] = getLinkMenuName(4,$houseRes['orientations']);
+        $houseRes['user'] = $house->user_info($id,$houseRes['broker_id']);
+        $houseRes['user_info'] = $house->user($id,$houseRes['broker_id']);
+        return json([
+            "code" => 200,
+            "data" => $houseRes
+        ]);
     }
 }

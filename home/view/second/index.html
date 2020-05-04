@@ -3,7 +3,7 @@
 {block name='css'}
 <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
-<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v=1">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v={:time()}">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
 {/block}
@@ -11,7 +11,7 @@
 <script src="/homeStatic/js/swiper.jquery.min.js"></script>
 <script src="/homeStatic/js/swiper.min.js"></script>
 <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
-<script src="/homeStatic/js/homeList.js?v=1"></script>
+<script src="/homeStatic/js/homeList.js?v={:time()}"></script>
 
 <script src="__STATIC__/layui/layui.js"></script>
 {/block}
@@ -456,12 +456,9 @@
                         <!--块-->
                         <ul class="fangpai-shu-list">
                             {volist name='lists' id='vo' empty='暂无数据'}
-                            <li>
+                            <li data-id="{$vo.id}">
                                 <div class="fangpai-shu-list-img">
-                                    <a href="{:url('Second/detail',['id'=>$vo.id])}" target="_blank" style="display: block;height: 283px;">
                                         <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
-                                    </a>
-
                                     <div class="fangpai-shu-list-img-footer">
                                         <span>开拍时间：2020-04-16 10:00:00</span>|<span>住宅</span>|<span>一拍</span>
                                     </div>
@@ -528,12 +525,10 @@
                         </ul>
                         <ul class="fangpai-lie-list">
                             {volist name='lists' id='vo' empty='暂无数据'}
-                            <li>
+                            <li data-id="{$vo.id}">
                                 <span style="display: none">{$vo.id}</span>
                                 <div class="fangpai-lie-list-img">
-                                    <a href="{:url('Second/detail',['id'=>$vo.id])}" target="_blank">
                                         <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
-                                    </a>
                                 </div>
                                 <div class="fangpai-lie-list-content">
                                     <div class="fangpai-lie-list-content-title">
@@ -566,7 +561,7 @@
                                             <!--</div>-->
                                         <!--</div>-->
                                         <div class="fangpai-lie-list-danjia">
-                                            <span>单价：{$vo.average_price|raw}</span>
+                                            <span class="dj">单价：{$vo.average_price|raw}</span>
                                             <span>市场价：{$vo.price|raw}</span>
                                         </div>
                                     </div>
@@ -634,6 +629,200 @@
         </div>
     </div>
 </div>
+<!--弹窗-->
+<div class="fangpai-detail-dialog">
+    <div class="fangpai-detail-dialog-content">
+        <div class="fangpai-detail-dialog-content-header">
+            <div class="fangpai-detail-dialog-content-header-left">
+                <span>查看详情</span>
+            </div>
+            <div class="fangpai-detail-dialog-content-header-right">
+                <p>
+                    <img src="./homeStatic/img/search-button.png" alt="">
+                    <span class="look">预约看房</span>
+                </p>
+                <p>
+                    <img src="./homeStatic/img/search-button.png" alt="">
+                    <span class="join">关注房源</span>
+                </p>
+                <p class="fangpai-detail-dialog-close">
+                    <img src="./homeStatic/img/jiahao.png" alt="">
+                </p>
+            </div>
+
+            <div class="fangpai-detail-dialog-button-prev fangpai-detail-dialog-caozuo-buttons prev_house">
+                上一套
+            </div>
+            <div class="fangpai-detail-dialog-button-next fangpai-detail-dialog-caozuo-buttons next_house">
+                下一套
+            </div>
+        </div>
+        <div class="fangpai-detail-dialog-content-info">
+            <div class="fangpai-detail-dialog-content-tab">
+                <div class="fangpai-detail-dialog-content-top">
+                    <img src="" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="" class="fangpai-detail-dialog-content-top-img">
+                </div>
+                <div class="fangpai-detail-dialog-content-bottom">
+                    <div class="fangpai-detail-dialog-content-bottom-list">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="fangpai-detail-dialog-buttons">
+                <ul></ul>
+            </div>
+            <div class="fangpai-detail-dialog-content-detail">
+                <div class="fangpai-detail-dialog-content-detail-left">
+                    <h2>通州区天赐良园西区8号楼361室</h2>
+                    <div class="fangpai-detail-dialog-content-detail-left-monty">
+                        <ul>
+                            <li>
+                                <p>
+                                            <span>
+                                                起拍价：
+                                            </span>
+                                    <b class="fangpai-detail-dialog-content-detail-left-monty-color">
+                                        301.00万
+                                    </b>
+                                </p>
+                                <p>
+                                            <span>
+                                                市场价：
+                                            </span>
+                                    <b class="scj">
+                                        301.00万
+                                    </b>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                            <span>
+                                                单价：
+                                            </span>
+                                    <b class="dj">
+                                        81351.35元/㎡
+                                    </b>
+                                </p>
+                                <p>
+                                            <span>
+                                                差价：
+                                            </span>
+                                    <b class="cj">
+                                        301.00万
+                                    </b>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                            <span>
+                                                捡漏指数：
+                                            </span>
+                                    <b class="jl">
+
+                                    </b>
+                                </p>
+                                <p>
+                                            <span>
+                                                保证金：
+                                            </span>
+                                    <b class="bzj">
+                                        63万
+                                    </b>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-left-ju">
+                        <p>
+                            <b class="toilet">2室1厅</b>
+                            <span class="total_floor">2层/共7层</span>
+                        </p>
+                        <p>
+                            <b class="orientations">南北</b>
+                            <span class="xsname">住宅</span>
+                        </p>
+                        <p>
+                            <b class="acreage">86.16㎡</b>
+                            <span class="house_year">2003年</span>
+                        </p>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-left-time">
+
+                        <input type="hidden" name="jieduan" class="jieduan" value="">
+
+                        <input type="hidden" name="bianetime" class="bianetime" value="">
+
+                        <input type="hidden" name="kptime" class="kptime" value="" >
+
+                        <p class="reciprocal">开拍截止时间：<b>31天12时56分9.4秒</b></p>
+                        <p class="fangpai-detail-dialog-content-detail-left-time-flex">
+                            <span>开拍时间：<b class="fangpai-detail-dialog-content-detail-left-time-color">2020-05-19 10:00:00</b></span>
+                            <span><b class="wg">151</b>人围观</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="fangpai-detail-dialog-content-detail-right">
+                    <div class="fangpai-detail-dialog-content-detail-right-people">
+                        <img src="./homeStatic/img/banner.jpg" alt="">
+                        <p>
+                            <b>张晓岩</b>
+                            <span>法拍专员</span>
+                        </p>
+                        <p class="history_complate">
+                            法拍服务从业经验0年
+                        </p>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-right-button">
+                        <img src="./homeStatic/img/jingyan.png" alt="">
+                        <span>在线咨询</span>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-right-phone">
+                        4006770028转688
+                    </div>
+                </div>
+            </div>
+            <div class="fangpai-detail-dialog-content-basic">
+                <div class="fangpai-detail-dialog-content-basic-info">基本信息</div>
+                <ul>
+                    <li>
+                        <p class="xiaoquname">
+                            <span>小区名称：</span>兴隆都市馨园
+                        </p>
+                        <p class="xiaoquarea">
+                            <span>所在区域：</span>朝阳区北苑
+                        </p>
+                    </li>
+                    <li>
+                        <p class="basic_info">
+                            <span>户型结构：</span>平层
+                        </p>
+                        <p class="floor_info">
+                            <span>电梯情况：</span>南北
+                        </p>
+                    </li>
+                    <li>
+                        <p class="zxinfo">
+                            <span>装修情况：</span>简装
+                        </p>
+                        <p class="gninfo">
+                            <span>供暖情况：</span>集中供暖
+                        </p>
+                    </li>
+                    <li>
+                        <p class="zwinfo">
+                            <span>车位情况：</span>地下车位
+                        </p>
+                        <p class="wyinfo">
+                            <span>物业情况：</span>顺天通物业有限公司
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗结束-->
 <!-- 楼盘列表 S-->
 
 <script type="text/html" id="template">
@@ -685,7 +874,7 @@
 
 
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
-<script type="text/javascript" src="__JS__/common.js"></script>
+<!--<script type="text/javascript" src="__JS__/common.js"></script>-->
 <script src="__STATIC__/js/layer/layer.js"></script>
 <script>
     $("img.lazy").lazyload({
