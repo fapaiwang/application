@@ -5,6 +5,7 @@ use app\common\controller\HomeBase;
 use app\common\service\Metro;
 use app\home\service\IndexServer;
 use app\home\service\SecondServer;
+use app\home\service\server;
 use app\home\service\UserService;
 use think\facade\Log;
 use think\Request;
@@ -174,7 +175,7 @@ class Second extends HomeBase{
         $second_house_id = input('param.id/d',0);
 
         if($second_house_id){
-            $second_Server = new SecondServer();
+            $second_Server = new server();
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
