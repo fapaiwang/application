@@ -75,12 +75,12 @@ class Map extends HomeBase
     public function second()
 
     {
-
+        
         $this->setSeo(['title'=>'地图找二手房']);
 
         $this->assign('renovation',getLinkMenuCache(8));//装修情况
-
-
+    
+        $this->assign('page_t',6);
         return $this->fetch();
 
     }

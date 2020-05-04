@@ -1,14 +1,113 @@
-{extend name='public/page_list' /}
-{block name='css'}
-<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
-<link rel="stylesheet" type="text/css" href="__CSS__/input.css">
-<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
-<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
-<link rel="stylesheet" type="text/css" href="/homeStatic/css/map.css?v={:time()}">
-{/block}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图找房_北京房拍网</title>
+    <meta name="keywords" content="地图找房" />
+    <meta name="description" content="北京房拍网是专业的房产拍卖网站,专注于法拍房、拍卖信息的平台，汇聚千余套优质房源让老百姓放心拍房，安心入住新房北京，咨询电话400 677 0028" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <script>
+        var browser = {
+            versions: function() {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {     //移动终端浏览器版本信息
+                    trident: u.indexOf('Trident') > -1, //IE内核
+                    presto: u.indexOf('Presto') > -1, //opera内核
+                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        };
+        if (browser.versions.mobile) {
+            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
+        }
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+</head>
+<body>
+<!-- topBar S -->
+<div class="topBar">
+    <div class="comWidth clearfix">
+        <div class="logo fl">
+            <a href="{:url('Index/index')}" title="{$site.title}">
+                <img src="{$site.pc_logo_white}" alt="{$site.title}" />
+            </a>
+        </div>
+        <div class="fl sele_city">
+            <a href="javascript:;"  class="sele_city_btn">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
+            <div class="city_list clearfix">
+                <i class="city-close">关闭</i>
+                {volist name='top_nav_city.city' id='vo'}
+                <dl class="clearfix">
+                    <dt class="bold">{$key}</dt>
+                    {volist name='vo' id='val'}
+                    <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" title="{$val.name}">{$val.name}</a></dd>
+                    {/volist}
+                </dl>
+                {/volist}
+            </div>
+        </div>
+        <div class="navBar fl">
+            <ul class="nav_list fl">
+                {volist name='menu' id='vo'}
+                {if condition='$vo.pos eq 1'}
+                {if condition='$vo.id != 6'}
+                <li {if condition="$vo['model'] eq $cur_url"}class="active"{/if}>
+                    <a href="{$vo['url']}" title="{$vo.title}"  target="{$vo.open_type}">{$vo.title}</a>
+                    {present name="vo['_child']"}
+                    <ul>
+                        {volist name="vo['_child']" id="val"}
+                        <li><a href="{$val.url}" title="{$val.title}" target="{$val.open_type}">{$val.title}</a></li>
+                        {/volist}
+                    </ul>
+                    {/present}
+                </li>
+                {/if}
+                {/if}
+                {/volist}
+            </ul>
+        </div>
+        <div class="log_link fr">
+            {notempty name='userInfo'}
+            <!-- 已登录状态 -->
+            <div class="loged">
+                <div class="user_info">
+                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
+                    <span class="name">{:hideStr($userInfo['nick_name'])}</span>
+                </div>
+                <div class="slide_tog" style="display:none;">
+                    <a href="{:url('user.index/index')}">用户中心</a>
+                    <a href="{:url('Login/logout')}">退出登录</a>
+                </div>
+            </div>
+            {else /}
+            <!-- 未登录状态 -->
+            <div class="not_log">
+                <a href="{:url('Login/index')}">登录</a>
+                /
+                <a href="{:url('Login/register')}">注册</a>
+            </div>
+            {/notempty}
+        </div>
+    </div>
+</div>
+<!-- topBar E -->
+
 
 {block name='content'}
-<div class="map_house mt70">
+<div class="map_house">
     <!-- 筛选 和 搜索 S-->
     <div class="sele_sear clearfix">
         <div class="comWidth">
@@ -60,7 +159,7 @@
                             {/volist}
                         </select>
                     </div>
-
+                    
                     <div class="item  fl">
                         <button type="button" class="btn search-btn" data-uri="{:url('Map/getSecondLists')}">搜索</button>
                     </div>
@@ -198,7 +297,7 @@
     function getParam()
     {
         var city = $('#city').val(),price = $('#price').val(),room = $('#room').val(),acreage = $('#acreage').val(),
-            renovation = $('#renovation').val();
+                renovation = $('#renovation').val();
         var sort  = $('.sort').find('.active').attr('data-sort');
         var param = {
             area : city,
@@ -214,7 +313,7 @@
         var city = $(this).val();
         var  url = $('#select_city').data('uri');
         var param = {
-            city : city
+          city : city
         };
         $.get(url,param,function(result){
             if(result.code == 1)
@@ -226,7 +325,7 @@
         });
     });
 </script>
-
+{/block}
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
@@ -237,23 +336,24 @@
         //event: "scrollstop"
     });
     $(function(){
-        $('.follow').on('click',function(){
-            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
-            $.post(url,{house_id:house_id,model:model},function(result){
-                if(result.code == 1)
-                {
-                    layer.msg(result.msg,{icon:1});
-                    if(me.hasClass('on'))
-                    {
-                        me.removeClass('on').text(result.text);
-                    }else{
-                        me.addClass('on').text(result.text);
-                    }
-                }else{
-                    layer.msg(result.msg,{icon:2});
-                }
-            });
-        });
+       $('.follow').on('click',function(){
+           var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+           $.post(url,{house_id:house_id,model:model},function(result){
+               if(result.code == 1)
+               {
+                   layer.msg(result.msg,{icon:1});
+                   if(me.hasClass('on'))
+                   {
+                       me.removeClass('on').text(result.text);
+                   }else{
+                       me.addClass('on').text(result.text);
+                   }
+               }else{
+                   layer.msg(result.msg,{icon:2});
+               }
+           });
+       });
     });
 </script>
-{/block}
+</body>
+</html>

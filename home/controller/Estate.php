@@ -32,11 +32,18 @@ class Estate extends HomeBase
                       ->order($this->getSort($sort))
                       ->paginate(30,false,['query'=>['keyword'=>$keyword]]);
                       // print_r($sort);
+        //问答
+        $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
+        $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
+        
         $this->assign('area',$this->getAreaByCityId());
         $this->assign('house_type',getLinkMenuCache(9));//类型
         $this->assign('position',$this->getPositionHouse(4));
         $this->assign('lists',$lists);
         $this->assign('pages',$lists->render());
+        $this->assign('page_t',4);
+        $this->assign('answer',$answer);
+        $this->assign('hot_news',$hot_news);
         return $this->fetch();
     }
 

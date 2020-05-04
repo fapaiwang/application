@@ -1,118 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-<title>优质法拍房源_优质小区房_房拍网优质小区栏目</title>
-    <meta name="keywords" content=" 优质法拍房源, 优质小区房" />
-    <meta name="description" content="房拍网优质小区栏目提供丰富优质小区法拍房，低于市场价25%，便宜放心拍房，安心住新家。咨询电话400 677 0028" />
-    
-    <meta charset="UTF-8">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <script>
-        var browser = {
-            versions: function() {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                return {     //移动终端浏览器版本信息
-                    trident: u.indexOf('Trident') > -1, //IE内核
-                    presto: u.indexOf('Presto') > -1, //opera内核
-                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-                    iPad: u.indexOf('iPad') > -1, //是否iPad
-                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-                };
-            } (),
-            language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        };
-        if (browser.versions.mobile) {
-            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
-        }
-    </script>
-    
-    <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
-    <script src="__STATIC__/js/jquery.min.js"></script>
-</head>
-<body>
-  <style type="text/css">
-.topBar{background: linear-gradient(#ffffff, #e3e3e3);box-shadow:1px 2px 2px #888}
-.nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
-.navBar .nav_list a { color: #000;}
-</style>
-  
-<!-- topBar S -->
-<div class="topBar" style="    margin-bottom: 2px;">
-    <div class="comWidth clearfix">
-        <div class="logo fl" style="line-height:70px">
-            <a href="{:url('Index/index')}" title="{$site.title}">
-                <img src="{$site.pc_logo_white}" alt="{$site.title}" style="height:66px" />
-            </a>
-        </div>
-        <div class="fl sele_city" style="height:70px">
-            <a href="javascript:;"  class="sele_city_btn" style="line-height:70px;color:#000">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
-            <div class="city_list clearfix">
-                <i class="city-close">关闭</i>
-                {volist name='top_nav_city.city' id='vo'}
-                <dl class="clearfix">
-                    <dt class="bold">{$key}</dt>
-                    {volist name='vo' id='val'}
-                    <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" rel="nofollow" title="{$val.name}">{$val.name}</a></dd>
-                    {/volist}
-                </dl>
-                {/volist}
-            </div>
-        </div>
-        <div class="navBar fl" style="height:70px">
-            <ul class="nav_list fl">
-                 <li style="padding: 10px 30px;"><a href="/" title="网站首页" target="_self" >网站首页</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/erf.html?sort=9" title="推荐房源" target="_self" {if !empty( $_GET['sort']) eq '9' }style="color:#00AC56"{/if} >推荐房源</a> </li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/xiaoqu.html?mod4=4" title="优质小区" target="_self" {if !empty( $_GET['mod4']) eq '4' }style="color:#00AC56"{/if} >优质小区</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/map/second.html?mod5=6" rel="nofollow" title="地图找房" target="_self" {if !empty( $_GET['mod5']) eq '6' }style="color:#00AC56"{/if} >地图找房</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/news.html?mod=5" title="资讯中心" target="_self" >资讯中心</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/single-aboutus.html?mod6=8" rel="nofollow" title="关于我们" target="_self" {if !empty( $_GET['mod6']) eq '8' }style="color:#00AC56"{/if} >关于我们</a></li>
-            </ul>
-        </div>
-        <div class="log_link fr">
-            {notempty name='userInfo'}
-            <!-- 已登录状态 -->
-            <div class="loged" style="line-height:70px">
-                <div class="user_info">
-                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
-                    <span class="name" style="color:#000">{:hideStr($userInfo['nick_name'])}</span>
-                </div>
-                <div class="slide_tog" style="display:none;">
-                    <a href="{:url('user.index/index')}" style="color:#000">用户中心</a>
-                    <a href="{:url('Login/logout')}" style="color:#000">退出登录</a>
-                </div>
-            </div>
-            {else /}
-            <!-- 未登录状态 -->
-            <div class="not_log" style="line-height:70px;color:#000">
-                <a href="{:url('Login/index')}" rel="nofollow" style="color:#000">登录</a>
-                /
-                <a href="{:url('Login/register')}" rel="nofollow" style="color:#000">注册</a>
-            </div>
-            {/notempty}
-        </div>
-    </div>
-</div>
-<!-- topBar E -->
-<!--<script language=javascript>-->
-<!--var LiveAutoInvite0='您好，来自%IP%的朋友';-->
-<!--var LiveAutoInvite1='来自首页的对话';-->
-<!--var LiveAutoInvite2='网站商务通 主要功能：<BR>1、主动邀请<BR>2、即时沟通<BR>3、查看即时访问动态<BR>4、访问轨迹跟踪<BR>5、内部对话<BR>6、不安装任何插件也实现双向文件传输<BR><BR><B>如果您有任何问题请接受此邀请以开始即时沟通</B>';-->
-<!--</script>-->
-<!--<script language="javascript" src="https://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->
+{extend name='public/page_list' /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v=1">
+<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/xiaoqu.css?v={:time()}">
+{/block}
+{block name='js'}
+<script src="/homeStatic/js/swiper.jquery.min.js"></script>
+<script src="/homeStatic/js/swiper.min.js"></script>
+<script src="/homeStatic/js/jquery.waypoints.min.js"></script>
+<script src="/homeStatic/js/homeList.js?v=1"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+{/block}
 
 {block name='content'}
 <!-- 搜索栏 S -->
@@ -131,7 +31,6 @@
                 </div>
             </form>
         </div>
-        <a href="{:url('Map/estate')}" class="map_btn fr">地图找房</a>
     </div>
 </div>
 <!-- 搜索栏 E -->
@@ -177,7 +76,7 @@
                         {/volist}
                     </ul>
                 </div>
-                
+
                 <div class="item clearfix">
                     <h3>类型:</h3>
                     <ul class="list">
@@ -227,7 +126,7 @@
                                         <img src="__STATIC__/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}">
                                     </a>
                                 </span>
-                                <span class="r_con fr" style="width: 587px;">
+                            <span class="r_con fr" style="width: 587px;">
                                     <h3>
                                         <a href="{:url('Estate/detail',['id'=>$vo['id']])}" title="{$vo.title}">
                                             {$vo.title}
@@ -258,67 +157,8 @@
             </div>
             <!-- 房子列表 E -->
             <!-- 右边内容 S -->
-            <div class="cm_rightArea rightArea">
-                <!-- 最新房源 S -->
-                <div class="rcmd_house new_house  mt_73">
-                    <div class="title">
-                        <h3>最新房源</h3>
-                        <p class="b_l"></p>
-                    </div>
-                    <div class="con_box">
-                        <ul class="clearfix">
-                            {php}$where_str = "status=1";$city_all_child && $where_str.= " and city in (".$city_all_child.")";{/php}
-                            {fang:lists table='second_house' where='$where_str' order='create_time desc' field='id,title,img,estate_name,price,room,living_room,toilet,acreage' limit='3' id='data'}
-                            <li>
-                                <a href="{:url('Second/detail',['id'=>$data['id']])}"  target="_blank" title="{$data.title}">
-                                    <div class="img">
-                                        <img src="{$data.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$data.title}">
-                                    </div>
-                                    <div class="con">
-                                        <div class="row clearfix">
-                                            <p class="name fl">{$data.estate_name}</p>
-                                            <p class="price fr">{$data.price|raw}</p>
-                                        </div>
-                                        <div class="row clearfix">
-                                              <p class="type fl">{:getLinkMenuName(29,$data['toilet'])}</p>
-                                            <!-- <p class="type fl">{$data.room}室{$data.living_room}厅</p> -->
-                                            <p class="area fr">{$data.acreage}{:config('filter.acreage_unit')}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            {/fang:lists}
-
-                        </ul>
-                    </div>
-                </div>
-                <!-- 最新房源 E -->
-                <!-- 推荐楼盘 S -->
-                <div class="rcmd_build mt_25">
-                    <div class="title">
-                        <h3>推荐楼盘</h3>
-                        <p class="b_l"></p>
-                    </div>
-                    <div class="con_box">
-                        <ul class="list">
-                            {volist name='position' id='vo'}
-                            <li class="clearfix">
-                                <a href="{:url('House/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank">
-                                    <div class="fl l_img">
-                                        <img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" width="120" height="80" alt="{$vo.title}">
-                                    </div>
-                                    <div class="fr r_con">
-                                        <p class="name">{$vo.title}</p>
-                                        <p class="address">{:getCityName($vo['city'])}</p>
-                                        <p class="price"><b>{$vo.price}</b>{if condition="$vo.price gt 0"}{$vo.unit}{/if}</p>
-                                    </div>
-                                </a>
-                            </li>
-                            {/volist}
-                        </ul>
-                    </div>
-                </div>
-                <!-- 推荐楼盘 E -->
+            <div class="cm_rightArea rightArea fangpai-shu-list-content-right">
+                {include file='second/right' /}
             </div>
             <!-- 右边内容 E -->
         </div>
@@ -366,15 +206,13 @@
         });
     });
 </script>
-{/block}
-<div class="footer">
-    {include file='public/footer' /}
-</div>
+
+
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
-  <!--客服-->
-  <script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>
+<!--客服-->
+<script type="text/javascript" charset="utf-8" src="http://op.jiain.net/20004320/10112244.js"></script>
 <script>
     $("img.lazy").lazyload({
         threshold : 100,
@@ -382,24 +220,23 @@
         //event: "scrollstop"
     });
     $(function(){
-       $('.follow').on('click',function(){
-           var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
-           $.post(url,{house_id:house_id,model:model},function(result){
-               if(result.code == 1)
-               {
-                   layer.msg(result.msg,{icon:1});
-                   if(me.hasClass('on'))
-                   {
-                       me.removeClass('on').text(result.text);
-                   }else{
-                       me.addClass('on').text(result.text);
-                   }
-               }else{
-                   layer.msg(result.msg,{icon:2});
-               }
-           });
-       });
+        $('.follow').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+            $.post(url,{house_id:house_id,model:model},function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg,{icon:1});
+                    if(me.hasClass('on'))
+                    {
+                        me.removeClass('on').text(result.text);
+                    }else{
+                        me.addClass('on').text(result.text);
+                    }
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
     });
 </script>
-</body>
-</html>
+{/block}
