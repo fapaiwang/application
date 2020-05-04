@@ -5,8 +5,8 @@ use app\common\controller\HomeBase;
 use app\common\service\Metro;
 use app\home\service\IndexServer;
 use app\home\service\SecondServer;
-use app\home\service\server;
 use app\home\service\UserService;
+use app\server;
 use think\facade\Log;
 use think\Request;
 
@@ -171,21 +171,22 @@ class Second extends HomeBase{
     }
 
     public function detail(){
-        $arr=$this->request->param();
         $second_house_id = input('param.id/d',0);
 
         if($second_house_id){
-            $second_Server = new server();
+            $server = new server();
+            $SecondServer = new SecondServer();
+
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
-            $info = $second_Server->second_model($second_house_id);
+            $info = $server->second_model($second_house_id);
 
             if($info){
                 //添加浏览量
                 updateHits($info['id'],'second_house');
                 //小区详情
-                $estate = $second_Server->estate($info['estate_id']);
+                $estate = $server->estate($info['estate_id']);
 
                 $this->assign('info',$info);
 
@@ -193,8 +194,8 @@ class Second extends HomeBase{
 //                $info['total'] = $obj->where('estate_id',$info['estate_id'])->where('status',1)->count();
 
                 //法拍专员信息
-                $user = $second_Server->user($second_house_id,$info['broker_id']);
-                $user_info = $second_Server->user_info($second_house_id,$info['broker_id']);
+                $user = $server->user($second_house_id,$info['broker_id']);
+                $user_info = $server->user_info($second_house_id,$info['broker_id']);
                 $this->assign('user',$user);
                 $this->assign('user_info',$user_info);
 
@@ -204,51 +205,33 @@ class Second extends HomeBase{
                     ->cache($estate_second_house_num,3600)->count();
                 $this->assign('estate_num',$estate_num);
                 $xiaoqu=$info['estate_id'];
+                $estate_id=$info['estate_id'];
+//                $estate_seconf = $SecondServer->estate_second($estate_id,10);
 
 
-                $objs   = model('second_house');
-//                $objss   = model('second_house')->alias('s');
-//                $joinss  = [['estate m','m.id = s.estate_id']];
-//                $field   = "s.*,s.endtime";
-//                $field .= ',m.years';
-//                $tong1 = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->limit('0,5')->select();
-//                dd($tong1);
-//                $tong = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->limit('5,200')->select();
-//
-//                $tcou = $objs->where('estate_id',$xiaoqu)->where('fcstatus',175)->where('status',1)->count();
-//
-//                $this->assign('tcou',$tcou);
-//
-//                $this->assign('tong',$tong);
-//
-//                $this->assign('tong1',$tong1);
+
 
 
 //                $jilu1 =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('0,5')->select();
-//
 //                $this->assign('jilu1',$jilu1);
 
-// print_r($jilu1);
-
 //                $jilu =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('5,200')->select();
-
+//
 //                $this->assign('jilu',$jilu);
-
-// print_r($jilu);exit();
 
 //                $tcou1 = model('transaction_record')->where('estate_id',$xiaoqu)->count();
 //
 //                $this->assign('tcou1',$tcou1);
-//
-//                $yeares1 =  model('estate')->where('id',$xiaoqu)->field('years')->find();
-//
-//                $yeares=$yeares1['years'];
-//
-//                $this->assign('yeares',$yeares);
-//
-//
-//
-//
+
+                $yeares1 =  model('estate')->where('id',$xiaoqu)->field('years')->find();
+
+                $yeares=$yeares1['years'];
+
+                $this->assign('yeares',$yeares);
+
+
+
+
 //
 //                $allcount=$tcou+$tcou1;
 //
@@ -258,13 +241,13 @@ class Second extends HomeBase{
 
 
 
-//                $qipai=$info['qipai'];
-//
-//                $info['qipai']=number_format("$qipai",2,".","");
-//
-//                $acreage=$info['acreage'];
-//
-//                $info['acreage']=number_format("$acreage",2,".","");
+                $qipai=$info['qipai'];
+
+                $info['qipai']=number_format("$qipai",2,".","");
+
+                $acreage=$info['acreage'];
+
+                $info['acreage']=number_format("$acreage",2,".","");
 
 
 

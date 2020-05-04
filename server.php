@@ -16,9 +16,9 @@ class server
         $where['h.id']     = $second_house_id;
         $where['h.status'] = 1;
         $second_house_field  ="h.title,h.bianhao,h.qipai,h.types,h.price,h.marketprice,h.baozheng,h.toilet,h.floor,h.total_floor,
-            d.file,d.house_id,
+            d.file,d.house_id,d.info,
             h.orientations,h.acreage,h.contacts,h.estate_id,h.id,h.broker_id,h.city,h.jieduan,h.bianetime,h.kptime,h.types,
-            h.bmrs,h.weiguan,h.img,h.basic_info";
+            h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
 //            todo  缓存
@@ -38,9 +38,12 @@ class server
         //成交价格
         $info['cjprice']=sprintf("%.2f",$info['cjprice']);
         $info['file'] = json_decode($info['file'],true);
+        //基本信息
         if (!empty($info['basic_info'])){
             $info['basic_info']=explode('|',$info['basic_info']);
         }
+        //拍卖阶段
+        $info['jieduan'] =getLinkMenuName(25, $info['jieduan']);
         return $info;
     }
 
@@ -56,7 +59,7 @@ class server
      */
     public function estate($estate_id){
         $estate =model('estate')
-            ->field('title,years,address,data')
+            ->field('title,years,address,data,area_name')
             ->where('id',$estate_id)
 //            ->cache('estate'.$estate_id,84000)
             ->find();

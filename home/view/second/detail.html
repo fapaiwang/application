@@ -124,7 +124,7 @@
                             <span>在线咨询</span>
                         </div>
                         <div class="fangpai-detail-header-right-people-right-phone">
-                            {$user_info.lxtel_zhuan}
+                            {$user.lxtel_zhuan}
                         </div>
                     </div>
                 </div>
@@ -223,30 +223,60 @@
             <p>基本信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
                 <li><span>小区名称：</span>{$estate.title}</li>
-                <li><span>所在区域：</span>{$estate.address}</li>
-                <li><span>户型结构：</span>平层``</li>
-                <li><span>电梯情况：</span>南北11</li>
-                <li><span>装修情况：</span>简装11</li>
-                <li><span>供暖情况：</span>集中供暖11</li>
+                <li><span>所在区域：</span>{$estate.area_name}</li>
+                {empty name="$info.basic_info.2"}
+                <li><span>户型结构：</span>不祥</li>
+                {else /}
+                <li><span>户型结构：</span>{$info.basic_info.2}</li>
+                {/empty}
+                {empty name="$info.basic_info.0"}
+                <li><span>电梯情况：</span>不祥</li>
+                {else /}
+                <li><span>电梯情况：</span>不详不详1</li>
+                {/empty}
+                {empty name="$info.basic_info.3"}
+                <li><span>装修情况：</span>不祥</li>
+                {else /}
+                <li><span>装修情况：</span>{$info.basic_info.3}</li>
+                {/empty}
+
+                {empty name="$info.basic_info.4"}
+                <li><span>供暖情况：</span>不祥</li>
+                {else /}
+                <li><span>供暖情况：</span>{$info.basic_info.4}</li>
+                {/empty}
+
                 <li><span>车位情况：</span>{$estate.data.parking_space}</li>
+
+
+                {empty name="$info.basic_info.6"}
                 <li><span>物业情况：</span>{$estate.data.property_company}</li>
+                {else /}
+                <li><span>物业情况：</span>{$info.basic_info.6}</li>
+                {/empty}
             </ul>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
             <p>拍卖信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
-                <li><span>拍卖阶段：</span>一拍</li>
-                <li><span>执行依据：</span>朝阳区北苑</li>
-                <li><span>拍卖属性：</span>住宅</li>
-                <li><span>土地证号：</span>2003年</li>
-                <li><span>产权证号：</span>86.16㎡</li>
-                <li><span>土地用途：</span>南北</li>
-                <li><span>房屋用途：</span>2室1厅</li>
-                <li><span>经营情况：</span>南北</li>
-                <li><span>租赁情况：</span>住宅</li>
-                <li><span>抵押情况：</span>2003年</li>
-                <li><span>查封情况：</span>86.16㎡</li>
-                <li><span>腾退情况：</span>2室1厅</li>
+                <li><span>拍卖阶段：</span>{$info.jieduan}</li>
+                <li><span>执行依据：</span>不详111</li>
+                {empty name="$info.basic_info.0"}
+                <li><span>拍卖属性：</span>不祥</li>
+                {else /}
+                <li><span>拍卖属性：</span>{$info.xsname} </li>
+                {/empty}
+
+
+                <li><span>土地证号：</span>不详111</li>
+                <li><span>产权证号：</span>不详111</li>
+                <li><span>土地用途：</span>不详</li>
+                <li><span>房屋用途：</span>不详</li>
+                <li><span>经营情况：</span>不详</li>
+                <li><span>租赁情况：</span>不详</li>
+                <li><span>抵押情况：</span>不详</li>
+                <li><span>查封情况：</span>不详</li>
+                <li><span>腾退情况：</span>不详</li>
             </ul>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
@@ -267,13 +297,19 @@
                 <div class="fangpai-detail-fangyuan-tese-biaoqian">
                     <span>交通出行</span>
                     <div class="fangpai-detail-fangyuan-tese-content">
-                        距离立水桥地铁站400米，地铁13号线和5号线交汇，还有432、快3等公交线， 出行很方便
+                        {empty name="$info.basic_info.8"}
+                        {else /}
+                        {$info.basic_info.8}
+                        {/empty}
                     </div>
                 </div>
                 <div class="fangpai-detail-fangyuan-tese-biaoqian">
                     <span>周边配套</span>
                     <div class="fangpai-detail-fangyuan-tese-content">
-                        小区西侧就是密洼湖公园，南侧是欢乐谷公园，小区周边有多家美食餐厅，四家 银行，工行、建行、中国银行、还有农行，小区门口就有多家蔬菜水果便利店，物美价廉，水果蔬菜非常新鲜
+                        {empty name="$info.basic_info.7"}
+                        {else /}
+                        {$info.basic_info.7}
+                        {/empty}
                     </div>
                 </div>
             </div>
@@ -284,14 +320,7 @@
                 <span><img src="./homeStatic/img/jianhao.png" alt=""></span>
             </div>
             <div class="fangpai-detail-paimai-content">
-
-                北京市朝阳区人民法院将于2020年5月18日10时至2020年5月19日10时止（延时的除外）在淘宝司法拍卖网络平台上进行公开拍卖活动。现公告如下： 一、拍卖标的： 北京市通州区颐瑞西里20号楼12层1单元1503号（94.49㎡） 评估价：474.5323万元； 起拍价：332.18万元； 保证金：66万元； 增价幅度：1万元 二、竞买条件： （一）凡具备完善民事行为能力的公民、法人和其他组织均可参加竞买。如参与竞买人未开设网络司法拍卖平台账户，可委托代理人进行，但必须在竞价程序开始前5个工作日向法院提交委托材料（营业执照副本、授权委托书、委托代理人身份证等）经法院确认后可参与竞买。
-                （二）竞买成功后，竞买人（法定代表人、其他组织的负责人）须与委托代理人一同到法院办理交接手续。如果买受人本人因客观原因无法来法院签订成交确认书或者领取标的的，买受人应向法院提交经公证的委托书、并由代理人携带经公证的委托书原件、委托人和受托人身份证明原件，到法院签订成交确认书、领取标的。 （三）重要提示：竞拍人为自然人的，其家庭或个人应当符合当地限购政策（含商办类）的相关要求，否则由其自行承担房产、土地、车辆等标的物不能过户等情形相应的法律后果； 三、咨询、展示看样的时间与方式：本院已委托北京嘉辉盛世信息技术有限公司协助办理咨询、看样相关拍卖辅助事务。自2020年4月17日9时起至2020年5月17日17时止（节假日除外），接受咨询，咨询电话：13401099104；400-114-2262；010-67755142；（本标的物不预展。）
-                四、本次拍卖活动设置延时出价功能，在拍卖活动结束前，每最后5分钟如果有竞买人出价，就自动延迟5分钟； 五、拍卖方式：设有保留价的增价拍卖方式，未达保留价不成交； 六、标的物以实物现状为准，法院不承担拍卖标的瑕疵保证。特别提醒：有意者请亲自到相关部门详细咨询限购、过户等相关政策，过户风险自行承担；凡是参加竞买的竞买人均视为对本标的实物现状的认可，责任自负； 七、拍卖成交买受人付清全部拍卖价款后，凭法院出具的执行裁定书、协助执行通知书及拍卖成交确认书自行至相关管理部门办理标的物权属变更手续。
-                八、对上述标的权属有异议者，请竞价前五个工作日与本院联系； 九、与本标的物有利害关系的当事人（如担保物权人、质押权人、优先购买权人等）均可参加竞拍，不参加竞拍的请关注本次拍卖活动的整个过程；本标的的优先购买权人未参加竞拍，视为放弃优先购买权。 十、拍卖竞价前意向竞买人须在网络司法拍卖平台注册账号并通过实名认证（已注册账号需通过实名认证），在线支付竞买保证金，具体要求请阅读竞价页面内的《竞拍须知》及司法网络拍卖平台告知的司法拍卖流程（拍卖前必看）的相关准则。拍卖结束后未能竞得者冻结的保证金自动解冻，冻结期间不计利息。本标的物竞得者原冻结的保证金自动转入北京市朝阳区人民法院指定账户，拍卖余款在2020年6月19日15时前缴入法院指定账户(户名：(2020)京0105执恢1142号；开户银行：中国工商银行股份有限公司北京正阳门支行；账号：0200059338133047578)，拍卖未成交的，竞买人冻结的保证金自动解冻，冻结期间不计利息。竞得者缴纳尾款时需注意法院账户中户名括号“（”、“）”为半角。缴纳尾款时请备注账户名称。
-                特别提示：拍卖标的保证金金额在1000万元以上的，或企业参与竞买，请竞买人务必提前5个工作日完成报名及保证金缴纳手续。如因竞买人未按此条提示在规定的时间完成报名及保证金缴纳手续，导致在拍卖结束前未能全额收到竞买人缴纳的保证金，无法为竞买人开通竞买权限，所产生的一切后果由竞买人自行承担。 十一、依照《最高人民法院关于人民法院网络司法拍卖若干问题的规定》（法释〔2016〕18号）规定，竞买人成功竞得网拍标的物后，网拍平台将生成相应《司法拍卖网络竞价成功确认书》并公示，确认书中载明实际买受人姓名、网拍竞买号等信息。
-                竞买人在拍卖竞价前请务必再仔细阅读本院发布的拍卖须知。 淘宝技术咨询电话：400-822-2870 法院监督电话：010-86377533 法院咨询电话：13401099104；010-86377422 北京市朝阳区人民法院 二〇二〇年四月十六日
-
+                {$info.info|raw}
             </div>
         </div>
         <div class="fangpai-detail-jilu">
@@ -301,20 +330,32 @@
             </div>
             <div class="fangpai-detail-jilu-content">
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">交易记录</p>
-                <ul class="fangpai-detail-jilu-content-jiaoyi">
-                    <li>
-                        <span>二拍流拍</span>
-                        <span>二拍结束时间：2020-03-21 10:000:00</span>
-                        <span>流拍价：221万</span>
-                    </li>
-                    <li>
-                        <span>一拍流拍</span>
-                        <span>二拍结束时间：2020-03-21 10:000:00</span>
-                        <span>流拍价：221万</span>
-                    </li>
-                </ul>
+                {if $info.jieduan gt 161}
+                    <ul class="fangpai-detail-jilu-content-jiaoyi">
+                        {if $info.jieduan eq 163}
+                            <li>
+                                <span>二拍流拍</span>
+                                <span>二拍结束时间：{$info.twoetime}</span>
+                                <span>流拍价：{$info.twoprice}万</span>
+                            </li>
+                            <li>
+                                <span>一拍流拍</span>
+                                <span>二拍结束时间：{$info.oneetime}</span>
+                                <span>流拍价：{$info.oneprice}万</span>
+                            </li>
+                        {/if}
+                        {if $info.jieduan eq 163}
+                            <li>
+                                <span>一拍流拍</span>
+                                <span>二拍结束时间：{$info.oneetime}</span>
+                                <span>流拍价：{$info.oneprice}万</span>
+                            </li>
+                        {/if}
+                    </ul>
+                {/if}
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">拍卖成交记录</p>
                 <ul class="fangpai-detail-jilu-content-chengjiao">
+
                     <li>
                         <span>2019-07-23</span>
                         <span>起拍价：200.00万</span>
@@ -322,34 +363,7 @@
                         <span>成交价：252.00万</span>
                         <span>单价：18523元/㎡</span>
                     </li>
-                    <li>
-                        <span>2019-07-23</span>
-                        <span>起拍价：200.00万</span>
-                        <span>140.91平米</span>
-                        <span>成交价：252.00万</span>
-                        <span>单价：18523元/㎡</span>
-                    </li>
-                    <li>
-                        <span>2019-07-23</span>
-                        <span>起拍价：200.00万</span>
-                        <span>140.91平米</span>
-                        <span>成交价：252.00万</span>
-                        <span>单价：18523元/㎡</span>
-                    </li>
-                    <li>
-                        <span>2019-07-23</span>
-                        <span>起拍价：200.00万</span>
-                        <span>140.91平米</span>
-                        <span>成交价：252.00万</span>
-                        <span>单价：18523元/㎡</span>
-                    </li>
-                    <li>
-                        <span>2019-07-23</span>
-                        <span>起拍价：200.00万</span>
-                        <span>140.91平米</span>
-                        <span>成交价：252.00万</span>
-                        <span>单价：18523元/㎡</span>
-                    </li>
+
                 </ul>
                 <div class="fangpai-detail-jilu-content-footer">
                     <span>更多</span>

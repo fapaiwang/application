@@ -13,7 +13,21 @@ use think\Log;
 class SecondServer
 {
 
-
+    /**
+     * @param $estate_id 小区id
+     * @param string $limit 条数
+     * @param mixed
+     * @return array|\PDOStatement|string|\think\Collection
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function estate_second($estate_id,$limit='10'){
+        $estate_second = model('second_house')->where('estate_id',$estate_id)
+            ->where('fcstatus',175)->where('status',1)->limit($limit)->select();
+        return $estate_second;
+    }
     /**
      * 列表页搜索栏数据
      * @param int $area_id
