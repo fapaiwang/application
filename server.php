@@ -1,6 +1,6 @@
 <?php
 
-namespace app\home\service;
+namespace app;
 
 
 
@@ -75,12 +75,12 @@ class server
      * @throws \think\exception\DbException
      */
     public function user($second_house_id,$broker_id){
-        $user_info = model('user')->field('history_complate')->where('user_id',$broker_id)
+        $user_info = model('user')->field('lxtel_zhuan,kflj')->where('id',$broker_id)
             ->cache('user_info_common_'.$second_house_id,84000)->find();
         return $user_info;
     }
     public function user_info($second_house_id,$broker_id){
-        $user = model('user_info')->field('lxtel_zhuan,kflj')->where('id',$broker_id)
+        $user = model('user_info')->field('history_complate')->where('user_id',$broker_id)
             ->cache('user_common_'.$second_house_id)->find();
         return $user;
     }
