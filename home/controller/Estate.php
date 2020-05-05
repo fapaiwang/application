@@ -257,7 +257,9 @@ class Estate extends HomeBase
         $houseRes['estate'] = $house->estate($houseRes['estate_id']);
         $houseRes['orientations'] = getLinkMenuName(4,$houseRes['orientations']);
         $houseRes['user'] = $house->user_info($id,$houseRes['broker_id']);
+        $houseRes['user'] =  $houseRes['user'] && $houseRes['user']['history_complate'] ? $houseRes['user']['history_complate'] : 0;
         $houseRes['user_info'] = $house->user($id,$houseRes['broker_id']);
+        $houseRes['user_info'] = $houseRes['user_info'] && $houseRes['user_info']['lxtel_zhuan'] ? $houseRes['user_info']['lxtel_zhuan'] : '';
         return json([
             "code" => 200,
             "data" => $houseRes
