@@ -1687,7 +1687,7 @@ class Secondx extends HomeBase{
             $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
             foreach ($second_house_user_comment as &$house){
                 $house['avatar'] = getAvatar($house->id,90);
-                $house['pinglun'] = model('user')->where('id',$house['id'])->find();//客服
+                $house['pinglun'] = model('user')->where('id',$house['broker_id'])->find();//客服
             }
         } else {
             $code = 500;
