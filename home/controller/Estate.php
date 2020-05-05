@@ -260,6 +260,7 @@ class Estate extends HomeBase
         $houseRes['user'] =  $houseRes['user'] && $houseRes['user']['history_complate'] ? $houseRes['user']['history_complate'] : 0;
         $houseRes['user_info'] = $house->user($id,$houseRes['broker_id']);
         $houseRes['user_info'] = $houseRes['user_info'] && $houseRes['user_info']['lxtel_zhuan'] ? $houseRes['user_info']['lxtel_zhuan'] : '';
+        $houseRes['pinglun'] = model('user')->where('id',$houseRes['broker_id'])->find();//客服
         return json([
             "code" => 200,
             "data" => $houseRes

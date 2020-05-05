@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v={:time()}">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/kf.css?v={:time()}">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
 {/block}
@@ -11,7 +12,7 @@
 <script src="/homeStatic/js/swiper.min.js"></script>
 <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
 <script src="/homeStatic/js/homeList.js?v={:time()}"></script>
-
+<script src="/homeStatic/js/kf.js?v={:time()}"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 {/block}
 {block name='content'}
@@ -649,7 +650,7 @@
                             法拍服务从业经验0年
                         </p>
                     </div>
-                    <div class="fangpai-detail-dialog-content-detail-right-button">
+                    <div class="fangpai-detail-dialog-content-detail-right-button" onclick="showOtherDiv()">
                         <img src="./homeStatic/img/jingyan.png" alt="">
                         <span>在线咨询</span>
                     </div>
@@ -700,7 +701,16 @@
 </div>
 <!--弹窗结束-->
 <!-- 楼盘列表 S-->
-
+<!--在线客服-->
+<div id="bboxby">
+    <a href="" onclick="return false">
+        <div id="btnby" onclick="btnby()">房拍网客服</div>
+    </a>
+    <div id="boxby">
+        <iframe scrolling="no" id="main" name="main" frameborder="0"  src=""></iframe>
+    </div>
+</div>
+<!--在线客服 end-->
 <script type="text/html" id="template">
     {{# for(var i = 0, len = d.length; i < len; i++){ }}
     <li>
