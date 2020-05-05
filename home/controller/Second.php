@@ -170,7 +170,7 @@ class Second extends HomeBase{
 //        return $this->fetch();
 //    }
 
-    public function detail(){
+    public function detail1253(){
         $second_house_id = input('param.id/d',0);
 
         if($second_house_id){
@@ -267,7 +267,7 @@ class Second extends HomeBase{
 
 
      */
-    public function detail1243()
+    public function detail()
 
     {
 
