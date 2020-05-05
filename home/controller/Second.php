@@ -176,7 +176,6 @@ class Second extends HomeBase{
         if($second_house_id){
             $server = new server();
             $SecondServer = new SecondServer();
-
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
@@ -187,144 +186,41 @@ class Second extends HomeBase{
                 updateHits($info['id'],'second_house');
                 //小区详情
                 $estate = $server->estate($info['estate_id']);
-
                 $this->assign('info',$info);
-
-                //小区房屋套数
-//                $info['total'] = $obj->where('estate_id',$info['estate_id'])->where('status',1)->count();
-
                 //法拍专员信息
                 $user = $server->user($second_house_id,$info['broker_id']);
                 $user_info = $server->user_info($second_house_id,$info['broker_id']);
                 $this->assign('user',$user);
                 $this->assign('user_info',$user_info);
-
                 //本小区拍卖套数
-                $estate_second_house_num ='estate_second_house_num_'.$second_house_id.'_'.$info['estate_name'];
-                $estate_num = model('second_house')->where('estate_name',$info['estate_name'])
-                    ->cache($estate_second_house_num,3600)->count();
+                $estate_num = $SecondServer->estate_second_num($second_house_id,$info['estate_name']);
                 $this->assign('estate_num',$estate_num);
                 $xiaoqu=$info['estate_id'];
                 $estate_id=$info['estate_id'];
-//                $estate_seconf = $SecondServer->estate_second($estate_id,10);
-
-
-
-
-
-//                $jilu1 =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('0,5')->select();
-//                $this->assign('jilu1',$jilu1);
-
-//                $jilu =  model('transaction_record')->where('estate_id',$xiaoqu)->limit('5,200')->select();
-//
-//                $this->assign('jilu',$jilu);
-
-//                $tcou1 = model('transaction_record')->where('estate_id',$xiaoqu)->count();
-//
-//                $this->assign('tcou1',$tcou1);
-
-                $yeares1 =  model('estate')->where('id',$xiaoqu)->field('years')->find();
-
-                $yeares=$yeares1['years'];
-
-                $this->assign('yeares',$yeares);
-
-
-
-
-//
-//                $allcount=$tcou+$tcou1;
-//
-//                $this->assign('allcount',$allcount);
-
-
-
-
-
-                $qipai=$info['qipai'];
-
-                $info['qipai']=number_format("$qipai",2,".","");
-
-                $acreage=$info['acreage'];
-
-                $info['acreage']=number_format("$acreage",2,".","");
-
-
+                //小区的所有房源
+                $estate_seconf = $SecondServer->estate_second($estate_id,10);
+                $this->assign('estate_seconf',$estate_seconf);
+                //法拍专员点评/点评个数
+                $second_house_user_comment=$SecondServer->second_house_user_comment($second_house_id);
+//                dd($second_house_user_comment);
+                $second_house_user_comment_num= count($second_house_user_comment->toArray());
+                $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
+                $this->assign('second_house_user_comment',$second_house_user_comment);
 
                 //用户信息
                 $infos = cookie('userInfo');
                 $infos = \org\Crypt::decrypt($infos);
-                $this->assign('pdfpy',$infos);
+                //获取是否推荐 和 登录手机号
+                $userInfo = $this->getUserInfo();
+
 
                 $user_id  = $infos['id'];
                 $follow   = model('follow');
                 $guanzhu = $follow->where('house_id',$xiaoqu)->where('user_id',$user_id)->where('model','estate')->count();
                 $this->assign('guanzhu',$guanzhu);
-                $fangid=$info['id'];
-                $gzfang = $follow->where('house_id',$fangid)->where('user_id',$user_id)->where('model','second_house')->count();
 
-                //获取是否推荐 和 登录手机号
-                $userInfo = $this->getUserInfo();
-                $this->assign('gzfang',$gzfang);
                 $this->assign('userInfo',$userInfo);
-
-//                $models = model('fydp')->where('house_id',$fangid)->where('model','second_house')->count();
-                $this->assign('models',$gzfang);
-                $ud = model('fydp')->where('house_id',$fangid)->where('model','second_house')->group('user_id')->select();
-                $obj     = model('fydp')->alias('s');
-                $join  = [['user m','m.id = s.user_id']];
-                $jjr = model('fydp')->where('house_id',$fangid)->where('user_id',$info['broker_id'])->group('user_id')->count();
-                $gl=$obj->join($join)->where('s.house_id',$fangid)->where('s.model','second_house')->group('s.user_id')->limit(3)->select();
-                $count_gl = count($gl);
-                $this->assign('jjr',$jjr);
-                $this->assign('gl',$gl);
-                $this->assign('count_gl',$count_gl);
-                $this->assign('ud',$ud);
-                $citys=$info['city'];
-                $map = "estate_id=$xiaoqu or city=$citys";
-
-                $txq = model('second_house')
-                    ->where('status',1)
-                    ->where('fcstatus','eq',170)
-                    ->where('id','neq',$info['id'])
-                    ->where($map)
-                    ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
-                    ->order('id desc')
-                    ->limit(4)
-                    ->select();
-                $txq_count=count($txq);
-                if ($txq_count < 4){
-                    $txq = model('second_house')
-                        ->where('status',1)
-                        ->where('fcstatus','eq',170)
-                        ->where('id','neq',$info['id'])
-                        ->where("estate_id=$xiaoqu or city=$citys or id > 0")
-                        ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
-                        ->order('id desc')
-                        ->limit(4)
-                        ->select();
-                    $txq_count=count($txq);
-                }
-                $this->assign('txq_count',$txq_count);
-                $city=$info['city'];
-                $lists = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city)->find();
-                $spid=$lists['spid'];
-                $city_name=$lists['name'];
-                if(substr_count($spid,'|')==2){
-
-                    $listsss = model('city')->field('id,name')->where('id','eq',$lists['pid'])->find();
-                    $shi=$listsss['name'];
-                    $citys=$shi.$city_name;
-                }else{
-                    $citys=$city_name;
-                }
-                $this->assign('citys',$citys);
                 $this->assign('estate',$estate);
-                $this->assign('txq',$txq);
-                $this->assign('storage_open',getSettingCache('storage','open'));
-                $this->assign('near_by_house',$this->getNearByHouse($info['lat'],$info['lng'],$info['city']));
-                $this->assign('same_price_house',$this->samePriceHouse($info->getData('price'),$txq_count,$info['id']));
-                $this->assign('sames_price_house',$this->samesPriceHouse());
                 $this->assign('page_t',1);
             }else{
                 return $this->fetch('public/404');

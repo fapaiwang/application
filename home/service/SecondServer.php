@@ -12,8 +12,28 @@ use think\Log;
 
 class SecondServer
 {
-
     /**
+     * 房源点评
+     * @param $second_house_id 房源id
+     * @param mixed
+     * @return array|\PDOStatement|string|\think\Collection
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function second_house_user_comment($second_house_id){
+        $obj     = model('fydp')->alias('s');
+        $fydp=$obj->join([['user m','m.id = s.user_id']])
+            ->field('s.id,s.house_name,s.house_id,m.nick_name,m.lxtel')
+//            ->where('s.house_id',$second_house_id)->where('s.model','second_house')
+            ->group('s.user_id')->limit(2)
+//            ->cache('fydp_'.$second_house_id,'1800')
+            ->select();
+       return $fydp;
+    }
+    /**
+     * 获取小区的所有房源
      * @param $estate_id 小区id
      * @param string $limit 条数
      * @param mixed
@@ -25,8 +45,26 @@ class SecondServer
      */
     public function estate_second($estate_id,$limit='10'){
         $estate_second = model('second_house')->where('estate_id',$estate_id)
-            ->where('fcstatus',175)->where('status',1)->limit($limit)->select();
+            ->field('endtime,qipai,acreage,cjprice,average_price')
+            ->where('fcstatus',175)->where('status',1)
+            ->cache('estate_second_house'.$estate_id,'84000')
+            ->limit($limit)->select();
         return $estate_second;
+    }
+
+    /**
+     * 获取小区的房源-套数
+     * @param $second_house_id 房源id
+     * @param $estate_name 小区名称
+     * @param mixed
+     * @return float|string
+     * @author: al
+     */
+    public function estate_second_num($second_house_id,$estate_name){
+        $estate_second_house_num ='estate_second_house_num_'.$second_house_id.'_'.$estate_name;
+        $estate_num = model('second_house')->where('estate_name',$estate_name)
+            ->cache($estate_second_house_num,3600)->count();
+        return $estate_num;
     }
     /**
      * 列表页搜索栏数据
@@ -50,7 +88,6 @@ class SecondServer
         $res[]=$a =$this->get_linkmenu_one_arr(getLinkMenuCache(26),2);
         //总价
         $res[] =$this->get_linkmenu_one_arr(getSecondPrice(),"area");
-
         //面积
         $res[] =$this->get_linkmenu_one_arr(getAcreage(),"price");
         //户型
