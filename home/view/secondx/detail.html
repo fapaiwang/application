@@ -1,14 +1,16 @@
 
 {extend name='public/page_list' /}
 {block name='css'}
-<link rel="stylesheet" href="./homeStatic/css/detail.css">
+<link rel="stylesheet" href="./homeStatic/css/detail.css?v={:time()}">
+<link rel="stylesheet" href="./homeStatic/css/kf.css?v={:time()}">
 {/block}
 {block name='js'}
 <script src="./homeStatic/js/swiper.jquery.min.js"></script>
 <script src="./homeStatic/js/swiper.min.js"></script>
 <script src="./homeStatic/js/jquery.waypoints.min.js"></script>
 <script src="./homeStatic/js/zhezhaoTab.js"></script>
-<script src="./homeStatic/js/detail.js"></script>
+<script src="./homeStatic/js/detail.js?v={:time()}"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 {/block}
 {block name='content'}
@@ -21,11 +23,11 @@
         <div class="fangpai-detail-header-title">
             <h2>{$info.title}</h2>
             <div class="fangpai-detail-header-right-bianhao">
-                <div class="fangpai-detail-header-right-bianhao-yuyue">
+                <div class="fangpai-detail-header-right-bianhao-yuyue look">
                     <img src="./homeStatic/img/jrxz.png" alt="">
                     <span>预约看房</span>
                 </div>
-                <div class="fangpai-detail-header-right-bianhao-yuyue">
+                <div class="fangpai-detail-header-right-bianhao-yuyue join" data-id="{$info.id}" data-broker="{$info.broker_id}">
                     <img src="./homeStatic/img/jrxz.png" alt="">
                     <span>关注房源</span>
                 </div>
@@ -41,15 +43,15 @@
                     <div class="fangpai-detail-header-left-bottom-list">
                         <ul>
                             {notempty name='info.file'}
-                                {volist name='info.file' id='vo'}
-                                    <li class="fangpai-detail-header-left-bottom-list-cur">
-                                        <img src="{$vo.url}" onerror="javascript:this.src='/static/images/noimg.jpg';" alt="{$info.title}">
-                                    </li>
-                                {/volist}
+                            {volist name='info.file' id='vo'}
+                            <li class="fangpai-detail-header-left-bottom-list-cur">
+                                <img src="{$vo.url}" onerror="javascript:this.src='/static/images/noimg.jpg';" alt="{$info.title}">
+                            </li>
+                            {/volist}
                             {else /}
-                                <li class="fangpai-detail-header-left-bottom-list-cur">
-                                    <img src="/static/images/noimg.jpg" alt="">
-                                </li>
+                            <li class="fangpai-detail-header-left-bottom-list-cur">
+                                <img src="/static/images/noimg.jpg" alt="">
+                            </li>
                             {/notempty}
                         </ul>
                         <div class="fangpai-detail-header-left-bottom-prev">
@@ -134,20 +136,20 @@
                         <span>开拍截止时间：</span>
                         <b id="reciprocal">
                             {if $info.fcstatus=='175'}
-                                <div class="fix">
-                                    <div class="fl">
-                                        成交价：{$info.cjprice}<span>万元</span>
-                                    </div>　
-                                    <div class="fl">
-                                        结束时间：<span class="s-2">{$info.endtime}</span>
-                                    </div>
+                            <div class="fix">
+                                <div class="fl">
+                                    成交价：{$info.cjprice}<span>万元</span>
+                                </div>　
+                                <div class="fl">
+                                    结束时间：<span class="s-2">{$info.endtime}</span>
                                 </div>
-                                {elseif $info.fcstatus=='172'}
-                                    拍卖已中止
-                                {elseif $info.fcstatus=='174'}
-                                    拍卖已暂缓
-                                {elseif $info.fcstatus=='173'}
-                                    拍卖已撤回
+                            </div>
+                            {elseif $info.fcstatus=='172'}
+                            拍卖已中止
+                            {elseif $info.fcstatus=='174'}
+                            拍卖已暂缓
+                            {elseif $info.fcstatus=='173'}
+                            拍卖已撤回
                             {/if}
                         </b>
                         <input type="text" name="usernames" id="usernames" value="{$info.jieduan}" style="display:none;">
@@ -177,7 +179,7 @@
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
                         <h4>法拍专员</h4>
-                        <div class="fangpai-detail-fixed-refresh">
+                        <div class="fangpai-detail-fixed-refresh" data-id="{$info.id}" data-tit="{$info.title}" data-img="{$info.img}">
                             <img src="./homeStatic/img/refresh.png" alt="">
                             <span>换一换</span>
                         </div>
@@ -194,7 +196,7 @@
                             </div>
                             <div class="fangpai-detail-fixed-list-button">
                                 <img src="./homeStatic/img/refresh.png" alt="">
-                                <span>在线咨询</span>
+                                <span><a href="">在线咨询</a></span>
                             </div>
                         </li>
                         <li>
@@ -208,7 +210,7 @@
                             </div>
                             <div class="fangpai-detail-fixed-list-button">
                                 <img src="./homeStatic/img/refresh.png" alt="">
-                                <span>在线咨询</span>
+                                <span><a href="">在线咨询</a></span>
                             </div>
                         </li>
                     </ul>
@@ -332,27 +334,27 @@
             <div class="fangpai-detail-jilu-content" style="display: none">
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">交易记录</p>
                 {if $info.jieduan gt 161}
-                    <ul class="fangpai-detail-jilu-content-jiaoyi">
-                        {if $info.jieduan eq 163}
-                            <li>
-                                <span>二拍流拍</span>
-                                <span>二拍结束时间：{$info.twoetime}</span>
-                                <span>流拍价：{$info.twoprice}万</span>
-                            </li>
-                            <li>
-                                <span>一拍流拍</span>
-                                <span>二拍结束时间：{$info.oneetime}</span>
-                                <span>流拍价：{$info.oneprice}万</span>
-                            </li>
-                        {/if}
-                        {if $info.jieduan eq 163}
-                            <li>
-                                <span>一拍流拍</span>
-                                <span>二拍结束时间：{$info.oneetime}</span>
-                                <span>流拍价：{$info.oneprice}万</span>
-                            </li>
-                        {/if}
-                    </ul>
+                <ul class="fangpai-detail-jilu-content-jiaoyi">
+                    {if $info.jieduan eq 163}
+                    <li>
+                        <span>二拍流拍</span>
+                        <span>二拍结束时间：{$info.twoetime}</span>
+                        <span>流拍价：{$info.twoprice}万</span>
+                    </li>
+                    <li>
+                        <span>一拍流拍</span>
+                        <span>二拍结束时间：{$info.oneetime}</span>
+                        <span>流拍价：{$info.oneprice}万</span>
+                    </li>
+                    {/if}
+                    {if $info.jieduan eq 163}
+                    <li>
+                        <span>一拍流拍</span>
+                        <span>二拍结束时间：{$info.oneetime}</span>
+                        <span>流拍价：{$info.oneprice}万</span>
+                    </li>
+                    {/if}
+                </ul>
                 {/if}
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">拍卖成交记录</p>
                 <ul class="fangpai-detail-jilu-content-chengjiao">
@@ -376,157 +378,158 @@
         <div class="fangpai-detail-zhuanyuan">
             <div class="fangpai-detail-zhuanyuan-title">
                 <h2>法拍专员推荐</h2>
-                <span>换一换</span>
+                <span class="change" data-id="{$info.id}">换一换</span>
             </div>
-
-            {volist name='$second_house_user_comment' id='vo'}
-            <div class="fangpai-detail-zhuanyuan-content">
-                <div class="fangpai-detail-zhuanyuan-detail-img">
-                    <img src=":getAvatar($vo.id,90)}" alt="{$vo.nick_name}">
-                </div>
-                <div class="fangpai-detail-zhuanyuan-detail-info">
-                    <div class="fangpai-detail-zhuanyuan-detail-info-name">
-                        <div class="fangpai-detail-zhuanyuan-detail-info-name-left">
-                            <span>{$vo.nick_name}</span>
-                            <b>{$vo.lxtel}</b>
+            <ul class="second_house_user_comment">
+                {volist name='$second_house_user_comment' id='vo'}
+                <div class="fangpai-detail-zhuanyuan-content">
+                    <div class="fangpai-detail-zhuanyuan-detail-img">
+                        <img src=":getAvatar($vo.id,90)}" alt="{$vo.nick_name}">
+                    </div>
+                    <div class="fangpai-detail-zhuanyuan-detail-info">
+                        <div class="fangpai-detail-zhuanyuan-detail-info-name">
+                            <div class="fangpai-detail-zhuanyuan-detail-info-name-left">
+                                <span>{$vo.nick_name}</span>
+                                <b>{$vo.lxtel}</b>
+                            </div>
+                            <div class="fangpai-detail-zhuanyuan-detail-info-name-right">
+                                <span><a href="{:url('Ajax/consults')}?id={$vo.id}&houseid={$vo.house_id}">在线咨询</a></span>
+                            </div>
                         </div>
-                        <div class="fangpai-detail-zhuanyuan-detail-info-name-right">
-                            <span><a href="{:url('Ajax/consults')}?id={$vo.id}&houseid={$vo.house_id}">在线咨询</a></span>
+
+                        <div class="fangpai-detail-zhuanyuan-detail-info-xiangqing">
+                            {$vo.house_name}
                         </div>
                     </div>
-
-                    <div class="fangpai-detail-zhuanyuan-detail-info-xiangqing">
-                        {$vo.house_name}
-                    </div>
                 </div>
-            </div>
-            {/volist}
+                {/volist}
+            </ul>
         </div>
         {/if}
-        <div class="fangpai-detail-daikuan">
-            <div class="fangpai-detail-daikuan-title">
-                <h2>贷款计算</h2>
-            </div>
-            <div class="fangpai-detail-daikuan-content">
-                <div class="fangpai-detail-daikuan-content-left">
-                    <ul>
-                        <li>
-                            <span>房屋套数</span>
-                            <select>
-                                <option value ="volvo">首套</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                            <p class="fangpai-detail-daikuan-content-left-img-position">
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </p>
-                        </li>
-                        <li>
-                            <span>成交价</span>
-                            <input type="text">
-                            <p class="fangpai-detail-daikuan-content-left-position">万元</p>
-                        </li>
-                        <li>
-                            <span>评估价</span>
-                            <input type="text">
-                            <p class="fangpai-detail-daikuan-content-left-position">万元</p>
-                        </li>
-                        <li>
-                            <span>贷款类型</span>
-                            <select>
-                                <option value ="volvo">首套</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                            <p class="fangpai-detail-daikuan-content-left-img-position">
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </p>
-                        </li>
-                        <li>
-                            <span>贷款比例</span>
-                            <select>
-                                <option value ="volvo">首套</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                            <p class="fangpai-detail-daikuan-content-left-img-position">
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </p>
-                        </li>
-                        <li>
-                            <span>商贷年限</span>
-                            <select>
-                                <option value ="volvo">首套</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                            <p class="fangpai-detail-daikuan-content-left-img-position">
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </p>
-                        </li>
-                        <li>
-                            <span>商贷利率</span>
-                            <select>
-                                <option value ="volvo">首套</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                            <p class="fangpai-detail-daikuan-content-left-img-position">
-                                <img src="./homeStatic/img/jrxz.png" alt="">
-                            </p>
-                        </li>
-                        <li>
-                            <span></span>
-                            <p class="fangpai-detail-daikuan-content-jisuan">开始计算</p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fangpai-detail-daikuan-content-right">
-                    <div class="fangpai-detail-daikuan-content-right-shoufu">
-                        <p>首付总计</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-jing">
-                        <p>净首付</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-jing fangpai-detail-daikuan-content-right-he">
-                        <p>税费合计</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-hui">
-                        <p>税费合计</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-hui">
-                        <p>契税</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-hui">
-                        <p>增值税附加</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-hui">
-                        <p>个人所得税</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-monty">
-                        <p>月供（等额本息）</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                    <div class="fangpai-detail-daikuan-content-right-ben fangpai-detail-daikuan-content-right-monty">
-                        <p>月供（等额本金）</p>
-                        <p><span>264.1</span>万元</p>
-                    </div>
-                </div>
-            </div>
+        <!--<div class="fangpai-detail-daikuan">-->
+        <!--<div class="fangpai-detail-daikuan-title">-->
+        <!--<h2>贷款计算</h2>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content">-->
+        <!--<div class="fangpai-detail-daikuan-content-left">-->
+        <!--<ul>-->
+        <!--<li>-->
+        <!--<span>房屋套数</span>-->
+        <!--<select>-->
+        <!--<option value ="volvo">首套</option>-->
+        <!--<option value ="saab">Saab</option>-->
+        <!--<option value="opel">Opel</option>-->
+        <!--<option value="audi">Audi</option>-->
+        <!--</select>-->
+        <!--<p class="fangpai-detail-daikuan-content-left-img-position">-->
+        <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>成交价</span>-->
+        <!--<input type="text">-->
+        <!--<p class="fangpai-detail-daikuan-content-left-position">万元</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>评估价</span>-->
+        <!--<input type="text">-->
+        <!--<p class="fangpai-detail-daikuan-content-left-position">万元</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>贷款类型</span>-->
+        <!--<select>-->
+        <!--<option value ="volvo">首套</option>-->
+        <!--<option value ="saab">Saab</option>-->
+        <!--<option value="opel">Opel</option>-->
+        <!--<option value="audi">Audi</option>-->
+        <!--</select>-->
+        <!--<p class="fangpai-detail-daikuan-content-left-img-position">-->
+        <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>贷款比例</span>-->
+        <!--<select>-->
+        <!--<option value ="volvo">首套</option>-->
+        <!--<option value ="saab">Saab</option>-->
+        <!--<option value="opel">Opel</option>-->
+        <!--<option value="audi">Audi</option>-->
+        <!--</select>-->
+        <!--<p class="fangpai-detail-daikuan-content-left-img-position">-->
+        <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>商贷年限</span>-->
+        <!--<select>-->
+        <!--<option value ="volvo">首套</option>-->
+        <!--<option value ="saab">Saab</option>-->
+        <!--<option value="opel">Opel</option>-->
+        <!--<option value="audi">Audi</option>-->
+        <!--</select>-->
+        <!--<p class="fangpai-detail-daikuan-content-left-img-position">-->
+        <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span>商贷利率</span>-->
+        <!--<select>-->
+        <!--<option value ="volvo">首套</option>-->
+        <!--<option value ="saab">Saab</option>-->
+        <!--<option value="opel">Opel</option>-->
+        <!--<option value="audi">Audi</option>-->
+        <!--</select>-->
+        <!--<p class="fangpai-detail-daikuan-content-left-img-position">-->
+        <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+        <!--</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span></span>-->
+        <!--<p class="fangpai-detail-daikuan-content-jisuan">开始计算</p>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right">-->
+        <!--<div class="fangpai-detail-daikuan-content-right-shoufu">-->
+        <!--<p>首付总计</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-jing">-->
+        <!--<p>净首付</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-jing fangpai-detail-daikuan-content-right-he">-->
+        <!--<p>税费合计</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-hui">-->
+        <!--<p>税费合计</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-hui">-->
+        <!--<p>契税</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-hui">-->
+        <!--<p>增值税附加</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-hui">-->
+        <!--<p>个人所得税</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-monty">-->
+        <!--<p>月供（等额本息）</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--<div class="fangpai-detail-daikuan-content-right-ben fangpai-detail-daikuan-content-right-monty">-->
+        <!--<p>月供（等额本金）</p>-->
+        <!--<p><span>264.1</span>万元</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
-        </div>
+        <!--</div>-->
 
         <div class="fangpai-detail-jieshao">
             <div class="fangpai-detail-jieshao-title">
@@ -661,6 +664,7 @@
         </div>
     </div>
 </div>
+{include file="secondx/kf"}
 <div class="fangpai-shu-tuijian-box">
     <div class="fangpai-shu-tuijian">
         <h2>推荐小区</h2>
@@ -722,6 +726,4 @@
         </div>
     </div>
 </div>
-
 {/block}
-

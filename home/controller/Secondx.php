@@ -180,7 +180,7 @@ class Secondx extends HomeBase{
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
             $info = $server->second_model($second_house_id);
-
+            
             if($info){
                 //添加浏览量
                 updateHits($info['id'],'second_house');
@@ -1665,7 +1665,39 @@ class Secondx extends HomeBase{
 
 
     }
-
-
-
+    
+    
+    /**
+     * @description 获取房源点评
+     * @param $second_house_id 房ID
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @auther xiaobin
+     */
+    public function anotherPerson()
+    {
+        $code = 200;
+        $msg = "success";
+        $second_house_id = input("post.second_house_id");
+        if ($second_house_id > 0) {
+            //法拍专员点评/点评个数
+            $SecondServer = new SecondServer();
+            $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
+            foreach ($second_house_user_comment as &$house){
+                $house['avatar'] = getAvatar($house->id,90);
+                $house['pinglun'] = model('user')->where('id',$house['id'])->find();//客服
+            }
+        } else {
+            $code = 500;
+            $msg = "error";
+            $second_house_user_comment = array();
+        }
+        return json([
+            "code" => $code,
+            "msg" => $msg,
+            "data" => $second_house_user_comment
+        ]);
+    }
 }

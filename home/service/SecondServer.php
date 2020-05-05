@@ -24,8 +24,8 @@ class SecondServer
      */
     public function second_house_user_comment($second_house_id){
         $obj     = model('fydp')->alias('s');
-        $fydp=$obj->join([['user m','m.id = s.user_id']])
-            ->field('s.id,s.house_name,s.house_id,m.nick_name,m.lxtel')
+        $fydp=$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
+            ->field('s.id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate')
 //            ->where('s.house_id',$second_house_id)->where('s.model','second_house')
             ->group('s.user_id')->limit(2)
 //            ->cache('fydp_'.$second_house_id,'1800')
