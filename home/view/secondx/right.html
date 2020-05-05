@@ -1,0 +1,38 @@
+<div class="fangpai-shu-list-content-right-map">
+    <a href="/map/second.html?mod5=6"><img src="/homeStatic/img/dituzhaofang98.png" alt=""></a>
+    <p><a href="/map/second.html?mod5=6">试试地图找房</a></p>
+</div>
+<div class="fangpai-shu-list-content-right-title">
+    <span>热门问答</span>
+    <span></span>
+</div>
+<ul class="fangpai-shu-list-content-right-wenda">
+    {volist name='answer' id='vo' empty='暂无数据'}
+    <li>
+        <p><a href="{:url('News/detail',['id'=>$vo.id])}" target="_blank">{$vo.title}</a></p>
+        <span>{$vo.hits}个浏览/{$vo.create_time|date="Y-m-d"}</span>
+    </li>
+    {/volist}
+</ul>
+<div class="fangpai-shu-list-content-right-title">
+    <span>热门百科</span>
+    <span><a href="/news.html?mod=5">更多</a></span>
+</div>
+<ul class="fangpai-shu-list-content-right-baike">
+    {volist name='hot_news' id='vo' empty='暂无数据'}
+    <li>
+        <p><a href="{:url('News/detail',['id'=>$vo.id])}" target="_blank">{$vo.title}</a></p>
+    </li>
+    {/volist}
+</ul>
+<div class="fangpai-gongzhonghao-box">
+    <div class="fangpai-shu-list-content-right-title">
+        <span>房拍网公众号</span>
+        <span></span>
+    </div>
+    <div class="fangpai-shu-list-content-right-gongzhonghao">
+        <img src="{$site.weixin_qrcode}" alt="">
+        <p>扫一扫</p>
+        <p>关注我们</p>
+    </div>
+</div>
