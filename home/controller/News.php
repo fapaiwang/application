@@ -124,7 +124,7 @@ class News extends HomeBase
         if (!$news->checkMobile($tel)) {
             return $news->Error("手机号码不正确");
         }
-        if ($code == 111 || $code != cache($tel)){
+        if ($code == "" || $code != cache($tel)){
             return $news->Error("验证码不正确");
         }
         

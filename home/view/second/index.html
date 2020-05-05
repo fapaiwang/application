@@ -636,14 +636,15 @@
             <div class="fangpai-detail-dialog-content-header-left">
                 <span>查看详情</span>
             </div>
+            {:token()}
             <div class="fangpai-detail-dialog-content-header-right">
-                <p>
+                <p  class="look">
                     <img src="./homeStatic/img/search-button.png" alt="">
-                    <span class="look">预约看房</span>
+                    <span>预约看房</span>
                 </p>
-                <p>
+                <p  class="join">
                     <img src="./homeStatic/img/search-button.png" alt="">
-                    <span class="join">关注房源</span>
+                    <span>关注房源</span>
                 </p>
                 <p class="fangpai-detail-dialog-close">
                     <img src="./homeStatic/img/jiahao.png" alt="">
@@ -902,4 +903,5 @@
         });
     });
 </script>
+<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 {/block}
