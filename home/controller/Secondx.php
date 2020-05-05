@@ -1684,8 +1684,12 @@ class Secondx extends HomeBase{
         $onReq = input("post.onReq");
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
-            $SecondServer = new SecondServer();
-            $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id,$onReq);
+            $onReq = $onReq ==0 || $onReq==1 ? 1: ($onReq-1)*2;
+            $second_house_user_comment     = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
+                ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')->where([['s.kflj','neq',''],['model','=',4]])
+                ->group('s.id')->limit($onReq,2)
+                ->cache('another_'.$onReq,'1800')
+                ->select();
             foreach ($second_house_user_comment as &$house){
                 $house['avatar'] = getAvatar($house->id,90);
                 $house['pinglun'] = model('user')->where('id',$house['broker_id'])->find();//客服
