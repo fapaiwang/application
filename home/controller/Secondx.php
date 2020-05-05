@@ -1681,10 +1681,11 @@ class Secondx extends HomeBase{
         $code = 200;
         $msg = "success";
         $second_house_id = input("post.second_house_id");
+        $onReq = input("post.onReq");
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
             $SecondServer = new SecondServer();
-            $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
+            $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id,$onReq);
             foreach ($second_house_user_comment as &$house){
                 $house['avatar'] = getAvatar($house->id,90);
                 $house['pinglun'] = model('user')->where('id',$house['broker_id'])->find();//客服
