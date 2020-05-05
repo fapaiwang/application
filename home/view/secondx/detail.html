@@ -185,34 +185,24 @@
                         </div>
                     </div>
                     <ul class="fangpai-detail-fixed-list">
+
+                        {volist name='$second_house_user_comment' id='vo'}
+
                         <li>
                             <div class="fangpai-detail-fixed-list-content">
-                                <p class="fangpai-detail-fixed-list-img"><img src="./homeStatic/img/banner.jpg" alt=""></p>
+                                <p class="fangpai-detail-fixed-list-img"><img src="{:getAvatar($vo.id,90)}" alt="{$vo.nick_name}"></p>
                                 <div class="fangpai-detail-fixed-list-content-info">
-                                    <span>崔玲霞124</span>
-                                    <p>经验：6年</p>
-                                    <b>4006770028转688</b>
+                                    <span>{$vo.nick_name}</span>
+                                    <p>经验：{$vo.history_complate}年</p>
+                                    <b>{$vo.lxtel}</b>
                                 </div>
                             </div>
-                            <div class="fangpai-detail-fixed-list-button">
+                            <div class="fangpai-detail-fixed-list-button" onclick='online("{$vo.kflj}")'>
                                 <img src="./homeStatic/img/refresh.png" alt="">
                                 <span><a href="">在线咨询</a></span>
                             </div>
                         </li>
-                        <li>
-                            <div class="fangpai-detail-fixed-list-content">
-                                <p class="fangpai-detail-fixed-list-img"><img src="./homeStatic/img/banner.jpg" alt=""></p>
-                                <div class="fangpai-detail-fixed-list-content-info">
-                                    <span>崔玲霞</span>
-                                    <p>经验：6年</p>
-                                    <b>4006770028转688</b>
-                                </div>
-                            </div>
-                            <div class="fangpai-detail-fixed-list-button">
-                                <img src="./homeStatic/img/refresh.png" alt="">
-                                <span><a href="">在线咨询</a></span>
-                            </div>
-                        </li>
+                        {/volist}
                     </ul>
                 </div>
             </div>
@@ -384,7 +374,7 @@
                 {volist name='$second_house_user_comment' id='vo'}
                 <div class="fangpai-detail-zhuanyuan-content">
                     <div class="fangpai-detail-zhuanyuan-detail-img">
-                        <img src=":getAvatar($vo.id,90)}" alt="{$vo.nick_name}">
+                        <img src="{:getAvatar($vo.id,90)}" alt="{$vo.nick_name}">
                     </div>
                     <div class="fangpai-detail-zhuanyuan-detail-info">
                         <div class="fangpai-detail-zhuanyuan-detail-info-name">
@@ -392,8 +382,8 @@
                                 <span>{$vo.nick_name}</span>
                                 <b>{$vo.lxtel}</b>
                             </div>
-                            <div class="fangpai-detail-zhuanyuan-detail-info-name-right">
-                                <span><a href="{:url('Ajax/consults')}?id={$vo.id}&houseid={$vo.house_id}">在线咨询</a></span>
+                            <div class="fangpai-detail-zhuanyuan-detail-info-name-right" onclick='online("{$vo.kflj}")'>
+                                <span><a href="javascript:;">在线咨询</a></span>
                             </div>
                         </div>
 
