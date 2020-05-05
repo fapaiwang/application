@@ -1,4 +1,3 @@
-
 {extend name='public/page_list' /}
 {block name='css'}
 <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
@@ -35,24 +34,6 @@
         </div>
         <!--<a href="{:url('Map/second')}" rel="nofollow" class="map_btn fr">地图找房</a>-->
     </div>
-    <script type="text/javascript">
-        function showhidediv(id){
-            var sbtitle=document.getElementById(id);
-            if(sbtitle){
-                if(sbtitle.style.display=='block'){
-                    sbtitle.style.display='none';
-                }else{
-                    sbtitle.style.display='block';
-                }
-            }
-        }
-    </script>
-
-    <style>
-        .saleDetail li{
-            padding:5px 0;
-        }
-    </style>
     <div class="comWidth clearfix">
         <div id="baip">
             <ul class="saleDetail" style="padding-left:10px;">
@@ -65,113 +46,7 @@
         </div>
     </div>
     <script  type="text/javascript" src="/static/home/js/jquery-2.1.4.min.js"></script>
-    <script>
-        var ItemName = "";  //localStorage的getItem 和 setItem的数组名字，主要用来做不同界面调用各自的历史记录。
-        var menuHistory   = new Object();
-        $(function(){
-            initLocalStorageArg("hi_001");
-        });
-        $(document).delegate(".history>li","click",function(){
-            $("#keyword").val($(this).text());
-        });
-        /**
-         * 初始化相关参数，界面js调用
-         * menucode：可以是js的名字
-         */
-        function initLocalStorageArg(menucode){
-            //苹果手机不兼容出现input无法取值以下是解决方法
-            $('.history>li').click(function(){
-                var div = $(this).text();
-                $('#keyword').val(div);
-            });
-            ItemName = "hist_"+menucode;
-            initlocalStorage();
-            showHistDom();
-        }
-        /**
-         * 历史数据展示
-         */
-        function showHistDom(){
-            $(".history").html("");
-            for(  var i=0 ; i<menuHistory.length;i++){
-                $(".history").append('<li style="display: block;">'+menuHistory[i]+'</li>')
-            }
-        }
-        /**
-         * 获取指定的localStorageobj对象，并转成Array对象。
-         */
-        function initlocalStorage(){
-            var localStorageobj = localStorage.getItem(ItemName);
-            if(localStorageobj){
-            }else{
-                localStorage.setItem( ItemName,"[]");
-                localStorageobj = localStorage.getItem(ItemName);
-            }
-            menuHistory=JSON.parse( localStorageobj);
-        }
-
-        /**
-         * 执行记录历史数据
-         */
-        function recordHist(){
-            initlocalStorage();
-            var value = $("#keyword").val();
-            // if(!value){ //这里判断输入的value是否合法，也可以用自己的判断方式
-            //   alert("你未输入搜索内容");
-            //   return false;
-            // }
-            //输入的内容localStorage有记录
-            if($.inArray(value,menuHistory)>=0){
-                var keyval = Object.keys(menuHistory).filter(function(x){return menuHistory[x] == value}).toString() ;
-                menuHistory.splice(Number(keyval), 1); //splice(index,1):index代表value值在数组中对应到下标，1：表示删除
-            }else {
-                if (menuHistory.length > 9) {
-                    menuHistory.pop();
-                }else {
-                }
-            }
-            menuHistory.unshift(value);
-            localStorage.removeItem(ItemName);
-            localStorage.setItem( ItemName,JSON.stringify(menuHistory)); // 因为localStorage的value不能直接放数组，所以转换程json串后，再set
-            showHistDom();
-        }
-        //清除记录功能
-        $(".btnEmpty").click(function(){
-            localStorage.setItem( ItemName,JSON.stringify([]));
-            initlocalStorage();
-            showHistDom();
-        });
-        /*执行搜索的一种方式，绑定回车键*/
-        $("#keyword").on("keypress",function(e){
-            var keycode=e.keyCode;
-            if(keycode=='13'){
-                recordHist();
-            }
-        });
-        $("#huiches").click(function(){
-            recordHist();
-        });
-    </script>
 </div>
-<style type="text/css">
-    .seleBar .item {
-        height:35px;
-    }
-    .housing-filtering .box-cont .box .s-box span {
-        display: inline-block;
-        margin: 0 5px;
-    }
-    .fix:after {
-        content: " ";
-        display: block;
-        height: 0;
-        clear: both;
-        visibility: hidden;
-        font-size: 0;}
-    .cm_leftArea {
-        width: 1200px;
-    }
-</style>
 <!-- 搜索栏 E -->
 <!-- 楼盘列表 S-->
 <div class="cm_house">
@@ -826,80 +701,22 @@
 <!--弹窗结束-->
 <!-- 楼盘列表 S-->
 
-<!--<script type="text/html" id="template">-->
-    <!--{{# for(var i = 0, len = d.length; i < len; i++){ }}-->
-    <!--<li>-->
-        <!--<a href="{{d[i].url}}" target="_blank">-->
-            <!--<span>-->
-                 <!--{{d[i].title}}-->
-            <!--</span>-->
-            <!--<span class="address">-->
-                <!--{{d[i].address}}-->
-            <!--</span>-->
-        <!--</a>-->
-    <!--</li>-->
-    <!--{{# } }}-->
-<!--</script>-->
-<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
-<script type="text/javascript">
-    $(function(){
-        $("#select select").on('change',function(){
-            var uri = $(this).find("option:selected").data('uri');
-            window.location.href = uri;
-        });
-        $("#keyword").on('keyup click',function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            var keyword = $(this).val(),url = $(this).data('uri'),box = $('#search-box');
-            $.get(url,{keyword: $.trim(keyword)},function(result){
-                if(result.code == 1)
-                {
-                    var gettpl = document.getElementById('template').innerHTML;
-                    laytpl(gettpl).render(result.data, function(html){
-                        $('#search-box').html(html);
-                    });
-                    box.show();
-                }else{
-                    box.hide();
-                }
-            });
-        });
-        $('body').on('click',function(){
-            $('#search-box').hide();
-        });
-    })
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
 </script>
-
-
-
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <!--<script type="text/javascript" src="__JS__/common.js"></script>-->
 <script src="__STATIC__/js/layer/layer.js"></script>
-<script>
-    $("img.lazy").lazyload({
-        threshold : 100,
-        effect : "fadeIn"
-        //event: "scrollstop"
-    });
-    $(function(){
-        $('.follow').on('click',function(){
-            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
-            $.post(url,{house_id:house_id,model:model},function(result){
-                if(result.code == 1)
-                {
-                    layer.msg(result.msg,{icon:1});
-                    if(me.hasClass('on'))
-                    {
-                        me.removeClass('on').text(result.text);
-                    }else{
-                        me.addClass('on').text(result.text);
-                    }
-                }else{
-                    layer.msg(result.msg,{icon:2});
-                }
-            });
-        });
-    });
-</script>
-<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 {/block}
