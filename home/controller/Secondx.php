@@ -1684,7 +1684,7 @@ class Secondx extends HomeBase{
         $onReq = input("post.onReq");
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
-            $onReq = $onReq ==0 || $onReq==1 ? 1: ($onReq-1)*2;
+            $onReq = $onReq ==0 || $onReq==1 ? 0: ($onReq-1)*2;
             $second_house_user_comment     = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
                 ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')->where([['s.kflj','neq',''],['model','=',4]])
                 ->group('s.id')->limit($onReq,2)
