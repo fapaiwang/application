@@ -12,19 +12,31 @@ use think\Log;
 
 class server
 {
+    /**
+     * 房源详情
+     * @param $second_house_id 房源id
+     * @param mixed
+     * @return array|null|\PDOStatement|string|\think\Model
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function second_model($second_house_id){
         $where['h.id']     = $second_house_id;
         $where['h.status'] = 1;
         $second_house_field  ="h.title,h.bianhao,h.qipai,h.types,h.price,h.marketprice,h.baozheng,h.toilet,h.floor,h.total_floor,
             d.file,d.house_id,d.info,
             h.orientations,h.acreage,h.contacts,h.estate_id,h.id,h.broker_id,h.city,h.jieduan,h.bianetime,h.kptime,h.types,
-            h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice";
+            h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice,h.elevator,h.auction_attr,h.enforcement,
+            h.land_purpose,h.land_certificate,h.property_no,h.house_purpse,h.management,h.lease,h.mortgage,h.sequestration,
+            h.vacate,h.is_commission,h.is_school,h.is_metro,h.xiaci,h.qianfei,h.lng,h.lat,h.estate_name";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
 //            todo  缓存
 //            ->cache('second_house_'.$second_house_id,3600)
         $info = $obj->alias('h')
-            ->field($second_house_field)
+//            ->field($second_house_field)
             ->join($join)->where($where)->find();
         //单价
         $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
@@ -49,7 +61,7 @@ class server
 
     /**
      * 小区信息
-     * @param $estate_id
+     * @param $estate_id 小区id
      * @param mixed
      * @return array|null|\PDOStatement|string|\think\Model
      * @author: al
@@ -59,9 +71,9 @@ class server
      */
     public function estate($estate_id){
         $estate =model('estate')
-            ->field('title,years,address,data,area_name')
+            ->field('id,title,years,address,data,area_name,img')
             ->where('id',$estate_id)
-//            ->cache('estate'.$estate_id,84000)
+            ->cache('estate_'.$estate_id,84001)
             ->find();
 //        dd($estate);
         return $estate;
@@ -84,9 +96,8 @@ class server
     }
     public function user_info($second_house_id,$broker_id){
         $user = model('user_info')->field('history_complate')->where('user_id',$broker_id)
-            ->cache('user_common_'.$second_house_id)->find();
+            ->cache('user_common_'.$second_house_id,84000)->find();
         return $user;
     }
-
 
 }

@@ -6,10 +6,11 @@
     <title>{$seo_s.seo_title}</title>
     <meta name="keywords" content="{$seo_s.seo_keys}" />
     <meta name="description" content="{$seo_s.seo_desc}" />
-    <link rel="stylesheet"  href="/homeStatic/css/common.css?v=2">
-    <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
-    <link rel="stylesheet"  href="/homeStatic/css/headList.css?version=4">
-    <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
+    <link rel="stylesheet"  href="/homeStatic/css/common.css?v={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/style.css?v={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/headList.css?v={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/footer.css?v={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
     {block name='css'}{/block}
 
 </head>

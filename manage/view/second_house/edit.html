@@ -77,7 +77,7 @@
                             <input type="text" name="title" lay-verify="title" placeholder="房源名称" value="{$info.title}" autocomplete="off" class="layui-input">
 
                         </div>
-                        <input type="checkbox" name="is_free" lay-skin="primary" {if condition="$info.is_free eq 1"} checked="checked"{/if} value="1" title="自由购">
+                        <input type="checkbox" name="is_free" {if condition="$info.is_free eq 1"} checked="checked"{/if} value="1" title="自由购">
                     </div>
 
                     <div class="layui-inline">
@@ -238,6 +238,8 @@
                     </div>
 
                 </div>
+
+
                 
                 <div class="layui-form-item">
 
@@ -744,23 +746,86 @@
 
                 </div>
 
-
-                <!-- <div class="layui-form-item">
-
-                    <div class="layui-block">
-
-                        <label class="layui-form-label">房间配套<a href="javascript:;" data-field="supporting" data-type="checkbox" data-alert="房间配套" data-id="12" data-title="点击我可以管理房间配套" class="layui-icon layui-icon-set attr-manage"></a> </label>
-
-                        <div class="layui-input-block">
-
-                            {:getLinkMenu(12,'supporting','checkbox',$data['supporting'])}
-
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">电梯情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="elevator" lay-verify="elevator" id="elevator" placeholder="" value="{$info.elevator}">
                         </div>
-
                     </div>
-
-                </div> -->
-
+                    <div class="layui-inline">
+                        <label class="layui-form-label">拍卖属性 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="auction_attr" lay-verify="auction_attr" id="auction_attr" placeholder="" value="{$info.auction_attr}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">执行依据 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="enforcement" lay-verify="enforcement" id="enforcement" placeholder="" value="{$info.enforcement}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">土地用途 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="land_purpose" lay-verify="land_purpose" id="land_purpose" placeholder="" value="{$info.land_purpose}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">土地证书 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="land_certificate" lay-verify="land_certificate" id="land_certificate" placeholder="" value="{$info.land_certificate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">产权证号 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="property_no" lay-verify="property_no" id="property_no" placeholder="" value="{$info.property_no}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房屋用途 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="house_purpse" lay-verify="house_purpse" id="house_purpse" placeholder="" value="{$info.house_purpse}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">经营情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="management" lay-verify="management" id="management" placeholder="" value="{$info.management}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">租赁情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="lease" lay-verify="lease" id="lease" placeholder="" value="{$info.lease}">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">抵押情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="mortgage" lay-verify="mortgage" id="mortgage" placeholder="" value="{$info.mortgage}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">查封情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="sequestration" lay-verify="sequestration" id="sequestration" placeholder="" value="{$info.sequestration}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">腾退情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="vacate" lay-verify="vacate" id="vacate" placeholder="" value="{$info.vacate}">
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item">
 
                     <div class="layui-block">
@@ -864,11 +929,11 @@
 
                             <!--<input type="checkbox" name="position[]" {in name="vo.id" value="$position_cate_id"}checked{/in} lay-skin="primary" value="{$vo.id}" title="{$vo.title}">-->
                             <!--{/volist}-->
-                            <input type="checkbox" name="rec_position" lay-skin="primary" {if condition="$info.rec_position eq 1"} checked="checked"{/if} value="1" title="房源推荐">
-
-
-
+                            <input type="checkbox" name="rec_position" {if condition="$info.rec_position eq 1"} checked="checked"{/if} value="1" title="房源推荐">
                             <input type="hidden" name="exists_pos" value="{:implode(',',$position_cate_id)}">
+                            <input  type="checkbox" name="is_commission" {if condition="$info.is_commission eq 1"} checked="checked"{/if} value="1" title="免佣金">
+                            <input type="checkbox" name="is_school"  {if condition="$info.is_school eq 1"} checked="checked"{/if} value="1" title="学校周边">
+                            <input type="checkbox" name="is_metro"  {if condition="$info.is_metro eq 1"} checked="checked"{/if} value="1" title="地铁沿线">
 
                         </div>
 

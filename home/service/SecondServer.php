@@ -53,6 +53,70 @@ class SecondServer
     }
 
     /**
+     * @param $xsname 房屋属性(住宅,商业..)
+     * @param $jieduan 拍卖阶段
+     * @param $qp_price 起拍价
+     * @param $s_price 市场价
+     * @param $is_commission 是否免佣金
+     * @param $is_school 是否学校
+     * @param $is_metro 是否地铁沿线
+     * @param mixed
+     * @return array
+     * @author: al
+     */
+    public function get_house_characteristic($xsname,$jieduan,$marketprice=0,$is_commission=0,$is_school=0,$is_metro=0){
+        if ($xsname != "变卖"){
+            $arr[] = $xsname;
+        }
+        $arr[] = $jieduan;
+        if (!empty($is_commission)){
+            $arr[] = "免佣金";
+        }
+        if (!empty($qp_price)){
+            $arr[] = $marketprice;
+        }
+        if (!empty($marketprice) && ($marketprice >=4) ){
+            $arr[] = "六折房源";
+        }
+        if ($xsname == "变卖"){
+            $arr[] = $xsname;
+        }
+        if (!empty($is_school)){
+            $arr[] = "学校周边";
+        }
+        if (!empty($is_metro)){
+            $arr[] = "地铁沿线";
+        }
+        return json_encode($arr);
+    }
+
+    /**
+     * 根据 区域/小区 获取用户感兴趣的房源
+     * @param $city_id 城市id
+     * @param $house_id 房源id
+     * @param $estate_id 小区id
+     * @param mixed
+     * @return array|\PDOStatement|string|\think\Collection
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    function get_recommend_house($city_id,$house_id,$estate_id){
+        $citys=$city_id;
+        $map = "estate_id=$estate_id or city=$citys";
+        $res = model('second_house')
+            ->where('status',1)
+            ->where('fcstatus','eq',170)
+            ->where('id','neq',$house_id)
+            ->where($map)
+            ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+            ->order('id desc')
+            ->limit(4)
+            ->select();
+        return $res;
+    }
+    /**
      * 获取小区的房源-套数
      * @param $second_house_id 房源id
      * @param $estate_name 小区名称

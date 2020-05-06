@@ -1,134 +1,51 @@
 <div class="near_support clearfix floor">
-
     <div class="title clearfix">
-
         <h2>周边配套</h2>
-
     </div>
-
     <div class="con_box clearfix">
-
         <div class="l_box map fr" id="map">
-
-
-
         </div>
-
         <div class="r_box support_con fl">
-
             <ul class="nav clearfix map-nav">
                 <li>
-
                     <a href="javascript:;" class="active" style="display:none;" search-flag="dz">地址</a>
-
                 </li>
-
                 <li>
-
                     <a href="javascript:;" search-flag="bus">公交</a>
-
                 </li>
-                
-
                 <li>
-
                     <a href="javascript:;" search-flag="school"> 教育</a>
-
                 </li>
-
                 <li>
-
                     <a href="javascript:;" search-flag="hospital">医疗</a>
-
                 </li>
-
                 <li>
-
                     <a href="javascript:;" search-flag="shopping">购物</a>
-
                 </li>
-
                 <li>
-
                     <a href="javascript:;" search-flag="life">生活</a>
-
                 </li>
-
                 <li>
-
                     <a href="javascript:;" search-flag="entertainment">娱乐</a>
-
                 </li>
-
             </ul>
-
-
-
-            <!-- <ul class="info_list clearfix"  id="result">
-
-                <li>
-
-                    <div class="l_con fl">
-
-                        <h5 class="tit">
-
-                            <i class="digit"></i>
-
-                            <span class="text"></span>
-
-                        </h5>
-
-                    </div>
-
-                    <div class="r_con fr">
-
-                        <p class="distance"></p>
-
-                    </div>
-
-                </li>
-
-
-
-            </ul> -->
-
         </div>
-
     </div>
-
 </div>
-
 <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak={:config('baidu_map_ak')}"></script>
-
 <script src="__STATIC__/js/peitao.js"></script>
-
 <script>
-
     var lng = '{$info.lng}';
-
     var lat = '{$info.lat}';
-
     var streetView = 0;
-
     BMapApplication.title    = "{$info.estate_name}";
-
     BMapApplication.saleStatus = "{$info.sale_status|default=1}";
-
     BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
-
-    // BMapApplication.getAreaMap('公交', 'bus');
     BMapApplication.getAreaMap('地址', 'dz');
-
     $('.map-nav a').click(function (evt){
-
         $(this).addClass('active').parent().siblings().find('.active').removeClass('active');
-
         var iElem = $(this);
-
         BMapApplication.getAreaMap(iElem.text(), iElem.attr('search-flag'));
-
         evt.stopPropagation();
-
     });
-
 </script>

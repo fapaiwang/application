@@ -105,7 +105,7 @@ class SecondHouse extends ManageBase
     public function beforeAdd()
 
     {
-$fpy = db('user')->where(['model'=>4])->select();
+$fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
 
 // print_r($fpy);
         $position_lists = \app\manage\service\Position::lists($this->model);
@@ -141,7 +141,7 @@ $this->assign('fpy',$fpy);
 // print_r($var);
 
 $this->assign('var',$var);
-$fpy = db('user')->where(['model'=>4])->select();
+$fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
 $this->assign('fpy',$fpy);
 
         $this->assign('position_lists',$position_lists);
@@ -683,7 +683,9 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         }else{
             model('estate_transaction_record')->allowField(true)->save($estate_info);
         }
-
+        $data['is_commission'] =  $data['is_commission'] ?? 0;
+        $data['is_school'] =  $data['is_school'] ?? 0;
+        $data['is_metro'] =  $data['is_metro'] ?? 0;
 
 
         //同步到法拍网

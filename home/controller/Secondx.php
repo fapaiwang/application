@@ -195,33 +195,32 @@ class Secondx extends HomeBase{
                 //本小区拍卖套数
                 $estate_num = $SecondServer->estate_second_num($second_house_id,$info['estate_name']);
                 $this->assign('estate_num',$estate_num);
-                $xiaoqu=$info['estate_id'];
                 $estate_id=$info['estate_id'];
                 //小区的所有房源
                 $estate_seconf = $SecondServer->estate_second($estate_id,10);
                 $this->assign('estate_seconf',$estate_seconf);
                 //法拍专员点评/点评个数
                 $second_house_user_comment=$SecondServer->second_house_user_comment($second_house_id);
-                
-                //broker_id
-//                dd($second_house_user_comment);
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
-
+                //房源特色标签
+                $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan'],$info['marketprice'],
+                    $info['is_commission'],$info['is_school'],$info['is_metro']);
+                $this->assign('house_characteristic',$house_characteristic);
                 //用户信息
                 $infos = cookie('userInfo');
                 $infos = \org\Crypt::decrypt($infos);
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
-
-
+                //获取根据本房源-推荐房源
+                $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);
                 $user_id  = $infos['id'];
                 $follow   = model('follow');
-                $guanzhu = $follow->where('house_id',$xiaoqu)->where('user_id',$user_id)->where('model','estate')->count();
+                $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
                 $this->assign('guanzhu',$guanzhu);
-
                 $this->assign('userInfo',$userInfo);
+                $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
                 $this->assign('page_t',1);
             }else{
