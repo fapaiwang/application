@@ -172,7 +172,6 @@ class Secondx extends HomeBase{
 
     public function detail(){
         $second_house_id = input('param.id/d',0);
-
         if($second_house_id){
             $server = new server();
             $SecondServer = new SecondServer();

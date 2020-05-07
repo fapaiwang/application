@@ -8,7 +8,7 @@
     <meta name="description" content="{$seo_s.seo_desc}" />
     <link rel="stylesheet"  href="/homeStatic/css/common.css?v=1">
     <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
-    <link rel="stylesheet"  href="/homeStatic/css/head.css?version=3">
+    <link rel="stylesheet"  href="/homeStatic/css/head.css?version={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
     {block name='css'}{/block}
 
@@ -24,7 +24,7 @@
             <li><a href="{$vo.url}"  {if $vo.id eq $page_t } class="active" {/if}>{$vo.title}</a></li>
             {/volist}
         </ul>
-        <div class="log_link fr" style="margin-left: 80px">
+        <div class="log_link fr" style="margin-left: 80px;">
             {notempty name='userInfo'}
             <!-- 已登录状态 -->
             <div class="loged" style="line-height:70px">
@@ -38,6 +38,7 @@
                 </div>
             </div>
             {else /}
+
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
                 <a href="{:url('Login/index')}" class="login_label" rel="nofollow">登录</a>
@@ -51,6 +52,24 @@
 </div>
 
 <script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
+<script>
+
+    $('.loged ').hover(
+        function(){
+            $(this).find('.slide_tog').stop(true,true).slideDown(100);
+        },
+        function(){
+            $(this).find('.slide_tog').stop(true,true).slideUp(100);
+        }
+    );
+</script>
+<script>
+    $('.login_label').mouseenter(function() {
+        console.log(1)
+        console.log(1)
+        $('.slide_tog').show()
+    })
+</script>
 {block name='content'}{/block}
 <div class="footer">
     {include file='public/footers' /}

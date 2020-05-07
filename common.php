@@ -1228,3 +1228,60 @@ function getCityInfoByCityId()
         return false;
     }
 }
+
+/**
+ * 等额本息
+ * @param $dkm 贷款月数，20年就是240个月
+ * @param $dkTotal 贷款总额
+ * @param $dknl 贷款年利率
+ * @param mixed
+ * @author: al
+ */
+function debx($dkm,$dkTotal,$dknl){
+//    $dkm     = 240; //贷款月数，20年就是240个月
+//    $dkTotal = 1000000; //贷款总额
+//    $dknl    = 0.059;  //贷款年利率
+    $emTotal = $dkTotal * $dknl / 12 * pow(1 + $dknl / 12, $dkm) / (pow(1 + $dknl / 12, $dkm) - 1); //每月还款金额
+    $lxTotal = 0; //总利息
+    $arr[] = [];
+    for ($i = 0; $i < $dkm; $i++) {
+        $lx      = $dkTotal * $dknl / 12;   //每月还款利息
+        $em      = $emTotal - $lx;  //每月还款本金
+        $arr[$i]['qi'] = ($i + 1); //第几期
+        $arr[$i]['benjing'] = sprintf("%.2f", $em); //本金
+        $arr[$i]['lixi'] = sprintf("%.2f", $lx); //利息
+        $arr[$i]['benxi'] = sprintf("%.2f", $emTotal);//总额
+        $dkTotal = $dkTotal - $em;
+        $lxTotal = $lxTotal + $lx;
+        $arr[$i]['shengyu'] =sprintf("%.2f", $dkTotal);//剩余金额
+    }
+    $arr['total_num'] = sprintf("%.2f", $lxTotal);
+    return $arr;
+}
+
+/**
+ * 等额本金
+ * @param $dkm
+ * @param $dkTotal
+ * @param $dknl
+ * @param mixed
+ * @return string
+ * @author: al
+ */
+ function debj($dkm,$dkTotal,$dknl){
+    $em      = $dkTotal / $dkm; //每个月还款本金
+    $lxTotal = 0; //总利息
+    $arr[] = [];
+    for ($i = 0; $i < $dkm; $i++) {
+        $lx      = $dkTotal * $dknl / 12; //每月还款利息
+        $arr[$i]['qi'] = ($i + 1); //第几期
+        $arr[$i]['benjing'] = sprintf("%.2f", $em); //本金
+        $arr[$i]['lixi'] = sprintf("%.2f", $lx); //利息
+        $arr[$i]['benxi'] =sprintf("%.2f", ($em + $lx));//总额
+        $dkTotal -= $em;
+        $arr[$i]['shengyu'] = sprintf("%.2f", $dkTotal);//剩余金额
+        $lxTotal = $lxTotal + $lx;
+    }
+    $arr['total_num'] =sprintf("%.2f", $lxTotal);
+    return $arr;
+}

@@ -4,21 +4,21 @@
     </div>
     <div class="con_box ">
         <ul class="nav clearfix map-nav">
-            <li>
+            <li class="map-nav-cur">
                 <a href="javascript:;" search-flag="bus">公交</a>
-            </li>
+            </li>|
             <li>
                 <a href="javascript:;" search-flag="school"> 教育</a>
-            </li>
+            </li>|
             <li>
                 <a href="javascript:;" search-flag="hospital">医疗</a>
-            </li>
+            </li>|
             <li>
                 <a href="javascript:;" search-flag="shopping">购物</a>
-            </li>
+            </li>|
             <li>
                 <a href="javascript:;" search-flag="life">生活</a>
-            </li>
+            </li>|
             <li>
                 <a href="javascript:;" search-flag="entertainment">娱乐</a>
             </li>
@@ -33,12 +33,14 @@
     var lng = '{$info.lng}';
     var lat = '{$info.lat}';
     var streetView = 0;
+
     BMapApplication.title    = "{$info.estate_name}";
     BMapApplication.saleStatus = "{$info.sale_status|default=1}";
     BMapApplication.init({'lng' : lng, 'lat' : lat, 'mapContainerId' : 'map'});
     BMapApplication.getAreaMap('地址', 'dz');
     $('.map-nav a').click(function (evt){
-        $(this).addClass('active').parent().siblings().find('.active').removeClass('active');
+
+        $(this).parent().addClass('map-nav-cur').siblings().removeClass('map-nav-cur');
         var iElem = $(this);
         BMapApplication.getAreaMap(iElem.text(), iElem.attr('search-flag'));
         evt.stopPropagation();

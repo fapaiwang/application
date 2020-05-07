@@ -52,6 +52,18 @@
 </div>
 
 <script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $('.loged ').hover(
+        function(){
+            $(this).find('.slide_tog').stop(true,true).slideDown(100);
+        },
+        function(){
+            $(this).find('.slide_tog').stop(true,true).slideUp(100);
+        }
+    );
+</script>
 {block name='content'}{/block}
 <div class="footer">
     {include file='public/footers' /}

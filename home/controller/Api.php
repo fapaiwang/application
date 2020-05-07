@@ -6,6 +6,7 @@
 namespace app\home\controller;
 
 use app\manage\service\Synchronization;
+use think\Log;
 
 class Api
 
@@ -1611,5 +1612,69 @@ $data['house_id']  = input('post.house_id/d',0);
         return $city_id;
 
     }
+
+    /**
+     * 贷款计算
+     * @param $dkm 贷款月数，20年就是240个月
+     * @param $dkTotal 贷款总额
+     * @param $dknl 贷款年利率
+     * @param mixed
+     * @author: al
+     */
+    public function house_loan(){
+        $return['code'] ="";
+        $dai_nianxian    = input('post.dai_nianxian');
+        $dai_qipai    = input('post.dai_qipai');
+        $dai_lilv    = input('post.dai_lilv');
+        $dai_huankuan    = input('post.dai_huankuan');
+        $dai_bili    = input('post.dai_bili');
+        $dai_mianji    = input('post.dai_mianji');
+
+        $nianfen = $dai_nianxian * 12; //月
+        $total_price = $dai_qipai * 10000; //总金额
+        $dai_lilv = $dai_lilv * 0.01; //贷款利率
+
+        //契税比例
+        $qishui = 0.01;
+        if ($dai_mianji > 90){
+            $qishui = 0.015;
+        }
+        $qishui_price = $total_price * $qishui;
+
+        //计算贷款比例
+        $dai_qipai = $total_price * $dai_bili * 0.01;
+
+
+
+        \think\facade\Log::write($nianfen);
+        \think\facade\Log::write($dai_qipai);
+        \think\facade\Log::write($dai_lilv);
+        \think\facade\Log::write($dai_huankuan);
+        $res ="";
+        if ($dai_huankuan == "benxi"){
+           $res = debx($nianfen,$dai_qipai,$dai_lilv);
+        }elseif($dai_huankuan == "benjin"){
+            \think\facade\Log::write("进本金");
+           $res = debj($nianfen,$dai_qipai,$dai_lilv);
+        }
+        \think\facade\Log::write($res);
+        $res['qishui_price'] = $qishui_price;
+        $res['dakuan_price'] = $dai_qipai;
+        $res['shoufu'] = $total_price - $dai_qipai;
+        $res['yue'] =$res[0]['benxi'];
+        $res['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
+
+
+
+
+
+        if ($res){
+            $return['code'] = 1;
+            $return['data']  = json_encode($res);
+        }
+
+        return json($return);
+    }
+
 
 }
