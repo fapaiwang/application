@@ -1640,16 +1640,8 @@ $data['house_id']  = input('post.house_id/d',0);
             $qishui = 0.015;
         }
         $qishui_price = $total_price * $qishui;
-
         //计算贷款比例
         $dai_qipai = $total_price * $dai_bili * 0.01;
-
-
-
-        \think\facade\Log::write($nianfen);
-        \think\facade\Log::write($dai_qipai);
-        \think\facade\Log::write($dai_lilv);
-        \think\facade\Log::write($dai_huankuan);
         $res ="";
         if ($dai_huankuan == "benxi"){
            $res = debx($nianfen,$dai_qipai,$dai_lilv);
@@ -1657,17 +1649,16 @@ $data['house_id']  = input('post.house_id/d',0);
             \think\facade\Log::write("进本金");
            $res = debj($nianfen,$dai_qipai,$dai_lilv);
         }
-        \think\facade\Log::write($res);
+        //契税
         $res['qishui_price'] = $qishui_price;
+        //贷款总金额
         $res['dakuan_price'] = $dai_qipai;
+        //首付金额
         $res['shoufu'] = $total_price - $dai_qipai;
+        //每月还款金额
         $res['yue'] =$res[0]['benxi'];
+        //每月还款的差额
         $res['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
-
-
-
-
-
         if ($res){
             $return['code'] = 1;
             $return['data']  = json_encode($res);
