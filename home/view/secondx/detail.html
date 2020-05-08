@@ -276,47 +276,47 @@
             <p>拍卖信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
                 <li><span>拍卖阶段：</span>{$info.jieduan}</li>
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>户口占用情况：</span>{$info.land_certificate|default="不详"}</li>
                 {else /}
                 <li><span>户口占用情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>产权证号：</span>{$info.property_no|default="不详"}</li>
                 {else /}
                 <li><span>产权证号：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>行政限制：</span>{$info.land_purpose|default="不详"}</li>
                 {else /}
                 <li><span>行政限制：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>房屋用途：</span>{$info.house_purpse|default="不详"}</li>
                 {else /}
                 <li><span>房屋用途：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>经营情况：</span>{$info.management|default="不详"}</li>
                 {else /}
                 <li><span>经营情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>租赁情况：</span>{$info.lease|default="不详"}</li>
                 {else /}
                 <li><span>租赁情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>抵押情况：</span>{$info.mortgage|default="不详"}</li>
                 {else /}
                 <li><span>抵押情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>查封情况：</span>{$info.sequestration|default="不详"}</li>
                 {else /}
                 <li><span>查封情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$info.fcstatus eq 175"}
+                {if condition="$login_user.model eq 4"}
                 <li><span>腾退情况：</span>{$info.vacate|default="不详"}</li>
                 {else /}
                 <li><span>腾退情况：</span><span style="color: #CF2924"> *** </span></li>
@@ -326,7 +326,7 @@
         <div class="fangpai-detail-fangyuan-basic">
             <p>欠费及瑕疵</p>
             <div class="fangpai-detail-fangyuan-qianfei">
-                <p>{$info.qianfei}{$info.xiaici}</p>
+                <p>{$info.qianfei}{$info.xiaci}</p>
                 <p></p>
             </div>
         </div>
@@ -373,48 +373,50 @@
                 <h2>成交记录</h2>
                 <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
+            {if condition="$login_user.model eq 4"}
             <div class="fangpai-detail-jilu-content" style="display: none">
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">交易记录</p>
-                {if $info.jieduan gt 161}
-                <ul class="fangpai-detail-jilu-content-jiaoyi">
-                    {if $info.jieduan eq 163}
-                    <li>
-                        <span>二拍流拍</span>
-                        <span>二拍结束时间：{$info.twoetime}</span>
-                        <span>流拍价：{$info.twoprice}万</span>
-                    </li>
-                    <li>
-                        <span>一拍流拍</span>
-                        <span>二拍结束时间：{$info.oneetime}</span>
-                        <span>流拍价：{$info.oneprice}万</span>
-                    </li>
+                    {if $info.jieduan gt 161}
+                    <ul class="fangpai-detail-jilu-content-jiaoyi">
+                        {if $info.jieduan eq 163}
+                        <li>
+                            <span>二拍流拍</span>
+                            <span>二拍结束时间：{$info.twoetime}</span>
+                            <span>流拍价：{$info.twoprice}万</span>
+                        </li>
+                        <li>
+                            <span>一拍流拍</span>
+                            <span>二拍结束时间：{$info.oneetime}</span>
+                            <span>流拍价：{$info.oneprice}万</span>
+                        </li>
+                        {/if}
+                        {if $info.jieduan eq 163}
+                        <li>
+                            <span>一拍流拍</span>
+                            <span>二拍结束时间：{$info.oneetime}</span>
+                            <span>流拍价：{$info.oneprice}万</span>
+                        </li>
+                        {/if}
+                    </ul>
                     {/if}
-                    {if $info.jieduan eq 163}
-                    <li>
-                        <span>一拍流拍</span>
-                        <span>二拍结束时间：{$info.oneetime}</span>
-                        <span>流拍价：{$info.oneprice}万</span>
-                    </li>
-                    {/if}
-                </ul>
-                {/if}
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">拍卖成交记录</p>
-                <ul class="fangpai-detail-jilu-content-chengjiao">
-                    {volist name='estate_seconf' id='es'}
-                    <li>
-                        <span>{$es.endtime}</span>
-                        <span>起拍价：{$es.qipai}万</span>
-                        <span>{$es.acreage}平米</span>
-                        <span>成交价：{$es.cjprice}万</span>
-                        <span>单价：{:mbsubstr($es.average_price,0,-10)}</span>
-                    </li>
-                    {/volist}
-                </ul>
+                    <ul class="fangpai-detail-jilu-content-chengjiao">
+                        {volist name='estate_seconf' id='es'}
+                        <li>
+                            <span>{$es.endtime}</span>
+                            <span>起拍价：{$es.qipai}万</span>
+                            <span>{$es.acreage}平米</span>
+                            <span>成交价：{$es.cjprice}万</span>
+                            <span>单价：{:mbsubstr($es.average_price,0,-10)}</span>
+                        </li>
+                        {/volist}
+                    </ul>
                 <div class="fangpai-detail-jilu-content-footer">
                     <span>更多</span>
                     <img src="./homeStatic/img/jrxz.png" alt="">
                 </div>
             </div>
+            {/if}
         </div>
         {if condition="$second_house_user_comment_num"}
         <div id="fangpai-detail-zhuanyuan" class="fangpai-detail-zhuanyuan">
