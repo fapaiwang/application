@@ -445,11 +445,13 @@ class Api
                 $obj->where($where)->delete();
                 $return['code'] = 1;
                 $return['msg']  = '取消关注成功';
+                $return['status']  = '0';
                 $return['text'] = '关注房源';
             }else{
                 if(db('follow')->insert($data)) {
                     $return['code'] = 1;
                     $return['msg']  = '关注成功';
+                    $return['status']  = '1';
                     $return['text'] = '已关注';
                 }else{
                     $return['msg']  = '关注失败';
