@@ -417,98 +417,47 @@ class Api
         return json($return);
 
     }
-
-
-
     /**
-
      * @return \think\response\Json
-
      * 关注楼盘
-
      */
-
-    public function follow()
-
-    {
-
+    public function follow(){
         $house_id = input('post.house_id/d',0);
-
         $model    = input('post.model');
-
         $userInfo = $this->getUserInfo();
-
         $return['code'] = 0;
-        if(!$userInfo)
-
-        {
-
+        if(!$userInfo) {
             $return['msg'] = '请登录后再关注';
-
         }elseif(!$house_id){
-
             $return['msg'] = '参数错误';
-
         }else{
-
             $data['house_id'] = $house_id;
-
             $data['model']    = $model;
-
             $data['user_id']  = $userInfo['id'];
-
             $data['create_time'] = time();
-// print_r($data);exit();
-
-  $where['user_id']  = $data['user_id'];
-
-        $where['house_id'] = $data['house_id'];
-
-        $where['model']    = $data['model'];
-
-        $obj  = db('follow');
-
-        $info = $obj->where($where)->find();
-
-        if($info)
-
-        {
-
-            //取消关注
-
-            $obj->where($where)->delete();
-            $return['code'] = 1;
-
+            $where['user_id']  = $data['user_id'];
+            $where['house_id'] = $data['house_id'];
+            $where['model']    = $data['model'];
+            $obj  = db('follow');
+            $info = $obj->where($where)->find();
+            if($info){
+                //取消关注
+                $obj->where($where)->delete();
+                $return['code'] = 1;
                 $return['msg']  = '取消关注成功';
-
                 $return['text'] = '关注房源';
-
-        }else{
-// print_r($data);exit();
-                if(db('follow')->insert($data))
-
-                {
-
+            }else{
+                if(db('follow')->insert($data)) {
                     $return['code'] = 1;
-
                     $return['msg']  = '关注成功';
-
                     $return['text'] = '已关注';
-
                 }else{
-
                     $return['msg']  = '关注失败';
-
                 }
-
             }
-
         }
-
         return json($return);
-
     }
-
     /**
      * 推荐房源
      * @param mixed
@@ -714,7 +663,7 @@ class Api
             //     $return['msg'] = '操作失败';
 
             // }else{
-            
+
 
                 else if(model('subscribe')->allowField(true)->save($data))
 

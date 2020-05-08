@@ -60,8 +60,21 @@
                 </div>
                 <div class="fangpai-detail-header-right-bianhao-yuyue join" data-id="{$info.id}" data-broker="{$info.broker_id}">
                     <img src="./homeStatic/img/xin20.png" alt="">
+                    {if $gzfang gt 0 }
+                    <span>已关注</span>
+                    {else}
                     <span>关注房源</span>
+                    {/if}
                 </div>
+                {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
+                {/if}
+                    <div class="fangpai-detail-header-right-bianhao-yuyue tuijian" data-id="{$info.id}" data-broker="{$info.rec_position}">
+                        {if $info.rec_position gt 0 }
+                        <span>已推荐</span>
+                        {else}
+                        <span>推荐房源</span>
+                        {/if}
+                    </div>
                 <p>拍卖编号：{$info.bianhao}</p>
             </div>
         </div>

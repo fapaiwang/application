@@ -30,7 +30,7 @@ class server
             h.orientations,h.acreage,h.contacts,h.estate_id,h.id,h.broker_id,h.city,h.jieduan,h.bianetime,h.kptime,h.types,
             h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice,h.elevator,h.auction_attr,h.enforcement,
             h.land_purpose,h.land_certificate,h.property_no,h.house_purpse,h.management,h.lease,h.mortgage,h.sequestration,
-            h.vacate,h.is_commission,h.is_school,h.is_metro,h.xiaci,h.qianfei,h.lng,h.lat,h.estate_name";
+            h.vacate,h.is_commission,h.is_school,h.is_metro,h.xiaci,h.qianfei,h.lng,h.lat,h.estate_name,h.rec_position";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
 //            todo  缓存
