@@ -508,7 +508,6 @@ class Api
                 $return['status'] = 0;
                 $return['msg']  = '推荐成功';
                 $return['text'] = '已推荐';
-
             }
 
         }

@@ -68,7 +68,8 @@
                 </div>
                 {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
                 {/if}
-                    <div class="fangpai-detail-header-right-bianhao-yuyue tuijian" data-id="{$info.id}" data-broker="{$info.rec_position}">
+                <input type="hidden" class="rec_position_info" value="{$info.rec_position}">
+                    <div class="fangpai-detail-header-right-bianhao-yuyue tuijian" data-id="{$info.id}">
                         {if $info.rec_position gt 0 }
                         <span class="tuijian_button">已推荐</span>
                         {else}
