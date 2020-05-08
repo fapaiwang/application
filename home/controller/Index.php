@@ -162,10 +162,14 @@ class Index extends \app\common\controller\HomeBase
         $info['top_bunner'] = $IndexServer->get_home_banner_arr(1,3);
         //腰部广告图
         $waist_bunner = $IndexServer->get_home_banner_arr(2,1);
-        $this->assign('waist_bunner',$waist_bunner[0]);
+        if (!empty($waist_bunner)) {
+            $this->assign('waist_bunner', $waist_bunner[0]);
+        }
         //流程图
         $flow_chart = $IndexServer->get_home_banner_arr(9,1);
-        $this->assign('flow_chart',$flow_chart[0]);
+        if (!empty($flow_chart)) {
+            $this->assign('flow_chart', $flow_chart[0]);
+        }
         //获取推荐房源(6套)
         $info['recommend_house'] =$recommend_house = $IndexServer->get_recommend_house();
         //获取特色房源(5个) 1-2-2
@@ -176,7 +180,10 @@ class Index extends \app\common\controller\HomeBase
         $info['promise_banner'] = $IndexServer->get_home_banner_arr(11,20);
         //底部图片
         $bottom_banner = $IndexServer->get_home_banner_arr(12,20);
-        $this->assign('bottom_banner',$bottom_banner[0]);
+        if (!empty($bottom_banner)){
+            $this->assign('bottom_banner',$bottom_banner[0]);
+        }
+
         //统计房产数量
         $info['statistics_num'] =$IndexServer->get_statistics_num();
         //获取优质小区

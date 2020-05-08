@@ -61,9 +61,9 @@
                 <div class="fangpai-detail-header-right-bianhao-yuyue join" data-id="{$info.id}" data-broker="{$info.broker_id}">
                     <img src="./homeStatic/img/xin20.png" alt="" class="join_img">
                     {if $gzfang gt 0 }
-                    <span>已关注</span>
+                    <span class="join_is_guanzhu">已关注</span>
                     {else}
-                    <span>关注房源</span>
+                    <span class="join_is_guanzhu">关注房源</span>
                     {/if}
                 </div>
                 {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
