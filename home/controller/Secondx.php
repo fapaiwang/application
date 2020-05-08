@@ -210,6 +210,7 @@ class Secondx extends HomeBase{
                 //用户信息
                 $infos = cookie('userInfo');
                 $infos = \org\Crypt::decrypt($infos);
+                dd($infos);
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
                 //获取根据本房源-推荐房源
@@ -221,7 +222,6 @@ class Secondx extends HomeBase{
                 $this->assign('userInfo',$userInfo);
                 $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
-                $this->assign('page_t',1);
             }else{
                 return $this->fetch('public/404');
             }

@@ -151,7 +151,7 @@
                         <div class="fangpai-detail-header-right-people-right-name">
                             <b>{$info.contacts.contact_name}</b>
                             <span>法拍专员</span>
-                            <p>法拍服务从业经验{$user.history_complate}年</p>
+                            <p>法拍服务从业经验{$user_info.history_complate}年</p>
                         </div>
                         <div class="fangpai-detail-header-right-people-right-zixun" onclick='online("{$user.kflj},{$userInfo.id}")'>
                             <img src="./homeStatic/img/nvkefu22.png" alt="">
@@ -209,9 +209,9 @@
 
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
-                        <h4>法拍专员</h4>
+                        <h4>法拍专员1234</h4>
                         <div class="fangpai-detail-fixed-refresh" data-id="{$info.id}" data-tit="{$info.title}" data-img="{$info.img}">
-                            <img src="./homeStatic/img/refresh.png" alt="">
+                            <img src="" alt="">
                             <span>换一换</span>
                         </div>
                     </div>
@@ -276,23 +276,58 @@
             <p>拍卖信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
                 <li><span>拍卖阶段：</span>{$info.jieduan}</li>
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>户口占用情况：</span>{$info.land_certificate|default="不详"}</li>
-                <li><span>执行依据：</span>{$info.enforcement|default="不详"}</li>
+                {else /}
+                <li><span>户口占用情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>产权证号：</span>{$info.property_no|default="不详"}</li>
+                {else /}
+                <li><span>产权证号：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>行政限制：</span>{$info.land_purpose|default="不详"}</li>
+                {else /}
+                <li><span>行政限制：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>房屋用途：</span>{$info.house_purpse|default="不详"}</li>
+                {else /}
+                <li><span>房屋用途：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>经营情况：</span>{$info.management|default="不详"}</li>
+                {else /}
+                <li><span>经营情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>租赁情况：</span>{$info.lease|default="不详"}</li>
+                {else /}
+                <li><span>租赁情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>抵押情况：</span>{$info.mortgage|default="不详"}</li>
+                {else /}
+                <li><span>抵押情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>查封情况：</span>{$info.sequestration|default="不详"}</li>
+                {else /}
+                <li><span>查封情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
+                {if condition="$info.fcstatus eq 175"}
                 <li><span>腾退情况：</span>{$info.vacate|default="不详"}</li>
+                {else /}
+                <li><span>腾退情况：</span><span style="color: #CF2924"> *** </span></li>
+                {/if}
             </ul>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
             <p>欠费及瑕疵</p>
             <div class="fangpai-detail-fangyuan-qianfei">
-                <p>{$info.qianfei}</p>
-                <p>{$info.xiaici}</p>
+                <p>{$info.qianfei}{$info.xiaici}</p>
+                <p></p>
             </div>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
@@ -327,7 +362,7 @@
         <div>
             <div class="fangpai-detail-paimai-title">
                 <h2 id="fangpai-detail-paimai" class="fangpai-detail-paimai">拍卖公告</h2>
-                <span><img src="./homeStatic/img/jianhao.png" alt=""></span>
+                <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
             <div class="fangpai-detail-paimai-content" style="display: none">
                 {$info.info|raw}
@@ -336,7 +371,7 @@
         <div id="fangpai-detail-jilu" class="fangpai-detail-jilu">
             <div class="fangpai-detail-jilu-title">
                 <h2>成交记录</h2>
-                <span><img src="./homeStatic/img/jianhao.png" alt=""></span>
+                <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
             <div class="fangpai-detail-jilu-content" style="display: none">
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">交易记录</p>
@@ -685,10 +720,10 @@
         {volist name='recommend_house' id='vo'}
         <div class="tuijian-slide-detail tuijian-slide-detail_f">
             <a href="{:url('Second/detail',['id'=>$vo.id])}"><img src="{$vo.img}" alt=""></a>
-            <p style="">{:msubstr(strip_tags($vo['title']),0,12)}</p>
+            <p style="">{:msubstr(strip_tags($vo['title']),0,18)}</p>
             <div class="tuijian-slide-detail-info">
-                <span></span>
-                <span class="tuijian-slide-detail-info-color">/㎡</span>
+                <span>{:getLinkMenuName(29,$vo['toilet'])}-{$vo.acreage}/㎡</span>
+                <span class="tuijian-slide-detail-info-color">{$vo.qipai|raw}万</span>
             </div>
         </div>
         {/volist}

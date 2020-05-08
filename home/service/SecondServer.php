@@ -107,10 +107,10 @@ class SecondServer
         $map = "estate_id=$estate_id or city=$citys";
         $res = model('second_house')
             ->where('status',1)
-            ->where('fcstatus','eq',170)
+//            ->where('fcstatus','eq',170)
             ->where('id','neq',$house_id)
             ->where($map)
-            ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img')
+            ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai')
             ->order('id desc')
             ->limit(4)
             ->select();
