@@ -477,7 +477,7 @@ class Api
         $return['code'] = 0;
         if(!$userInfo)
         {
-            $return['msg'] = '请登录后再关注';
+            $return['msg'] = '请登录后再推荐';
         }elseif(!$house_id){
             $return['msg'] = '参数错误';
         }else{
@@ -493,6 +493,7 @@ class Api
                     model('show')->allowField(true)->save(['is_recom'=>0],['id'=>$get_fa_show_id]);
                 }
                 $return['code'] = 1;
+                $return['status'] = 1;
                 $return['msg']  = '取消推荐成功';
                 $return['text'] = '推荐房源';
             }else{//推荐
@@ -502,6 +503,7 @@ class Api
                     model('show')->allowField(true)->save(['is_recom'=>1],['id'=>$get_fa_show_id]);
                 }
                 $return['code'] = 1;
+                $return['status'] = 0;
                 $return['msg']  = '推荐成功';
                 $return['text'] = '已推荐';
 
@@ -609,11 +611,7 @@ class Api
     public function subscribe()
 
     {
-
         $data['house_id']  = input('post.house_id/d',0);
-
-        // $data['user_name'] = input('post.user_name');
-
         $data['model']     = input('post.model');
 
         // $data['mobile']    = input('post.mobile');
@@ -648,7 +646,7 @@ class Api
 
         {
 
-            $return['msg'] = '请登录后再关注';
+            $return['msg'] = '请登录后再预约';
 
         }
 

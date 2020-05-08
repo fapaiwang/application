@@ -213,7 +213,6 @@ class Secondx extends HomeBase{
                 $this->assign('login_user',$infos);
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
-
                 //获取根据本房源-推荐房源
                 $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);
                 $user_id  = $infos['id'];
@@ -222,7 +221,6 @@ class Secondx extends HomeBase{
                 $follow   = model('follow');
                 $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
                 $this->assign('guanzhu',$guanzhu);
-
                 $this->assign('userInfo',$userInfo);
                 $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
