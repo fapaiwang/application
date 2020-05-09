@@ -14,6 +14,7 @@
 <script src="/homeStatic/js/homeList.js?v={:time()}"></script>
 <script src="/homeStatic/js/kf.js?v={:time()}"></script>
 <script src="__STATIC__/layui/layui.js"></script>
+<script src="/js/jquery.cookie.js"></script>
 {/block}
 {block name='content'}
 
@@ -163,7 +164,7 @@
                             </p>
                             <p class="search-tiaojian-buttons-clear">
                                 <img src="/homeStatic/img/laji.png" alt=""/>
-                                <span>清除</span>
+                                <span class="clear_search">清除</span>
                             </p>
                         </div>
                     </div>
@@ -284,8 +285,8 @@
             </div>
         </div>
         <div style="text-align:center" class="fangpai-gengduo-button">
-            <input name="" type="button"  value="更多"  id="btn" onclick="btn()" >
-            <img src="/homeStatic/img/daosanjiao.png" alt=""/>
+            <input name="" type="button"  value="更多"  onclick="btn()" id="btn"  >
+            <img src="/homeStatic/img/daosanjiao.png" style="cursor:pointer;" alt=""  onclick="btn()"/>
         </div>
         <!-- 筛选栏 E -->
         <div class="main clearfix">
@@ -298,7 +299,9 @@
                     </div>
                     <div class="tab sort-tab fr" style="display:black; float:right;">
                         <ul>
-                            <li style="margin-left:0px;"><a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}>全部房源</a></li>
+                            <li style="margin-left:0px;">
+                                <a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
+                            </li>
                             <li ><a href="{:getUrl('Second/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
                             <li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>
                             {if condition='$search.sort eq 1'}

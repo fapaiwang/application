@@ -179,7 +179,6 @@ class Secondx extends HomeBase{
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
             $info = $server->second_model($second_house_id);
-            
             if($info){
                 //添加浏览量
                 updateHits($info['id'],'second_house');
@@ -220,6 +219,15 @@ class Secondx extends HomeBase{
                 $this->assign('gzfang',$gzfang);
                 $follow   = model('follow');
                 $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
+
+                $api =new Api();
+                $house_loan_s = $api->house_loan_s(30,$info['qipai'],'4.9',$info['acreage'],65);
+                $house_loan['benxi'] =   $house_loan_s[0]['benxi'];
+                $house_loan['shoufu'] =   $house_loan_s['shoufu'];
+                $house_loan['qishui'] =   $house_loan_s['qishui_price'];
+                $house_loan['daikuan'] =   $house_loan_s['dakuan_price'];
+
+                $this->assign('house_loan',json_encode($house_loan));
                 $this->assign('guanzhu',$guanzhu);
                 $this->assign('userInfo',$userInfo);
                 $this->assign('recommend_house',$recommend_house);

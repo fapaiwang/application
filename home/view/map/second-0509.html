@@ -1,16 +1,15 @@
 {extend name='public/page_list' /}
 {block name='css'}
 <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
-<link rel="stylesheet" type="text/css" href="__CSS__/common.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/common.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/css.css?v={:time()}">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/map.css?v={:time()}">
-
 {/block}
 
 {block name='content'}
-<script src="__STATIC__/js/jquery.min.js"></script>
-<div class="map_house">
+<div class="map_house mt70">
     <!-- 筛选 和 搜索 S-->
     <div class="sele_sear clearfix">
         <div class="comWidth">
@@ -228,6 +227,7 @@
         });
     });
 </script>
+
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
@@ -257,5 +257,4 @@
         });
     });
 </script>
-
 {/block}

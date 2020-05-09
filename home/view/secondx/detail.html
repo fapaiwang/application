@@ -67,7 +67,6 @@
                     {/if}
                 </div>
                 {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
-                {/if}
                 <input type="hidden" class="rec_position_info" value="{$info.rec_position}">
                     <div class="fangpai-detail-header-right-bianhao-yuyue tuijian" data-id="{$info.id}">
                         {if $info.rec_position gt 0 }
@@ -76,6 +75,7 @@
                         <span class="tuijian_button">推荐房源</span>
                         {/if}
                     </div>
+                {/if}
                 <p>拍卖编号：{$info.bianhao}</p>
             </div>
         </div>
@@ -223,7 +223,7 @@
 
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
-                        <h4>法拍专员1234</h4>
+                        <h4>法拍专员</h4>
                         <div class="fangpai-detail-fixed-refresh" data-id="{$info.id}" data-tit="{$info.title}" data-img="{$info.img}">
                             <img src="" alt="">
                             <span>换一换</span>
@@ -436,7 +436,7 @@
         <div id="fangpai-detail-zhuanyuan" class="fangpai-detail-zhuanyuan">
             <div class="fangpai-detail-zhuanyuan-title">
                 <h2 >法拍专员推荐</h2>
-                <span class="change" data-id="{$info.id}">换一换</span>
+                <!--<span class="change" data-id="{$info.id}">换一换</span>-->
             </div>
             <ul class="second_house_user_comment">
                 {volist name='$second_house_user_comment' id='vo'}
@@ -482,6 +482,7 @@
                         <li>
                             <span>起拍价</span>
                             <input type="text" id="dai_qipai" value="{$info.qipai|raw}">
+                            <input type="hidden" id="house_loan" value="{$house_loan}">
                             <input type="hidden" id="dai_mianji" value="{$info.acreage}">
                             <p class="fangpai-detail-daikuan-content-left-position">万元</p>
                         </li>
@@ -509,9 +510,32 @@
                         <li>
                             <span>商贷年限</span>
                                 <select id="dai_nianxian">
-                                    {for start="1" end="31" step="1" name="i"}
-                                    <option value="{$i}">{$i}年</option>
-                                    {/for}
+                                    <option value="30">30年</option>
+                                    <option value="29">29年</option>
+                                    <option value="28">28年</option>
+                                    <option value="27">27年</option>
+                                    <option value="26">26年</option>
+                                    <option value="25">25年</option>
+                                    <option value="24">24年</option>
+                                    <option value="23">23年</option>
+                                    <option value="22">22年</option>
+                                    <option value="21">21年</option>
+                                    <option value="20">20年</option>
+                                    <option value="19">19年</option>
+                                    <option value="18">18年</option>
+                                    <option value="17">17年</option>
+                                    <option value="16">16年</option>
+                                    <option value="15">15年</option>
+                                    <option value="14">14年</option>
+                                    <option value="13">13年</option>
+                                    <option value="12">12年</option>
+                                    <option value="11">11年</option>
+                                    <option value="10">10年</option>
+                                    <option value="9">9年</option>
+                                    <option value="8">8年</option>
+                                    <option value="7">7年</option>
+                                    <option value="6">6年</option>
+                                    <option value="5">5年</option>
                                 </select>
                             <p class="fangpai-detail-daikuan-content-left-img-position">
                                 <img src="./homeStatic/img/daosanjiao22.png" alt="">
@@ -566,7 +590,7 @@
                         <!--<p>契税</p>-->
                         <!--<p><span>264.1</span>万元</p>-->
                     <!--</div>-->
-                    <div class="yuegong_xi fangpai-detail-daikuan-content-right-monty" style="display: none">
+                    <div class="yuegong_xi fangpai-detail-daikuan-content-right-monty">
                         <p>月供（等额本息）</p>
                         <p><span id="huan_benxi"></span>万元</p>
                     </div>

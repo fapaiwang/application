@@ -509,11 +509,8 @@ class Api
                 $return['msg']  = '推荐成功';
                 $return['text'] = '已推荐';
             }
-
         }
-
         return json($return);
-
     }
     /**
 
@@ -1577,11 +1574,29 @@ $data['house_id']  = input('post.house_id/d',0);
         $dai_huankuan    = input('post.dai_huankuan');
         $dai_bili    = input('post.dai_bili');
         $dai_mianji    = input('post.dai_mianji');
+       $res =$this->house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili,$dai_huankuan);
+        if ($res){
+            $return['code'] = 1;
+            $return['data']  = json_encode($res);
+        }
+        return json($return);
+    }
 
+    /**
+     * @param $dai_nianxian 贷款年限
+     * @param $dai_qipai 贷款金额(万)
+     * @param $dai_lilv 贷款利率(浮动利率)
+     * @param $dai_mianji 房屋面积
+     * @param $dai_bili 贷款比例(贷多少钱)
+     * @param $dai_huankuan 还款方式(默认本息)
+     * @param mixed
+     * @return array|string
+     * @author: al
+     */
+    function house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili,$dai_huankuan="benxi"){
         $nianfen = $dai_nianxian * 12; //月
         $total_price = $dai_qipai * 10000; //总金额
         $dai_lilv = $dai_lilv * 0.01; //贷款利率
-
         //契税比例
         $qishui = 0.01;
         if ($dai_mianji > 90){
@@ -1590,12 +1605,12 @@ $data['house_id']  = input('post.house_id/d',0);
         $qishui_price = $total_price * $qishui;
         //计算贷款比例
         $dai_qipai = $total_price * $dai_bili * 0.01;
-        $res ="";
+        $res =[];
         if ($dai_huankuan == "benxi"){
-           $res = debx($nianfen,$dai_qipai,$dai_lilv);
+            $res = debx($nianfen,$dai_qipai,$dai_lilv);
         }elseif($dai_huankuan == "benjin"){
             \think\facade\Log::write("进本金");
-           $res = debj($nianfen,$dai_qipai,$dai_lilv);
+            $res = debj($nianfen,$dai_qipai,$dai_lilv);
         }
         //契税
         $res['qishui_price'] = $qishui_price;
@@ -1607,12 +1622,7 @@ $data['house_id']  = input('post.house_id/d',0);
         $res['yue'] =$res[0]['benxi'];
         //每月还款的差额
         $res['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
-        if ($res){
-            $return['code'] = 1;
-            $return['data']  = json_encode($res);
-        }
-
-        return json($return);
+        return $res;
     }
 
 

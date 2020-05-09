@@ -1,0 +1,58 @@
+<!--轮播图-->
+<section class="rb">
+    {volist name="smallPic" id="pic"}
+    <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.name}"></a>
+    {/volist}
+</section>
+<!--预约咨询-->
+<section class="reserve">
+    <h3 class="hot_tit">预约咨询</h3>
+    <p class="reserve_desc">对法拍房有什么疑问吗？<br>
+        专员一对一给您制订符合您的方案
+    </p>
+    <section>
+        <form class="sub_reserve" action="#">
+            <input placeholder="输入您的手机号码" class="tel" name="tel" type="text"><br>
+            <section class="captcha">
+                <input placeholder="请输入短信验证码" class="code" name="code" type="text">
+                <button class="get_captcha" type="button">获取验证码</button>
+            </section>
+            <button class="sub_btn">预约咨询</button>
+        </form>
+    </section>
+    <p class="reserve_tel">咨询热线：4006778008</p>
+</section>
+<!--法拍热点-->
+<section class="hot_tag">
+    <h3 class="hot_tit">法拍热点</h3>
+    <ul class="hot_tag_list">
+        <a href="#">法拍网法拍网法拍网法拍网法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+        <a href="#">法拍网</a>
+    </ul>
+</section>
+<!--热门文章-->
+<section class="hot_article">
+    <h3 class="hot_tit">热门文章</h3>
+    <ul>
+        {volist name='hotArticle' id='vo'}
+        <a href="{:url('News/index',['cate'=>$vo['id']])}" >{$vo.title}</a>
+        {/volist}
+    </ul>
+</section>
+<section class="hot_ans">
+    <h3 class="hot_tit">热门回答</h3>
+    {volist name='hotAns' id='ans'}
+    <a href="{:url('News/index',['cate'=>$ans['id']])}">
+        <dl>
+            <dt>{$ans.title}</dt>
+            <dd>{$ans.hits}个回答/{:getTime($ans['create_time'])}</dd>
+        </dl>
+    </a>
+    {/volist}
+</section>
