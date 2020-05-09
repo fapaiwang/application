@@ -143,7 +143,10 @@ class Secondx extends HomeBase{
 
         $quality_estate =$IndexServer->get_quality_estate(10);
         $search_area_id = input('param.area/d', $this->cityInfo['id']);
-        $list_page_search_field = $SecondServer->list_page_search_field($search_area_id) ?? 0;
+        if ($search_area_id < 57){
+            $search_area_id = 0;
+        }
+        $list_page_search_field = $SecondServer->list_page_search_field($search_area_id);
 
         $this->assign('answer',$answer);
         $this->assign('hot_news',$hot_news);
