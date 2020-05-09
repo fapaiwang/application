@@ -137,9 +137,10 @@ class Secondx extends HomeBase{
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
         $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
         $area = input('param.area/d', $this->cityInfo['id']);
-        if ($area < 57){
-            $area=0;
-        }
+
+//        if ($area < 57){
+//            $area=0;
+//        }
 
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);

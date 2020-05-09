@@ -146,7 +146,7 @@ class SecondServer
 
         //获取街道
 
-        if (!empty($area_id)){
+        if (!empty($area_id) && $area_id < 100){
             $res[] = $this->street_one_arr($city_info[39],$area_id);
         }
         //获取形式
@@ -213,13 +213,11 @@ class SecondServer
      * @author: al
      */
     public function street_one_arr($area,$street){
-        dd($area);
         $cache_name = 'street_one_'.$area['id'];
         $street_cache =  cache($cache_name);
         if (!$street_cache){
             $street_cache = ['全部'];
             foreach ($area['_child'][$street]['_child'] as $k=>$val){
-                dd($val['name']);
                 $street_cache[] = $val['name'];
             }
             cache($cache_name,$street_cache,86400);

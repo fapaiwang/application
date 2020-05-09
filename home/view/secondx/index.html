@@ -470,7 +470,12 @@
                             </li>
                             {/volist}
                         </ul>
-                        <input type="text" id="selected_nav" value="{$selected_nav}">
+                        {notempty name='pages'}
+                        <div class="page_list clearfix">
+                            {$pages|raw}
+                        </div>
+                        {/notempty}
+                        <input type="hidden" id="selected_nav" value="{$selected_nav}">
                         <input type="hidden" id="list_page_search_field" value="{$list_page_search_field}">
                         <div class="fangpai-shu-tuijian">
                             <h2>推荐小区</h2>
@@ -498,11 +503,7 @@
                         {include file='second/right' /}
                     </div>
                 </div>
-                {notempty name='pages'}
-                <div class="page_list clearfix">
-                    {$pages|raw}
-                </div>
-                {/notempty}
+
             </div>
         </div>
     </div>
