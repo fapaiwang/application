@@ -141,12 +141,12 @@ class SecondServer
         //todo 城市id 问题
         $res = [];
         //获取区域
-        dd(getCity());
-        $res[] = $this->area_one_arr(getCity()[39]);
+        $city_info = getCity();
+        $res[] = $this->area_one_arr($city_info[39]);
 
         //获取街道
         if (!empty($area_id)){
-            $res[] = $this->street_one_arr(getCity()[39],$area_id);
+            $res[] = $this->street_one_arr($city_info[39],$area_id);
         }
         //获取形式
         $res[] =$this->get_linkmenu_one_arr(getLinkMenuCache(9),9);
