@@ -142,6 +142,7 @@ class SecondServer
         $res = [];
         //获取区域
         $city_info = getCity();
+        dd($city_info[39]);
         $res[] = $this->area_one_arr($city_info[39]);
 
         //获取街道
