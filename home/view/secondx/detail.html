@@ -677,7 +677,7 @@
         </div>
         <div class="fangpai-detail-zhezhao-content">
             <div class="fangpai-detail-zhezhao-content-top">
-                <img src="./homeStatic/img/banner.jpg" alt="" class="fangpai-detail-zhezhao-content-img">
+                <img src="{$info.img}" alt="{$info.title}"  onerror="javascript:this.src='/static/images/noimg.jpg';" class="fangpai-detail-zhezhao-content-img">
             </div>
 
             <div class="fangpai-detail-zhezhao-bottom-prev">
@@ -693,48 +693,11 @@
             <div class="fangpai-detail-zhezhao-bottom">
                 <div class="fangpai-detail-zhezhao-bottom-list">
                     <ul>
+                        {volist name='info.file' id='vo'}
                         <li class="fangpai-detail-zhezhao-bottom-list-cur">
-                            <img src="./homeStatic/img/banner.jpg" alt="">
+                            <img src="{$vo.url}" onerror="javascript:this.src='/static/images/noimg.jpg';" alt="{$info.title}">
                         </li>
-                        <li>
-                            <img src="./homeStatic/img/jinrong.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/jrxz.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/nanbei.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/renmai.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/rightAll.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/ting.png" alt="">
-                        </li>
-                        <li class="fangpai-detail-zhezhao-bottom-list-cur">
-                            <img src="./homeStatic/img/banner.jpg" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/jinrong.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/jrxz.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/nanbei.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/renmai.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/rightAll.png" alt="">
-                        </li>
-                        <li>
-                            <img src="./homeStatic/img/ting.png" alt="">
-                        </li>
+                        {/volist}
                     </ul>
                 </div>
             </div>
