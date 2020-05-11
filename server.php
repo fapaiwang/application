@@ -36,7 +36,7 @@ class server
 //            todo  缓存
 //            ->cache('second_house_'.$second_house_id,3600)
         $info = $obj->alias('h')
-//            ->field($second_house_field)
+            ->field($second_house_field)
             ->join($join)->where($where)->find();
         //单价
         $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
