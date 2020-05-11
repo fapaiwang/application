@@ -262,7 +262,7 @@ class Estate extends HomeBase
         $houseRes['user_info'] = $houseRes['user_info'] && $houseRes['user_info']['lxtel_zhuan'] ? $houseRes['user_info']['lxtel_zhuan'] : '';
         $houseRes['pinglun'] = model('user')->where('id',$houseRes['broker_id'])->find();//客服
         $user = login_user();
-        $houseRes['is_guanzhu'] = $house->is_guanzhu($houseRes['estate_id'],$user['id']);
+        $houseRes['is_guanzhu'] = $house->is_guanzhu($houseRes['id'],$user['id']);
         $houseRes['user_id'] = $user['id'];
         return json([
             "code" => 200,

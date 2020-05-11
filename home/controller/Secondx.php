@@ -172,7 +172,7 @@ class Secondx extends HomeBase{
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
-            dd($server->is_guanzhu('1060',38));
+
             $SecondServer = new SecondServer();
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
@@ -218,7 +218,6 @@ class Secondx extends HomeBase{
                 $this->assign('gzfang',$gzfang);
                 $follow   = model('follow');
                 $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
-
                 $api =new Api();
                 $house_loan_s = $api->house_loan_s(30,$info['qipai'],'4.9',$info['acreage'],65);
                 $house_loan['benxi'] =   $house_loan_s[0]['benxi'];
