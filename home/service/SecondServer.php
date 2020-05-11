@@ -146,7 +146,7 @@ class SecondServer
 
         //获取街道
 
-        if (!empty($area_id) && $area_id < 100){
+        if (!empty($area_id) && $area_id < 100 && $area_id != 39){
             $res[] = $this->street_one_arr($city_info[39],$area_id);
         }
         //获取形式
