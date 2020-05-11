@@ -707,7 +707,7 @@
 {include file="secondx/kf"}
 <!--在线客服 end-->
 <script type="text/html" id="template">
-    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    {{ for(var i = 0, len = d.length; i < len; i++){ }}
     <li>
         <a href="{{d[i].url}}" target="_blank">
             <span>
@@ -718,7 +718,7 @@
             </span>
         </a>
     </li>
-    {{# } }}
+    {{ } }}
 </script>
 <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>

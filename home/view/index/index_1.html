@@ -192,7 +192,7 @@
                     <div class="swiper-slide">
                         <div class="mingxing-slide-detail">
                             <span style="display: none">{$vo.id}</span>
-                            <img src="{$vo.img}" alt="{$vo.title}">
+                            <a href="{:url('Estate/detail',['id'=>$vo.id])}"><img src="{$vo.img}" alt="{$vo.title}"></a>
                             <p>【{$vo.area_name}】 {$vo.title}</p>
                             <div class="mingxing-slide-detail-info">
                                 <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
