@@ -1265,6 +1265,7 @@ class Secondx extends HomeBase{
     private function search(){
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
+//        dd($param);
         $param['rading']     = 0;
         $param['tags']       = input('param.tags/d',0);
         $param['qipai']      = input('param.qipai',0);
@@ -1347,6 +1348,7 @@ class Secondx extends HomeBase{
             $data[] = ['s.title','like','%'.$keyword.'%'];
             $seo_title .= '_'.$keyword;
         }
+
         if($param['search_type'] == 2) {
             if(!empty($param['metro'])){
                 $data['m.metro_id'] = $param['metro'];
