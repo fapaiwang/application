@@ -172,6 +172,7 @@ class Secondx extends HomeBase{
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
+            dd($server->is_guanzhu('1060',38));
             $SecondServer = new SecondServer();
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
