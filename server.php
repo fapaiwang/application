@@ -60,6 +60,19 @@ class server
     }
 
     /**
+     * 房源是否关注
+     * @param $estate_id
+     * @param $user_id
+     * @param mixed
+     * @return float|string
+     * @author: al
+     */
+    function is_guanzhu($estate_id,$user_id){
+        $follow   = model('follow');
+        $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
+        return $guanzhu;
+    }
+    /**
      * 小区信息
      * @param $estate_id 小区id
      * @param mixed
