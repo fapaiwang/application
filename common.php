@@ -1285,3 +1285,15 @@ function debx($dkm,$dkTotal,$dknl){
     $arr['total_num'] =sprintf("%.2f", $lxTotal);
     return $arr;
 }
+
+/**
+ * 获取登录信息(用户)
+ * @param mixed
+ * @return mixed|string
+ * @author: al
+ */
+function login_user(){
+    $infos = cookie('userInfo');
+    $infos = \org\Crypt::decrypt($infos);
+    return $infos;
+ }

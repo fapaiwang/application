@@ -522,7 +522,11 @@
                 </p>
                 <p  class="join">
                     <img src="/homeStatic/img/search-button.png" alt="">
-                    <span>关注房源</span>
+                    <span class="is_join">关注房源</span>
+                </p>
+
+                <p>
+                    <span class="is_tuijian">推荐房源</span>
                 </p>
                 <p class="fangpai-detail-dialog-close">
                     <img src="/homeStatic/img/jiahao.png" alt="">
@@ -652,10 +656,19 @@
                             法拍服务从业经验0年
                         </p>
                     </div>
+                    {if condition="!empty($userInfo)"}
                     <div class="fangpai-detail-dialog-content-detail-right-button" onclick="showOtherDiv()">
                         <img src="/homeStatic/img/jingyan.png" alt="">
                         <span>在线咨询</span>
                     </div>
+                    {else}
+                    <div class="fangpai-detail-dialog-content-detail-right-button" onclick="showOtherDiv()">
+                        <img src="/homeStatic/img/jingyan.png" alt="">
+                        <span><a href="/login/index.html" >在线咨询</a></span>
+                    </div>
+                    {/if}
+
+
                     <div class="fangpai-detail-dialog-content-detail-right-phone">
                         4006770028转688
                     </div>

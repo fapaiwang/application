@@ -130,9 +130,6 @@ class Secondx extends HomeBase{
         }
         $IndexServer= new IndexServer();
         $SecondServer= new SecondServer();
-
-
-
         //问答
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
         $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
@@ -144,8 +141,9 @@ class Secondx extends HomeBase{
 
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);
-
-        $this->assign('answer',$answer);
+        $userInfo = login_user();
+        $this->assign('answer',$answer);//问答
+        $this->assign('userInfo',$userInfo);//问答
         $this->assign('hot_news',$hot_news);
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
