@@ -107,8 +107,6 @@ class Secondx extends HomeBase{
 
 
     }
-
-
     /**
      * @param mixed
      * @return mixed
@@ -134,16 +132,14 @@ class Secondx extends HomeBase{
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
         $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
         $area = input('param.area/d', $this->cityInfo['id']);
-
 //        if ($area < 57){
 //            $area=0;
 //        }
-
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);
         $userInfo = login_user();
         $this->assign('answer',$answer);//问答
-        $this->assign('userInfo',$userInfo);//问答
+        $this->assign('userInfo',$userInfo);//用户信息
         $this->assign('hot_news',$hot_news);
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
@@ -236,6 +232,19 @@ class Secondx extends HomeBase{
         }else{
             return $this->fetch('public/404');
         }
+        return $this->fetch();
+    }
+
+    public function extension(){
+        $extension_id = input('get.id');
+        //获取
+        $second_house_extension =  model('second_house_extension')->where([['id','=',$extension_id],['status','=',1]])->find();
+        dd($second_house_extension);
+        $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
+        $obj     = model('second_house')->alias('s');
+        $lists = $obj->field($field)->limit(5)->select();
+        $this->assign('lists',$lists);
+        $this->assign('info',$second_house_extension);
         return $this->fetch();
     }
 

@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/kf.css?v={:time()}">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
 {/block}
 {block name='js'}
 <script src="/homeStatic/js/swiper.jquery.min.js"></script>
@@ -13,11 +14,11 @@
 <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
 <script src="/homeStatic/js/homeList.js?v={:time()}"></script>
 <script src="/homeStatic/js/kf.js?v={:time()}"></script>
-<script src="__STATIC__/layui/layui.js"></script>
 {/block}
 {block name='content'}
 
 <!-- 搜索栏 S -->
+<script src="__STATIC__/layui/layui.js"></script>
 <div class="searBar " style="margin-top: 70px;">
     <div class="comWidth">
         <div class="sear_box">
@@ -181,7 +182,7 @@
                                 <form action="{:url('Secondx/index')}">
                                     <div class="s-box fix">
                                         <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
-                                        <span>——</span>
+                                        <span>-</span>
                                         <input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
                                         <span>平米</span>
                                         <input type="submit" name="" value="确定" class="zprice">
@@ -209,7 +210,7 @@
                             {if condition="$search.is_free eq 0"}
                             <li><a href="{:getUrl('Secondx/index','is_free',$param,1)}"><b>自由购</b></a></li>
                             {else /}
-                            <li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" class="active"><b>自由购</b></a></li>
+                            <li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>
                             {/if}
                         </ul>
                     </div>
@@ -222,7 +223,21 @@
                             {/volist}
                         </ul>
                     </div>
+                    <!--<div class="item clearfix">-->
+                        <!--<h3>时间:</h3>-->
+                        <!--<ul class="list">-->
+                            <!--<li>-->
+                                <!--<form action="{:url('Secondx/index')}">-->
+                                    <!--<div class="s-box fix">-->
+                                        <!--<input type="text" class="interval layui-input" name="time_interval" id="time_interval" value="" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
+                                        <!--<input type="submit" name="" value="确定" class="zprice">-->
+                                    <!--</div>-->
+                                <!--</form>-->
+                                <!--<input type="text" class="" id="aaa" placeholder=" - " style="width: 300px">-->
+                            <!--</li>-->
 
+                        <!--</ul>-->
+                    <!--</div>-->
                     <div class="item clearfix search-content-gengduo">
                         <div class=" search-content">
                             <h3 class="item-title">搜索条件:</h3>
@@ -353,7 +368,7 @@
                                 </div>
                                 <div class="fangpai-shu-list-money">
                                     <div class="fangpai-shu-list-left">
-                                        <p>起拍价<span>{$vo.qipai}</span>万
+                                        <p>起拍价：<span>{$vo.qipai}</span>万
                                             <b>市场价：{$vo.price|raw}</b>
                                         </p>
                                     </div>
@@ -425,7 +440,7 @@
                                     </div>
                                     <div class="fangpai-lie-list-time">
                                         <span>开拍时间：{$vo.kptime}</span>
-                                        <p>起拍价<b>{$vo.qipai}</b>万</p>
+                                        <p>起拍价：<b>{$vo.qipai}</b>万</p>
                                     </div>
                                     <div class="fangpai-lie-list-footer">
                                         <!--<div class="fangpai-lie-list-footer-left">-->
@@ -521,16 +536,17 @@
                     <span>预约看房</span>
                 </p>
                 <p  class="join">
-                    <img src="/homeStatic/img/search-button.png" alt="">
-                    <span class="is_join">关注房源</span>
-                </p>
-
-                <p>
                     <input type="hidden" class="dynamic_id">
                     <input type="hidden" class="dynamic_tuijian">
                     <input type="hidden" class="dynamic_broker">
-                    <span class="is_tuijian">推荐房源</span>
+                    <img src="/homeStatic/img/search-button.png" alt="">
+                    <span class="is_join">关注房源</span>
                 </p>
+                {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
+                    <p>
+                        <span class="is_tuijian">推荐房源</span>
+                    </p>
+                {/if}
                 <p class="fangpai-detail-dialog-close">
                     <img src="/homeStatic/img/jiahao.png" alt="">
                 </p>
