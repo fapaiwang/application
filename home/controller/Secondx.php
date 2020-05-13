@@ -241,11 +241,14 @@ class Secondx extends HomeBase{
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
         $where[] = ['s.fcstatus','in',[169,170]];
-        if (!empty($second_house_extension->val)){
-            $second_house_extension_arr = explode(',',$second_house_extension->val);
-            $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
-        }
-        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)->cache('second_house_extension',86400)->order('kptime asc')->select();
+//        if (!empty($second_house_extension->val)){
+//            $second_house_extension_arr = explode(',',$second_house_extension->val);
+//            $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
+//        }
+        $cache_name =  "second_house_extension_".$second_house_extension->key;
+        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
+//            ->cache($cache_name,86401)
+            ->order('kptime asc')->select();
         $this->assign('lists',$lists);
         $this->assign('info',$second_house_extension);
         return $this->fetch();

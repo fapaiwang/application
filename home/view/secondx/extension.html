@@ -96,4 +96,10 @@
         </div>
     </div>
 </div>
+<script>
+    $('.fangpai-lie-list li').on('click', function () {
+        var house_id = $(this).attr('data-id');
+        window.open("/erf-"+house_id+".html");
+    })
+</script>
 {/block}

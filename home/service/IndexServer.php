@@ -70,10 +70,12 @@ class IndexServer
         $res['soon_num'] = $objs->where('fcstatus',170)->where('status',1)->cache(3600)->count();
         $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y'));
         $endToday=mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
+        $start_time = date('Y-m-d H:i:s',$beginToday);
+        $end_time = date('Y-m-d H:i:s',$endToday);
         //今日新增
         $res['add_num'] =$objs->where('fabutimes','between',[$beginToday,$endToday])->where('status',1)->cache(3600)->count();
         //今日成交
-        $res['deal_num'] =$objs->where('fabutimes','between',[$beginToday,$endToday])->where(['fcstatus'=>175,'status'=>1])->cache(3600)->count();
+        $res['deal_num'] =$objs->where('endtime','between',[$start_time,$end_time])->where(['fcstatus'=>175,'status'=>1])->cache(3600)->count();
         return $res;
     }
 

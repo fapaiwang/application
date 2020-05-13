@@ -104,7 +104,7 @@
             <div class="tuijian-fangyuan-info">重点推荐法拍房源，低于市场价20%起</div>
             <ul class="tuijian-fangyuan-detail">
                 {volist name='recommend_house' id='vo'}
-                <li>
+                <li cdata-id="{$vo.id}">
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>
@@ -183,7 +183,7 @@
 
 
         <div class="tuijian-fangyuan">
-            <h2 class="tuijian-fangyuan-title">明星小区</h2>
+            <h2 class="tuijian-fangyuan-title">热门小区</h2>
             <div class="tuijian-fangyuan-info">受大家追捧的热门优质小区推荐</div>
 
             <div class="mingxing-swiper-container">
@@ -351,5 +351,11 @@
         <!--<img src="{$bottom_banner.fileurl}" alt="{$bottom_banner.alt}">-->
     <!--</div>-->
 </div>
+<script>
+    $('.tuijian-fangyuan-detail li').on('click', function () {
+        var house_id = $(this).attr('data-id');
+        window.open("/erf-"+house_id+".html");
+    })
+</script>
 
 {/block}

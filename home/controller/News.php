@@ -38,12 +38,13 @@ class News extends HomeBase
         }
         $order = "ordid asc,id desc";
         if ($hits != "" && $hits == 'hot') {
-            $order = "cate_id asc";
+            $order = "hits desc";
         }
         $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(6);
         $this->assign("newPic",$news->get_banner(16));
         $this->assign('cate_id',$cate_id);
         $this->assign('lists',$lists);
+        $this->assign('keyword',$keyword);
         $this->assign('pages',$lists->render());
         $this->assign('cate',$cate);
         $this->assign('hotArticle',$news->get_new_list(5));
