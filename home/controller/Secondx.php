@@ -193,7 +193,7 @@ class Secondx extends HomeBase{
                 $estate_seconf = $SecondServer->estate_second($estate_id,10);
                 $this->assign('estate_seconf',$estate_seconf);
                 //法拍专员点评/点评个数
-                $second_house_user_comment=$SecondServer->second_house_user_comment($second_house_id);
+                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
@@ -248,7 +248,7 @@ class Secondx extends HomeBase{
         $where[] = ['s.fcstatus','in',[169,170]];
         $cache_name =  "second_house_extension_".$second_house_extension->key;
         $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
-//            ->cache($cache_name,86401)
+            ->cache($cache_name,86401)
             ->order('kptime asc')->select();
         $this->assign('lists',$lists);
         $this->assign('info',$second_house_extension);

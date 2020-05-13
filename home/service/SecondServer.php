@@ -26,9 +26,9 @@ class SecondServer
         $obj     = model('fydp')->alias('s');
         $fydp=$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
             ->field('s.id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')
-//            ->where('s.house_id',$second_house_id)->where('s.model','second_house')
+            ->where('s.house_id',$second_house_id)->where('s.model','second_house')
             ->group('s.user_id')->limit(2)
-//            ->cache('fydp_'.$second_house_id,'1800')
+            ->cache('fydp_'.$second_house_id,'1800')
             ->select();
        return $fydp;
     }
