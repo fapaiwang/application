@@ -245,7 +245,7 @@ class Secondx extends HomeBase{
             $second_house_extension_arr = explode(',',$second_house_extension->val);
             $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
         }
-        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)->order('kptime asc')->select();
+        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)->cache('second_house_extension',86400)->order('kptime asc')->select();
         $this->assign('lists',$lists);
         $this->assign('info',$second_house_extension);
         return $this->fetch();
@@ -253,8 +253,6 @@ class Secondx extends HomeBase{
 
 
     /**
-
-
 
      * @return mixed
 
