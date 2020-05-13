@@ -15,12 +15,10 @@
             <a href="javascript:void(0);">{$info.title}</a>
         </div>
         <div class="top_banner">
-            <img src="/homeStatic/img/extension/重点推荐.png" alt="">
+            <img src="{$info.img}" alt="">
         </div>
-        <div>
-            <h2>{$info.title}</h2>
-            <h3>{$info.description}</h3>
-            <p>{$info.info}</p>
+        <div style="margin-top: 20px">
+            <h3>{$info.info|raw}</h3>
         </div>
         <!-- 筛选栏 E -->
         <div class="main clearfix">
