@@ -237,7 +237,6 @@ class Secondx extends HomeBase{
 
     public function extension(){
         $extension_id = input('get.id');
-        //获取
         $second_house_extension =  model('second_house_extension')->where([['id','=',$extension_id],['status','=',1]])->find();
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
@@ -246,7 +245,7 @@ class Secondx extends HomeBase{
             $second_house_extension_arr = explode(',',$second_house_extension->val);
             $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
         }
-        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)->order('kptime desc')->select();
+        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)->order('kptime asc')->select();
         $this->assign('lists',$lists);
         $this->assign('info',$second_house_extension);
         return $this->fetch();
