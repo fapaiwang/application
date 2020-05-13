@@ -250,14 +250,6 @@
                                 <th width="25%">成交价</th>
                                 <th width="25%">签约时间</th>
                             </tr>
-                            {volist name='record' id='vo'}
-                            <tr>
-                                <td>{$vo.title}</td>
-                                <td>{$vo.acreage}{:config('filter.acreage_unit')}</td>
-                                <td>{$vo.price}万</td>
-                                <td>{$vo.complate_time}</td>
-                            </tr>
-                            {/volist}
                         </table>
                     </div>
                 </div>
