@@ -351,6 +351,20 @@
         <!--<img src="{$bottom_banner.fileurl}" alt="{$bottom_banner.alt}">-->
     <!--</div>-->
 </div>
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li style="padding: 5px 0;">
+        <a href="{{d[i].url}}" target="_blank" style="text-decoration: none; color: #333;  outline: none;">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address" style="color: #999;">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
 <script>
     $('.tuijian-fangyuan-detail li').on('click', function () {
         var house_id = $(this).attr('data-id');
