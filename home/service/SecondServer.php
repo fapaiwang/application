@@ -107,13 +107,18 @@ class SecondServer
         $map = "estate_id=$estate_id or city=$citys";
         $res = model('second_house')
             ->where('status',1)
-//            ->where('fcstatus','eq',170)
+            ->where('fcstatus','eq',170)
             ->where('id','neq',$house_id)
             ->where($map)
             ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai')
             ->order('id desc')
             ->limit(4)
             ->select();
+        return $res;
+    }
+    function get_house($limit){
+        $field ="id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai";
+        $res = model('second_house')->field($field)->where()->select();
         return $res;
     }
     /**

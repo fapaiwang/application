@@ -17,16 +17,16 @@
         <div class="top_banner">
             <img src="{$info.img}" alt="">
         </div>
-        <div style="margin-top: 20px">
-            <h3>{$info.info|raw}</h3>
+        <div style="margin-top: 20px;">
+            {$info.info|raw}
         </div>
         <!-- 筛选栏 E -->
-        <div class="main clearfix">
+        <div class="main clearfix" >
             <!-- 二手房列表 S-->
-            <div class="houseList_wrap leftArea cm_leftArea">
+            <div class="houseList_wrap leftArea cm_leftArea" style="margin-top: -30px">
                 <div class="fangpai-shu-list-content">
                     <div class="fangpai-shu-list-content-left">
-                        <ul class="fangpai-lie-list" style="display: block">
+                        <ul class="fangpai-lie-list" style="display: block;">
                             {volist name='lists' id='vo' empty='暂无数据'}
                             <li data-id="{$vo.id}">
                                 <span style="display: none">{$vo.id}</span>

@@ -23,7 +23,7 @@ class News extends HomeBase
         $hits = input('hits',"");
         $keyword = input('keyword',"");
         $where['status'] = 1;
-        $cateObj         = model('article_cate');
+        $cateObj = model('article_cate');
         if($cate_id)
         {
             $info = $cateObj->where(['id'=>$cate_id])->field('name,seo_title,seo_keys,seo_desc')->find();
@@ -40,6 +40,7 @@ class News extends HomeBase
         if ($hits != "" && $hits == 'hot') {
             $order = "hits desc";
         }
+
         $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(6);
         $this->assign("newPic",$news->get_banner(16));
         $this->assign('cate_id',$cate_id);
@@ -50,7 +51,6 @@ class News extends HomeBase
         $this->assign('hotArticle',$news->get_new_list(5));
         $this->assign('hotAns',$news->get_ans_list(5));
         $this->assign('smallPic',$news->get_banner(17));
-        $this->assign("page_t",5);
         return $this->fetch();
     }
 

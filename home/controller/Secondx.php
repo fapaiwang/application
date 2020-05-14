@@ -116,7 +116,6 @@ class Secondx extends HomeBase{
      * @throws \think\exception\DbException
      */
     public function index(){
-
         $result = $this->getLists();
 //        dd($result['lists'][0]);
         $lists  = $result['lists'];
@@ -144,7 +143,6 @@ class Secondx extends HomeBase{
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
         $this->assign('keywords',$keywords);
-        $this->assign('page_t',1);
         $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线
         $this->assign('house_type',getLinkMenuCache(9));//类型
         $this->assign('orientations',getLinkMenuCache(4));//朝向
@@ -240,16 +238,16 @@ class Secondx extends HomeBase{
         $second_house_extension =  model('second_house_extension')->where([['id','=',$extension_id],['status','=',1]])->find();
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
-
+        $lists ="";
         if (!empty($second_house_extension->val)){
             $second_house_extension_arr = explode(',',$second_house_extension->val);
             $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
+            $where[] = ['s.fcstatus','in',[169,170]];
+            $cache_name =  "second_house_extension_".$second_house_extension->key;
+            $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
+                ->cache($cache_name,86401)
+                ->order('kptime asc')->select();
         }
-        $where[] = ['s.fcstatus','in',[169,170]];
-        $cache_name =  "second_house_extension_".$second_house_extension->key;
-        $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
-            ->cache($cache_name,86401)
-            ->order('kptime asc')->select();
         $this->assign('lists',$lists);
         $this->assign('info',$second_house_extension);
         return $this->fetch();

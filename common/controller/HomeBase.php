@@ -114,7 +114,13 @@ class HomeBase extends \think\Controller
 
         $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->cache('86400')->select();
         $this->assign('footer_nav',$footer_nav);
-        $this->assign('seo_s',$head_nav[0]);
+        $model_url = $module.'/'.$controller;
+        $seo_s =  model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
+            ->where([['status','=',1],['pos','=',1],['model_action','=',$model_url]])->find();
+        $seo_s['title'] =$seo_s->seo_title;
+        $seo_s['keys'] =$seo_s->seo_keys;
+        $seo_s['desc']=$seo_s->seo_desc;
+        $this->assign('seo',$seo_s);
         //友情链接
         $link = model('link')->field('name,url')->where([['city','=',39],['status','=',1]])->select();
         $this->assign('link',$link);
