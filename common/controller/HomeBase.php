@@ -118,9 +118,9 @@ class HomeBase extends \think\Controller
         $seo_s =  model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
             ->where([['status','=',1],['pos','=',1],['model_action','=',$model_url]])->find();
 
-        $seo_s['title'] ="";
-        $seo_s['keys'] ="";
-        $seo_s['desc'] ="";
+        $seo_s['title'] =$seo_s->seo_title ?? "";
+        $seo_s['keys'] =$seo_s->seo_keys ?? "";
+        $seo_s['desc'] =$seo_s->seo_desc ?? "";
 
         $this->assign('seo',$seo_s);
         //友情链接
