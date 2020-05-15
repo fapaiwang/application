@@ -153,19 +153,30 @@
             layer.msg('请填写密码',{icon:2});
             return false;
         }else{
-            $.post(url,param,function(result){
-                if(result.code == 1)
-                {
-                    window.location.href = result.uri;
-                }else{
-                    layer.msg(result.msg,{icon:2});
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/Login/loginDo",
+                data: {
+                    "user_name":user_name,
+                    "password":password,
+                    "remember":remember,
+                    "forward":forward,
+                    "__token__":token
+                },
+                success:function (result) {
+                    layer.msg(result.msg);
+                    if (result.code == 1){
+                        location.reload()
+                    }
+
                 }
             });
         }
     }
 </script>
 </html>
-<!--</body>-->
+<!--</body>-
 <!--统计代码-->
 <!--<script>-->
     <!--var _hmt = _hmt || [];-->

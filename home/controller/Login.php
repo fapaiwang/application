@@ -3,6 +3,8 @@
 
 namespace app\home\controller;
 use app\common\controller\HomeBase;
+use think\facade\Log;
+
 class Login extends HomeBase
 {
     private $mod;
@@ -112,8 +114,13 @@ class Login extends HomeBase
         $user_name   = input('post.user_name');
         $password    = input('post.password');
         $remember    = input('post.remember/d',0);
-//        $forward     = input('post.forward');
+        $forward     = input('post.forward');
         $token       = input('post.__token__');
+        Log::write($user_name);
+        Log::write($password);
+        Log::write($remember);
+        Log::write($forward);
+        Log::write($token);
         $exipre      = 0;
         $return['code'] = 0;
         if(!$user_name)
@@ -147,7 +154,7 @@ class Login extends HomeBase
                 $log['status']  = '登录成功';
                 $return['code'] = 1;
                 $return['msg']  = '登录成功！';
-//                $return['uri']  = $model == 2 ? url('user.index/index') : base64_decode($forward);
+                $return['uri']  = $model == 2 ? url('user.index/index') : base64_decode($forward);
             }else{
                 $log['status']  = '登录失败';
                 $return['msg']  = '用户不存在或账号密码不正确！';
