@@ -112,6 +112,7 @@
                             <input class="form-control" id="password" name="password" type="password" placeholder="请输入密码">
                         </div>
                     </div>
+                    {:token()}
                     <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-5">
@@ -137,6 +138,11 @@
         var user_name = $("#user_name").val(),password = $('#password').val(),remember = $('#remember:checked').val();
         var forward   = $("#forward").val();
         var token     = $("input[name='__token__']").val();
+        console.log(user_name);
+        console.log(password);
+        console.log(remember);
+        console.log(forward);
+        console.log(token);
         var url = $(this).data('uri');
         var param = {user_name:user_name,password:password,remember:remember,forward:forward,__token__:token};
         if(!user_name)

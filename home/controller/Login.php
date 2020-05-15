@@ -23,7 +23,6 @@ class Login extends HomeBase
             $forward = url('user.index/index');
         }
         $seo['title'] = '用户登录';
-        $this->setSeo($seo);
         $this->assign('forward',base64_encode($forward));
         return $this->fetch();
     }
