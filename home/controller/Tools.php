@@ -9,4 +9,7 @@ class Tools extends HomeBase
     {
         return $this->fetch();
     }
+    public function load(){
+        return $this->fetch();
+    }
 }

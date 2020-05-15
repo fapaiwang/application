@@ -182,8 +182,10 @@
                 <div class="fangpai-detail-header-right-begin">
                     <div class="fangpai-detail-header-right-begin-jiezhitime">
                         <span>开拍截止时间：</span>
+                        <input type="hidden" id="fastatus" value="{$info.fcstatus}">
+                        <input type="hidden" id="house_type" value="{$info.house_type}">
                         <b id="reciprocal">
-                            {if $info.fcstatus=='175'}
+                            {if condition="$info.fcstatus eq 175"}
                             <div class="fix">
                                 <div class="fl">
                                     成交价：{$info.cjprice}<span>万元</span>
@@ -192,15 +194,17 @@
                                     结束时间：<span class="s-2">{$info.endtime}</span>
                                 </div>
                             </div>
-                            {elseif $info.fcstatus=='172'}
+                            {elseif condition="$info.fcstatus eq 171"}
+                            拍卖已结束
+                            {elseif condition="$info.fcstatus eq 172"}
                             拍卖已中止
-                            {elseif $info.fcstatus=='174'}
+                            {elseif condition="$info.fcstatus eq 174"}
                             拍卖已暂缓
-                            {elseif $info.fcstatus=='173'}
+                            {elseif condition="$info.fcstatus eq 173"}
                             拍卖已撤回
                             {/if}
                         </b>
-                        <input type="text" name="usernames" id="usernames" value="{$info.jieduan}" style="display:none;">
+                        <input type="text" name="usernames" id="usernames" value="{$info.jieduan_num}" style="display:none;">
                         {if $info.jieduan eq 163}
                         <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
                         {/if}

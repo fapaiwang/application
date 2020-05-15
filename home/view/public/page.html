@@ -10,7 +10,24 @@
     <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
     <link rel="stylesheet"  href="/homeStatic/css/head.css?version={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
+    <link rel="stylesheet"  href="/css/bootstrap.min.css?version={:time()}">
     {block name='css'}{/block}
+    <style>
+        /*.modal {*/
+            /*margin-top:100px;*/
+        /*}*/
+        /*.modal {*/
+        /*display: table;*/
+        /*width: 600px;*/
+        /*height: 100%;*/
+        /*margin: 0 auto;*/
+        /*}*/
+
+        /*.modal-dialog {*/
+        /*display: table-cell;*/
+        /*vertical-align: middle;*/
+        /*}*/
+    </style>
 </head>
 <body>
 <div class="header-box">
@@ -40,7 +57,7 @@
 
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
-                <a href="{:url('Login/index')}" class="login_label" rel="nofollow">登录</a>
+                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal"   data-target="#myModal">登录</a>
                 <span style="color: #fff">|</span>
                 <a href="{:url('Login/register')}" class="login_label" rel="nofollow">注册</a>
             </div>
@@ -52,8 +69,9 @@
 
 <script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
 <script src="/js/jquery.cookie.js"></script>
+<script src="/js/bootstrap.min.js" charset="utf-8"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
 <script>
-
     $('.loged ').hover(
         function(){
             $(this).find('.slide_tog').stop(true,true).slideDown(100);
@@ -73,7 +91,73 @@
     {include file='public/footers' /}
 </div>
 {block name='js'}{/block}
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">
+    <div class="modal-dialog "  style="width:400px; height:500px;">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">账号密码登录</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal m-t" id="addform">
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="user_name" name="user_name" placeholder="请填写用户名或手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="password" name="password" type="password" placeholder="请输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-5">
+                            <input type="checkbox" id="remember" value="1" style="margin: 5px 0 0"> &nbsp; 记住账号
+                        </div>
+                        <div class="col-sm-5">
+                            <a href="{:url('Login/forgetPassword')}"  style="color: #C73126">忘记密码？</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="login()">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script>
+    function login() {
+        var user_name = $("#user_name").val(),password = $('#password').val(),remember = $('#remember:checked').val();
+        var forward   = $("#forward").val();
+        var token     = $("input[name='__token__']").val();
+        var url = $(this).data('uri');
+        var param = {user_name:user_name,password:password,remember:remember,forward:forward,__token__:token};
+        if(!user_name)
+        {
+            layer.msg('请填写登录名',{icon:2});
+            return false;
+        }else if(!password){
+            layer.msg('请填写密码',{icon:2});
+            return false;
+        }else{
+            $.post(url,param,function(result){
+                if(result.code == 1)
+                {
+                    window.location.href = result.uri;
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        }
+    }
+</script>
 </html>
 <!--</body>-->
 <!--统计代码-->

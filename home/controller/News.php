@@ -29,7 +29,11 @@ class News extends HomeBase
             $info = $cateObj->where(['id'=>$cate_id])->field('name,seo_title,seo_keys,seo_desc')->find();
             $cate_ids         = $cateObj->get_child_ids($cate_id,true);
             $where[] = ['cate_id','in',$cate_ids];
-            $this->setSeo($info,'name');
+//            $this->setSeo($info,'name');
+            $seo['title'] = $info['name']."-房拍网法拍百科";
+            $seo['keys'] = $info['name'];
+            $seo['desc'] = $info['name']."提供法拍房、司法拍卖房产等相关资讯。";
+            $this->assign('seo',$seo);
         }
         $news = new NewsService();
         $this->cityInfo['id'] && $where[] = ['city','eq',$this->cityInfo['id']];

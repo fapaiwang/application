@@ -242,10 +242,10 @@ class Secondx extends HomeBase{
         if (!empty($second_house_extension->val)){
             $second_house_extension_arr = explode(',',$second_house_extension->val);
             $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
-            $where[] = ['s.fcstatus','in',[169,170]];
+//            $where[] = ['s.fcstatus','in',[169,170]];
             $cache_name =  "second_house_extension_".$second_house_extension->key;
             $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
-                ->cache($cache_name,86401)
+//                ->cache($cache_name,86401)
                 ->order('kptime asc')->select();
         }
         $this->assign('lists',$lists);
