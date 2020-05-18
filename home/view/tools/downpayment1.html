@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>北京买房首付测试</title>
+    <meta name="Keywords" content="买房首付测试">
+    <meta name="Description" content="北为您提供新房二手房买房首付测试功能,简单易操作,一键点击就能查询出首付多少,赶快测试吧!">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta charset="UTF-8">
+    <meta name="location" content="province=北京;city=北京;coord=116.39147,39.90555">
+
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-103163281-2', 'auto');
+        ga('create', 'UA-103163281-15', 'auto', 'clientTracker');
+        ga('send', 'pageview');
+    </script>
+    <link href="/css/basic.css" rel="stylesheet">
+    <link href="/css/calculator.css?v={:time()}" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        var routeMap = {
+            "1": {
+                "type": 0,
+                "title": "\u60a8\u7684\u8d37\u6b3e\u65b9\u5f0f\u662f?",
+                "brief": "\u8d37\u6b3e\u65b9\u5f0f",
+                "is_root": 1,
+                "option": [{
+                    "name": "\u516c\u79ef\u91d1\u8d37\u6b3e",
+                    "next_id": 2
+                }, {
+                    "name": "\u5546\u4e1a\u8d37\u6b3e",
+                    "next_id": 3
+                }, {
+                    "name": "\u6df7\u5408\u8d37\u6b3e",
+                    "next_id": 4
+                }]
+            },
+            "2": {
+                "type": 0,
+                "title": "\u60a8\u7684\u516c\u79ef\u91d1\u8d37\u6b3e\u65b9\u5f0f\u662f\uff1f",
+                "brief": "\u8d37\u6b3e\u65b9\u5f0f",
+                "is_root": "0",
+                "option": [{
+                    "name": "\u5e02\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e",
+                    "next_id": 21
+                }, {
+                    "name": "\u56fd\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e",
+                    "next_id": 22
+                }],
+                "tips": ""
+            },
+            "21": {
+                "type": 0,
+                "title": "\u60a8\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f?",
+                "brief": "\u623f\u5c4b\u7c7b\u578b",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 211
+                }, {
+                    "name": "\u975e\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 212
+                }],
+                "tips": "\u5bb9\u79ef\u7387\u5c0f\u4e8e\u7b49\u4e8e1.0\u6216\u9762\u79ef\u5927\u4e8e\u7b49\u4e8e140\u5e73\u7c73\uff0c\u623f\u5c4b\u5355\u4ef7\u53ca\u603b\u4ef7\u5747\u9ad8\u4e8e\u6216\u7b49\u4e8e\u5e02\u573a\u6307\u5bfc\u4ef7\u76841.2\u500d\u3002\u4ee5\u4e0a\u6761\u4ef6\u6ee1\u8db3\u5176\u4e00\u5373\u4e3a\u975e\u666e\u901a\u4f4f\u5b85\u3002"
+            },
+            "211": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 2111
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 2112
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 2113
+                }],
+                "tips": ""
+            },
+            "2111": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21111
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21112
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21113
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "21111": {
+                "title": "\u9996\u4ed8<span>35%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>120<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21112": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21113": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u5e02\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2112": {
+                "q_id": 5,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21121
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21122
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21123
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "21121": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21122": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21123": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u5e02\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2113": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "212": {
+                "q_id": 4,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 2121
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 2122
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 2123
+                }],
+                "tips": ""
+            },
+            "2121": {
+                "q_id": 5,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21211
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21212
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21213
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "21211": {
+                "title": "\u9996\u4ed8<span>40%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>120<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21212": {
+                "title": "\u9996\u4ed8<span>80%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21213": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u5e02\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2122": {
+                "q_id": 5,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21221
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21222
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 21223
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "21221": {
+                "title": "\u9996\u4ed8<span>80%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21222": {
+                "title": "\u9996\u4ed8<span>80%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "21223": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u5e02\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2123": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "22": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 221
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 222
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 223
+                }],
+                "tips": ""
+            },
+            "221": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2211
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2212
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2213
+                }],
+                "tips": "\u9875\u9762\u8bf4\u660e\uff1a2019\u5e744\u670812\u65e5\uff0c\u56fd\u7ba1\u516c\u79ef\u91d1\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u8fdb\u4e00\u6b65\u4f18\u5316\u670d\u52a1\u6709\u5173\u95ee\u9898\u7684\u901a\u77e5\u300b\uff0c\u660e\u786e\u5bf9\u4e8c\u5957\u623f\u8d37\u6b3e\u5b9e\u884c\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u201d\uff0c\u4e8c\u5957\u623f\u9996\u4ed8\u6bd4\u4f8b\u8c03\u6574\u4e3a\u6700\u4f4e\u516d\u6210\u4e14\u6700\u591a\u8d3760\u4e07\u5143\u3002\u65b0\u653f\u81ea2019\u5e744\u670815\u65e5\u8d77\u6267\u884c\uff0c\u4ee5\u7f51\u7b7e\u65e5\u671f\u4e3a\u51c6\u3002\uff08\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002\uff09"
+            },
+            "2211": {
+                "title": "\u9996\u4ed8<span>30%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>120<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2212": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2213": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u56fd\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "222": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2221
+                }, {
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2222
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 2223
+                }],
+                "tips": "\u9875\u9762\u8bf4\u660e\uff1a2019\u5e744\u670812\u65e5\uff0c\u56fd\u7ba1\u516c\u79ef\u91d1\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u8fdb\u4e00\u6b65\u4f18\u5316\u670d\u52a1\u6709\u5173\u95ee\u9898\u7684\u901a\u77e5\u300b\uff0c\u660e\u786e\u5bf9\u4e8c\u5957\u623f\u8d37\u6b3e\u5b9e\u884c\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u201d\uff0c\u4e8c\u5957\u623f\u9996\u4ed8\u6bd4\u4f8b\u8c03\u6574\u4e3a\u6700\u4f4e\u516d\u6210\u4e14\u6700\u591a\u8d3760\u4e07\u5143\u3002\u65b0\u653f\u81ea2019\u5e744\u670815\u65e5\u8d77\u6267\u884c\uff0c\u4ee5\u7f51\u7b7e\u65e5\u671f\u4e3a\u51c6\u3002\uff08\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002\uff09"
+            },
+            "2221": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2222": {
+                "title": "\u9996\u4ed8<span>60%<\/span> \u8d37\u6b3e\u6700\u9ad8<span>60<\/span>\u4e07",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "2223": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u56fd\u7ba1\u516c\u79ef\u91d1\u8d37\u6b3e\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "223": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "3": {
+                "type": 0,
+                "title": "\u60a8\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f?",
+                "brief": "\u623f\u5c4b\u7c7b\u578b",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 31
+                }, {
+                    "name": "\u975e\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 32
+                }, {
+                    "name": "\u4e00\u7c7b\u53ca\u4e8c\u7c7b\u7ecf\u6d4e\u9002\u7528\u623f",
+                    "next_id": 33
+                }],
+                "tips": "\u5bb9\u79ef\u7387\u5c0f\u4e8e\u7b49\u4e8e1.0\u6216\u9762\u79ef\u5927\u4e8e\u7b49\u4e8e140\u5e73\u7c73\uff0c\u623f\u5c4b\u5355\u4ef7\u53ca\u603b\u4ef7\u5747\u9ad8\u4e8e\u6216\u7b49\u4e8e\u5e02\u573a\u6307\u5bfc\u4ef7\u76841.2\u500d\uff0c\u4ee5\u4e0a\u6761\u4ef6\u6ee1\u8db3\u5176\u4e00\u5373\u4e3a\u975e\u666e\u901a\u4f4f\u5b85\u3002"
+            },
+            "31": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 311
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 312
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 313
+                }],
+                "tips": ""
+            },
+            "311": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u6709\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 3111
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 3112
+                }],
+                "tips": ""
+            },
+            "3111": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "3112": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>35%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "3113": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "312": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a<span>2<\/span>\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "313": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "32": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 321
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 322
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 323
+                }],
+                "tips": ""
+            },
+            "321": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u6709\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 3211
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 3212
+                }],
+                "tips": ""
+            },
+            "3211": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "3212": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>40%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "322": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "323": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "33": {
+                "title": "\u60a8\u80fd\u4e14\u4ec5\u80fd\u62e5\u6709\u4e00\u5957\u653f\u7b56\u6027\u4f4f\u623f, \u6700\u4f4e\u9996\u4ed8\u4e3a<span>30%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4": {
+                "type": 0,
+                "title": "\u60a8\u7684\u6df7\u5408\u8d37\u6b3e\u65b9\u5f0f\u662f\uff1f",
+                "brief": "\u8d37\u6b3e\u65b9\u5f0f",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u5546\u4e1a\u8d37\u6b3e\u4e0e\u5e02\u7ba1\u516c\u79ef\u91d1\u6df7\u5408\u8d37\u6b3e",
+                    "next_id": 41
+                }, {
+                    "name": "\u5546\u4e1a\u8d37\u6b3e\u4e0e\u56fd\u7ba1\u516c\u79ef\u91d1\u6df7\u5408\u8d37\u6b3e",
+                    "next_id": 42
+                }],
+                "tips": ""
+            },
+            "41": {
+                "type": 0,
+                "title": "\u60a8\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f",
+                "brief": "\u60a8\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 411
+                }, {
+                    "name": "\u975e\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 412
+                }, {
+                    "name": "\u4e00\u7c7b\u53ca\u4e8c\u7c7b\u7ecf\u6d4e\u9002\u7528\u623f",
+                    "next_id": 413
+                }],
+                "tips": "\u5bb9\u79ef\u7387\u5c0f\u4e8e\u7b49\u4e8e1.0\u6216\u9762\u79ef\u5927\u4e8e\u7b49\u4e8e140\u5e73\u7c73\uff0c\u623f\u5c4b\u5355\u4ef7\u53ca\u603b\u4ef7\u5747\u9ad8\u4e8e\u6216\u7b49\u4e8e\u5e02\u573a\u6307\u5bfc\u4ef7\u76841.2\u500d\uff0c\u4ee5\u4e0a\u6761\u4ef6\u6ee1\u8db3\u5176\u4e00\u5373\u4e3a\u975e\u666e\u901a\u4f4f\u5b85\u3002"
+            },
+            "411": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 4111
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 4112
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 4113
+                }],
+                "tips": ""
+            },
+            "4111": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41111
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41112
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41113
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "41111": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41112": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u6df7\u5408\u8d37\u6b3e\u7684\u65b9\u5f0f\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41113": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>35%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4112": {
+                "q_id": 5,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41121
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41122
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41123
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "41121": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41122": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u6df7\u5408\u8d37\u6b3e\u7684\u65b9\u5f0f\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41123": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4113": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "412": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 4121
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 4122
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 4123
+                }],
+                "tips": ""
+            },
+            "4121": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41211
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41212
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41213
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "41211": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41212": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u6df7\u5408\u8d37\u6b3e\u7684\u65b9\u5f0f\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41213": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>40%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4122": {
+                "q_id": 5,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u67091\u6b21\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41221
+                }, {
+                    "name": "\u67091\u6b21\u4ee5\u4e0a\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41222
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 41223
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "41221": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41222": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u901a\u8fc7\u6df7\u5408\u8d37\u6b3e\u7684\u65b9\u5f0f\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "41223": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4123": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "413": {
+                "title": "\u60a8\u80fd\u4e14\u4ec5\u80fd\u62e5\u6709\u4e00\u5957\u653f\u7b56\u6027\u4f4f\u623f, \u6700\u4f4e\u9996\u4ed8\u4e3a<span>30%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "42": {
+                "type": 0,
+                "title": "\u60a8\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f\uff1f",
+                "brief": "\u60f3\u8d2d\u4e70\u7684\u623f\u5c4b\u7c7b\u578b\u662f",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 421
+                }, {
+                    "name": "\u975e\u666e\u901a\u5546\u54c1\u4f4f\u5b85",
+                    "next_id": 422
+                }, {
+                    "name": "\u4e00\u7c7b\u53ca\u4e8c\u7c7b\u7ecf\u6d4e\u9002\u7528\u623f",
+                    "next_id": 423
+                }],
+                "tips": "\u5bb9\u79ef\u7387\u5c0f\u4e8e\u7b49\u4e8e1.0\u6216\u9762\u79ef\u5927\u4e8e\u7b49\u4e8e140\u5e73\u7c73\uff0c\u623f\u5c4b\u5355\u4ef7\u53ca\u603b\u4ef7\u5747\u9ad8\u4e8e\u6216\u7b49\u4e8e\u5e02\u573a\u6307\u5bfc\u4ef7\u76841.2\u500d\uff0c\u4ee5\u4e0a\u6761\u4ef6\u6ee1\u8db3\u5176\u4e00\u5373\u4e3a\u975e\u666e\u901a\u4f4f\u5b85\u3002"
+            },
+            "421": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 4211
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 4212
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 4213
+                }],
+                "tips": ""
+            },
+            "4211": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u6709\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 42111
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 42112
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "42111": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "42112": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>35%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4212": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>60%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4213": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "422": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u672c\u5e02\u4f4f\u5b85\u6570\u91cf",
+                "is_root": 0,
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 4221
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 4222
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 4223
+                }],
+                "tips": ""
+            },
+            "4221": {
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5\u662f?",
+                "brief": "\u5bb6\u5ead\u540d\u4e0b\u7684\u5168\u56fd\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u60c5\u51b5",
+                "is_root": 0,
+                "option": [{
+                    "name": "\u6709\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 42211
+                }, {
+                    "name": "\u65e0\u8d37\u6b3e\u8bb0\u5f55",
+                    "next_id": 42212
+                }],
+                "tips": "2018\u5e74\u5317\u4eac\u4f4f\u623f\u516c\u79ef\u91d1\u7ba1\u7406\u4e2d\u5fc3\u53d1\u5e03\u300a\u5173\u4e8e\u8c03\u6574\u4f4f\u623f\u516c\u79ef\u91d1\u4e2a\u4eba\u4f4f\u623f\u8d37\u6b3e\u653f\u7b56\u7684\u901a\u77e5\u300b\uff0c\u516c\u79ef\u91d1\u8d37\u6b3e\u51fa\u53f0\u5b9e\u65bd\u65b0\u653f\u3002\u4ece\u201c\u53ea\u8ba4\u623f\u201d\u5347\u7ea7\u6210\u201c\u8ba4\u623f\u53c8\u8ba4\u8d37\u6b3e\u6b21\u6570\u201d\uff0c\u53ea\u8981\u5f81\u4fe1\u4e2d\u6709\u8fc7\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\uff0c\u5373\u88ab\u8ba4\u5b9a\u4e3a\u4e8c\u5957\u8d37\u6b3e\uff0c\u82e5\u6709\u4e00\u5957\u5317\u4eac\u4f4f\u5b85\u4e14\u6709\u4e00\u6b21\u4f4f\u623f\u8d37\u6b3e\u8bb0\u5f55\u7684\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u5219\u8d37\u6b3e\u7b97\u4e8c\u5957\uff0c\u82e5\u4e0d\u4e3a\u540c\u4e00\u5957\u623f\uff0c\u4e0d\u4e88\u8d37\u6b3e\u3002"
+            },
+            "42211": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "42212": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u9996\u5957\uff0c\u9996\u4ed8<span>40%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4222": {
+                "title": "\u60a8\u8d2d\u623f\u89c6\u4e3a\u4e8c\u5957\uff0c\u9996\u4ed8<span>80%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "4223": {
+                "title": "\u62b1\u6b49\uff0c\u60a8\u4e0d\u80fd\u4e70\u623f\u3002",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            },
+            "423": {
+                "title": "\u60a8\u80fd\u4e14\u4ec5\u80fd\u62e5\u6709\u4e00\u5957\u653f\u7b56\u6027\u4f4f\u623f, \u6700\u4f4e\u9996\u4ed8\u4e3a<span>30%<\/span>",
+                "brief": "",
+                "is_root": 0,
+                "option": []
+            }
+        };
+        var city_name = '北京';
+        var action = 'downpayment';
+    </script>
+    <script>
+        var cityName = "BJ";
+        var _trackData = _trackData || []; //全局变量，一定不要放到一个function里面
+        var _trackDataType = 'web';
+        var shumei_flag = 0;
+        var tongdun_flag = 0;
+        var dingxiang_flag = 0;
+    </script>
+
+    <div class="yzBox mar">
+        <div class="midMain marTop3 clear">
+            <ul class="menu_left">
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "房贷计算"} class="" data-url="./loan.html">
+                    房贷计算<i class="none"></i></li>
+
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "税费计算"} class="" data-url='./secondhandtax.html'>税费计算<i class="none"></i></li>
+
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "首付测试"} class="cur" data-url="./downpayment.html">首付成数测试<i class=""></i></li>
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "资质查询"} class="" data-url="./qualification.html">资质查询<i class="none"></i></li>
+            </ul>
+            <div class="midBox">
+                <div class="mains block">
+                    <div>
+                        <div class="gf-tit"></div>
+                        <div class="query-jg"></div>
+                        <div class="cstj">测试条件</div>
+                        <ul id="content">
+                        </ul>
+                        <div class="wxts"></div>
+                    </div>
+                    <div class="quesbtn mar65">
+                        <a href="javascript:void(0);" class="pre">上一步</a>
+                        <a href="javascript:void(0);" class="next">下一步</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--指数纠错 end-->
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/text.js"></script>
+    <script>
+        $(function() {
+
+            //左侧导航内容切换
+            $(".menu_left li").click(function() {
+                var redirect_url = $(this).attr('data-url');
+                window.location.href = redirect_url;
+            });
+            //去掉左侧导航第一个li的上边框
+            $(".menu_left li:first").css("border-top", "none")
+                // 点击发布房源
+            $(".mfBtn").click(function() {
+                $(".mf").removeClass("hide").addClass("block");
+            });
+            $(".czBtn").click(function() {
+                $(".cz").removeClass("hide").addClass("block");
+            });
+            ///点击弹窗 是 之后
+            $(".mfYes").click(function() {
+                $(".mf").removeClass("block").addClass("hide");
+                $(".mf-page").addClass("hide");
+                $(".mf-page-child").removeClass("hide").addClass("block");
+            });
+
+            //移入显示 移出隐藏
+            $(".tsicon").mouseover(function() {
+                $(this).children().show();
+            });
+            $(".tsicon").mouseout(function() {
+                $(this).children().hide();
+            });
+
+        })
+    </script>

@@ -139,76 +139,33 @@ class Sms
 
      */
 
-    public function sendSms()
-
-    {
-
+    public function sendSms(){
         $mobile = input('post.mobile');
-
         $exists = input('post.exists/d',0);
-
         $return['code'] = 0;
-
-        if(!is_mobile($mobile))
-
-        {
-
+        if(!is_mobile($mobile)){
             $return['msg'] = '手机号码格式不正确！';
-
-        }
-        // elseif($exists == 1 && checkMobileIsExists($mobile)){
-
-        //     $return['msg'] = '该手机号码已存在！';
-
-        // }
-        elseif($exists == 2 && !checkMobileIsExists($mobile)){
-
+        }elseif($exists == 2 && !checkMobileIsExists($mobile)){
             $return['msg'] = '该用户不存在！';
-
         }else{
-
             $code = codestr(6,1);
-
             cache($mobile,$code,300);
-
             $data['code'] = $code;
-
             try{
-
                 $smsConfig = getSettingCache('sms');
-
-                if($smsConfig['sms_type'] == 1)
-
-                {
-
+                if($smsConfig['sms_type'] == 1){
                     //阿里云
-
                     $return = $this->aliSms($mobile,$data);
-
                 }else{
-
                     //云信
-
                     $return = $this->yunXinSms($smsConfig,$mobile,$data);
-
                 }
-
             }catch(\Exception $e){
-
                 $return['code'] = 0;
-
                 $return['msg']  = $e->getMessage();
-
             }
-
-//            $return['code'] = 1;
-
-//            $return['data'] = $code;
-
         }
-
         return  json($return);
-
     }
 
 

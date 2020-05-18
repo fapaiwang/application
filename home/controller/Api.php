@@ -5,6 +5,7 @@
 
 namespace app\home\controller;
 
+use app\home\service\ToolsServer;
 use app\manage\service\Synchronization;
 use think\Log;
 
@@ -1577,7 +1578,8 @@ $data['house_id']  = input('post.house_id/d',0);
        $res =$this->house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili,$dai_huankuan);
         if ($res){
             $return['code'] = 1;
-            $return['data']  = json_encode($res);
+            $return['data']  = json_encode($res['res']);
+            $return['info']  = json_encode($res['info']);
         }
         return json($return);
     }
@@ -1593,7 +1595,7 @@ $data['house_id']  = input('post.house_id/d',0);
      * @return array|string
      * @author: al
      */
-    function house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili,$dai_huankuan="benxi"){
+    function house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili=100,$dai_huankuan="benxi"){
         $nianfen = $dai_nianxian * 12; //月
         $total_price = $dai_qipai * 10000; //总金额
         $dai_lilv = $dai_lilv * 0.01; //贷款利率
@@ -1605,7 +1607,7 @@ $data['house_id']  = input('post.house_id/d',0);
         $qishui_price = $total_price * $qishui;
         //计算贷款比例
         $dai_qipai = $total_price * $dai_bili * 0.01;
-        $res =[];
+        $info =[];
         if ($dai_huankuan == "benxi"){
             $res = debx($nianfen,$dai_qipai,$dai_lilv);
         }elseif($dai_huankuan == "benjin"){
@@ -1613,16 +1615,47 @@ $data['house_id']  = input('post.house_id/d',0);
             $res = debj($nianfen,$dai_qipai,$dai_lilv);
         }
         //契税
-        $res['qishui_price'] = $qishui_price;
+        $info['qishui_price'] = $qishui_price;
         //贷款总金额
-        $res['dakuan_price'] = $dai_qipai;
+        $info['dakuan_price'] = $dai_qipai;
         //首付金额
-        $res['shoufu'] = $total_price - $dai_qipai;
+        $info['shoufu'] = $total_price - $dai_qipai;
         //每月还款金额
-        $res['yue'] =$res[0]['benxi'];
+        $info['yue'] =$res[0]['benxi'];
         //每月还款的差额
-        $res['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
-        return $res;
+        $info['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
+        $info['total_num'] = $res['total_num'];
+        $info['total_price'] =$dai_qipai + $res['total_num'];
+        unset($res['total_num']);
+        $info['dai_price'] =$dai_qipai;
+
+        $a['res'] = $res;
+        $a['info'] = $info;
+        return $a;
+    }
+    //税费接口
+    public function secondhand_tax(){
+        $a =$this->house_loan_s(20,10000,0.06,100);
+
+        dd(json_encode($a));
+        $arr = [];
+        $house_price    = input('post.price',100000);//房产总价
+        $house_area    = input('post.area',91);//面积
+        $house_num    = input('post.house_num',2);//已购房产数
+        $house_type    = input('post.house_type',"gong"); //房屋类型(公房,商品房,一类/二类 经济使用房)
+        $is_dis_count    = input('post.is_dis_count',"chengben"); //是否优惠
+        $house_original_price    = input('post.house_original_price'); //房屋原值
+        $residence_type    = input('post.residence_type'); //住宅类型(普通住宅,非普通住宅)
+        $toole_server = new ToolsServer();
+        //契税
+        $arr['qi_shui'] = $toole_server->deen_tax($house_price,$house_area,$house_num);
+        //土地出让金
+        $arr['chu_rang_jin'] = $toole_server->land_transfer_fee($house_type,$house_price,$house_area,$is_dis_count);
+        //综合地价款
+        $arr['di_jia_kuan'] = $toole_server->land_comprehensive($house_type,$house_price,$house_original_price);
+        //增值税及附加计算
+        $arr['zeng_zhi_shui'] = $toole_server->added_tax($residence_type,$house_price,$house_original_price);
+        return json_encode($arr);
     }
 
 

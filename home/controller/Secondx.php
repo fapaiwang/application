@@ -137,6 +137,12 @@ class Secondx extends HomeBase{
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);
         $userInfo = login_user();
+        $waist_bunner = $IndexServer->get_home_banner_arr(2,1);
+        if (!empty($waist_bunner)) {
+            $waist_bunner = $waist_bunner[0];
+
+        }
+        $this->assign('waist_bunner',$waist_bunner );//平铺第三个广告
         $this->assign('answer',$answer);//问答
         $this->assign('userInfo',$userInfo);//用户信息
         $this->assign('hot_news',$hot_news);
@@ -214,10 +220,14 @@ class Secondx extends HomeBase{
                 $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
                 $api =new Api();
                 $house_loan_s = $api->house_loan_s(30,$info['qipai'],'4.9',$info['acreage'],65);
-                $house_loan['benxi'] =   $house_loan_s[0]['benxi'];
-                $house_loan['shoufu'] =   $house_loan_s['shoufu'];
-                $house_loan['qishui'] =   $house_loan_s['qishui_price'];
-                $house_loan['daikuan'] =   $house_loan_s['dakuan_price'];
+                $house_loan['benxi'] =   $house_loan_s['res'][0]['benxi'];
+                $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
+                $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
+                $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
+                $seo['title'] = $info['title'].'法拍二手房信息_房拍网法拍房房源栏目';
+                $seo['keys']  = $info['title'].'法拍房二手房信息';
+                $seo['desc']  = '提供'.$info['title'].'房屋起拍价、户型大小、特色、周边医院公交等法拍二手房信息。';
+                $this->assign('seo',$seo);
 
                 $this->assign('house_loan',json_encode($house_loan));
                 $this->assign('guanzhu',$guanzhu);
@@ -242,7 +252,7 @@ class Secondx extends HomeBase{
         if (!empty($second_house_extension->val)){
             $second_house_extension_arr = explode(',',$second_house_extension->val);
             $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
-//            $where[] = ['s.fcstatus','in',[169,170]];
+            $where[] = ['s.fcstatus','in',[169,170]];
             $cache_name =  "second_house_extension_".$second_house_extension->key;
             $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
 //                ->cache($cache_name,86401)

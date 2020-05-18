@@ -1,0 +1,404 @@
+
+{extend name='public/page_list' /}
+{block name='css'}
+<link href="/tools/css/basic.css?v={:time()}" rel="stylesheet">
+<link href="/tools/css/calculator.css?v={:time()}" rel="stylesheet">
+<link href="/tools/css/loan.css?v={:time()}" rel="stylesheet">
+{/block}
+{block name='js'}
+<script src="__STATIC__/js/layer/layer.js"></script>
+{/block}
+{block name='content'}
+<div class="page_tit">
+    <a href="javascript:;" rel="nofollow">您的位置：</a>
+    <a href="{:url('Index/index')}">首页</a> &gt;
+    <a href="{:url('Tools/loan')}">工具</a> &gt;
+    <a href="javascript:void(0);">房贷计算</a>
+</div>
+<div class="yzBox mar">
+    <div class="midMain marTop3 clear">
+        <ul class="menu_left">
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type" : "房贷计算" } class="cur"
+            data-url="./loan.html">
+            房贷计算<i class=""></i></li>
+
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type" : "税费计算" } class=""
+            data-url='./secondhandtax.html'>税费计算<i class="none"></i></li>
+
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type" : "首付测试" } class=""
+            data-url="./downpayment.html">首付成数测试<i class="none"></i></li>
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type" : "资质查询" } class=""
+            data-url="./qualification.html">资质查询<i class="none"></i></li>
+        </ul>
+        <div class="midBox ">
+            <!--房贷计算器-->
+            <div class="mains block">
+                <!--左边计算部分-->
+                <div class="tag-now clear" style="display: flex">
+                    <div class="leftwsty" style="width: 600px;">
+                        <div class="fangpai-detail-daikuan-content">
+                            <div class="fangpai-detail-daikuan-content-left">
+                                <ul>
+                                    <li>
+                                        <span>贷款类型</span>
+                                        <select>
+                                            <option value ="1">商业贷</option>
+                                        </select>
+                                        <p class="fangpai-detail-daikuan-content-left-img-position">
+                                            <img src="./homeStatic/img/daosanjiao22.png" alt="">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <span>起拍价</span>
+                                        <input type="text" id="dai_qipai">
+                                        <p class="fangpai-detail-daikuan-content-left-position">万元</p>
+                                    </li>
+                                    <!--<li>-->
+                                        <!--<span>面积</span>-->
+                                        <!--<input type="text" id="dai_mianji">-->
+                                        <!--<p class="fangpai-detail-daikuan-content-left-position">平方米</p>-->
+                                    <!--</li>-->
+                                    <li>
+                                        <span>贷款比例</span>
+                                        <select id="dai_bili">
+                                            <option value ="100">100%</option>
+                                            <option value ="65">65%</option>
+                                            <option value ="60">60%</option>
+                                            <option value ="55">55%</option>
+                                            <option value ="50">50%</option>
+                                            <option value ="45">45%</option>
+                                            <option value ="40">40%</option>
+                                            <option value ="35">35%</option>
+                                            <option value ="30">30%</option>
+                                            <option value ="25">25%</option>
+                                            <option value ="20">20%</option>
+                                            <option value ="15">15%</option>
+                                            <option value ="10">10%</option>
+                                            <option value =">5">5%</option>
+                                        </select>
+                                        <p class="fangpai-detail-daikuan-content-left-img-position">
+                                            <img src="./homeStatic/img/daosanjiao22.png" alt="">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <span>商贷年限</span>
+                                        <select id="dai_nianxian">
+                                            <!--<option value="30">30年</option>-->
+                                            <!--<option value="29">29年</option>-->
+                                            <!--<option value="28">28年</option>-->
+                                            <!--<option value="27">27年</option>-->
+                                            <!--<option value="26">26年</option>-->
+                                            <option value="25">25年</option>
+                                            <option value="24">24年</option>
+                                            <option value="23">23年</option>
+                                            <option value="22">22年</option>
+                                            <option value="21">21年</option>
+                                            <option value="20">20年</option>
+                                            <option value="19">19年</option>
+                                            <option value="18">18年</option>
+                                            <option value="17">17年</option>
+                                            <option value="16">16年</option>
+                                            <option value="15">15年</option>
+                                            <option value="14">14年</option>
+                                            <option value="13">13年</option>
+                                            <option value="12">12年</option>
+                                            <option value="11">11年</option>
+                                            <option value="10">10年</option>
+                                            <option value="9">9年</option>
+                                            <option value="8">8年</option>
+                                            <option value="7">7年</option>
+                                            <option value="6">6年</option>
+                                            <option value="5">5年</option>
+                                        </select>
+                                        <p class="fangpai-detail-daikuan-content-left-img-position">
+                                            <img src="./homeStatic/img/daosanjiao22.png" alt="">
+                                        </p>
+                                    </li>
+                                    <li class="shangyelilv">
+                                        <span>商贷利率</span>
+                                        <select id="dai_lilv">
+                                            <option value ="4.41">基准利率9折(4.41%)</option>
+                                            <option value ="4.655">基准利率95折(4.655%)</option>
+                                            <option selected value="4.9">基准利率(4.9%)</option>
+                                            <option value="5.145">基准利率上浮5%(5.145%)</option>
+                                        </select>
+
+                                        <div class="zidingyi">
+                                            <input type="text" id="zidingyi" value=""/>
+                                            <input type="checkbox" id="checkBox" name="checkZidingyi" />
+                                            <label name="checkZidingyi">自定义</label>
+                                        </div>
+                                        <p class="fangpai-detail-daikuan-content-left-img-position">
+                                            <img src="./homeStatic/img/daosanjiao22.png" alt="">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <span>还款方式</span>
+                                        <select id="dai_huankuan">
+                                            <option value="benxi">等额本息</option>
+                                            <option value="benjin">等额本金</option>
+                                        </select>
+                                        <p class="fangpai-detail-daikuan-content-left-img-position">
+                                            <img src="./homeStatic/img/daosanjiao22.png" alt="">
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="fangpai-detail-daikuan-content-right">
+                                <!--<div class="yuegong_xi fangpai-detail-daikuan-content-right-monty">-->
+                                <!--<p>月供（等额本息）</p>-->
+                                <!--<p><span id="huan_benxi"></span>万元</p>-->
+                                <!--</div>-->
+                                <!--<div class="yuegong_jin fangpai-detail-daikuan-content-right-ben fangpai-detail-daikuan-content-right-monty"  style="display: none">-->
+                                <!--<p>月供（等额本金）</p>-->
+                                <!--<p><span id="huan_benjin"></span>万元</p>-->
+                                <!--</div>-->
+                                <!--<div class="yuegong_jin fangpai-detail-daikuan-content-right-monty" style="display: none">-->
+                                <!--<p>每月递减</p>-->
+                                <!--<p><span id="huan_dijian"></span>元</p>-->
+                                <!--</div>-->
+                                <!--<div id="main_">-->
+                                <!--<input type="hidden" id="mail_val" value="">-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="quesbtn marl18 clear">
+                            <a href="javascript:void(0)" class="pre baisebg" onclick="location.reload()">清空</a>
+                            <a href="javascript:void(0)" class="next" onclick="jisuan()">计算</a>
+                        </div>
+                    </div>
+                    <!--<div class="right-result">-->
+                        <!--123-->
+                    <!--</div>-->
+
+                    <!--右边部分-->
+                    <div class="rightresults r-resty hide">
+                        <div class="titbiao">
+                            <span class="leixse">类型</span>
+                            <span class="benxi">等额本息</span>
+                            <span class="benjin">等额本金</span>
+                        </div>
+                        <div class="jieguo">
+                            <ul class="shujusty">
+                                <li>
+                                    <span class="leixse yuejun">月供</span>
+                                    <span class="benxi"><label class="yuegong">1000</label>元</span>
+                                    <span class="benjin"><label class="yuegong">1000</label>元(首月)</span>
+                                </li>
+                                <li class="dijianw" style="display: none">每月递减<label id="dijianw">50</label>元</li>
+                                <li>
+                                    <span class="leixse yuejun">贷款周期</span>
+                                    <span class="benxi"><label class="zhouqi">200</label>月</span>
+                                    <span class="benjin"><label class="zhouqi">200</label>月</span>
+                                </li>
+                                <li>
+                                    <span class="leixse yuejun">总利息</span>
+                                    <span class="benxi"><label class="lixi">50</label>万元</span>
+                                    <span class="benjin"><label class="lixi">50</label>万元</span>
+                                </li>
+                                <li>
+                                    <span class="leixse yuejun">总还款额</span>
+                                    <span class="benxi"><label class="huankuan">150</label>万元</span>
+                                    <span class="benjin"><label class="huankuan">150</label>万元</span>
+                                </li>
+                            </ul>
+                            <div class="messBro">以上结果仅供参考，若您对此有任何疑问，均可联系<a>法拍专员</a>为您做详细解答。</div>
+
+                            <div class="biaotop"><label class="benxi">等额本息</label><label class="benjin">等额本金</label></div>
+                            <ul class="resulttop">
+                                <li><em>月份</em></li>
+                                <li><span>月供本金</span></li>
+                                <li><span>月供利息</span></li>
+                                <li><label>剩余欠款</label></li>
+                            </ul>
+
+                            <dl class="resultlist">
+
+                            </dl>
+                            <div class="loadings">
+                                <div class="spinner_8 " style="float:left">
+                                    <div class="spinner-container container1">
+                                        <div class="circle1"></div>
+                                        <div class="circle2"></div>
+                                        <div class="circle3"></div>
+                                        <div class="circle4"></div>
+                                    </div>
+                                    <div class="spinner-container container2">
+                                        <div class="circle1"></div>
+                                        <div class="circle2"></div>
+                                        <div class="circle3"></div>
+                                        <div class="circle4"></div>
+                                    </div>
+                                    <div class="spinner-container container3">
+                                        <div class="circle1"></div>
+                                        <div class="circle2"></div>
+                                        <div class="circle3"></div>
+                                        <div class="circle4"></div>
+                                    </div>
+                                </div>
+                                <a style="float:left">加载更多…</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--房贷计算器-->
+        </div>
+    </div>
+
+    <div class="error">请输入正确的格式11</div>
+</div>
+
+<script>
+    $(function () {
+
+        //左侧导航内容切换
+        $(".menu_left li").click(function () {
+            var redirect_url = $(this).attr('data-url');
+            window.location.href = redirect_url;
+        });
+        //去掉左侧导航第一个li的上边框
+        $(".menu_left li:first").css("border-top", "none")
+        // 点击发布房源
+        $(".mfBtn").click(function () {
+            $(".mf").removeClass("hide").addClass("block");
+        });
+        $(".czBtn").click(function () {
+            $(".cz").removeClass("hide").addClass("block");
+        });
+        ///点击弹窗 是 之后
+        $(".mfYes").click(function () {
+            $(".mf").removeClass("block").addClass("hide");
+            $(".mf-page").addClass("hide");
+            $(".mf-page-child").removeClass("hide").addClass("block");
+        });
+
+        //移入显示 移出隐藏
+        $(".tsicon").mouseover(function () {
+            $(this).children().show();
+        });
+        $(".tsicon").mouseout(function () {
+            $(this).children().hide();
+        });
+
+
+    })
+
+    function jisuan() {
+        var dai_qipai = $('#dai_qipai').val();
+        var dai_bili =$("#dai_bili option:selected").val();
+        var dai_nianxian = $("#dai_nianxian option:selected").val();
+        var dai_lilv = $("#dai_lilv option:selected").val();
+        var dai_huankuan =$("#dai_huankuan option:selected").val();
+        var dai_mianji =80;
+        console.log(dai_qipai)
+        console.log(dai_bili)
+        console.log(dai_nianxian)
+        console.log(dai_lilv)
+        console.log(dai_huankuan)
+        console.log(dai_mianji)
+        if (dai_qipai == "" || dai_qipai == null || dai_qipai == undefined){
+            layer.msg("起拍价不能为空");
+            return false;
+        }
+        let page = 1
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/api/house_loan",
+            data: {
+                "dai_qipai": dai_qipai,
+                "dai_bili": dai_bili,
+                "dai_nianxian": dai_nianxian,
+                "dai_lilv": dai_lilv,
+                "dai_huankuan": dai_huankuan,
+                'dai_mianji':dai_mianji
+            },
+            success:function (result) {
+                $('.rightresults').show()
+                var data = JSON.parse(result.data);
+                var info = JSON.parse(result.info)
+                console.log(data);
+                console.log(info);
+                console.log(dai_huankuan)
+                if (dai_huankuan == 'benxi'){
+                    $('.benxi').show()
+                    $('.benjin').hide()
+                    $('.dijianw').show()
+                    $('.dijianw').hide()
+
+                } else {
+                    $('.benxi').hide()
+                    $('.benjin').show()
+                    $('.dijianw').hide()
+                    $('.dijianw').show()
+                }
+                $('.yuegong').text(info.yue)
+                $('.zhouqi').text(dai_nianxian * 12)
+                $('.lixi').text(info.total_num)
+                $('.huankuan').text(info.total_price)
+                $('#dijianw').text(info.chae)
+
+                $('.resultlist').html('')
+
+                let nums = Math.ceil(data.length / 12)
+                if (page < nums) {
+                    //以下为贷款详细
+                    var detail = '';
+                    if (result != '') {
+                        detail += '<dt class="reshang"><span>&nbsp;</span><label>单位：元</label></dt>';
+                        for (var i = 0; i < data.length; i++) {
+                            detail += '<dd> ' +
+                                '<ul class="lisths"> ' +
+                                '<li><em>' + (parseInt(i + 1)) + '</em></li> ' +
+                                '<li><span>' + toThousands(data[i].benjing) + '</span></li> ' +
+                                '<li><span>' + toThousands(data[i].lixi) + '</span></li> ' +
+                                '<li><label>' + toThousands(data[i].shengyu) + '</label></li> ' +
+                                '</ul> ' +
+                                '</dd>';
+                        }
+                    }
+
+                    $('.resultlist').append(detail);
+                    page++;
+                    lock = 1;
+                    $(".loadings").css("display", "none");
+                } else {
+                    $(".loadings").css("display", "none");
+                }
+
+
+                // for (let k in data) {
+                //
+                //     console.log(data[k].qi)
+                // }
+                // var myChart = echarts.init(document.getElementById('main_'));
+                // mian_option(data.shoufu,data.qishui_price,data.dakuan_price);
+                // myChart.setOption(option);
+            }
+        });
+    }
+
+    /**
+     * 数字格式
+     * @param num
+     * @returns {string}
+     */
+    function toThousands(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
+
+    /**
+     * 到达元素底部
+     * @returns {number}
+     */
+    function getScrollBottom() {
+        var height = $(".resultlist")[0].clientHeight;
+        var theight = $(".resultlist")[0].scrollTop;
+        var rheight = $(".resultlist")[0].scrollHeight;
+        return rheight - theight - height;
+
+    }
+</script>
+{/block}
+

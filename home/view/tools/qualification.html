@@ -1,0 +1,105 @@
+{extend name='public/page_list' /}
+{block name='css'}
+<script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-103163281-2', 'auto');
+    ga('create', 'UA-103163281-15', 'auto', 'clientTracker');
+    ga('send', 'pageview');
+</script>
+<link href="/tools/css/basic.css?v={:time()}" rel="stylesheet">
+<link href="/tools/css/calculator.css?v={:time()}" rel="stylesheet">
+{/block}
+{block name='js'}
+
+{/block}
+{block name='content'}
+<script src="/tools/js/qualification_info.js"></script>
+<script>
+    var cityName = "BJ";
+    var _trackData = _trackData || []; //全局变量，一定不要放到一个function里面
+    var _trackDataType = 'web';
+    var shumei_flag = 0;
+    var tongdun_flag = 0;
+    var dingxiang_flag = 0;
+</script>
+<div class="page_tit">
+    <a href="javascript:;" rel="nofollow">您的位置：</a>
+    <a href="{:url('Index/index')}">首页</a> &gt;
+    <a href="{:url('Tools/loan')}">工具</a> &gt;
+    <a href="javascript:void(0);">资质查询</a>
+</div>
+<div class="yzBox mar">
+    <div class="midMain marTop3 clear">
+        <ul class="menu_left">
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "房贷计算"} class="" data-url="./loan.html"> 房贷计算<i class="none"></i></li>
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "税费计算"} class="" data-url='./secondhandtax.html'>税费计算<i class="none"></i></li>
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "首付测试"} class="" data-url="./downpayment.html">首付成数测试<i class="none"></i></li>
+            <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "资质查询"} class="cur" data-url="./qualification.html">资质查询<i class=""></i></li>
+        </ul>
+        <div class="midBox">
+            <div class="mains block">
+                <div>
+                    <div class="gf-tit"></div>
+                    <div class="query-jg"></div>
+                    <div class="cstj">测试条件</div>
+                    <ul id="content">
+                    </ul>
+                    <div class="wxts"></div>
+                </div>
+                <div class="quesbtn mar65">
+                    <a href="javascript:void(0);" class="pre">上一步</a>
+                    <a href="javascript:void(0);" class="next">下一步</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<script src="/tools/js/text.js"></script>
+<script>
+    $(function() {
+
+        //左侧导航内容切换
+        $(".menu_left li").click(function() {
+            var redirect_url = $(this).attr('data-url');
+            window.location.href = redirect_url;
+        });
+        //去掉左侧导航第一个li的上边框
+        $(".menu_left li:first").css("border-top", "none")
+        // 点击发布房源
+        $(".mfBtn").click(function() {
+            $(".mf").removeClass("hide").addClass("block");
+        });
+        $(".czBtn").click(function() {
+            $(".cz").removeClass("hide").addClass("block");
+        });
+        ///点击弹窗 是 之后
+        $(".mfYes").click(function() {
+            $(".mf").removeClass("block").addClass("hide");
+            $(".mf-page").addClass("hide");
+            $(".mf-page-child").removeClass("hide").addClass("block");
+        });
+
+        //移入显示 移出隐藏
+        $(".tsicon").mouseover(function() {
+            $(this).children().show();
+        });
+        $(".tsicon").mouseout(function() {
+            $(this).children().hide();
+        });
+
+    })
+</script>
+{/block}
+

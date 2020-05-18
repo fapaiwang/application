@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>北京买房资质查询</title>
+    <meta name="Keywords" content="资质查询">
+    <meta name="Description" content="为您提供购房资质查询工具,简单易操作,一键点击就能知道能买几套房,赶快测试吧!">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta charset="UTF-8">
+    <meta name="location" content="province=北京;city=北京;coord=116.39147,39.90555">
+
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-103163281-2', 'auto');
+        ga('create', 'UA-103163281-15', 'auto', 'clientTracker');
+        ga('send', 'pageview');
+    </script>
+    <link href="/css/basic.css" rel="stylesheet">
+    <link href="/css/calculator.css?v={:time()}" rel="stylesheet">
+    <link href="/css/xxSty.css" rel="stylesheet">
+    <link href="/css/newim.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        var routeMap = {
+            "1": {
+                "q_id": 1,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u7684\u6237\u7c4d\u72b6\u51b5\uff1f",
+                "brief": "\u6237\u7c4d\u72b6\u51b5",
+                "tips": "\u62e5\u6709\u300a\u5317\u4eac\u5e02\u5de5\u4f5c\u5c45\u4f4f\u8bc1\u300b\u6216\u73b0\u5f79\u6b66\u8b66\u53ca\u9a7b\u4eac\u90e8\u961f\u73b0\u5f79\u519b\u4eba\u7684\u5bb6\u5ead\u4e3a\u7c7b\u4eac\u7c4d\u3002\u5b66\u751f\u96c6\u4f53\u6237\u53e3\u7684\u535a\u58eb\u540e\u4e5f\u89c6\u4e3a\u7c7b\u4eac\u7c4d\u3002",
+                "tips_pc": "\u62e5\u6709\u300a\u5317\u4eac\u5e02\u5de5\u4f5c\u5c45\u4f4f\u8bc1\u300b\u6216\u73b0\u5f79\u6b66\u8b66\u53ca\u9a7b\u4eac\u90e8\u961f\u73b0\u5f79\u519b\u4eba\u7684\u5bb6\u5ead\u4e3a\u7c7b\u4eac\u7c4d\u3002\u5b66\u751f\u96c6\u4f53\u6237\u53e3\u7684\u535a\u58eb\u540e\u4e5f\u89c6\u4e3a\u7c7b\u4eac\u7c4d\u3002",
+                "is_root": 1,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u672c\u5730\u6237\u53e3\/\u7c7b\u4eac\u7c4d",
+                    "next_id": 10
+                }, {
+                    "name": "\u672c\u5730\u5b66\u751f\u96c6\u4f53\u6237\u53e3",
+                    "next_id": 22
+                }, {
+                    "name": "\u5916\u5730\u6237\u53e3",
+                    "next_id": 22
+                }, {
+                    "name": "\u6e2f\u6fb3\u53f0\u5730\u533a\u5c45\u6c11",
+                    "next_id": 23
+                }, {
+                    "name": "\u5916\u56fd\u4eba",
+                    "next_id": 24
+                }]
+            },
+            "2": {
+                "q_id": 2,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u51c6\u5907\u5728\u54ea\u91cc\u8d2d\u623f\uff1f",
+                "brief": "\u8d2d\u4e70\u533a\u57df",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u901a\u5dde",
+                    "next_id": 12
+                }, {
+                    "name": "\u5317\u4eac\u5176\u4ed6\u4f4d\u7f6e",
+                    "next_id": 17
+                }]
+            },
+            "10": {
+                "q_id": 10,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u7684\u5a5a\u59fb\u72b6\u51b5\uff1f",
+                "brief": "\u5a5a\u59fb\u72b6\u51b5",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u5df2\u5a5a",
+                    "next_id": 14,
+                    "result": "\u5df2\u5a5a"
+                }, {
+                    "name": "\u672a\u5a5a\/\u79bb\u5f02\/\u4e27\u5076",
+                    "next_id": 15,
+                    "result": "\u672a\u5a5a\/\u79bb\u5f02\/\u4e27\u5076"
+                }]
+            },
+            "12": {
+                "q_id": 12,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u662f\u5426\u843d\u6237\u901a\u5dde\u6216\u8fd13\u5e74\u5728\u901a\u5dde\u8fde\u7eed\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e\uff1f",
+                "brief": "\u901a\u5dde\u7eb3\u7a0e\u60c5\u51b5",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u662f",
+                    "next_id": 17,
+                    "result": "\u843d\u6237\u901a\u5dde\u6216\u8fd13\u5e74\u5df2\u5728\u901a\u5dde\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e"
+                }, {
+                    "name": "\u5426",
+                    "next_id": 18,
+                    "result": "\u672a\u843d\u6237\u901a\u5dde\u4e14\u8fd13\u5e74\u672a\u5728\u901a\u5dde\u7f34\u7eb3\u793e\u4fdd\u548c\u4e2a\u7a0e"
+                }]
+            },
+            "14": {
+                "q_id": 14,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u62e5\u6709\u7684\u5317\u4eac\u4f4f\u5b85\u6570\u91cf\u662f\uff1f",
+                "brief": "\u623f\u4ea7\u6570\u91cf",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 16,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67090\u5957\u5317\u4eac\u4f4f\u5b85"
+                }, {
+                    "name": "1\u5957",
+                    "next_id": 2,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67091\u5957\u5317\u4eac\u4f4f\u5b85"
+                }, {
+                    "name": "2\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 18,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67092\u5957\u53ca\u4ee5\u4e0a\u5317\u4eac\u4f4f\u5b85"
+                }]
+            },
+            "16": {
+                "q_id": 16,
+                "city_id": 1,
+                "type": 1,
+                "title": "<span>2<\/span>\u5957",
+                "brief": "\u9650\u8d2d\u4e24\u5957",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": ""
+            },
+            "17": {
+                "q_id": 17,
+                "city_id": 1,
+                "type": 1,
+                "title": "<span>1<\/span>\u5957",
+                "brief": "\u9650\u8d2d\u4e00\u5957",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": ""
+            },
+            "18": {
+                "q_id": 18,
+                "city_id": 1,
+                "type": 1,
+                "title": "<span>0<\/span>\u5957",
+                "brief": "\u4e0d\u80fd\u8d2d\u4e70",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": ""
+            },
+            "15": {
+                "q_id": 15,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u62e5\u6709\u7684\u5317\u4eac\u4f4f\u5b85\u6570\u91cf\u662f\uff1f",
+                "brief": "\u623f\u4ea7\u6570\u91cf",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 17,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67090\u5957\u5317\u4eac\u4f4f\u5b85"
+                }, {
+                    "name": "1\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 18,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67091\u5957\u53ca\u4ee5\u4e0a\u5317\u4eac\u4f4f\u5b85"
+                }]
+            },
+            "13": {
+                "q_id": 13,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u662f\u5426\u8fd13\u5e74\u5728\u901a\u5dde\u8fde\u7eed\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e\uff1f",
+                "brief": "\u901a\u5dde\u7eb3\u7a0e\u60c5\u51b5",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u662f",
+                    "next_id": 17,
+                    "result": "\u8fd13\u5e74\u5df2\u5728\u901a\u5dde\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e"
+                }, {
+                    "name": "\u5426",
+                    "next_id": 18,
+                    "result": "\u8fd13\u5e74\u672a\u5728\u901a\u5dde\u7f34\u7eb3\u793e\u4fdd\u53ca\u4e2a\u7a0e"
+                }]
+            },
+            "19": {
+                "q_id": 19,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u5bb6\u5ead\u540d\u4e0b\u62e5\u6709\u7684\u5317\u4eac\u4f4f\u5b85\u6570\u91cf\u662f\uff1f",
+                "brief": "\u623f\u4ea7\u6570\u91cf",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "0\u5957",
+                    "next_id": 5,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67090\u5957\u5317\u4eac\u4f4f\u5b85"
+                }, {
+                    "name": "1\u5957\u53ca\u4ee5\u4e0a",
+                    "next_id": 18,
+                    "result": "\u5bb6\u5ead\u540d\u4e0b\u62e5\u67091\u5957\u4ee5\u4e0a\u5317\u4eac\u4f4f\u5b85"
+                }]
+            },
+            "5": {
+                "q_id": 5,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u51c6\u5907\u5728\u54ea\u91cc\u8d2d\u623f\uff1f",
+                "brief": "\u8d2d\u4e70\u533a\u57df",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u901a\u5dde",
+                    "next_id": 13
+                }, {
+                    "name": "\u5317\u4eac\u5176\u4ed6\u4f4d\u7f6e",
+                    "next_id": 17
+                }]
+            },
+            "22": {
+                "q_id": 22,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u662f\u5426\u8fde\u7eed60\u4e2a\u6708\uff08\u542b\uff09\u4ee5\u4e0a\u5728\u672c\u5e02\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e\uff1f",
+                "brief": "\u8fde\u7eed60\u4e2a\u6708\uff08\u542b\uff09\u4ee5\u4e0a\u5728\u672c\u5e02\u7f34\u7eb3\u793e\u4fdd\u548c\u4e2a\u7a0e",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u662f",
+                    "next_id": 19,
+                    "result": "\u8fde\u7eed60\u4e2a\u6708\u5df2\u5728\u5317\u4eac\u7f34\u7eb3\u793e\u4fdd\u6216\u4e2a\u7a0e"
+                }, {
+                    "name": "\u5426",
+                    "next_id": 18,
+                    "result": "\u672a\u80fd\u8fde\u7eed60\u4e2a\u6708\u5728\u5317\u4eac\u7f34\u7eb3\u793e\u4fdd\u53ca\u4e2a\u7a0e"
+                }]
+            },
+            "23": {
+                "q_id": 23,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u662f\u5426\u56fd\u5185\u65e0\u623f\u4ea7\u4e14\u5728\u5317\u4eac\u6709\u4e00\u5e74\u5c45\u4f4f\u8bc1\u660e",
+                "brief": "\u56fd\u5185\u65e0\u623f\u4ea7\u4e14\u5728\u5317\u4eac\u6709\u4e00\u5e74\u5c45\u4f4f\u8bc1\u660e",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u662f",
+                    "next_id": 17,
+                    "result": "\u56fd\u5185\u65e0\u623f\u4ea7\u4e14\u5728\u5317\u4eac\u6709\u4e00\u5e74\u5c45\u4f4f\u8bc1\u660e"
+                }, {
+                    "name": "\u5426",
+                    "next_id": 18,
+                    "result": "\u56fd\u5185\u6709\u623f\u4ea7\u6216\u5728\u5317\u4eac\u65e0\u4e00\u5e74\u5c45\u4f4f\u8bc1\u660e"
+                }]
+            },
+            "24": {
+                "q_id": 24,
+                "city_id": 1,
+                "type": 0,
+                "title": "\u60a8\u662f\u5426\u5df2\u7ecf\u529e\u7406\u4e86\u300a\u4e34\u65f6\u4f4f\u5bbf\u767b\u8bb0\u8868\u300b\u53ca\u300a\u6d89\u5916\u5ba1\u6279\u5355\u300b?",
+                "brief": "\u5df2\u7ecf\u529e\u7406\u4e86\u300a\u4e34\u65f6\u4f4f\u5bbf\u767b\u8bb0\u8868\u300b\u53ca\u300a\u6d89\u5916\u5ba1\u6279\u5355\u300b",
+                "tips": "",
+                "is_root": 0,
+                "ctime": "",
+                "mtime": "",
+                "option": [{
+                    "name": "\u662f",
+                    "next_id": 17,
+                    "result": "\u529e\u7406\u4e86\u300a\u4e34\u65f6\u4f4f\u5bbf\u767b\u8bb0\u8868\u300b\u53ca\u300a\u6d89\u5916\u5ba1\u6279\u5355\u300b"
+                }, {
+                    "name": "\u5426",
+                    "next_id": 18,
+                    "result": "\u672a\u529e\u7406\u300a\u4e34\u65f6\u4f4f\u5bbf\u767b\u8bb0\u8868\u300b\u6216\u300a\u6d89\u5916\u5ba1\u6279\u5355\u300b"
+                }]
+            }
+        };
+        var city_name = '北京';
+        var action = 'qualification';
+    </script>
+    <script>
+        var cityName = "BJ";
+        var _trackData = _trackData || []; //全局变量，一定不要放到一个function里面
+        var _trackDataType = 'web';
+        var shumei_flag = 0;
+        var tongdun_flag = 0;
+        var dingxiang_flag = 0;
+    </script>
+    <!-- 当前路径 end -->
+    <div class="yzBox mar">
+        <div class="midMain marTop3 clear">
+            <ul class="menu_left">
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "房贷计算"} class="" data-url="./loan.html">
+                    房贷计算<i class="none"></i></li>
+
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "税费计算"} class="" data-url='./secondhandtax.html'>税费计算<i class="none"></i></li>
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "首付测试"} class="" data-url="./downpayment.html">首付成数测试<i class="none"></i></li>
+                <li td-trace="tracetd_bi" tdEventId="个人中心_购房工具" tdJson={ "type": "资质查询"} class="cur" data-url="./qualification.html">资质查询<i class=""></i></li>
+            </ul>
+            <div class="midBox">
+                <div class="mains block">
+                    <div>
+                        <div class="gf-tit"></div>
+                        <div class="query-jg"></div>
+                        <div class="cstj">测试条件</div>
+                        <ul id="content">
+                        </ul>
+                        <div class="wxts"></div>
+                    </div>
+                    <div class="quesbtn mar65">
+                        <a href="javascript:void(0);" class="pre">上一步</a>
+                        <a href="javascript:void(0);" class="next">下一步</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/text.js"></script>
+    <script>
+        $(function() {
+
+            //左侧导航内容切换
+            $(".menu_left li").click(function() {
+                var redirect_url = $(this).attr('data-url');
+                window.location.href = redirect_url;
+            });
+            //去掉左侧导航第一个li的上边框
+            $(".menu_left li:first").css("border-top", "none")
+                // 点击发布房源
+            $(".mfBtn").click(function() {
+                $(".mf").removeClass("hide").addClass("block");
+            });
+            $(".czBtn").click(function() {
+                $(".cz").removeClass("hide").addClass("block");
+            });
+            ///点击弹窗 是 之后
+            $(".mfYes").click(function() {
+                $(".mf").removeClass("block").addClass("hide");
+                $(".mf-page").addClass("hide");
+                $(".mf-page-child").removeClass("hide").addClass("block");
+            });
+
+            //移入显示 移出隐藏
+            $(".tsicon").mouseover(function() {
+                $(this).children().show();
+            });
+            $(".tsicon").mouseout(function() {
+                $(this).children().hide();
+            });
+
+        })
+    </script>
+</body>
+
+</html>

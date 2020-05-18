@@ -54,17 +54,15 @@
                 </div>
             </div>
             {else /}
-
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
-                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal"   data-target="#myModal">登录</a>
+                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModal">登录</a>
                 <span style="color: #fff">|</span>
-                <a href="{:url('Login/register')}" class="login_label" rel="nofollow">注册</a>
+                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModalRegister">注册</a>
             </div>
             {/notempty}
         </div>
     </div>
-
 </div>
 
 <script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
@@ -95,7 +93,7 @@
     <div class="modal-dialog "  style="width:400px; height:500px;">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
-                <button type="button" class="close close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close close_model" data-dismiss="modal"><span class="close_model" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">账号密码登录</h4>
             </div>
             <div class="modal-body">
@@ -132,49 +130,126 @@
     </div>
 </div>
 
-</body>
-<script>
-    function login() {
-        var user_name = $("#user_name").val(),password = $('#password').val(),remember = $('#remember:checked').val();
-        var forward   = $("#forward").val();
-        var token     = $("input[name='__token__']").val();
-        console.log(user_name);
-        console.log(password);
-        console.log(remember);
-        console.log(forward);
-        console.log(token);
-        var url = $(this).data('uri');
-        var param = {user_name:user_name,password:password,remember:remember,forward:forward,__token__:token};
-        if(!user_name)
-        {
-            layer.msg('请填写登录名',{icon:2});
-            return false;
-        }else if(!password){
-            layer.msg('请填写密码',{icon:2});
-            return false;
-        }else{
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "/Login/loginDo",
-                data: {
-                    "user_name":user_name,
-                    "password":password,
-                    "remember":remember,
-                    "forward":forward,
-                    "__token__":token
-                },
-                success:function (result) {
-                    layer.msg(result.msg);
-                    if (result.code == 1){
-                        location.reload()
-                    }
+<div class="modal inmodal" id="myModalRegister" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">
+    <div class="modal-dialog "  style="width:400px; height:500px;">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div style="float:left">
+                    <h4 class="modal-title">手机号码注册</h4>
+                </div>
+                <span style="float:right;margin:4px 30px">已有账号:<a href="#" class="login_jump"> 立即登录</a></span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal m-t">
+                    <div class="form-group">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-9">
+                            <input class="form-control ipt" type="text" name="user_name" id="mobile" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-6">
+                            <div class="sct_ipt fl">
+                                <input  class="form-control ipt" type="text" name="sms_code" id="sms_code" placeholder="请输入短信验证码">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success change get_code fl" id="smsCode" style="margin-top: 2px">获取验证码</button>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-9">
+                            <input type="password" class="ipt password form-control"  name="password" placeholder="请设置6-12位密码，数字+字母">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-9">
+                            <input type="password" class="ipt password2 form-control"  name="password2" placeholder="确认密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-1"></div>
+                        <div class="col-sm-5">
+                            <input type="text" class="ipt verfiy_code form-control" id="verfiy_code" name="verfiy_code" placeholder="请输入验证码">
+                        </div>
+                        <div>
+                            <img src="{:url('Verfiy/index')}" alt="" class="get_code fr verify_img">
+                        </div>
+                    </div>
 
-                }
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-1">
+                            <input type="checkbox" class="chk"  name="agree"  id="agree" value="1" style="margin: 5px 0 0">
+                        </div>
+                        <div>
+                            <label for="agree">我已阅读并同意《<a href="javascript:;" id="agreement">{$site.title}用户协议</a>》</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="register()">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/homeStatic/js//page.js"></script>
+<script>
+    //
+    $(".verify_img").click(function(){
+        var timenow = new Date().getTime();
+        $(this).attr("src","{:url('Verfiy/index')}?t="+timenow)
+    });
+    $("#smsCode").on('click',function(){
+        getCode();
+    });
+    $('#agreement').on('click',function(){
+        var html = '{$agreement.info|raw}';
+        console.log(html);
+        if(html)
+        {
+            layer.open({
+                type : 1,
+                title : false,
+                area  : ['500px','500px'],
+                content : html
             });
         }
+    });
+    function getCode(){
+        if(time<60) return false;
+        var mobile=$("#mobile").val(),reg = /^1[3456789][0-9]{9}$/;
+
+        if(!reg.test(mobile)){
+            layer.msg('请填写正确的手机号码',{icon:2});
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "{:url('Sms/sendSms')}",
+            data: {
+                "mobile":mobile,
+                "exists":1,
+            },
+            success:function (result) {
+                if (result.code == 1){
+                    layer.msg('验证码发送成功，请注意查收',{icon:1});
+                    times = setInterval(timer,1000);
+                }else {
+                    layer.msg(data.msg,{icon:2});
+                }
+
+            }
+        });
     }
 </script>
+
+</body>
 </html>
 <!--</body>-
 <!--统计代码-->
