@@ -8,16 +8,17 @@ class Jrcj extends MobileBase
 {
     public function index()
     {
-//        $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-//            ->whereTime('kptime','>','-2 day' )->where('fcstatus','in','169,170,171')->select();
-        $stime =date('Y-m-d',strtotime('-1 day'));
-        $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-            ->where('kptime','>',$stime)
-            ->where('kptime','<',$etime)
-            ->where('fcstatus','in','169,170')
-            ->select();
-        Log::INFO('1234567890123456789');
+//            ->whereTime('kptime','>','-2 day' )
+            ->where('fcstatus','in','169,170,171')->select();
+//        $stime =date('Y-m-d',strtotime('-1 day'));
+//        $etime =date('Y-m-d',strtotime('+2 day'));
+//        $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
+//            ->where('kptime','>',$stime)
+//            ->where('kptime','<',$etime)
+//            ->where('fcstatus','in','169,170')
+//            ->select();
+//        Log::INFO('1234567890123456789');
          foreach ($lists as $key => $value) {
             $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
             $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']);
