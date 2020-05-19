@@ -1635,17 +1635,17 @@ $data['house_id']  = input('post.house_id/d',0);
     }
     //税费接口
     public function secondhand_tax(){
-        $a =$this->house_loan_s(20,10000,0.06,100);
-
-        dd(json_encode($a));
         $arr = [];
-        $house_price    = input('post.price',100000);//房产总价
-        $house_area    = input('post.area',91);//面积
-        $house_num    = input('post.house_num',2);//已购房产数
-        $house_type    = input('post.house_type',"gong"); //房屋类型(公房,商品房,一类/二类 经济使用房)
-        $is_dis_count    = input('post.is_dis_count',"chengben"); //是否优惠
-        $house_original_price    = input('post.house_original_price'); //房屋原值
-        $residence_type    = input('post.residence_type'); //住宅类型(普通住宅,非普通住宅)
+        $house_price    = input('post.house_price_listing');//房产总价1
+        $house_area    = input('post.house_area');//面积1
+        $house_num    = input('post.first_house');//已购房产数1
+        $house_type    = input('post.building_type'); //房屋类型(公房,商品房,一类/二类 经济使用房)1
+        $is_dis_count    = input('post.last_trans_type'); //是否优惠1
+        $house_original_price    = input('post.last_trans_price'); //房屋原值1
+        $residence_type    = input('post.house_type'); //住宅类型(普通住宅,非普通住宅)1
+
+
+        $house_price = $house_price * 10000;
         $toole_server = new ToolsServer();
         //契税
         $arr['qi_shui'] = $toole_server->deen_tax($house_price,$house_area,$house_num);

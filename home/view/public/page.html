@@ -10,7 +10,7 @@
     <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
     <link rel="stylesheet"  href="/homeStatic/css/head.css?version={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
-    <link rel="stylesheet"  href="/css/bootstrap.min.css?version={:time()}">
+    <link rel="stylesheet"  href="/css/bootstrap.css?version={:time()}">
     {block name='css'}{/block}
     <style>
         /*.modal {*/
@@ -138,7 +138,7 @@
                 <div style="float:left">
                     <h4 class="modal-title">手机号码注册</h4>
                 </div>
-                <span style="float:right;margin:4px 30px">已有账号:<a href="#" class="login_jump"> 立即登录</a></span>
+                <span style="float:right;margin:4px 30px">已有账号:<a href="#" class="login_jump" style="color: #5cb85c"> 立即登录</a></span>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal m-t">
@@ -180,17 +180,17 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-2"></div>
+                        <div class="col-sm-1"></div>
                         <div class="col-sm-1">
                             <input type="checkbox" class="chk"  name="agree"  id="agree" value="1" style="margin: 5px 0 0">
                         </div>
                         <div>
-                            <label for="agree">我已阅读并同意《<a href="javascript:;" id="agreement">{$site.title}用户协议</a>》</label>
+                            <label for="agree">我已阅读并同意《<a href="javascript:;" id="agreement" style="color: #5cb85c">{$site.title}用户协议</a>》</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3"></div>
-                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="register()">提交</button>
+                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="register()">提&nbsp;&nbsp;&nbsp;交</button>
                     </div>
                 </form>
             </div>

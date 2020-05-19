@@ -124,7 +124,7 @@
                                         </select>
 
                                         <div class="zidingyi">
-                                            <input type="text" id="zidingyi" value=""/>
+                                            <input type="text" id="zidingyi" placeholder="请输入" disabled value=""/>
                                             <input type="checkbox" id="checkBox" name="checkZidingyi" />
                                             <label name="checkZidingyi">自定义</label>
                                         </div>
@@ -283,20 +283,29 @@
 
 
     })
+    let lilvFlag = false
+    $('#zidingyi').on('change', function () {
+        var value = $(this).val()
+        var patrn = /^(-)?\d+(\.\d+)?$/;
+        if (patrn.exec(value) == null || value == "") {
+            // 提示错误信息
+            alert('请输入数字')
+            return false
+        }
+    })
+    $('#checkBox').on('click', function() {
+        lilvFlag = !$(this).is(':checked')
+        $('#dai_lilv').attr("disabled", $(this).is(':checked'))
+        $('#zidingyi').attr("disabled", !$(this).is(':checked'))
+    })
 
     function jisuan() {
         var dai_qipai = $('#dai_qipai').val();
         var dai_bili =$("#dai_bili option:selected").val();
         var dai_nianxian = $("#dai_nianxian option:selected").val();
-        var dai_lilv = $("#dai_lilv option:selected").val();
+        var dai_lilv = lilvFlag ? $("#dai_lilv option:selected").val() : $('#zidingyi').val();
         var dai_huankuan =$("#dai_huankuan option:selected").val();
         var dai_mianji =80;
-        console.log(dai_qipai)
-        console.log(dai_bili)
-        console.log(dai_nianxian)
-        console.log(dai_lilv)
-        console.log(dai_huankuan)
-        console.log(dai_mianji)
         if (dai_qipai == "" || dai_qipai == null || dai_qipai == undefined){
             layer.msg("起拍价不能为空");
             return false;

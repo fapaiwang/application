@@ -92,7 +92,8 @@ class IndexServer
         $objs   = model('second_house');
         $second_house   = $objs->field('id,title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
-            ->order('rec_position desc')->limit($limit)->cache(1800)->select();
+            ->order('rec_position desc')->limit($limit)
+            ->cache("second_house_recommend_house".$limit,1800)->select();
         return $second_house;
     }
     
@@ -109,7 +110,9 @@ class IndexServer
         $objs   = model('second_house');
         $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170],["is_free", "=", 1]])
-            ->order('rec_position desc')->limit($limit)->select();
+            ->order('rec_position desc')->limit($limit)
+            ->cache("second_house_restrict_house".$limit,3600)
+            ->select();
         return $second_house;
     }
     
@@ -131,9 +134,9 @@ class IndexServer
         $lists      = model('estate')
             ->alias('e')
             ->field($field)
+            ->cache("second_house_quality_estate_".$limit,'86400')
             ->order('second_total desc')
             ->limit($limit)->select();
-//        ->cache('86400')
         return $lists;
     }
 

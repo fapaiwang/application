@@ -13,6 +13,9 @@ class Tools extends HomeBase
     public function loan(){
         return $this->fetch();
     }
+    public function loan2(){
+        return $this->fetch();
+    }
     //税费计算
     public function secondhandtax(){
         return $this->fetch();

@@ -22,7 +22,7 @@ class ToolsServer
      * @author: al
      */
     public function deen_tax($house_price,$house_area,$house_num=1){
-        if ($house_num == 2){
+        if ($house_num == 501){
             $price = $house_price * 0.03;
         }else{
             if ($house_area > 90){
@@ -45,13 +45,13 @@ class ToolsServer
      */
     public function land_transfer_fee($house_type,$house_price,$house_area=0,$is_dis_count=""){
         $price =0;
-        if($house_type == "gong"){//公房
-            if($is_dis_count == "chengben"){ //成本价(土地出让金额=建筑面积×1560×1%)
+        if($house_type == "103"){//公房
+            if($is_dis_count == "900"){ //成本价(土地出让金额=建筑面积×1560×1%)
                 $price = $house_area * 15.6;
-            }elseif($is_dis_count == "youhui"){ //优惠价(建筑面积×1560×6%+建筑面积×1560×1%)
+            }elseif($is_dis_count == "901"){ //优惠价(建筑面积×1560×6%+建筑面积×1560×1%)
                 $price =($house_area * 1560 *6) + ($house_area * 1560 * 0.01);
             }
-        }elseif($house_type == "er"){//二类经济适用房
+        }elseif($house_type == "102"){//二类经济适用房
             $price = $house_price * 0.03;
         }
         return $price;
@@ -67,7 +67,7 @@ class ToolsServer
      */
     public function land_comprehensive($house_type,$house_price,$house_original_price){
         $price =0;
-        if($house_type == "yi"){//一类经济适用房(差额* 70%)
+        if($house_type == "101"){//一类经济适用房(差额* 70%)
             $house_diff_price =$house_price-$house_original_price;
             $price = $house_diff_price * 0.7;
         }
@@ -85,7 +85,7 @@ class ToolsServer
      */
     public function added_tax($residence_type,$house_price,$house_original_price=0,$year=5){
         $price = 0;
-        if ($residence_type == "feipu"){ //非普住宅
+        if ($residence_type == "201"){ //非普住宅
             if (!empty($house_original_price)){ //提供原值
                 $house_diff_price =$house_price-$house_original_price;
                 $price = $house_diff_price / 1.05 *0.053;
