@@ -186,13 +186,10 @@
                         <input type="hidden" id="house_type" value="{$info.house_type}">
                         <b id="reciprocal">
                             {if condition="$info.fcstatus eq 175"}
-                            <div class="fix">
-                                <div class="fl">
-                                    成交价：{$info.cjprice}<span>万元</span>
-                                </div>　
-                                <div class="fl">
-                                    结束时间：<span class="s-2">{$info.endtime}</span>
-                                </div>
+                            <span>成交价：</span>{$info.cjprice}<span>万元</span>
+                            <div class="fangpai-detail-header-right-begin-time">
+                                <span>结束时间：</span>
+                                <b>{$info.endtime}</b>
                             </div>
                             {elseif condition="$info.fcstatus eq 171"}
                             拍卖已结束

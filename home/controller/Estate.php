@@ -3,6 +3,7 @@
 namespace app\home\controller;
 use app\common\controller\HomeBase;
 use app\server;
+use think\Log;
 
 class Estate extends HomeBase
 {

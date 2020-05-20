@@ -117,7 +117,6 @@ class Secondx extends HomeBase{
      */
     public function index(){
         $result = $this->getLists();
-//        dd($result['lists'][0]);
         $lists  = $result['lists'];
         $arr=$this->request->param();
         if(!empty($arr['keyword'])){
@@ -894,6 +893,8 @@ class Secondx extends HomeBase{
                  }else{
                     $lists[$key]['city']=$city_name;
                  }
+                $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
+                $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
             }
         return ['lists'=>$lists,'top'=>$top];
