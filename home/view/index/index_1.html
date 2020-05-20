@@ -104,7 +104,7 @@
             <div class="tuijian-fangyuan-info">重点推荐法拍房源，低于市场价20%起</div>
             <ul class="tuijian-fangyuan-detail">
                 {volist name='recommend_house' id='vo'}
-                <li data-id="{$vo.id}">
+                <li data-id="{$vo.id}" style="cursor: pointer;">
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>

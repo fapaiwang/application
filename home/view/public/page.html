@@ -10,7 +10,7 @@
     <link rel="stylesheet"  href="/homeStatic/css/style.css?version=3">
     <link rel="stylesheet"  href="/homeStatic/css/head.css?version={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css?version=3">
-    <link rel="stylesheet"  href="/css/bootstrap.css?version={:time()}">
+    <!--<link rel="stylesheet"  href="/css/bootstrap.css?version={:time()}">-->
     {block name='css'}{/block}
     <style>
         /*.modal {*/
@@ -56,9 +56,12 @@
             {else /}
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
-                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModal">登录</a>
-                <span style="color: #fff">|</span>
-                <a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModalRegister">注册</a>
+                <a href="{:url('Login/index')}" class="login_label" rel="nofollow">登录</a>
+                <span>|</span>
+                <a href="{:url('Login/register')}" class="login_label" rel="nofollow">注册</a>
+                <!--<a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModal">登录</a>-->
+                <!--<span style="color: #fff">|</span>-->
+                <!--<a href="#" class="login_label" rel="nofollow"  data-toggle="modal" data-target="#myModalRegister">注册</a>-->
             </div>
             {/notempty}
         </div>
@@ -67,7 +70,7 @@
 
 <script src="/homeStatic/js/jquery-3.4.1.min.js"></script>
 <script src="/js/jquery.cookie.js"></script>
-<script src="/js/bootstrap.min.js" charset="utf-8"></script>
+<!--<script src="/js/bootstrap.min.js" charset="utf-8"></script>-->
 <script src="__STATIC__/js/layer/layer.js"></script>
 <script>
     $('.loged ').hover(
@@ -89,114 +92,114 @@
     {include file='public/footers' /}
 </div>
 {block name='js'}{/block}
-<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">
-    <div class="modal-dialog "  style="width:400px; height:500px;">
-        <div class="modal-content animated bounceInRight">
-            <div class="modal-header">
-                <button type="button" class="close close_model" data-dismiss="modal"><span class="close_model" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">账号密码登录</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal m-t" id="addform">
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-8">
-                            <input class="form-control" id="user_name" name="user_name" placeholder="请填写用户名或手机号">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-8">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="请输入密码">
-                        </div>
-                    </div>
-                    {:token()}
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-5">
-                            <input type="checkbox" id="remember" value="1" style="margin: 5px 0 0"> &nbsp; 记住账号
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="{:url('Login/forgetPassword')}"  style="color: #C73126">忘记密码？</a>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3"></div>
-                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="login()">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">-->
+    <!--<div class="modal-dialog "  style="width:400px; height:500px;">-->
+        <!--<div class="modal-content animated bounceInRight">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close close_model" data-dismiss="modal"><span class="close_model" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                <!--<h4 class="modal-title">账号密码登录</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<form class="form-horizontal m-t" id="addform">-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-2"></div>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control" id="user_name" name="user_name" placeholder="请填写用户名或手机号">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-2"></div>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control" id="password" name="password" type="password" placeholder="请输入密码">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--{:token()}-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-2"></div>-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<input type="checkbox" id="remember" value="1" style="margin: 5px 0 0"> &nbsp; 记住账号-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<a href="{:url('Login/forgetPassword')}"  style="color: #C73126">忘记密码？</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-3"></div>-->
+                        <!--<button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="login()">提交</button>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
-<div class="modal inmodal" id="myModalRegister" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">
-    <div class="modal-dialog "  style="width:400px; height:500px;">
-        <div class="modal-content animated bounceInRight">
-            <div class="modal-header">
-                <button type="button" class="close close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <div style="float:left">
-                    <h4 class="modal-title">手机号码注册</h4>
-                </div>
-                <span style="float:right;margin:4px 30px">已有账号:<a href="#" class="login_jump" style="color: #5cb85c"> 立即登录</a></span>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal m-t">
-                    <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-9">
-                            <input class="form-control ipt" type="text" name="user_name" id="mobile" placeholder="请输入手机号">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-6">
-                            <div class="sct_ipt fl">
-                                <input  class="form-control ipt" type="text" name="sms_code" id="sms_code" placeholder="请输入短信验证码">
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-success change get_code fl" id="smsCode" style="margin-top: 2px">获取验证码</button>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-9">
-                            <input type="password" class="ipt password form-control"  name="password" placeholder="请设置6-12位密码，数字+字母">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-9">
-                            <input type="password" class="ipt password2 form-control"  name="password2" placeholder="确认密码">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-1"></div>
-                        <div class="col-sm-5">
-                            <input type="text" class="ipt verfiy_code form-control" id="verfiy_code" name="verfiy_code" placeholder="请输入验证码">
-                        </div>
-                        <div>
-                            <img src="{:url('Verfiy/index')}" alt="" class="get_code fr verify_img">
-                        </div>
-                    </div>
+<!--<div class="modal inmodal" id="myModalRegister" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 100px">-->
+    <!--<div class="modal-dialog "  style="width:400px; height:500px;">-->
+        <!--<div class="modal-content animated bounceInRight">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                <!--<div style="float:left">-->
+                    <!--<h4 class="modal-title">手机号码注册</h4>-->
+                <!--</div>-->
+                <!--<span style="float:right;margin:4px 30px">已有账号:<a href="#" class="login_jump" style="color: #5cb85c"> 立即登录</a></span>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<form class="form-horizontal m-t">-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input class="form-control ipt" type="text" name="user_name" id="mobile" placeholder="请输入手机号">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <!--<div class="col-sm-6">-->
+                            <!--<div class="sct_ipt fl">-->
+                                <!--<input  class="form-control ipt" type="text" name="sms_code" id="sms_code" placeholder="请输入短信验证码">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<button type="button" class="btn btn-sm btn-success change get_code fl" id="smsCode" style="margin-top: 2px">获取验证码</button>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="password" class="ipt password form-control"  name="password" placeholder="请设置6-12位密码，数字+字母">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="password" class="ipt password2 form-control"  name="password2" placeholder="确认密码">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-lg-1"></div>-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<input type="text" class="ipt verfiy_code form-control" id="verfiy_code" name="verfiy_code" placeholder="请输入验证码">-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<img src="{:url('Verfiy/index')}" alt="" class="get_code fr verify_img">-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-                    <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-1">
-                            <input type="checkbox" class="chk"  name="agree"  id="agree" value="1" style="margin: 5px 0 0">
-                        </div>
-                        <div>
-                            <label for="agree">我已阅读并同意《<a href="javascript:;" id="agreement" style="color: #5cb85c">{$site.title}用户协议</a>》</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3"></div>
-                        <button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="register()">提&nbsp;&nbsp;&nbsp;交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <!--<div class="col-sm-1">-->
+                            <!--<input type="checkbox" class="chk"  name="agree"  id="agree" value="1" style="margin: 5px 0 0">-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<label for="agree">我已阅读并同意《<a href="javascript:;" id="agreement" style="color: #5cb85c">{$site.title}用户协议</a>》</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-3"></div>-->
+                        <!--<button type="button" class="btn btn-large btn-success change" style="width:180px;height: 40px;" onclick="register()">提&nbsp;&nbsp;&nbsp;交</button>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 <script type="text/javascript" src="/homeStatic/js//page.js"></script>
 <script>
     //

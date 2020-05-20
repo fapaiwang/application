@@ -65,11 +65,13 @@ class ToolsServer
      * @return float|int
      * @author: al
      */
-    public function land_comprehensive($house_type,$house_price,$house_original_price){
+    public function land_comprehensive($house_type,$house_price,$house_original_price,$buy_time){
         $price =0;
-        if($house_type == "101"){//一类经济适用房(差额* 70%)
+        if($house_type == "101" && $buy_time == "1101"){//一类经济适用房(差额* 70%)
             $house_diff_price =$house_price-$house_original_price;
             $price = $house_diff_price * 0.7;
+        }elseif ($house_type == "101" && $buy_time == "1100"){
+            $price = $house_price *0.1;
         }
         return $price;
     }
@@ -83,17 +85,22 @@ class ToolsServer
      * @return float|int
      * @author: al
      */
-    public function added_tax($residence_type,$house_price,$house_original_price=0,$year=5){
+    public function added_tax($residence_type,$house_price,$house_original_price=0,$location,$year=5){
         $price = 0;
         if ($residence_type == "201"){ //非普住宅
             if (!empty($house_original_price)){ //提供原值
                 $house_diff_price =$house_price-$house_original_price;
-                $price = $house_diff_price / 1.05 *0.053;
+                if ($location == 1000){
+                    $price = $house_diff_price / 1.05 *0.053;
+                }elseif ($location == 1001){
+                    $price = $house_diff_price / 1.05 *0.0525;
+                }
+
             }else{ //没有原值
                 $price = $house_price / 1.05 *0.053;
             }
         }
-        return $price;
+        return intval($price);
     }
 
 
