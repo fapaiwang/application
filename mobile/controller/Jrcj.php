@@ -9,29 +9,23 @@ class Jrcj extends MobileBase
     public function index()
     {
 //        $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-////            ->whereTime('kptime','>','-2 day' )
+//            ->whereTime('kptime','>','-2 day' )
 //            ->where('fcstatus','in','169,170,171')->select();
         $stime =date('Y-m-d',strtotime('-1 day'));
         $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-//            ->where('kptime','>',$stime)
-//            ->where('kptime','<',$etime)
-            ->where('fcstatus','=','169')
-            ->where('kptime','<','2020-05-20')
+            ->where('kptime','>',$stime)
+            ->where('kptime','<',$etime)
+            ->where('fcstatus','in','169,170')
             ->select();
         Log::write("开始进行-每日数据更新");
-        Log::write($lists);
-
          foreach ($lists as $key => $value) {
-             Log::write("开始进行-第一次");
             $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
             $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']);
             $sTime=time();
             // print_r($lists[$key]['fcstatus']);
             if($lists[$key]['fcstatus']==169 || $lists[$key]['fcstatus']==170 || $lists[$key]['fcstatus']==171){
-                Log::write("开始进行-第二次");
                 $ctimes=$sTime-$lists[$key]['kptimes'];
-
                 // print_r($lists[$key]['jieduan']);
                 if($lists[$key]['jieduan']==163){
                     $ctimess=$sTime-$lists[$key]['bianetimes'];

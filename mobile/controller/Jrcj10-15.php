@@ -28,24 +28,24 @@ class Jrcj extends MobileBase
 
                 // print_r($lists[$key]['jieduan']);
                 if($lists[$key]['jieduan']==163){
-                $ctimess=$sTime-$lists[$key]['bianetimes'];
-                if($ctimes>=0){
-                    //当前时间-开拍时间
-                    if($ctimess >= 0){
-                    model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//正在进行169
-                    // print_r($ctimes);echo "aaa";
-                    }else{
-                    model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//已结束171
-                     // print_r($ctimes);echo "aaa";
-                    }
-                    // else{
-                    // model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
-                    //  // print_r($ctimes);echo "aaa";
-                    // }
+                    $ctimess=$sTime-$lists[$key]['bianetimes'];
+                    if($ctimes>=0){
+                        //当前时间-开拍时间
+                        if($ctimess >= 0){
+                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//正在进行169
+                        // print_r($ctimes);echo "aaa";
+                        }else{
+                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//已结束171
+                         // print_r($ctimes);echo "aaa";
+                        }
+                        // else{
+                        // model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
+                        //  // print_r($ctimes);echo "aaa";
+                        // }
 
-                }else{
-                    model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
-                }
+                    }else{
+                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
+                    }
                 
                 }else{
                 if($ctimes >= 0 && $ctimes < 3600*24){
