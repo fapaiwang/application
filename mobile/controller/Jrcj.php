@@ -23,12 +23,13 @@ class Jrcj extends MobileBase
         Log::write($lists);
 
          foreach ($lists as $key => $value) {
+             Log::write("开始进行-第一次");
             $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
             $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']);
             $sTime=time();
             // print_r($lists[$key]['fcstatus']);
             if($lists[$key]['fcstatus']==169 || $lists[$key]['fcstatus']==170 || $lists[$key]['fcstatus']==171){
-
+                Log::write("开始进行-第二次");
                 $ctimes=$sTime-$lists[$key]['kptimes'];
 
                 // print_r($lists[$key]['jieduan']);
@@ -60,6 +61,7 @@ class Jrcj extends MobileBase
                         }
                         // print_r($ctimes);echo "aaa";
                         }elseif($ctimes >= (3600*24)){//超过1天的还未已结束
+                        Log::write("开始进行-过期数据");
                             $aa = model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
                              Log::write("已执行的id-".$lists[$key]['id']);
                              Log::write("执行状态".$aa);
