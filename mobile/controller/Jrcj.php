@@ -19,7 +19,9 @@ class Jrcj extends MobileBase
             ->where('fcstatus','=','169')
             ->where('kptime','<','2020-05-20')
             ->select();
+        Log::write("开始进行-每日数据更新");
         Log::write($lists);
+
          foreach ($lists as $key => $value) {
             $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
             $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']);
@@ -51,17 +53,18 @@ class Jrcj extends MobileBase
                     }
                 
                 }else{
-                    if($ctimes >= 0 && $ctimes < 3600*24){
-                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行
+                    if($ctimes >= 0 && $ctimes < 3600*24){ //小于当前时间 并且未超过1天
+                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行
                         if($lists[$key]['house_type'] == 46){
                             model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
                         }
                         // print_r($ctimes);echo "aaa";
-                        }elseif($ctimes >= (3600*24)){
-                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
+                        }elseif($ctimes >= (3600*24)){//超过1天的还未已结束
+                            $aa = model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
+                             Log::write("已执行的id-".$lists[$key]['id']);
+                             Log::write("执行状态".$aa);
                          // print_r($ctimes);echo "aaa";
                         }else{
-                            Log::INFO(1);
                             model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
                          // print_r($ctimes);echo "aaa";
                         }
