@@ -438,25 +438,15 @@
                                             {/if}
                                         </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
                                     </div>
-                                    <div class="fangpai-lie-list-time">
-                                        <span>开拍时间：{$vo.kptime}</span>
-                                        <p>起拍价：<b>{$vo.qipai}</b>万</p>
-                                    </div>
                                     <div class="fangpai-lie-list-footer">
-                                        <!--<div class="fangpai-lie-list-footer-left">-->
-                                        <!--<div class="fangpai-lie-list-shoucang">-->
-                                        <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
-                                        <!--<p><span>收藏</span></p>-->
-                                        <!--</div>-->
-                                        <!--<div class="fangpai-lie-list-zixun">-->
-                                        <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
-                                        <!--<p><span>咨询</span></p>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
                                         <div class="fangpai-lie-list-danjia">
                                             单价：<span class="dj">{$vo.average_price|raw}</span>
                                             <span>市场价：{$vo.price|raw}</span>
                                         </div>
+                                    </div>
+                                    <div class="fangpai-lie-list-time">
+                                        <span>开拍时间：{$vo.kptime}</span>
+                                        <p>起拍价：<b>{$vo.qipai}</b>万</p>
                                     </div>
                                 </div>
                                 {if condition="$vo.fcstatus eq 169"}
