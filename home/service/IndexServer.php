@@ -88,12 +88,14 @@ class IndexServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
+    //todo 缓存注释
     public function get_recommend_house($limit = 6){//
         $objs   = model('second_house');
-        $second_house   = $objs->field('id,title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
+        $second_house   = $objs->field('id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime')
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit($limit)
-            ->cache("second_house_recommend_house".$limit,1800)->select();
+//            ->cache("second_house_recommend_house".$limit,1800)
+            ->select();
         return $second_house;
     }
     
