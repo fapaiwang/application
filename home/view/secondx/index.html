@@ -207,11 +207,11 @@
                             {volist name='jieduan' id='vo'}
                             <li><a href="{:getUrl('Secondx/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
-                            {if condition="$search.is_free eq 0"}
-                            <li><a href="{:getUrl('Secondx/index','is_free',$param,1)}"><b>自由购</b></a></li>
-                            {else /}
-                            <li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>
-                            {/if}
+                            <!--{if condition="$search.is_free eq 0"}-->
+                            <!--<li><a href="{:getUrl('Secondx/index','is_free',$param,1)}"><b>自由购</b></a></li>-->
+                            <!--{else /}-->
+                            <!--<li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>-->
+                            <!--{/if}-->
                         </ul>
                     </div>
                     <div class="item clearfix">
@@ -317,7 +317,12 @@
                                 <a href="{:getUrl('Secondx/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
                             </li>
                             <li ><a href="{:getUrl('Secondx/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>
+                            <!--<li><a href="{:getUrl('Secondx/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>-->
+                            {if condition='$search.is_free eq 1'}
+                            <li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" style="background:none;" {if condition='$search.is_free eq 1'}class="active"{/if}>自由购</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Secondx/index','is_free',$param,1)}" style="background:none;">自由购</a></li>
+                            {/if}
                             {if condition='$search.sort eq 1'}
                             <li><a href="{:getUrl('Secondx/index','sort',$param,2)}" class="active up">房屋总价</a></li>
                             {elseif condition='$search.sort eq 2'}
