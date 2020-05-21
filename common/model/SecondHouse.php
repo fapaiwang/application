@@ -37,7 +37,7 @@ class SecondHouse extends \think\Model
 
         }else{
 
-            return $value.'<i>万</i>';
+            return $value;
 
         }
 

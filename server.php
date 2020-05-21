@@ -47,7 +47,7 @@ class server
         $xsname =getLinkMenuCache(26)[$info['types']] ??"";
         $info['xsname']=$xsname['name'] ?? "";
         //起拍价格
-        $info['qp_price'] = substr($info['price'],0,-10);
+        $info['qp_price'] = $info['price'];
         //成交价格
         $info['cjprice']=sprintf("%.2f",$info['cjprice']);
         $info['file'] = json_decode($info['file'],true);
