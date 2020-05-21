@@ -77,6 +77,15 @@ class SecondHouse extends Controller
         $id = input('param.id',0);
         $house = new server();
         $houseRes = $house->second_model($id);
+        $traffic = $rim = "";
+        if (!$houseRes['basic_info'] == "") {
+            $basic_info = explode(',',$houseRes['basic_info']);
+            $traffic = $basic_info[8];//交通出行
+            $rim = $basic_info[7];//周边配套
+        }
+        $houseRes['traffic'] = $traffic;//交通出行
+        $houseRes['rim'] = $rim;//周边配套
+        
         $houseRes['toilet'] = getLinkMenuName(29,$houseRes['toilet']);
         $houseRes['acreage'] = $houseRes['acreage'].config('filter.acreage_unit');
         $houseRes['estate'] = $house->estate($houseRes['estate_id']);
@@ -96,6 +105,14 @@ class SecondHouse extends Controller
             $house['toilet'] = getLinkMenuName(29,$house['toilet']).'-'.$house['acreage']."/㎡";
         }
         $houseRes['recommend_house'] = $recommend_house;
+        //房源特色标签
+        $houseRes['house_tag'] = $SecondServer->get_house_characteristic($houseRes['xsname'],$houseRes['jieduan_name'],
+            $houseRes['marketprice'],$houseRes['is_commission'],$houseRes['is_school'],$houseRes['is_metro']);
+    
+        //本小区拍卖套数
+        $houseRes['estate_num']= $SecondServer->estate_second_num($id,$houseRes['estate_name']);
+        //法拍专员点评/点评个数
+        $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);;
         return $this->success_o($houseRes);
     }
 }
