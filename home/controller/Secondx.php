@@ -859,8 +859,7 @@ class Secondx extends HomeBase{
             if($sort==8){
                 $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
             }else if($sort==7){
-                $fcstatus = input('param.sort/d',170);
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',$fcstatus)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
             }else{
                 $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
             }
