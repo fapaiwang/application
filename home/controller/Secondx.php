@@ -196,12 +196,12 @@ class Secondx extends HomeBase{
                 $estate_seconf = $SecondServer->estate_second($estate_id,10);
                 $this->assign('estate_seconf',$estate_seconf);
                 //法拍专员点评/点评个数
-                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
+                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);;
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
                 //房源特色标签
-                $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan'],$info['marketprice'],
+                $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan_name'],$info['marketprice'],
                     $info['is_commission'],$info['is_school'],$info['is_metro']);
                 $this->assign('house_characteristic',$house_characteristic);
                 //用户信息

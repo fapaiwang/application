@@ -293,7 +293,7 @@
         <div class="fangpai-detail-fangyuan-basic">
             <p>拍卖信息</p>
             <ul class="fangpai-detail-fangyuan-basic-list">
-                <li><span>拍卖阶段：</span>{$info.jieduan}</li>
+                <li><span>拍卖阶段：</span>{$info.jieduan_name}</li>
                 {if condition="$login_user.model eq 4"}
                 <li><span>户口占用情况：</span>{$info.land_certificate|default="不详"}</li>
                 {else /}
@@ -446,7 +446,7 @@
                 {volist name='$second_house_user_comment' id='vo'}
                 <div class="fangpai-detail-zhuanyuan-content">
                     <div class="fangpai-detail-zhuanyuan-detail-img">
-                        <img src="{:getAvatar($vo.id,90)}" alt="{$vo.nick_name}">
+                        <img src="{:getAvatar($vo.user_id,90)}" alt="{$vo.nick_name}">
                     </div>
                     <div class="fangpai-detail-zhuanyuan-detail-info">
                         <div class="fangpai-detail-zhuanyuan-detail-info-name">
@@ -485,7 +485,7 @@
                         </li>
                         <li>
                             <span>起拍价</span>
-                            <input type="text" id="dai_qipai" value="{$info.qipai|raw}">
+                            <input type="text" id="dai_qipai" value="{$info.qipai|raw}" style="font-size: 16px;margin-left: 13px">
                             <input type="hidden" id="house_loan" value="{$house_loan}">
                             <input type="hidden" id="dai_mianji" value="{$info.acreage}">
                             <p class="fangpai-detail-daikuan-content-left-position">万元</p>
@@ -505,7 +505,7 @@
                                 <option value ="20">20%</option>
                                 <option value ="15">15%</option>
                                 <option value ="10">10%</option>
-                                <option value =">5">5%</option>
+                                <option value ="5">5%</option>
                             </select>
                             <p class="fangpai-detail-daikuan-content-left-img-position">
                                 <img src="./homeStatic/img/daosanjiao22.png" alt="">
