@@ -189,14 +189,14 @@
         <div class="zhuce">
             <div class="zhuce-header">
                 <p>用户注册</p>
-                <span>已有账号，立即登录  <img src="/homeStatic/img/jiahao.png" style="padding-left:19px" alt=""></span>
+                <span><span class="login_open">已有账号，立即登录 </span> <img src="/homeStatic/img/jiahao.png" class="close_model" style="padding-left:19px" alt=""></span>
 
             </div>
             <div class="zhuce-content">
                 <input type="text" placeholder="请输入手机号" id="mobile">
                 <div class="duanxincode">
                     <input type="text" id="sms_code" placeholder="请输入短信验证码">
-                    <button  id="smsCode"><span>|</span>获取验证码</button>
+                    <button class="smsCode"><span>|</span>获取验证码</button>
                 </div>
                 <input type="password" class="password" placeholder="请设置新密码，6-12位数字+字母">
                 <input type="password" class="password2" placeholder="确认密码">
@@ -216,28 +216,28 @@
         <div class="wangjimima">
             <div class="zhuce-header">
                 <p>找回密码</p>
-                <span></span>
+                <span><img src="/homeStatic/img/jiahao.png" class="close_model" style="padding-left:19px" alt=""></span>
             </div>
             <div class="zhuce-content">
-                <input type="text" placeholder="请输入手机号" id="phonenumbergaimi">
+                <input type="text" id="retrieve_mobile" placeholder="请输入手机号" id="phonenumbergaimi">
                 <div class="duanxincode">
-                    <input type="text" placeholder="请输入短信验证码">
-                    <button  onclick="getcodegaimi(this)" id="getcodegaimi"><span>|</span>获取验证码</button>
+                    <input type="text" id="retrieve_sms_code" placeholder="请输入短信验证码">
+                    <button class="smsCode"><span>|</span>获取验证码</button>
                 </div>
-                <input type="password" placeholder="请设置新密码，6-12位数字+字母">
-                <input type="password" placeholder="确认密码">
+                <input type="password" id="retrieve_password" placeholder="请设置新密码，6-12位数字+字母">
+                <input type="password" id="retrieve_password2"  placeholder="确认密码">
             </div>
-            <div class="lijizhuce" id="wangjimimasend">
+            <div class="lijizhuce"  onclick="wangjimimasend()">
                 提交
             </div>
             <div class="wanggologin">
-                <span>立即登录</span>
+                <span class="login_open">立即登录</span>
             </div>
         </div>
         <div class="login">
             <div class="zhuce-header">
                 <p>欢迎登陆</p>
-                <span><img src="/homeStatic/img/cha.png" alt=""></span>
+                <span><img src="/homeStatic/img/jiahao.png" class="close_model" alt=""></span>
             </div>
             <div class="zhuce-content">
                 <input class="form-control ipt" type="text" name="user_name" id="user_name" placeholder="请输入用户名或手机号">
@@ -252,11 +252,11 @@
                 <p><span><a href="#" class="wangjimima_open" style="text-decoration:none">忘记密码？</a></span></p>
             </div>
 
-            <div class="lijizhuce"  onclick="login()">
+            <div class="lijizhuce" onclick="login()">
                 登录
             </div>
             <div class="gozhuce">
-                <p>没有账号？<span>去注册</span></p>
+                <p class="zhuce_open">没有账号？<span>去注册</span></p>
             </div>
         </div>
     </div>
@@ -268,7 +268,7 @@
         var timenow = new Date().getTime();
         $(this).attr("src","{:url('Verfiy/index')}?t="+timenow)
     });
-    $("#smsCode").on('click',function(){
+    $(".smsCode").on('click',function(){
         getCode();
     });
     $('#agreement').on('click',function(){
