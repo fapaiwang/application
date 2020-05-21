@@ -210,10 +210,10 @@ class Secondx extends HomeBase{
                 $this->assign('login_user',$infos);
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
-//                print_r($userInfo);
-//                print_r(2345678);
-//
-//                dd($infos);
+                print_r($userInfo);
+                print_r(2345678);
+
+                dd($infos);
 
                 //获取根据本房源-推荐房源
                 $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);
