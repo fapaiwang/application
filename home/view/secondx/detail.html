@@ -234,12 +234,10 @@
                         </div>
                     </div>
                     <ul class="fangpai-detail-fixed-list">
-
                         {volist name='$second_house_user_comment' id='vo'}
-
                         <li>
                             <div class="fangpai-detail-fixed-list-content">
-                                <p class="fangpai-detail-fixed-list-img"><img src="{:getAvatar($vo.id,90)}" alt="{$vo.nick_name}"></p>
+                                <p class="fangpai-detail-fixed-list-img"><img src="{:getAvatar($vo.user_id,90)}" alt="{$vo.nick_name}"></p>
                                 <div class="fangpai-detail-fixed-list-content-info">
                                     <span>{$vo.nick_name}</span>
                                     <p>经验：{$vo.history_complate}年</p>
@@ -714,17 +712,6 @@
             </div>
         </div>
         {/volist}
-
-
-
-        <!--<div class="tuijian-swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-                <!--<div class="swiper-slide">-->
-                    <!---->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="tuijian-swiper-scrollbar"></div>-->
-        <!--</div>-->
     </div>
 </div>
 <script src="./js/echarts.min.js"></script>

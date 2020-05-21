@@ -1545,158 +1545,43 @@ class Secondx extends HomeBase{
 
 
 
-    private function getSort($sort)
-
-
-
-    {
-
-// print_r($sort);exit();
-
-        switch($sort)
-
-
-
-        {
-
-
-
+    private function getSort($sort){
+        switch($sort) {
             case 0:
-
-
-
                 $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 1:
-
-
-
                 $order = ['price'=>'asc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 2:
-
-
-
                 $order = ['price'=>'desc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 3:
-
-
-
                 $order = ['average_price'=>'asc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 4:
-
-
-
                 $order = ['average_price'=>'desc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 5:
-
-
-
                 $order = ['acreage'=>'asc','id'=>'desc'];
-
-
-
                 break;
-
-
-
             case 6:
-
-
-
                 $order = ['acreage'=>'desc','id'=>'desc'];
-
-
-
                 break;
-
             case 7:
-
-
-
                 $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
-
-
-
                 break;
-
             case 8:
-
-
-
                 $order = ['marketprice'=>'desc'];
-
-
-
                 break;
-
-
-
             case 9:
-
-
-
                 $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
-
-
-
                 break;
-
-
-
             default:
-
-
-
                 $order = ['ordid'=>'asc','id'=>'desc'];
-
-
-
                 break;
-
-
-
         }
-
-
-
         return $order;
-
-
-
     }
     
     
