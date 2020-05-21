@@ -66,15 +66,15 @@ class SecondHouse extends Controller
     
     /**
      * @description 推荐房源详情
-     * @param $id 房源ID
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * @auther xiaobin
      */
-    public function houseDetail($id)
+    public function houseDetail()
     {
+        $id = input('param.id',0);
         $house = new server();
         $houseRes = $house->second_model($id);
         $houseRes['toilet'] = getLinkMenuName(29,$houseRes['toilet']);
@@ -89,6 +89,13 @@ class SecondHouse extends Controller
         $user = login_user();
         $houseRes['is_guanzhu'] = $house->is_guanzhu($houseRes['id'],$user['id']);
         $houseRes['user_id'] = $user['id'];
+        $SecondServer = new SecondServer();
+        //推荐房源
+        $recommend_house = $SecondServer->get_recommend_house($houseRes['city'],$id,$houseRes['estate_id']);
+        foreach ($recommend_house as &$house){
+            $house['toilet'] = getLinkMenuName(29,$house['toilet']).'-'.$house['acreage']."/㎡";
+        }
+        $houseRes['recommend_house'] = $recommend_house;
         return $this->success_o($houseRes);
     }
 }
