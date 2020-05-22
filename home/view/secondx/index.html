@@ -374,26 +374,10 @@
                                 <div class="fangpai-shu-list-money">
                                     <div class="fangpai-shu-list-left">
                                         <p>起拍价：<span>{$vo.qipai}</span>万
-                                            <b>市场价：{$vo.price|raw}</b>
+                                            <b>市场价：{$vo.price}万</b>
                                         </p>
                                     </div>
                                     <div class="fangpai-shu-list-right">
-                                        <!--{if $vo.fydp_num gt 0 }-->
-                                        <!--<div class="fangpai-shu-list-shoucang">-->
-                                        <!--<p><img src="/homeStatic/img/hongxin.png" alt=""></p>-->
-                                        <!--<p><span>收藏11</span></p>-->
-                                        <!--</div>-->
-                                        <!--{else}-->
-                                        <!--<div class="fangpai-shu-list-shoucang">-->
-                                        <!--<p><img src="/homeStatic/img/jrcj.png" alt=""></p>-->
-                                        <!--<p><span>收藏</span></p>-->
-                                        <!--</div>-->
-                                        <!--{/if}-->
-                                        <!--<div class="fangpai-shu-list-zixun">-->
-                                        <!--<p><img src="./homeStatic/img/jrcj.png" alt=""></p>-->
-                                        <!--<p><span>咨询</span></p>-->
-                                        <!--</div>-->
-                                        <!--</div>-->
                                     </div>
                                     {if condition="$vo.fcstatus eq 169"}
                                     <!--进行中-->
@@ -446,7 +430,7 @@
                                     <div class="fangpai-lie-list-footer">
                                         <div class="fangpai-lie-list-danjia">
                                             单价：<span class="dj">{$vo.average_price|raw}</span>
-                                            <span>市场价：{$vo.price|raw}</span>
+                                            <span>市场价：{$vo.price}万</span>
                                         </div>
                                     </div>
                                     <div class="fangpai-lie-list-time">
@@ -571,7 +555,13 @@
             </div>
             <div class="fangpai-detail-dialog-content-detail">
                 <div class="fangpai-detail-dialog-content-detail-left">
-                    <h2>通州区天赐良园西区8号楼361室</h2>
+                    <div class="fangpai-detail-dialog-content-detail-title">
+                        <h2>通州区天赐良园西区8号楼361室</h2>
+                        <span class="fangpai-detail-dialog-content-detail-title-red">住宅</span>
+                        <span class="fangpai-detail-dialog-content-detail-blue">一拍</span>
+                        <span class="fangpai-detail-dialog-content-detail-golden">自由购</span>
+                    </div>
+
                     <div class="fangpai-detail-dialog-content-detail-left-monty">
                         <ul>
                             <li>

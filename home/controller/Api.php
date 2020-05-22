@@ -1677,24 +1677,26 @@ $data['house_id']  = input('post.house_id/d',0);
             $di_jia_kuan['percent'] =$this->num_bili($total_num,$di_jia_kuan_price);
         }
         if (!empty($zeng_zhi_shui_price)){
-            $zeng_zhi_shui['name'] ="增值税及附加计算";
+            $zeng_zhi_shui['name'] ="增值税及附加";
             $zeng_zhi_shui['fvalue'] =$zeng_zhi_shui_price;
             $zeng_zhi_shui['value'] =$zeng_zhi_shui_price;
             $zeng_zhi_shui['percent'] =$this->num_bili($total_num,$zeng_zhi_shui_price);
         }
         $arr['total']=$total_num;
-        $arr['deed_tax']= $qishui;//契税哦
+        $arr['taxs']['deed_tax']= $qishui;//契税哦
+        $arr['repairCostTips']=0;
+
         //增值税及附加计算
         if (!empty($zeng_zhi_shui)){
-            $arr['value_added_tax']= $zeng_zhi_shui;
+            $arr['taxs']['value_added_tax']= $zeng_zhi_shui;
         }
         //综合地价款
         if (!empty($di_jia_kuan)){
-            $arr['gross_land_purchasing_fee']= $di_jia_kuan;
+            $arr['taxs']['gross_land_purchasing_fee']= $di_jia_kuan;
         }
         //土地出让金
         if (!empty($chu_rang_jin)){
-            $arr['land_transfer_fee']= $chu_rang_jin;
+            $arr['taxs']['land_transfer_fee']= $chu_rang_jin;
         }
         return json_encode($arr);
     }
