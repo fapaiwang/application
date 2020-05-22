@@ -199,9 +199,6 @@ class Index extends \app\common\controller\HomeBase
         $news_strategy =$IndexServer->article_show(10,1);
         $this->assign('news_strategy',$news_strategy);
         $info['news_strategy_list']  =$IndexServer->article_show(10,5);
-        //用户协议
-        $agreement   = model('pages')->where('id',3)->cache('pages_3',84000)->find();
-        $this->assign('agreement',$agreement);
         $this->assign('page_t',1);
         return $this->fetch('index/index_1',$info);
     }

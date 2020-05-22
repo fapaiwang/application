@@ -230,4 +230,16 @@ class Login extends HomeBase
         }
         $this->redirect($http_referer);
     }
+
+    /**
+     *  用户协议
+     * @param mixed
+     * @return mixed
+     * @author: al
+     */
+    public function agreement(){
+        $agreement   = model('pages')->where('id',3)->cache('pages_3',84000)->find();
+        $this->assign('agreement',$agreement);
+        return $this->fetch();
+    }
 }

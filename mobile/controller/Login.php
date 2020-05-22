@@ -569,7 +569,7 @@ if(empty($uinfo)){
 
                 $return['code'] = 1;
 
-                $return['msg']  = '密码重置成功，即将为您跳转到登录页';
+                $return['msg']  = '密码重置成功，请您重新登录';
 
                 $return['uri']  = url('Login/index');
 
