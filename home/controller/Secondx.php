@@ -210,6 +210,12 @@ class Secondx extends HomeBase{
                 $this->assign('login_user',$infos);
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
+                //获取拍卖成交记录
+                $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->limit('0,5')->select();
+                $this->assign('jilu1',$jilu1);
+                $jilu =  model('transaction_record')->where('estate_id',$estate_id)->limit('5,200')->select();
+                $this->assign('jilu',$jilu);
+
 
                 //获取根据本房源-推荐房源
                 $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);

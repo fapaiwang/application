@@ -124,7 +124,7 @@
                                         </select>
 
                                         <div class="zidingyi">
-                                            <input type="text" id="zidingyi" placeholder="请输入" disabled value=""/>
+                                            <input type="text" id="zidingyi" placeholder="请输入" disabled value=""/><b class="zidingyibaifenhao">%</b>
                                             <input type="checkbox" id="checkBox" name="checkZidingyi" />
                                             <label name="checkZidingyi">自定义</label>
                                         </div>
@@ -284,6 +284,10 @@
 
     })
     let lilvFlag = false
+    $('#zidingyi').val($('#dai_lilv').val())
+    $('#dai_lilv').on('change', function () {
+        $('#zidingyi').val($('#dai_lilv').val())
+    })
     $('#zidingyi').on('change', function () {
         var value = $(this).val()
         var patrn = /^(-)?\d+(\.\d+)?$/;

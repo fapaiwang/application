@@ -1625,7 +1625,7 @@ $data['house_id']  = input('post.house_id/d',0);
         //每月还款的差额
         $info['chae'] = sprintf("%.2f", $res[0]['benxi'] - $res[1]['benxi']);
         $info['total_num'] = $res['total_num'];
-        $info['total_price'] =$dai_qipai + $res['total_num'];
+        $info['total_price'] =sprintf("%.2f", $dai_qipai + $res['total_num']);
         unset($res['total_num']);
         $info['dai_price'] =$dai_qipai;
 

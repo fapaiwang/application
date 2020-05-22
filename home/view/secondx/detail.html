@@ -381,7 +381,10 @@
                 <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
             <div class="fangpai-detail-paimai-content" style="display: none">
-                {$info.info|raw}
+                {if condition="!empty($userInfo)"}
+                    {$info.info|raw}
+                {/if}
+                <input type="hidden">
             </div>
         </div>
         <div id="fangpai-detail-jilu" class="fangpai-detail-jilu">
@@ -389,7 +392,7 @@
                 <h2>成交记录</h2>
                 <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
-            {if condition="$login_user.model eq 4"}
+
             <div class="fangpai-detail-jilu-content" style="display: none">
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">交易记录</p>
                     {if $info.jieduan gt 161}
@@ -415,6 +418,7 @@
                         {/if}
                     </ul>
                     {/if}
+                {if condition="$login_user.model eq 4"}
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">拍卖成交记录</p>
                     <ul class="fangpai-detail-jilu-content-chengjiao">
                         {volist name='estate_seconf' id='es'}
@@ -428,12 +432,26 @@
                         {/volist}
                     </ul>
                 <div class="fangpai-detail-jilu-content-footer">
-                    <span>更多</span>
+                    <span onclick="btn">更多</span>
                     <img src="./homeStatic/img/jrxz.png" alt="">
                 </div>
+                {/if}
             </div>
-            {/if}
+
         </div>
+        <script>
+            function btn(){
+                if(btn1.value=="收起"){
+                    box1.style.display='none';
+                    btn1.value="更多";
+                }else{
+                    box1.style.display='block';
+                    btn1.value="收起";
+                }
+            }
+        </script>
+
+
         {if condition="$second_house_user_comment_num"}
         <div id="fangpai-detail-zhuanyuan" class="fangpai-detail-zhuanyuan">
             <div class="fangpai-detail-zhuanyuan-title">
