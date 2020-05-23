@@ -131,7 +131,7 @@ class SecondHouse extends Controller
         $time    = time();
         $where   = $this->search();
         $sort    = input('param.sort/d',0);
-        $keyword = input('get.keyword');//搜索小区名称/房屋名称
+        $keyword = input('param.keyword');//搜索小区名称/房屋名称
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
         //二手房列表
@@ -182,6 +182,7 @@ class SecondHouse extends Controller
             $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
             $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
         }
+        return $this->success_o($lists);
     }
     
     /**
@@ -213,13 +214,7 @@ class SecondHouse extends Controller
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $data['s.status']    = 1;
         
-        //获取当前请求的参数
-        $arr=$this->request->param();
-        if(!empty($arr['keyword'])){
-            $keyword = $arr['keyword'];
-        }else{
-            $keyword = input('get.keyword');
-        }
+        $keyword = input('param.keyword');//搜索小区名称/房屋名称
         //显示街道时
         if ($param['area']  > 57){
             $param['street'] =$param['area'];
@@ -357,11 +352,11 @@ class SecondHouse extends Controller
     
     /**
      * @description 区域
-     * @param int $city_id 城市ID
      * @return \think\response\Json
      * @auther xiaobin
      */
-    public function getAreaByCityId($city_id = 0) {
+    public function getAreaByCityId() {
+        $city_id = input("param.city_id");//城市ID
         $city = getCity();
         $city_cate = getCity('cate');
         $area = [];
@@ -379,7 +374,6 @@ class SecondHouse extends Controller
     
     /**
      * @description
-     * @param $id int 状态码
      * @auther xiaobin
      * @return \think\response\Json
      * 逻辑
@@ -388,7 +382,8 @@ class SecondHouse extends Controller
      * 25 房拍阶段  一拍、二拍、变卖
      * 27 房屋状态 预告、进行、结束、终止。。。
      */
-    public function houseType($id) {
+    public function houseType() {
+        $id = input("param.id");
         if ($id < 1) {
             return $this->error_o("不合法的参数");
         }
@@ -424,5 +419,49 @@ class SecondHouse extends Controller
      */
     public function getRoom() {
         return $this->success_o(getRoom());
+    }
+    
+    /**
+     * @param $sort
+     * @return array
+     * 排序
+     */
+    private function getSort($sort) {
+        switch ($sort) {
+            case 0:
+                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
+                break;
+            case 1:
+                $order = ['price'=>'asc','id'=>'desc'];
+                break;
+            case 2:
+                $order = ['price'=>'desc','id'=>'desc'];
+                break;
+            case 3:
+                $order = ['average_price'=>'asc','id'=>'desc'];
+                break;
+            case 4:
+                $order = ['average_price'=>'desc','id'=>'desc'];
+                break;
+            case 5:
+                $order = ['acreage'=>'asc','id'=>'desc'];
+                break;
+            case 6:
+                $order = ['acreage'=>'desc','id'=>'desc'];
+                break;
+            case 7:
+                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
+                break;
+            case 8:
+                $order = ['marketprice'=>'desc'];
+                break;
+            case 9:
+                $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
+                break;
+            default:
+                $order = ['ordid'=>'asc','id'=>'desc'];
+                break;
+        }
+        return $order;
     }
 }
