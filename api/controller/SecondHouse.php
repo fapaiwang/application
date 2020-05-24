@@ -17,6 +17,8 @@ class SecondHouse extends Controller
     use ApiResult;
     protected $Second_Server;
     protected $Index_Server;
+    protected $cityInfo;
+    
     public function __construct(SecondServer $Second_Server,IndexServer $Index_Server)
     {
         $this->Second_Server = $Second_Server;
@@ -114,5 +116,352 @@ class SecondHouse extends Controller
         //法拍专员点评/点评个数
         $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);;
         return $this->success_o($houseRes);
+    }
+    
+    
+    /**
+     * @description 获取房源列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @auther xiaobin
+     */
+    public function houseList()
+    {
+        $time    = time();
+        $where   = $this->search();
+        $sort    = input('param.sort/d',0);
+        $keyword = input('param.keyword');//搜索小区名称/房屋名称
+        $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
+        $obj     = model('second_house')->alias('s');
+        //二手房列表
+        if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
+            //查询地铁关联表
+            $field .= ',m.metro_name,m.station_name,m.distance';
+            $join  = [['metro_relation m','m.house_id = s.id']];
+            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+        }else{
+            if($sort==8){
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }else if($sort==7){
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }else{
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            }
+        }
+        if($lists->currentPage() == 1){
+            //二手房置顶列表
+            $obj = $obj->removeOption()->alias('s');
+            //关联地铁表
+            if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
+                $field .= ',m.metro_name,m.station_name,m.distance';
+                $join  = [['metro_relation m','m.house_id = s.id']];
+                $obj->join($join)->where('m.model','second_house')->group('s.id');
+            }
+            $top   = $obj->field($field)->where($where)->where('top_time','gt',$time)->order(['timeout'=>'desc','id'=>'desc'])->select();
+        }else{
+            $top   = false;
+        }
+        foreach ($lists as $key => $value) {
+            $estate_id=$lists[$key]['estate_id'];
+            $sql=model('estate')->where('id','eq',$estate_id)->alias('years')->find();
+            $years=$sql['years'];
+            $lists[$key]['years']=$years;
+            $city_id=$lists[$key]['city'];
+            $sqls = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city_id)->find();
+            $spid=$sqls['spid'];
+            $city_name=$sqls['name'];
+            if(substr_count($spid,'|')==2){
+                $listsss = model('city')->field('id,name')->where('id','eq',$sqls['pid'])->find();
+                $shi=$listsss['name'];
+                $lists[$key]['city']=$shi.$city_name;
+            }else{
+                $lists[$key]['city']=$city_name;
+            }
+            $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
+            $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
+            $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
+        }
+        return $this->success_o($lists);
+    }
+    
+    /**
+     * @description 搜索条件
+     * @return array
+     * @auther xiaobin
+     */
+    public function search() {
+        $estate_id     = input('param.estate_id/d',0);//小区id
+        $param['area'] = input('param.area/d', $this->cityInfo['id']);
+//        dd($param);
+        $param['rading']     = 0;
+        $param['tags']       = input('param.tags/d',0);
+        $param['qipai']      = input('param.qipai',0);
+        $param['acreage']    = input('param.acreage',0);//面积
+        $param['room']       = input('param.room',0);//户型
+        $param['types']       = input('param.types',0);//户型
+        $param['jieduan']       = input('param.jieduan',0);//户型
+        $param['fcstatus']       = input('param.fcstatus',0);//状态
+        $param['type']       = input('param.type',0);//物业类型
+        $param['renovation'] = input('param.renovation',0);//装修情况
+        $param['metro']      = input('param.metro/d',0);//地铁线
+        $param['metro_station'] = input('param.metro_station/d',0);//地铁站点
+        $param['sort']          = input('param.sort/d',0);//排序
+        $param['is_free']          = input('param.is_free/d',0);//自由购
+        $param['orientations']  = input('param.orientations/d',0);//朝向
+        $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
+        $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
+        $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
+        $data['s.status']    = 1;
+        
+        $keyword = input('param.keyword');//搜索小区名称/房屋名称
+        //显示街道时
+        if ($param['area']  > 57){
+            $param['street'] =$param['area'];
+        }
+        $zprice1 =0;
+        $param['zprice1']=$_GET['zprice1'] ??"";
+        $param['zprice2']=$_GET['zprice2'] ?? "";
+        $param['zmianji1']=$_GET['zmianji1'] ?? "";
+        $param['zmianji2']=$_GET['zmianji2'] ?? "";
+        if(!empty($_GET['zprice1'])){
+            $zprice1=$_GET['zprice1'];
+        }
+        if(!empty($_GET['zprice2'])){
+            $zprice2=$_GET['zprice2'];
+        }
+        $zmianji1 =0;
+        if(!empty($_GET['zmianji1'])){
+            $zmianji1=$_GET['zmianji1'];
+        }
+        if(!empty($_GET['zmianji2'])){
+            $zmianji2=$_GET['zmianji2'];
+        }
+        if($estate_id) {
+            $data['s.estate_id'] = $estate_id;
+        }
+        if(!empty($param['type'])){
+            $data['s.house_type'] = $param['type'];
+        }
+        if(!empty($param['user_type'])){
+            $data['s.user_type'] = $param['user_type'];
+        }
+        if(!empty($param['orientations'])){
+            $data['s.orientations'] = $param['orientations'];
+        }
+        if($param['renovation']){
+            $data['s.renovation'] = $param['renovation'];
+        }
+        if($keyword){
+            $data[] = ['s.title','like','%'.$keyword.'%'];
+        }
+        
+        if ($param['search_type'] == 2) {
+            if (!empty($param['metro'])){
+                $data['m.metro_id'] = $param['metro'];
+            } else {
+                $data[] = ['s.city','in',$this->getCityChild()];
+            }
+            if (!empty($param['metro_station'])) {
+                $data['m.station_id'] = $param['metro_station'];
+            }
+        } else {
+            if (!empty($param['area'])) {
+                $data[] = ['s.city','in',$this->getCityChild($param['area'])];
+            }
+        }
+        if(!empty($param['qipai'])) {
+            $data[] = getSecondPrice($param['qipai'],'s.qipai');
+        }
+        if(!empty($param['room'])){
+            $data[] = getRoom($param['room'],'s.room');
+        }
+        if (!empty($param['types'])) {
+            $data['s.types'] = $param['types'];
+        }
+        if (!empty($param['jieduan'])) {
+            $data['s.jieduan'] = $param['jieduan'];
+        }
+        if (!empty($param['fcstatus'])) {
+            $data['s.fcstatus'] = $param['fcstatus'];
+        }
+        if (!empty($param['acreage'])) {
+            $data[] = getAcreage($param['acreage'],'s.acreage');
+        }
+        if (!empty($param['tags'])) {
+            $data[] = ['','exp',\think\Db::raw("find_in_set({$param['tags']},s.tags)")];
+        }
+        $data[] = ['s.timeout','gt',time()];
+        //是否是自由购
+        if(!empty($param['is_free'])){
+            $data['s.is_free'] = $param['is_free'];
+        }
+        if(!empty($_GET['zprice2'])){
+            $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
+        }
+        if(!empty($_GET['rec_position'])){
+            $data[] = ['rec_position','eq',1];
+        }
+        if(!empty($_GET['zmianji2'])){
+            $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
+        }
+        $data = array_filter($data);
+        return $data;
+    }
+    
+
+    /**
+     * @description 获取指定城市id下的所有区域
+     * @param int $city_id 城市ID
+     * @return bool|mixed
+     */
+    public function getCityChild($city_id = 0) {
+        $city_id = $city_id ? $city_id : $this->cityInfo['id'];
+        if ($city_id) {
+            $city_ids = cache('city_all_child_'.$city_id);
+            if (!$city_ids) {
+                $city_ids = model('city')->get_child_ids($city_id,true);
+                cache('city_all_child_'.$city_id,$city_ids,7200);
+            }
+            return $city_ids;
+        }
+        return false;
+    }
+    
+    /**
+     * @param $area_id
+     * @return array
+     * 获取区域下的商圈
+     */
+     public function getRadingByAreaId($area_id) {
+        $city        = getCity();
+        $city_cate   = getCity('cate');
+        $rading      = [];
+        $city_id     = $this->cityInfo['id'];
+        
+        if (array_key_exists($area_id, $city_cate)) {
+            $pid = $city_cate[$area_id]['pid'];
+            if ($pid == $city_id) {//如果 父级id==城市id  说明当前选择的是区域   否则当前选择的是商圈
+                $rading = isset($city[$pid]['_child'][$area_id]['_child']) ? $city[$pid]['_child'][$area_id]['_child'] : [];
+            } else {
+                $rading = isset($city[$city_id]['_child'][$pid]['_child']) ? $city[$city_id]['_child'][$pid]['_child'] : [];
+            }
+        }
+        return $rading;
+    }
+    
+    /**
+     * @description 区域
+     * @return \think\response\Json
+     * @auther xiaobin
+     */
+    public function getAreaByCityId() {
+        $city_id = input("param.city_id");//城市ID
+        $city = getCity();
+        $city_cate = getCity('cate');
+        $area = [];
+        !$city_id && $city_id = $this->cityInfo['id'];
+        if (array_key_exists($city_id,$city_cate)) {
+            $pid = $city_cate[$city_id]['pid'];
+            if ($pid == 0) {
+                $area = isset($city[$city_id]['_child']) ? $city[$city_id]['_child'] : [];
+            } else {
+                $area = isset($city[$pid]['_child']) ? $city[$pid]['_child'] : [];
+            }
+        }
+        return $this->success_o($area);
+    }
+    
+    /**
+     * @description
+     * @auther xiaobin
+     * @return \think\response\Json
+     * 逻辑
+     * 9形式 如：法拍房源、国有资产、涉诉房产、社会委托
+     * 26类型 如：别墅、平房.四合院、商办、住宅、写字楼、厂房、土地、酒店、公寓
+     * 25 房拍阶段  一拍、二拍、变卖
+     * 27 房屋状态 预告、进行、结束、终止。。。
+     */
+    public function houseType() {
+        $id = input("param.id");
+        if ($id < 1) {
+            return $this->error_o("不合法的参数");
+        }
+        return $this->success_o(getLinkMenuCache($id));
+    }
+    
+    /**
+     * @description 总价
+     * @return \think\response\Json
+     * @auther xiaobin
+     * 如： 500万以下、500-1000万、1000-3000万
+     */
+    public function getSecondPrice()
+    {
+        return $this->success_o(getSecondPrice());
+    }
+    
+    /**
+     * @description 房屋面积
+     * @return \think\response\Json
+     * @auther xiaobin
+     * 如：50m²以下、50-100m²、100-200m²
+     */
+    public function getAcreage() {
+        return $this->success_o(getAcreage());
+    }
+    
+    /**
+     * @description 房屋户型
+     * @return \think\response\Json
+     * @auther xiaobin
+     * 如：一室、二室、三室
+     */
+    public function getRoom() {
+        return $this->success_o(getRoom());
+    }
+    
+    /**
+     * @param $sort
+     * @return array
+     * 排序
+     */
+    private function getSort($sort) {
+        switch ($sort) {
+            case 0:
+                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
+                break;
+            case 1:
+                $order = ['price'=>'asc','id'=>'desc'];
+                break;
+            case 2:
+                $order = ['price'=>'desc','id'=>'desc'];
+                break;
+            case 3:
+                $order = ['average_price'=>'asc','id'=>'desc'];
+                break;
+            case 4:
+                $order = ['average_price'=>'desc','id'=>'desc'];
+                break;
+            case 5:
+                $order = ['acreage'=>'asc','id'=>'desc'];
+                break;
+            case 6:
+                $order = ['acreage'=>'desc','id'=>'desc'];
+                break;
+            case 7:
+                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
+                break;
+            case 8:
+                $order = ['marketprice'=>'desc'];
+                break;
+            case 9:
+                $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
+                break;
+            default:
+                $order = ['ordid'=>'asc','id'=>'desc'];
+                break;
+        }
+        return $order;
     }
 }
