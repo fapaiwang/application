@@ -213,6 +213,7 @@
                     </div>
                     <div class="fangpai-detail-header-right-begin-baoming">
                         <div class="fangpai-detail-header-right-begin-baoming-left">
+                            <input type="hidden" id="userInfo" value="{$userInfo}">
                             {if condition="!empty($userInfo)"}
                             <span>{$info.bmrs }</span>人报名
                             {else \}
@@ -378,7 +379,7 @@
         <div>
             <div class="fangpai-detail-paimai-title">
                 <h2 id="fangpai-detail-paimai" class="fangpai-detail-paimai">拍卖公告</h2>
-                <span><img src="./homeStatic/img/jia20.png" alt=""></span>
+                <span><img src="./homeStatic/img/jia20.png" alt="" id="cs"></span>
             </div>
             <div class="fangpai-detail-paimai-content" style="display: none">
                 {if condition="!empty($userInfo)"}
@@ -421,21 +422,23 @@
                 {if condition="$login_user.model eq 4"}
                 <p class="fangpai-detail-jilu-content-jiaoyi-title">拍卖成交记录</p>
                     <ul class="fangpai-detail-jilu-content-chengjiao">
-                        {volist name='estate_seconf' id='es'}
+                        {volist name='jilu1' id='tvo'}
                         <li>
-                            <span>{$es.endtime}</span>
-                            <span>起拍价：{$es.qipai}万</span>
-                            <span>{$es.acreage}平米</span>
-                            <span>成交价：{$es.cjprice}万</span>
-                            <span>单价：{:mbsubstr($es.average_price,0,-10)}</span>
+                            <span>{$tvo.title}</span>
+                            <span>{$tvo['louceng']}&nbsp;&nbsp;{$tvo['chaoxiang']}</span>
+                            <span>{$yeares}年建成</span>
+                            <span>{$tvo.acreage}平米</span>
+                            <span>成交价：{$tvo.price}</span>
+                            <span>{$tvo.price/$tvo.acreage}元/㎡</span>
                         </li>
                         {/volist}
                     </ul>
-                <div class="fangpai-detail-jilu-content-footer">
-                    <span onclick="btn">更多</span>
-                    <img src="./homeStatic/img/jrxz.png" alt="">
-                </div>
+                <!--<div class="fangpai-detail-jilu-content-footer">-->
+                    <!--<span onclick="btn">更多</span>-->
+                    <!--<img src="./homeStatic/img/jrxz.png" alt="">-->
+                <!--</div>-->
                 {/if}
+
             </div>
 
         </div>

@@ -193,8 +193,12 @@ class Secondx extends HomeBase{
                 $this->assign('estate_num',$estate_num);
                 $estate_id=$info['estate_id'];
                 //小区的所有房源
-                $estate_seconf = $SecondServer->estate_second($estate_id,10);
-                $this->assign('estate_seconf',$estate_seconf);
+//                $estate_seconf = $SecondServer->estate_second($estate_id,10);
+//                $this->assign('estate_seconf',$estate_seconf);
+                //拍卖成交记录
+                $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->cache("transaction_record_".$estate_id,84000)->select();
+                $this->assign('jilu1',$jilu1);
+
                 //法拍专员点评/点评个数
                 $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);;
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
