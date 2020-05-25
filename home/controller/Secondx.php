@@ -211,6 +211,7 @@ class Secondx extends HomeBase{
                 $infos = cookie('userInfo');
                 $infos = \org\Crypt::decrypt($infos);
                 $this->assign('login_user',$infos);
+                $this->assign('login_user_json',json_encode($infos));
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
                 //获取拍卖成交记录
