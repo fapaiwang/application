@@ -168,8 +168,7 @@ class Secondx extends HomeBase{
     }
 
     public function detail(){
-        $mode = model('transaction_record')->limit(0,500)->select();
-
+        $mode = model('transaction_record')->select();
         $price = $acreage = 0;
         foreach ($mode as $v){
             if (!empty($v->acreage) && !empty($v->price)){
