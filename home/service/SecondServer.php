@@ -176,7 +176,7 @@ class SecondServer
         //面积
         $res[] =$this->get_linkmenu_one_arr(getAcreage(),"price");
         //户型
-        $res[] =getRoom();
+        $res[] =["一室","二室","三室","四室","五室","五室以上"];
         //阶段
         $res[] =$this->get_linkmenu_one_arr(getLinkMenuCache(25),25);
         //状态

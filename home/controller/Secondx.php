@@ -139,7 +139,6 @@ class Secondx extends HomeBase{
         $waist_bunner = $IndexServer->get_home_banner_arr(19,1);
         if (!empty($waist_bunner)) {
             $waist_bunner = $waist_bunner[0];
-
         }
         $this->assign('waist_bunner',$waist_bunner );//平铺第三个广告
         $this->assign('answer',$answer);//问答
