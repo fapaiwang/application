@@ -168,21 +168,6 @@ class Secondx extends HomeBase{
     }
 
     public function detail(){
-        $mode = model('transaction_record')->select();
-        $price = $acreage = 0;
-        foreach ($mode as $v){
-            if (!empty($v->acreage) && !empty($v->price)){
-                $price = mb_substr($v->price,0,-1);
-                if (is_numeric($price)){
-                    $acreage =  $price * 10000 / $v->acreage;
-                    model('transaction_record')->where('id', $v->id)->update(['cjprice' => intval($acreage)]);
-                }
-
-            }
-            print_r($v->id);
-            print_r("<pre>");
-        }
-        dd($mode);
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
