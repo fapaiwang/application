@@ -40,6 +40,38 @@ class Banner extends Controller
         }
     }
 
+    /**
+     * 首页 今日成交/正在进行/即将拍卖
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function home_second_search(){
+        $arr=[];
+        $banner_1 =  $this->index_service->get_home_banner(26);
+        $banner_2 =  $this->index_service->get_home_banner(27);
+        $arr[0]["name"] ="即将拍卖";
+        $arr[0]["describe"] ="即将拍卖即将拍卖即将拍卖";
+        $arr[1]["name"] ="正在进行";
+        $arr[1]["describe"] ="正在进行正在进行正在进行";
+        $arr[2]["name"] ="今日成交";
+        $arr[2]["describe"] ="今日成交今日成交今日成交";
+        if (!$banner_1->isEmpty() &&  !$banner_2->isEmpty()){
+            $arr[0]["img"] =$banner_1[0]['setting'];
+            $arr[1]["img"] =$banner_2[0]['setting'];
+            $arr[2]["img"] =$banner_2[0]['setting'];
+        }
+        if ($arr){
+            return $this->success_o($arr);
+        }else{
+            $error= "广告图查询错误";
+            return $this->error_o($error);
+        }
+    }
+
 
 
 }

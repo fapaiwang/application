@@ -20,7 +20,7 @@ class SecondHouse extends Controller
 
     /**
      * 拍卖成交记录
-     * 重新极端单价
+     * 重新计算单价
      * @param mixed
      * @author: al
      */

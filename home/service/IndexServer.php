@@ -54,7 +54,6 @@ class IndexServer
         }
         return $banner;
     }
-
     /**
      * 查询统计数据
      * @param mixed

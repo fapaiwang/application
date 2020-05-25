@@ -136,7 +136,7 @@ class Secondx extends HomeBase{
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);
         $userInfo = login_user();
-        $waist_bunner = $IndexServer->get_home_banner_arr(2,1);
+        $waist_bunner = $IndexServer->get_home_banner_arr(19,1);
         if (!empty($waist_bunner)) {
             $waist_bunner = $waist_bunner[0];
 
