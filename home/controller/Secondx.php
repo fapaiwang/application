@@ -168,10 +168,25 @@ class Secondx extends HomeBase{
     }
 
     public function detail(){
+        $mode = model('transaction_record')->limit(0,500)->select();
+
+        $price = $acreage = 0;
+        foreach ($mode as $v){
+            if (!empty($v->acreage) && !empty($v->price)){
+                $price = mb_substr($v->price,0,-1);
+                if (is_numeric($price)){
+                    $acreage =  $price * 10000 / $v->acreage;
+                    model('transaction_record')->where('id', $v->id)->update(['cjprice' => intval($acreage)]);
+                }
+
+            }
+            print_r($v->id);
+            print_r("<pre>");
+        }
+        dd($mode);
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
-
             $SecondServer = new SecondServer();
             //增加围观次数
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
