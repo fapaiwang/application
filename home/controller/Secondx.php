@@ -1315,6 +1315,7 @@ class Secondx extends HomeBase{
         $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
+        $param['time_frame']   = input('param.time_frame',0);//查询时间
         $data['s.status']    = 1;
 
         //获取当前请求的参数

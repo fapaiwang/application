@@ -169,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="box" style="display:none">
+                <div id="box" style="display: none">
 
                     <div class="item clearfix">
                         <h3>面积:</h3>
@@ -226,17 +226,22 @@
                     <!--<div class="item clearfix">-->
                         <!--<h3>时间:</h3>-->
                         <!--<ul class="list">-->
-                            <!--<li>-->
-                                <!--<form action="{:url('Secondx/index')}">-->
-                                    <!--<div class="s-box fix">-->
-                                        <!--<input type="text" class="interval layui-input" name="time_interval" id="time_interval" value="" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
-                                        <!--<input type="submit" name="" value="确定" class="zprice">-->
-                                    <!--</div>-->
-                                <!--</form>-->
-                                <!--<input type="text" class="" id="aaa" placeholder=" - " style="width: 300px">-->
-                            <!--</li>-->
-
+                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active"{/if}>全部</a></li>-->
+                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>-->
+                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>-->
+                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>-->
+                            <!--<li><input type="text" placeholder="请输入时间" class="layui-input" id="test6" style="height: 25px;width: 170px" ></li>-->
+                            <!--<li><input type="submit" name="" value="确定" class="test6_substr"></li>-->
                         <!--</ul>-->
+                        <!--<form action="{:url('Secondx/index')}">-->
+                            <!--<div class="s-box fix">-->
+                                <!--<input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
+                                <!--<span>-</span>-->
+                                <!--<input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">-->
+                                <!--<span>平米</span>-->
+                                <!--<input type="submit" name="" value="确定" class="zprice">-->
+                            <!--</div>-->
+                        <!--</form>-->
                     <!--</div>-->
                     <div class="item clearfix search-content-gengduo">
                         <div class=" search-content">
@@ -721,7 +726,7 @@
 <!--弹窗结束-->
 <!-- 楼盘列表 S-->
 <!--在线客服-->
-{include file="secondx/kf"}
+<!--{include file="secondx/kf"}-->
 <!--在线客服 end-->
 <script type="text/html" id="template">
     {{# for(var i = 0, len = d.length; i < len; i++){ }}
@@ -740,6 +745,22 @@
 <script>
     var li = '<li class="fangpai-lie-list-content-guanggao" style="height: 195px"><a href="/tools/loan"><img src="{$waist_bunner.fileurl}" style="height: 100%; width: 100%; padding-bottom: 35px" alt=""></a></li>'
     $('.fangpai-lie-list li').eq(2).after(li)
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+    })
+    $(".test6_substr").on('click',function () {
+        if ($("#test6").val().length <= 0){
+            layer.msg("请输入要搜索的时间");
+        }
+
+       // var res =  "{:getUrl('Secondx/index','time_frame',$param,)}";
+
+
+    })
 </script>
 <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>

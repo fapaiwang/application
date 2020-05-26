@@ -343,8 +343,11 @@
         <div class="fangpai-detail-fangyuan-basic">
             <p>欠费及瑕疵</p>
             <div class="fangpai-detail-fangyuan-qianfei">
-                <p>{$info.qianfei}{$info.xiaci}</p>
-                <p></p>
+                {if condition="!empty($userInfo)"}
+                <p style="width: 480px">{$info.qianfei}{$info.xiaci}</p>
+                {else \}
+                <p style="width: 480px">注册登录可看<span class="is_register">立即注册</span> <span class="is_login">登录</span></p>
+                {/if}
             </div>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
@@ -379,7 +382,7 @@
         <div>
             <div class="fangpai-detail-paimai-title">
                 <h2 id="fangpai-detail-paimai" class="fangpai-detail-paimai">拍卖公告</h2>
-                <span><img src="./homeStatic/img/jia20.png" alt="" id="cs"></span>
+                <span><img src="./homeStatic/img/jia20.png" alt=""></span>
             </div>
             <div class="fangpai-detail-paimai-content" style="display: none">
                 {if condition="!empty($userInfo)"}
