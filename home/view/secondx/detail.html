@@ -160,6 +160,52 @@
                         <p>{$estate.years}年</p>
                     </li>
                 </ul>
+                <div class="fangpai-detail-header-right-begin">
+                <div class="fangpai-detail-header-right-begin-jiezhitime">
+                    <span>开拍截止时间：</span>
+                    <input type="hidden" id="fastatus" value="{$info.fcstatus}">
+                    <input type="hidden" id="house_type" value="{$info.house_type}">
+                    <b id="reciprocal">
+                        {if condition="$info.fcstatus eq 175"}
+                        <span>成交价：</span>{$info.cjprice}<span>万元</span>
+                        <div class="fangpai-detail-header-right-begin-time">
+                            <span>结束时间：</span>
+                            <b>{$info.endtime}</b>
+                        </div>
+                        {elseif condition="$info.fcstatus eq 171"}
+                        拍卖已结束
+                        {elseif condition="$info.fcstatus eq 172"}
+                        拍卖已中止
+                        {elseif condition="$info.fcstatus eq 174"}
+                        拍卖已暂缓
+                        {elseif condition="$info.fcstatus eq 173"}
+                        拍卖已撤回
+                        {/if}
+                    </b>
+                    <input type="text" name="usernames" id="usernames" value="{$info.jieduan_num}" style="display:none;">
+                    {if $info.jieduan eq 163}
+                    <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
+                    {/if}
+                    <input type="text" name="username" id="username" value="{$info.kptime}" style="display:none;">
+                </div>
+                <div class="fangpai-detail-header-right-begin-time">
+                    <span>开拍时间：</span>
+                    <b>2020-05-19 10:00:00</b>
+                </div>
+                <div class="fangpai-detail-header-right-begin-baoming">
+                    <div class="fangpai-detail-header-right-begin-baoming-left">
+                        <input type="hidden" id="userInfo" value="{$login_user_json}">
+                        {if condition="!empty($userInfo)"}
+                        <span>{$info.bmrs }</span>人报名
+                        {else \}
+                        <span> *** </span>人报名
+                        {/if}
+                    </div>
+                    <div class="fangpai-detail-header-right-begin-baoming-right">
+                        <span>{$info.weiguan}</span>人围观
+                    </div>
+                </div>
+            </div>
                 <div class="fangpai-detail-header-right-people">
                     <div class="fangpai-detail-header-right-people-left">
                         <img src="/uploads/avatar/{$info['broker_id']}/avatar.jpg" alt="">
@@ -179,52 +225,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="fangpai-detail-header-right-begin">
-                    <div class="fangpai-detail-header-right-begin-jiezhitime">
-                        <span>开拍截止时间：</span>
-                        <input type="hidden" id="fastatus" value="{$info.fcstatus}">
-                        <input type="hidden" id="house_type" value="{$info.house_type}">
-                        <b id="reciprocal">
-                            {if condition="$info.fcstatus eq 175"}
-                            <span>成交价：</span>{$info.cjprice}<span>万元</span>
-                            <div class="fangpai-detail-header-right-begin-time">
-                                <span>结束时间：</span>
-                                <b>{$info.endtime}</b>
-                            </div>
-                            {elseif condition="$info.fcstatus eq 171"}
-                            拍卖已结束
-                            {elseif condition="$info.fcstatus eq 172"}
-                            拍卖已中止
-                            {elseif condition="$info.fcstatus eq 174"}
-                            拍卖已暂缓
-                            {elseif condition="$info.fcstatus eq 173"}
-                            拍卖已撤回
-                            {/if}
-                        </b>
-                        <input type="text" name="usernames" id="usernames" value="{$info.jieduan_num}" style="display:none;">
-                        {if $info.jieduan eq 163}
-                        <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
-                        {/if}
-                        <input type="text" name="username" id="username" value="{$info.kptime}" style="display:none;">
-                    </div>
-                    <div class="fangpai-detail-header-right-begin-time">
-                        <span>开拍时间：</span>
-                        <b>2020-05-19 10:00:00</b>
-                    </div>
-                    <div class="fangpai-detail-header-right-begin-baoming">
-                        <div class="fangpai-detail-header-right-begin-baoming-left">
-                            <input type="hidden" id="userInfo" value="{$login_user_json}">
-                            {if condition="!empty($userInfo)"}
-                            <span>{$info.bmrs }</span>人报名
-                            {else \}
-                            <span> *** </span>人报名
-                            {/if}
-                        </div>
-                        <div class="fangpai-detail-header-right-begin-baoming-right">
-                            <span>{$info.weiguan}</span>人围观
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
