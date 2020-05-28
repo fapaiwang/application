@@ -12,7 +12,7 @@ use think\Request;
 
 
 class Second extends HomeBase{
-    public function index()
+    public function index_旧版()
 
 
 
@@ -115,7 +115,7 @@ class Second extends HomeBase{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function index_新版(){
+    public function index(){
         $result = $this->getLists();
         $lists  = $result['lists'];
         $arr=$this->request->param();
@@ -166,7 +166,7 @@ class Second extends HomeBase{
         return $this->fetch();
     }
 
-    public function detail_新版(){
+    public function detail(){
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
@@ -306,7 +306,7 @@ class Second extends HomeBase{
 
 
      */
-    public function detail()
+    public function detail_旧版()
 
     {
 
