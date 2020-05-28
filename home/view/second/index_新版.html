@@ -1,0 +1,768 @@
+{extend name='public/page_list' /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css?v=1">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v={:time()}">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/kf.css?v={:time()}">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+<link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+{/block}
+{block name='js'}
+<script src="/homeStatic/js/swiper.jquery.min.js"></script>
+<script src="/homeStatic/js/swiper.min.js"></script>
+<script src="/homeStatic/js/jquery.waypoints.min.js"></script>
+<script src="/homeStatic/js/homeList.js?v={:time()}"></script>
+<script src="/homeStatic/js/kf.js?v={:time()}"></script>
+{/block}
+{block name='content'}
+
+<!-- 搜索栏 S -->
+<script src="__STATIC__/layui/layui.js"></script>
+<div class="searBar " style="margin-top: 70px;">
+    <div class="comWidth">
+        <div class="sear_box">
+            <form action="{:url('Second/index')}" style="display: flex;">
+                <div class="ipt_area">
+                    <input type="text" style="width: 600px;height: 48px;" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keywords}" onClick='showhidediv("baip")';>
+                    <span class="placeholder">输入小区名称或房源名称</span>
+                    <ul id="search-box">
+                    </ul>
+                </div>
+                <div class="btn_area">
+                    <input type="submit" class="sbm_btn"  value="搜索">
+                </div>
+            </form>
+        </div>
+        <!--<a href="{:url('Map/second')}" rel="nofollow" class="map_btn fr">地图找房</a>-->
+    </div>
+    <div class="comWidth clearfix">
+        <div id="baip">
+            <ul class="saleDetail" style="padding-left:10px;">
+                <li style="color: #666;padding-top:5px;padding-bottom:5px;">搜索历史</li>
+            </ul>
+            <ul class="saleDetail history" style="padding-left:10px;"></ul>
+            <div class="Storage"></div>
+            <div class="h80"></div>
+            <div class="btnEmpty" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">清空历史搜索</div>
+        </div>
+    </div>
+    <script  type="text/javascript" src="/static/home/js/jquery-2.1.4.min.js"></script>
+</div>
+<!-- 搜索栏 E -->
+<!-- 楼盘列表 S-->
+<div class="cm_house">
+    <div class="comWidth">
+        <!-- 页面标识 S-->
+        <div class="page_tit">
+            <a href="javascript:;" rel="nofollow">您的位置：</a>
+            <a href="{:url('Index/index')}">首页</a> &gt;
+            <a href="javascript:void(0);">房源列表</a>
+        </div>
+        <!-- 页面标识 E-->
+        <!-- 筛选栏 S -->
+        <div class="seleBar fangpai-select">
+            {notempty name='metro'}
+            <div class="search-tab clearfix">
+                <a href="{:getUrl('Second/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
+                <a href="{:getUrl('Second/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
+            </div>
+            {/notempty}
+            <div class="box">
+                {if condition="$search.search_type eq 2"}
+                <div class="item clearfix">
+                    <h3>地铁:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','metro',$param,0)}" rel="nofollow" {if condition="$search.metro eq 0"}class="active"{/if}>全部</a></li>
+                        {volist name='metro' id='vo'}
+                        <li><a href="{:getUrl('Second/index','metro',$param,$vo['id'])}" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='metro_station'}
+                <div class="item clearfix">
+                    <h3>站点:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','metro_station',$param,0)}" rel="nofollow" {if condition='$search.metro_station eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='metro_station' id='vo'}
+                        <li><a href="{:getUrl('Second/index','metro_station',$param,$vo['id'])}" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/notempty}
+                {else /}
+                <div class="item clearfix">
+                    <h3>区域:</h3>
+                    <ul class="list">
+                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,0)}" rel="nofollow" {if condition="$search.area eq $cityId"}class="active"{/if}>全部</a></li>
+                        {volist name='area' id='vo'}
+                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {notempty name='rading'}
+                <div class="item clearfix">
+                    <h3>商圈:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='rading' id='vo'}
+                        <li><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/notempty}
+                {/if}
+                <div class="item clearfix">
+                    <h3>形式:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='house_type' id='vo'}
+                        <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix">
+                    <h3>类型:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='types' id='vo'}
+                        <li><a href="{:getUrl('Second/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+
+                    </ul>
+                </div>
+
+                <div class="item clearfix">
+                    <h3>总价:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','qipai',$param,0)}" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name=':getSecondPrice()' id='vo'}
+                        <li><a href="{:getUrl('Second/index','qipai',$param,$key)}" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                        <li>
+                            <form action="{:url('Second/index')}">
+                                <div class="s-box fix">
+                                    <input type="text" class="zprice1" name="zprice1" id="zprice1" value="{$search.zprice1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
+                                    <span style="margin: 0 5px">-</span>
+                                    <input type="text" class="zprice2" name="zprice2" id="zprice2" value="{$search.zprice2}"  data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
+                                    <span>万元</span>
+                                    <input type="submit" name="" value="确定" class="zprice">
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="search-content-shou">
+                    <div class="search-content">
+                        <h3 class="item-title">搜索条件:</h3>
+                        <ul class="search-tiaojian">
+                        </ul>
+                        <div class="search-tiaojian-buttons">
+                            <p>
+                                <img src="/homeStatic/img/baocun.png" alt=""/>
+                                <span>保存</span>
+                            </p>
+                            <p class="search-tiaojian-buttons-clear">
+                                <img src="/homeStatic/img/laji.png" alt=""/>
+                                <span class="clear_search">清除</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="box" style="display: none">
+
+                    <div class="item clearfix">
+                        <h3>面积:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name=':getAcreage()' id='vo'}
+                            <li><a href="{:getUrl('Second/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                            <li>
+                                <form action="{:url('Second/index')}">
+                                    <div class="s-box fix">
+                                        <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
+                                        <span>-</span>
+                                        <input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
+                                        <span>平米</span>
+                                        <input type="submit" name="" value="确定" class="zprice">
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>户型:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name=':getRoom()' id='vo'}
+                            <li><a href="{:getUrl('Second/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>阶段:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name='jieduan' id='vo'}
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                            <!--{if condition="$search.is_free eq 0"}-->
+                            <!--<li><a href="{:getUrl('Second/index','is_free',$param,1)}"><b>自由购</b></a></li>-->
+                            <!--{else /}-->
+                            <!--<li><a href="{:getUrl('Second/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>-->
+                            <!--{/if}-->
+                        </ul>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>状态:</h3>
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
+                            {volist name='fcstatus' id='vo'}
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    <!--<div class="item clearfix">-->
+                        <!--<h3>时间:</h3>-->
+                        <!--<ul class="list">-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active"{/if}>全部</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>-->
+                            <!--<li><input type="text" placeholder="请输入时间" class="layui-input" id="test6" style="height: 25px;width: 170px" ></li>-->
+                            <!--<li><input type="submit" name="" value="确定" class="test6_substr"></li>-->
+                        <!--</ul>-->
+                        <!--<form action="{:url('Second/index')}">-->
+                            <!--<div class="s-box fix">-->
+                                <!--<input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
+                                <!--<span>-</span>-->
+                                <!--<input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">-->
+                                <!--<span>平米</span>-->
+                                <!--<input type="submit" name="" value="确定" class="zprice">-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <div class="item clearfix search-content-gengduo">
+                        <div class=" search-content">
+                            <h3 class="item-title">搜索条件:</h3>
+                            <ul class="search-tiaojian">
+                            </ul>
+                            <div class="search-tiaojian-buttons">
+                                <p>
+                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <span>保存</span>
+                                </p>
+                                <p class="search-tiaojian-buttons-clear">
+                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <span>清除</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item clearfix" style="display:none;">
+                    <h3>标签:</h3>
+                    <ul class="list">
+                        <li><a href="{:getUrl('Second/index','tags',$param,0)}" rel="nofollow" {if condition='$search.tags eq 0'}class="active"{/if}>全部</a></li>
+                        {volist name='tags' id='vo'}
+                        <li><a href="{:getUrl('Second/index','tags',$param,$key)}" {if condition='$search.tags eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="item clearfix" style="display:none;">
+                    <form action="#">
+                        <h3>更多:</h3>
+                        <ul class="list" id="select">
+                            <li>
+                                <select name="house_type" id="house_type">
+                                    <option value="0" data-uri="{:getUrl('Second/index','type',$param,0)}">房源类型</option>
+                                    {volist name='house_type' id='vo'}
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','type',$param,$vo['id'])}" {if condition="$search.type eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <li>
+                                <select name="orientations" id="orientations">
+                                    <option value="0" data-uri="{:getUrl('Second/index','orientations',$param,0)}">朝向</option>
+                                    {volist name='orientations' id='vo'}
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','orientations',$param,$vo['id'])}" {if condition="$search.orientations eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <li>
+                                <select name="renovation" id="renovation">
+                                    <option value="0" data-uri="{:getUrl('Second/index','renovation',$param,0)}">装修程度</option>
+                                    {volist name='renovation' id='vo'}
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','renovation',$param,$vo['id'])}" {if condition="$search.renovation eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center" class="fangpai-gengduo-button">
+            <input name="" type="button"  value="更多"  onclick="btn()" id="btn"  >
+            <img src="/homeStatic/img/daosanjiao.png" style="cursor:pointer;" alt=""  onclick="btn()"/>
+        </div>
+        <!-- 筛选栏 E -->
+        <div class="main clearfix">
+            <!-- 二手房列表 S-->
+            <div class="houseList_wrap leftArea cm_leftArea">
+                <div class="head clearfix">
+                    <div class="tabButtons">
+                        <img src="/homeStatic/img/tabMenuH.png" id="fangpai-shu-btn" alt="" />
+                        <img src="/homeStatic/img/tabMenu.png" id="fangpai-lie-btn" id="" alt="" />
+                    </div>
+                    <div class="tab sort-tab fr" style="display:black; float:right;">
+                        <ul>
+                            <li style="margin-left:0px;">
+                                <a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
+                            </li>
+                            <li ><a href="{:getUrl('Second/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
+                            <!--<li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>-->
+                            {if condition='$search.is_free eq 1'}
+                            <li><a href="{:getUrl('Second/index','is_free',$param,0)}" style="background:none;" {if condition='$search.is_free eq 1'}class="active"{/if}>自由购</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Second/index','is_free',$param,1)}" style="background:none;">自由购</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 1'}
+                            <li><a href="{:getUrl('Second/index','sort',$param,2)}" class="active up">房屋总价</a></li>
+                            {elseif condition='$search.sort eq 2'}
+                            <li><a href="{:getUrl('Second/index','sort',$param,1)}" class="active down">房屋总价</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Second/index','sort',$param,1)}">房屋总价</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 3'}
+                            <li ><a href="{:getUrl('Second/index','sort',$param,4)}" class="active up">房屋单价</a></li>
+                            {elseif condition='$search.sort eq 4'}
+                            <li ><a href="{:getUrl('Second/index','sort',$param,3)}" class="active down">房屋单价</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Second/index','sort',$param,3)}">房屋单价</a></li>
+                            {/if}
+                            {if condition='$search.sort eq 5'}
+                            <li><a href="{:getUrl('Second/index','sort',$param,6)}" class="active up">房屋面积</a></li>
+                            {elseif condition='$search.sort eq 6'}
+                            <li><a href="{:getUrl('Second/index','sort',$param,5)}" class="active down">房屋面积</a></li>
+                            {else /}
+                            <li><a href="{:getUrl('Second/index','sort',$param,5)}">房屋面积</a></li>
+                            {/if}
+
+                            <!-- <li><a href="{:getUrl('Second/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 9'}class="active"{/if}>推荐房源</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="fangpai-shu-list-content">
+                    <div class="fangpai-shu-list-content-left">
+                        <!--块-->
+                        <ul class="fangpai-shu-list">
+                            {volist name='lists' id='vo' empty='暂无数据'}
+                            <li data-id="{$vo.id}">
+                                <div class="fangpai-shu-list-img">
+                                    <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                    <div class="fangpai-shu-list-img-footer">
+                                        <span>开拍时间：{$vo.kptime}</span>|<span>{$vo.types_name}</span>|<span>{$vo.jieduan_name}</span>
+                                    </div>
+                                </div>
+                                <h3 class="fangpai-shu-list-title">{$vo.title}</h3>
+                                <div class="fangpai-shu-list-info">
+                                    <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                    {if strstr($vo.acreage,'.')}
+                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                      {else}
+                                        <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+                                    {/if}
+                                </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
+                                </div>
+                                <div class="fangpai-shu-list-money">
+                                    <div class="fangpai-shu-list-left">
+                                        <p>起拍价：<span>{$vo.qipai}</span>万
+                                            <b>市场价：{$vo.price}万</b>
+                                        </p>
+                                    </div>
+                                    <div class="fangpai-shu-list-right">
+                                    </div>
+                                    {if condition="$vo.fcstatus eq 169"}
+                                    <!--进行中-->
+                                    <div class="fangpai-shu-list-absolute">
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
+                                    </div>
+                                    {elseif condition="$vo.fcstatus eq 170"}
+                                    <!--预告中-->
+                                    <div class="fangpai-shu-list-absolute-lan">
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
+                                    </div>
+                                    {else /}
+                                    <!--已成交-->
+                                    <div class="fangpai-shu-list-over">
+                                        <span style="display: none">{$vo.id}</span>
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
+                                    </div>
+                                    {/if}
+                                    {if condition="$vo.is_free eq 1"}
+                                    <div class="fangpai-shu-list-left-absolute">
+                                        自由购
+                                    </div>
+                                    {/if}
+                                </div>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <ul class="fangpai-lie-list">
+                            {volist name='lists' id='vo' empty='暂无数据'}
+                            <li data-id="{$vo.id}">
+                                <span style="display: none">{$vo.id}</span>
+                                <div class="fangpai-lie-list-img">
+                                    <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                </div>
+                                <div class="fangpai-lie-list-content">
+                                    <div class="fangpai-lie-list-content-title">
+                                        <h3>{$vo.title}</h3>
+                                        <span class="fangpai-lie-list-content-title-red">{:getLinkMenuName(26,$vo['types'])}</span>
+                                        <span class="fangpai-lie-list-content-title-blue">{:getLinkMenuName(25,$vo['jieduan'])}</span>
+                                    </div>
+                                    <div class="fangpai-lie-list-info">
+                                        <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                            {if strstr($vo.acreage,'.')}
+                                                <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                              {else}
+                                                <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+                                            {/if}
+                                        </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
+                                    </div>
+                                    <div class="fangpai-lie-list-footer">
+                                        <div class="fangpai-lie-list-danjia">
+                                            单价：<span class="dj">{$vo.average_price|raw}</span>
+                                            <span>市场价：{$vo.price}万</span>
+                                        </div>
+                                    </div>
+                                    <div class="fangpai-lie-list-time">
+                                        <span>开拍时间：{$vo.kptime}</span>
+                                        <p>起拍价：<b>{$vo.qipai}</b>万</p>
+                                    </div>
+                                </div>
+                                {if condition="$vo.fcstatus eq 169"}
+                                <div class="fangpai-heng-list-absolute">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {elseif condition="$vo.fcstatus eq 170"}
+                                <div class="fangpai-heng-list-absolute-lan">
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {else /}
+                                <div class="fangpai-heng-list-absolute-over">
+                                    <span style="display: none">{$vo.id}</span>
+                                    {:getLinkMenuName(27,$vo['fcstatus'])}
+                                </div>
+                                {/if}
+                                {if condition="$vo.is_free eq 1"}
+                                <div class="fangpai-shu-list-left-absolute">
+                                    自由购
+                                </div>
+                                {/if}
+                                <!--<div class="fangpai-heng-list-absolute-over">-->
+                                <!--已结束-->
+                                <!--</div>-->
+                            </li>
+                            {/volist}
+                        </ul>
+                        {notempty name='pages'}
+                        <div class="page_list clearfix">
+                            {$pages|raw}
+                        </div>
+                        {/notempty}
+                        <input type="hidden" id="selected_nav" value="{$selected_nav}">
+                        <input type="hidden" id="list_page_search_field" value="{$list_page_search_field}">
+                        <div class="fangpai-shu-tuijian">
+                            <h2>推荐小区</h2>
+                            <div class="tuijian-swiper-container">
+                                <div class="swiper-wrapper">
+                                    {volist name='quality_estate' id='vo'}
+                                    <div class="swiper-slide">
+                                        <span style="display: none">{$vo.id}</span>
+                                        <div class="tuijian-slide-detail">
+                                            <img src="{$vo.img}" alt="">
+                                            <p>【{$vo.area_name}】{$vo.title}</p>
+                                            <div class="tuijian-slide-detail-info">
+                                                <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
+                                                <span class="tuijian-slide-detail-info-color">{$vo.price}元/㎡</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/volist}
+                                </div>
+                                <div class="tuijian-swiper-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fangpai-shu-list-content-right">
+                        {include file='second/right' /}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗-->
+<div class="fangpai-detail-dialog">
+    <div class="fangpai-detail-dialog-content">
+        <div class="fangpai-detail-dialog-content-header">
+            <div class="fangpai-detail-dialog-content-header-left">
+                <span>查看详情</span>
+            </div>
+            {:token()}
+            <div class="fangpai-detail-dialog-content-header-right">
+                <p  class="look">
+                    <img src="/homeStatic/img/search-button.png" alt="">
+                    <span>预约看房</span>
+                </p>
+                <p  class="join">
+                    <input type="hidden" class="dynamic_id">
+                    <input type="hidden" class="dynamic_tuijian">
+                    <input type="hidden" class="dynamic_broker">
+                    <img src="/homeStatic/img/search-button.png" alt="">
+                    <span class="is_join">关注房源</span>
+                </p>
+                {if condition="!empty($userInfo) && $userInfo['mobile'] == 13911334407"}
+                    <p>
+                        <span class="is_tuijian">推荐房源</span>
+                    </p>
+                {/if}
+                <p class="fangpai-detail-dialog-close">
+                    <img src="/homeStatic/img/jiahao.png" alt="">
+                </p>
+            </div>
+
+            <div class="fangpai-detail-dialog-button-prev fangpai-detail-dialog-caozuo-buttons prev_house">
+                上一套
+            </div>
+            <div class="fangpai-detail-dialog-button-next fangpai-detail-dialog-caozuo-buttons next_house">
+                下一套
+            </div>
+        </div>
+        <div class="fangpai-detail-dialog-content-info">
+            <div class="fangpai-detail-dialog-content-tab">
+                <div class="fangpai-detail-dialog-content-top">
+                    <img src="" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="" class="fangpai-detail-dialog-content-top-img">
+                    <span class="fangpai-detail-dialog-content-detail-golden">自由购</span>
+
+                </div>
+                <div class="fangpai-detail-dialog-content-bottom">
+                    <div class="fangpai-detail-dialog-content-bottom-list">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="fangpai-detail-dialog-buttons">
+                <ul></ul>
+            </div>
+            <div class="fangpai-detail-dialog-content-detail">
+                <div class="fangpai-detail-dialog-content-detail-left">
+                    <div class="fangpai-detail-dialog-content-detail-title">
+                        <h2><span><b>通州区天赐良园西区8号楼361室</b></span><b class="fangpai-detail-dialog-content-detail-blue">一拍</b></h2>
+                    </div>
+
+                    <div class="fangpai-detail-dialog-content-detail-left-monty">
+                        <ul>
+                            <li>
+                                <p>
+                                            <span>
+                                                起拍价：
+                                            </span>
+                                    <b class="fangpai-detail-dialog-content-detail-left-monty-color">
+                                        301.00万
+                                    </b>
+                                </p>
+                                <p class="fangpai-detail-dialog-content-detail-left-monty-left">
+                                            <span>
+                                                市场价：
+                                            </span>
+                                    <b class="scj">
+                                        301.00万
+                                    </b>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                            <span>
+                                                单价：
+                                            </span>
+                                    <b class="dj">
+                                        81351.35元/㎡
+                                    </b>
+                                </p>
+                                <p class="fangpai-detail-dialog-content-detail-left-monty-left">
+                                            <span>
+                                                差价：
+                                            </span>
+                                    <b class="cj">
+                                        301.00万
+                                    </b>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                            <span>
+                                                捡漏指数：
+                                            </span>
+                                    <b class="jl">
+
+                                    </b>
+                                </p>
+                                <p class="fangpai-detail-dialog-content-detail-left-monty-left">
+                                            <span>
+                                                保证金：
+                                            </span>
+                                    <b class="bzj">
+                                        63万
+                                    </b>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-left-ju">
+                        <p>
+                            <b class="toilet">2室1厅</b>
+                            <span class="total_floor">2层/共7层</span>
+                        </p>
+                        <p>
+                            <b class="orientations">南北</b>
+                            <span class="xsname">住宅</span>
+                        </p>
+                        <p>
+                            <b class="acreage">86.16㎡</b>
+                            <span class="house_year">2003年</span>
+                        </p>
+                    </div>
+                    <div class="fangpai-detail-dialog-content-detail-left-time">
+
+                        <input type="hidden" name="jieduan" class="jieduan" value="">
+                        <input type="hidden" name="fcstatus" class="fcstatus" value="">
+
+                        <input type="hidden" name="bianetime" class="bianetime" value="">
+
+                        <input type="hidden" name="kptime" class="kptime" value="" >
+
+                        <p class="reciprocal">开拍截止时间：<b>31天12时56分9.4秒</b></p>
+                        <p class="fangpai-detail-dialog-content-detail-left-time-flex">
+                            <span>开拍时间：<b class="fangpai-detail-dialog-content-detail-left-time-color">2020-05-19 10:00:00</b></span>
+                            <span><b class="wg">151</b>人围观</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="fangpai-detail-dialog-content-detail-right">
+                    <div class="fangpai-detail-dialog-content-detail-right-people">
+                        <img src="/homeStatic/img/banner.jpg" alt="">
+                        <p>
+                            <b>张晓岩</b>
+                            <span>法拍专员</span>
+                        </p>
+                        <p class="history_complate">
+                            法拍服务从业经验0年
+                        </p>
+                    </div>
+                    {if condition="!empty($userInfo)"}
+                    <div class="fangpai-detail-dialog-content-detail-right-button" onclick="showOtherDiv()">
+                        <img src="/homeStatic/img/nvkefu22.png" alt="">
+                        <span style="color: #fff">在线咨询</span>
+                    </div>
+                    {else}
+                    <div class="fangpai-detail-dialog-content-detail-right-button" onclick="showOtherDiv()">
+                        <img src="/homeStatic/img/nvkefu22.png" alt="">
+                        <span><a href="/login/index.html"  style="color: #fff">在线咨询</a></span>
+                    </div>
+                    {/if}
+
+
+                    <div class="fangpai-detail-dialog-content-detail-right-phone">
+                        4006770028转688
+                    </div>
+                </div>
+            </div>
+            <div class="fangpai-detail-dialog-content-basic" >
+                <div class="fangpai-detail-dialog-content-basic-info">基本信息</div>
+                <ul>
+                    <li>
+                        <p class="xiaoquname">
+                            <span>小区名称：</span>兴隆都市馨园
+                        </p>
+                        <p class="xiaoquarea">
+                            <span>所在区域：</span>朝阳区北苑
+                        </p>
+                    </li>
+                    <li>
+                        <p class="basic_info">
+                            <span>户型结构：</span>平层
+                        </p>
+                        <p class="floor_info">
+                            <span>电梯情况：</span>南北
+                        </p>
+                    </li>
+                    <li>
+                        <p class="zxinfo">
+                            <span>装修情况：</span>简装
+                        </p>
+                        <p class="gninfo">
+                            <span>供暖情况：</span>集中供暖
+                        </p>
+                    </li>
+                    <li>
+                        <p class="zwinfo">
+                            <span>车位情况：</span>地下车位
+                        </p>
+                        <p class="wyinfo">
+                            <span>物业情况：</span>顺天通物业有限公司
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗结束-->
+<!-- 楼盘列表 S-->
+<!--在线客服-->
+{include file="second/kf"}
+<!--在线客服 end-->
+<script type="text/html" id="template">
+    {{# for(var i = 0, len = d.length; i < len; i++){ }}
+    <li>
+        <a href="{{d[i].url}}" target="_blank">
+            <span>
+                 {{d[i].title}}
+            </span>
+            <span class="address">
+                {{d[i].address}}
+            </span>
+        </a>
+    </li>
+    {{# } }}
+</script>
+<script>
+    var li = '<li data-id="banner" style="height: 195px"><a href=""><img src="{$waist_bunner.fileurl}" style="height: 100%; width: 100%; padding-bottom: 35px" alt=""></a></li>'
+    $('.fangpai-lie-list li').eq(2).after(li)
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+    })
+    $(".test6_substr").on('click',function () {
+        if ($("#test6").val().length <= 0){
+            layer.msg("请输入要搜索的时间");
+        }
+
+
+
+    })
+</script>
+<script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
+<script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
+<!--<script type="text/javascript" src="__JS__/common.js"></script>-->
+<script src="__STATIC__/js/layer/layer.js"></script>
+{/block}

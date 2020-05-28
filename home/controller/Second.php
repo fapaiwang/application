@@ -12,7 +12,7 @@ use think\Request;
 
 
 class Second extends HomeBase{
-    public function index_j()
+    public function index()
 
 
 
@@ -115,7 +115,7 @@ class Second extends HomeBase{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function index(){
+    public function index_新版(){
         $result = $this->getLists();
         $lists  = $result['lists'];
         $arr=$this->request->param();
