@@ -7,6 +7,7 @@ namespace app\home\service;
 use app\home\controller\Poster;
 use function GuzzleHttp\debug_resource;
 use think\console\command\make\Model;
+use think\Db;
 use think\facade\Cache;
 use think\Log;
 
@@ -116,6 +117,11 @@ class SecondServer
      * @throws \think\exception\DbException
      */
     function get_recommend_house($city_id,$house_id,$estate_id){
+//        dd($this->returnSquarePoint(116.30089615911,39.923681035157));
+        $ad = Db::connect('www_fangpaiwang')->query("SELECT id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai,(2 * 6378.137 * ASIN(	SQRT(POW( SIN( PI( ) * ( " . 116.18362901753 . "- fang_second_house.lng ) / 360 ), 2 ) + COS( PI( ) * " . 40.013613195749 . " / 180 ) * COS(  fang_second_house.lat * PI( ) / 180 ) * POW( SIN( PI( ) * ( " . 39.923681035157 . "- fang_second_house.lat ) / 360 ), 2 )))) AS distance FROM `fang_second_house` 
+where  fcstatus=170 and status =1  ORDER BY distance ASC ");
+        dd($ad);
+        dd($this->Distance(116.30089615911,39.923681035157),$house_id);
         $citys=$city_id;
         $map = "estate_id=$estate_id or city=$citys";
         $res = model('second_house')
@@ -129,6 +135,42 @@ class SecondServer
             ->select();
         return $res;
     }
+
+     /*
+      *参数说明：
+      *$lng  经度
+      *$lat   纬度
+      *$distance  周边半径  默认是500米（0.5Km）
+      */
+     public function returnSquarePoint($lng, $lat,$distance = 20) {
+        $dlng =  2 * asin(sin($distance / (2 * 6371)) / cos(deg2rad($lat)));
+        $dlng = rad2deg($dlng);
+        $dlat = $distance/6371;//地球半径，平均半径为6371km
+        $dlat = rad2deg($dlat);
+         return array(
+            'left-top'=>array('lat'=>$lat + $dlat,'lng'=>$lng-$dlng),
+            'right-top'=>array('lat'=>$lat + $dlat, 'lng'=>$lng + $dlng),
+            'left-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng - $dlng),
+            'right-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng + $dlng)
+         );
+
+     }
+     function Distance($longitude,$latitude,$house_id){
+
+         $array = $this->returnSquarePoint($longitude, $latitude);
+         $res = model('second_house')
+             ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai')
+             ->where([['lat','EGT',$array['right-bottom']['lat']],["lat",'ELT',$array['left-top']['lat']],
+                 ["lng",'EGT',$array['left-top']['lng']],["lng",'ELT',$array['right-bottom']['lng']],
+             ["fcstatus","=",170] ])
+             ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai')
+             ->limit(4)
+             ->select();
+         return $res;
+         echo $res->getLastSql();
+         die(); //打印thinkPHP中对SQL语句
+
+     }
     function get_house($limit){
         $field ="id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai";
         $res = model('second_house')->field($field)->where()->select();
