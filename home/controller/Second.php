@@ -166,7 +166,7 @@ class Second extends HomeBase{
         return $this->fetch();
     }
 
-    public function detail(){
+    public function detail_新版(){
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
@@ -306,7 +306,7 @@ class Second extends HomeBase{
 
 
      */
-    public function detail1243()
+    public function detail()
 
     {
 
