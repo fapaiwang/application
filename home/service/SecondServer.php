@@ -117,11 +117,6 @@ class SecondServer
      * @throws \think\exception\DbException
      */
     function get_recommend_house($city_id,$house_id,$estate_id){
-//        dd($this->returnSquarePoint(116.30089615911,39.923681035157));
-        $ad = Db::connect('www_fangpaiwang')->query("SELECT id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai,(2 * 6378.137 * ASIN(	SQRT(POW( SIN( PI( ) * ( " . 116.18362901753 . "- fang_second_house.lng ) / 360 ), 2 ) + COS( PI( ) * " . 40.013613195749 . " / 180 ) * COS(  fang_second_house.lat * PI( ) / 180 ) * POW( SIN( PI( ) * ( " . 39.923681035157 . "- fang_second_house.lat ) / 360 ), 2 )))) AS distance FROM `fang_second_house` 
-where  fcstatus=170 and status =1  ORDER BY distance ASC ");
-        dd($ad);
-        dd($this->Distance(116.30089615911,39.923681035157),$house_id);
         $citys=$city_id;
         $map = "estate_id=$estate_id or city=$citys";
         $res = model('second_house')
