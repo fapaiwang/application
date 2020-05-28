@@ -182,7 +182,7 @@
                         拍卖已撤回
                         {/if}
                     </b>
-                    <input type="text" name="usernames" id="usernames" value="{$info.jieduan_num}" style="display:none;">
+                    <input type="text" name="usernames" id="usernames" value="{$info.jieduan}" style="display:none;">
                     {if $info.jieduan eq 163}
                     <input type="text" name="usernameb" id="usernameb" value="{$info.bianetime}" style="display:none;">
                     {/if}
@@ -190,7 +190,7 @@
                 </div>
                 <div class="fangpai-detail-header-right-begin-time">
                     <span>开拍时间：</span>
-                    <b>2020-05-19 10:00:00</b>
+                    <b>{$info.kptime}</b>
                 </div>
                 <div class="fangpai-detail-header-right-begin-baoming">
                     <div class="fangpai-detail-header-right-begin-baoming-left">

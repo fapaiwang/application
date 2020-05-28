@@ -50,7 +50,7 @@
                                     </li>
                                     <li>
                                         <span>起拍价</span>
-                                        <input type="text" id="dai_qipai">
+                                        <input type="text" id="dai_qipai" value="100">
                                         <p class="fangpai-detail-daikuan-content-left-position">万元</p>
                                     </li>
                                     <!--<li>-->
@@ -206,6 +206,7 @@
                             <div class="biaotop"><label class="benxi">等额本息</label><label class="benjin">等额本金</label></div>
                             <ul class="resulttop">
                                 <li><em>月份</em></li>
+                                <li><span>月供总金额</span></li>
                                 <li><span>月供本金</span></li>
                                 <li><span>月供利息</span></li>
                                 <li><label>剩余欠款</label></li>
@@ -218,21 +219,25 @@
                                 <div class="spinner_8 " style="float:left">
                                     <div class="spinner-container container1">
                                         <div class="circle1"></div>
+                                        <div class="circle1"></div>
                                         <div class="circle2"></div>
                                         <div class="circle3"></div>
                                         <div class="circle4"></div>
+                                        <div class="circle5"></div>
                                     </div>
                                     <div class="spinner-container container2">
                                         <div class="circle1"></div>
                                         <div class="circle2"></div>
                                         <div class="circle3"></div>
                                         <div class="circle4"></div>
+                                        <div class="circle5"></div>
                                     </div>
                                     <div class="spinner-container container3">
                                         <div class="circle1"></div>
                                         <div class="circle2"></div>
                                         <div class="circle3"></div>
                                         <div class="circle4"></div>
+                                        <div class="circle5"></div>
                                     </div>
                                 </div>
                                 <a style="float:left">加载更多…</a>
@@ -360,9 +365,11 @@
                     if (result != '') {
                         detail += '<dt class="reshang"><span>&nbsp;</span><label>单位：元</label></dt>';
                         for (var i = 0; i < data.length; i++) {
+                            var m_total = parseFloat(data[i].benjing) + parseFloat(data[i].lixi);
                             detail += '<dd> ' +
                                 '<ul class="lisths"> ' +
                                 '<li><em>' + (parseInt(i + 1)) + '</em></li> ' +
+                                '<li><em>' + parseInt(m_total) + '</em></li> ' +
                                 '<li><span>' + toThousands(data[i].benjing) + '</span></li> ' +
                                 '<li><span>' + toThousands(data[i].lixi) + '</span></li> ' +
                                 '<li><label>' + toThousands(data[i].shengyu) + '</label></li> ' +
