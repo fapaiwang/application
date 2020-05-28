@@ -22,7 +22,7 @@
 <div class="searBar " style="margin-top: 70px;">
     <div class="comWidth">
         <div class="sear_box">
-            <form action="{:url('Secondx/index')}" style="display: flex;">
+            <form action="{:url('Second/index')}" style="display: flex;">
                 <div class="ipt_area">
                     <input type="text" style="width: 600px;height: 48px;" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keywords}" onClick='showhidediv("baip")';>
                     <span class="placeholder">输入小区名称或房源名称</span>
@@ -64,8 +64,8 @@
         <div class="seleBar fangpai-select">
             {notempty name='metro'}
             <div class="search-tab clearfix">
-                <a href="{:getUrl('Secondx/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
-                <a href="{:getUrl('Secondx/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
+                <a href="{:getUrl('Second/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
+                <a href="{:getUrl('Second/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
             </div>
             {/notempty}
             <div class="box">
@@ -73,9 +73,9 @@
                 <div class="item clearfix">
                     <h3>地铁:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','metro',$param,0)}" rel="nofollow" {if condition="$search.metro eq 0"}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','metro',$param,0)}" rel="nofollow" {if condition="$search.metro eq 0"}class="active"{/if}>全部</a></li>
                         {volist name='metro' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','metro',$param,$vo['id'])}" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','metro',$param,$vo['id'])}" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -83,9 +83,9 @@
                 <div class="item clearfix">
                     <h3>站点:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','metro_station',$param,0)}" rel="nofollow" {if condition='$search.metro_station eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','metro_station',$param,0)}" rel="nofollow" {if condition='$search.metro_station eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='metro_station' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','metro_station',$param,$vo['id'])}" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','metro_station',$param,$vo['id'])}" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -94,9 +94,9 @@
                 <div class="item clearfix">
                     <h3>区域:</h3>
                     <ul class="list">
-                        <li style=" margin-left: 20px;"><a href="{:getUrl('Secondx/index','area',$param,0)}" rel="nofollow" {if condition="$search.area eq $cityId"}class="active"{/if}>全部</a></li>
+                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,0)}" rel="nofollow" {if condition="$search.area eq $cityId"}class="active"{/if}>全部</a></li>
                         {volist name='area' id='vo'}
-                        <li style=" margin-left: 20px;"><a href="{:getUrl('Secondx/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -104,9 +104,9 @@
                 <div class="item clearfix">
                     <h3>商圈:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='rading' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -115,18 +115,18 @@
                 <div class="item clearfix">
                     <h3>形式:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='house_type' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
                 <div class="item clearfix">
                     <h3>类型:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='types' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
 
                     </ul>
@@ -135,12 +135,12 @@
                 <div class="item clearfix">
                     <h3>总价:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','qipai',$param,0)}" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','qipai',$param,0)}" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
                         {volist name=':getSecondPrice()' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','qipai',$param,$key)}" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','qipai',$param,$key)}" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                         <li>
-                            <form action="{:url('Secondx/index')}">
+                            <form action="{:url('Second/index')}">
                                 <div class="s-box fix">
                                     <input type="text" class="zprice1" name="zprice1" id="zprice1" value="{$search.zprice1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
                                     <span style="margin: 0 5px">-</span>
@@ -174,12 +174,12 @@
                     <div class="item clearfix">
                         <h3>面积:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Secondx/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
+                            <li><a href="{:getUrl('Second/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
                             {volist name=':getAcreage()' id='vo'}
-                            <li><a href="{:getUrl('Secondx/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                            <li><a href="{:getUrl('Second/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                             <li>
-                                <form action="{:url('Secondx/index')}">
+                                <form action="{:url('Second/index')}">
                                     <div class="s-box fix">
                                         <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
                                         <span>-</span>
@@ -194,46 +194,46 @@
                     <div class="item clearfix">
                         <h3>户型:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Secondx/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
+                            <li><a href="{:getUrl('Second/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
                             {volist name=':getRoom()' id='vo'}
-                            <li><a href="{:getUrl('Secondx/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
+                            <li><a href="{:getUrl('Second/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
                             {/volist}
                         </ul>
                     </div>
                     <div class="item clearfix">
                         <h3>阶段:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Secondx/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
                             {volist name='jieduan' id='vo'}
-                            <li><a href="{:getUrl('Secondx/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            <li><a href="{:getUrl('Second/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                             <!--{if condition="$search.is_free eq 0"}-->
-                            <!--<li><a href="{:getUrl('Secondx/index','is_free',$param,1)}"><b>自由购</b></a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','is_free',$param,1)}"><b>自由购</b></a></li>-->
                             <!--{else /}-->
-                            <!--<li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','is_free',$param,0)}" class="active"><b style="color: #C73126">自由购</b></a></li>-->
                             <!--{/if}-->
                         </ul>
                     </div>
                     <div class="item clearfix">
                         <h3>状态:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Secondx/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
                             {volist name='fcstatus' id='vo'}
-                            <li><a href="{:getUrl('Secondx/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            <li><a href="{:getUrl('Second/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                         </ul>
                     </div>
                     <!--<div class="item clearfix">-->
                         <!--<h3>时间:</h3>-->
                         <!--<ul class="list">-->
-                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active"{/if}>全部</a></li>-->
-                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>-->
-                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>-->
-                            <!--<li><a href="{:getUrl('Secondx/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active"{/if}>全部</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>-->
+                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>-->
                             <!--<li><input type="text" placeholder="请输入时间" class="layui-input" id="test6" style="height: 25px;width: 170px" ></li>-->
                             <!--<li><input type="submit" name="" value="确定" class="test6_substr"></li>-->
                         <!--</ul>-->
-                        <!--<form action="{:url('Secondx/index')}">-->
+                        <!--<form action="{:url('Second/index')}">-->
                             <!--<div class="s-box fix">-->
                                 <!--<input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
                                 <!--<span>-</span>-->
@@ -264,9 +264,9 @@
                 <div class="item clearfix" style="display:none;">
                     <h3>标签:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Secondx/index','tags',$param,0)}" rel="nofollow" {if condition='$search.tags eq 0'}class="active"{/if}>全部</a></li>
+                        <li><a href="{:getUrl('Second/index','tags',$param,0)}" rel="nofollow" {if condition='$search.tags eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='tags' id='vo'}
-                        <li><a href="{:getUrl('Secondx/index','tags',$param,$key)}" {if condition='$search.tags eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        <li><a href="{:getUrl('Second/index','tags',$param,$key)}" {if condition='$search.tags eq $key'}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -276,25 +276,25 @@
                         <ul class="list" id="select">
                             <li>
                                 <select name="house_type" id="house_type">
-                                    <option value="0" data-uri="{:getUrl('Secondx/index','type',$param,0)}">房源类型</option>
+                                    <option value="0" data-uri="{:getUrl('Second/index','type',$param,0)}">房源类型</option>
                                     {volist name='house_type' id='vo'}
-                                    <option value="{$vo.id}" data-uri="{:getUrl('Secondx/index','type',$param,$vo['id'])}" {if condition="$search.type eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','type',$param,$vo['id'])}" {if condition="$search.type eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
                                     {/volist}
                                 </select>
                             </li>
                             <li>
                                 <select name="orientations" id="orientations">
-                                    <option value="0" data-uri="{:getUrl('Secondx/index','orientations',$param,0)}">朝向</option>
+                                    <option value="0" data-uri="{:getUrl('Second/index','orientations',$param,0)}">朝向</option>
                                     {volist name='orientations' id='vo'}
-                                    <option value="{$vo.id}" data-uri="{:getUrl('Secondx/index','orientations',$param,$vo['id'])}" {if condition="$search.orientations eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','orientations',$param,$vo['id'])}" {if condition="$search.orientations eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
                                     {/volist}
                                 </select>
                             </li>
                             <li>
                                 <select name="renovation" id="renovation">
-                                    <option value="0" data-uri="{:getUrl('Secondx/index','renovation',$param,0)}">装修程度</option>
+                                    <option value="0" data-uri="{:getUrl('Second/index','renovation',$param,0)}">装修程度</option>
                                     {volist name='renovation' id='vo'}
-                                    <option value="{$vo.id}" data-uri="{:getUrl('Secondx/index','renovation',$param,$vo['id'])}" {if condition="$search.renovation eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
+                                    <option value="{$vo.id}" data-uri="{:getUrl('Second/index','renovation',$param,$vo['id'])}" {if condition="$search.renovation eq $vo['id']"}selected="selected"{/if}>{$vo.name}</option>
                                     {/volist}
                                 </select>
                             </li>
@@ -319,38 +319,38 @@
                     <div class="tab sort-tab fr" style="display:black; float:right;">
                         <ul>
                             <li style="margin-left:0px;">
-                                <a href="{:getUrl('Secondx/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
+                                <a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
                             </li>
-                            <li ><a href="{:getUrl('Secondx/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
-                            <!--<li><a href="{:getUrl('Secondx/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>-->
+                            <li ><a href="{:getUrl('Second/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
+                            <!--<li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>-->
                             {if condition='$search.is_free eq 1'}
-                            <li><a href="{:getUrl('Secondx/index','is_free',$param,0)}" style="background:none;" {if condition='$search.is_free eq 1'}class="active"{/if}>自由购</a></li>
+                            <li><a href="{:getUrl('Second/index','is_free',$param,0)}" style="background:none;" {if condition='$search.is_free eq 1'}class="active"{/if}>自由购</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Secondx/index','is_free',$param,1)}" style="background:none;">自由购</a></li>
+                            <li><a href="{:getUrl('Second/index','is_free',$param,1)}" style="background:none;">自由购</a></li>
                             {/if}
                             {if condition='$search.sort eq 1'}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,2)}" class="active up">房屋总价</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,2)}" class="active up">房屋总价</a></li>
                             {elseif condition='$search.sort eq 2'}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,1)}" class="active down">房屋总价</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,1)}" class="active down">房屋总价</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,1)}">房屋总价</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,1)}">房屋总价</a></li>
                             {/if}
                             {if condition='$search.sort eq 3'}
-                            <li ><a href="{:getUrl('Secondx/index','sort',$param,4)}" class="active up">房屋单价</a></li>
+                            <li ><a href="{:getUrl('Second/index','sort',$param,4)}" class="active up">房屋单价</a></li>
                             {elseif condition='$search.sort eq 4'}
-                            <li ><a href="{:getUrl('Secondx/index','sort',$param,3)}" class="active down">房屋单价</a></li>
+                            <li ><a href="{:getUrl('Second/index','sort',$param,3)}" class="active down">房屋单价</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,3)}">房屋单价</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,3)}">房屋单价</a></li>
                             {/if}
                             {if condition='$search.sort eq 5'}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,6)}" class="active up">房屋面积</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,6)}" class="active up">房屋面积</a></li>
                             {elseif condition='$search.sort eq 6'}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,5)}" class="active down">房屋面积</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,5)}" class="active down">房屋面积</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Secondx/index','sort',$param,5)}">房屋面积</a></li>
+                            <li><a href="{:getUrl('Second/index','sort',$param,5)}">房屋面积</a></li>
                             {/if}
 
-                            <!-- <li><a href="{:getUrl('Secondx/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 9'}class="active"{/if}>推荐房源</a></li> -->
+                            <!-- <li><a href="{:getUrl('Second/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 9'}class="active"{/if}>推荐房源</a></li> -->
                         </ul>
                     </div>
                 </div>
