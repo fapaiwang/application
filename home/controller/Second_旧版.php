@@ -11,8 +11,8 @@ use think\facade\Log;
 use think\Request;
 
 
-class Secondx extends HomeBase{
-    public function index_j()
+class Second extends HomeBase{
+    public function index()
 
 
 
@@ -107,6 +107,8 @@ class Secondx extends HomeBase{
 
 
     }
+
+
     /**
      * @param mixed
      * @return mixed
@@ -115,59 +117,62 @@ class Secondx extends HomeBase{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function index(){
-        $result = $this->getLists();
-        $lists  = $result['lists'];
-        $arr=$this->request->param();
-        if(!empty($arr['keyword'])){
-            $keywords = $arr['keyword'];
-        }else{
-            $keywords='';
-        }
-        $IndexServer= new IndexServer();
-        $SecondServer= new SecondServer();
-        //问答
-        $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
-        $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
-        $area = input('param.area/d', $this->cityInfo['id']);
-//        if ($area < 57){
-//            $area=0;
+//    public function indexxx(){
+//
+//        $result = $this->getLists();
+////        dd($result['lists'][0]);
+//        $lists  = $result['lists'];
+//        $arr=$this->request->param();
+//        if(!empty($arr['keyword'])){
+//            $keywords = $arr['keyword'];
+//        }else{
+//            $keywords='';
 //        }
-        $quality_estate =$IndexServer->get_quality_estate(10);
-        $list_page_search_field = $SecondServer->list_page_search_field($area);
-        $userInfo = login_user();
-        $waist_bunner = $IndexServer->get_home_banner_arr(19,1);
-        if (!empty($waist_bunner)) {
-            $waist_bunner = $waist_bunner[0];
-        }
-        $this->assign('waist_bunner',$waist_bunner );//平铺第三个广告
-        $this->assign('answer',$answer);//问答
-        $this->assign('userInfo',$userInfo);//用户信息
-        $this->assign('hot_news',$hot_news);
-        $this->assign('quality_estate',$quality_estate);//推荐小区
-        $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
-        $this->assign('keywords',$keywords);
-        $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线
-        $this->assign('house_type',getLinkMenuCache(9));//类型
-        $this->assign('orientations',getLinkMenuCache(4));//朝向
-        $this->assign('floor',getLinkMenuCache(7));//朝向
-        $this->assign('types',getLinkMenuCache(26));//类型s
-        $this->assign('jieduan',getLinkMenuCache(25));//阶段
-        $this->assign('fcstatus',getLinkMenuCache(27));//状态
-        $this->assign('renovation',getLinkMenuCache(8));//装修情况
-        $this->assign('tags',getLinkMenuCache(14));//标签
-        $this->assign('area',$this->getAreaByCityId());//区域
-        $this->assign('position',$this->getPositionHouse(5,4));
-        $this->assign('lists',$lists);
-        $this->assign('pages',$lists->render());
-        $this->assign('top_lists',$result['top']);
-        $this->assign('storage_open',getSettingCache('storage','open'));
-//        dd(1);
-        return $this->fetch();
-    }
+//        $IndexServer= new IndexServer();
+//        $SecondServer= new SecondServer();
+//
+//
+//
+//        //问答
+//        $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
+//        $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
+//        $area = input('param.area/d', $this->cityInfo['id']);
+//        if ($area < 57){
+//            $street=0;
+//        }
+//
+//        $quality_estate =$IndexServer->get_quality_estate(10);
+//
+//        $list_page_search_field = $SecondServer->list_page_search_field(0);
+//
+//        $this->assign('answer',$answer);
+//        $this->assign('hot_news',$hot_news);
+//        $this->assign('quality_estate',$quality_estate);//推荐小区
+//        $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
+//        $this->assign('keywords',$keywords);
+//        $this->assign('page_t',1);
+//        $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线
+//        $this->assign('house_type',getLinkMenuCache(9));//类型
+//        $this->assign('orientations',getLinkMenuCache(4));//朝向
+//        $this->assign('floor',getLinkMenuCache(7));//朝向
+//        $this->assign('types',getLinkMenuCache(26));//类型s
+//        $this->assign('jieduan',getLinkMenuCache(25));//阶段
+//        $this->assign('fcstatus',getLinkMenuCache(27));//状态
+//        $this->assign('renovation',getLinkMenuCache(8));//装修情况
+//        $this->assign('tags',getLinkMenuCache(14));//标签
+//        $this->assign('area',$this->getAreaByCityId());//区域
+//        $this->assign('position',$this->getPositionHouse(5,4));
+//        $this->assign('lists',$lists);
+//        $this->assign('pages',$lists->render());
+//        $this->assign('top_lists',$result['top']);
+//        $this->assign('storage_open',getSettingCache('storage','open'));
+////        dd(1);
+//        return $this->fetch();
+//    }
 
-    public function detail(){
+    public function detail1253(){
         $second_house_id = input('param.id/d',0);
+
         if($second_house_id){
             $server = new server();
             $SecondServer = new SecondServer();
@@ -175,6 +180,7 @@ class Secondx extends HomeBase{
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
             $info = $server->second_model($second_house_id);
+
             if($info){
                 //添加浏览量
                 updateHits($info['id'],'second_house');
@@ -189,60 +195,33 @@ class Secondx extends HomeBase{
                 //本小区拍卖套数
                 $estate_num = $SecondServer->estate_second_num($second_house_id,$info['estate_name']);
                 $this->assign('estate_num',$estate_num);
+                $xiaoqu=$info['estate_id'];
                 $estate_id=$info['estate_id'];
                 //小区的所有房源
-//                $estate_seconf = $SecondServer->estate_second($estate_id,10);
-//                $this->assign('estate_seconf',$estate_seconf);
-                //拍卖成交记录
-                $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->cache("transaction_record_".$estate_id,84000)->select();
-                $this->assign('jilu1',$jilu1);
-
+                $estate_seconf = $SecondServer->estate_second($estate_id,10);
+                $this->assign('estate_seconf',$estate_seconf);
                 //法拍专员点评/点评个数
-                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);;
+                $second_house_user_comment=$SecondServer->second_house_user_comment($second_house_id);
+//                dd($second_house_user_comment);
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
-                //房源特色标签
-                $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan_name'],$info['marketprice'],
-                    $info['is_commission'],$info['is_school'],$info['is_metro']);
-                $this->assign('house_characteristic',$house_characteristic);
+
                 //用户信息
                 $infos = cookie('userInfo');
                 $infos = \org\Crypt::decrypt($infos);
-                $this->assign('login_user',$infos);
-                $this->assign('login_user_json',json_encode($infos));
                 //获取是否推荐 和 登录手机号
                 $userInfo = $this->getUserInfo();
-                //获取拍卖成交记录
-                $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->limit('0,5')->select();
-                $this->assign('jilu1',$jilu1);
-                $jilu =  model('transaction_record')->where('estate_id',$estate_id)->limit('5,200')->select();
-                $this->assign('jilu',$jilu);
 
 
-                //获取根据本房源-推荐房源
-                $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);
                 $user_id  = $infos['id'];
-                $gzfang = model('follow')->where('house_id',$second_house_id)->where('user_id',$user_id)->where('model','second_house')->count();
-                $this->assign('gzfang',$gzfang);
                 $follow   = model('follow');
-                $guanzhu = $follow->where('house_id',$estate_id)->where('user_id',$user_id)->where('model','estate')->count();
-                $api =new Api();
-                $house_loan_s = $api->house_loan_s(30,$info['qipai'],'4.9',$info['acreage'],65);
-                $house_loan['benxi'] =   $house_loan_s['res'][0]['benxi'];
-                $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
-                $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
-                $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
-                $seo['title'] = $info['title'].'法拍二手房信息_房拍网法拍房房源栏目';
-                $seo['keys']  = $info['title'].'法拍房二手房信息';
-                $seo['desc']  = '提供'.$info['title'].'房屋起拍价、户型大小、特色、周边医院公交等法拍二手房信息。';
-                $this->assign('seo',$seo);
-
-                $this->assign('house_loan',json_encode($house_loan));
+                $guanzhu = $follow->where('house_id',$xiaoqu)->where('user_id',$user_id)->where('model','estate')->count();
                 $this->assign('guanzhu',$guanzhu);
+
                 $this->assign('userInfo',$userInfo);
-                $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
+                $this->assign('page_t',1);
             }else{
                 return $this->fetch('public/404');
             }
@@ -252,28 +231,10 @@ class Secondx extends HomeBase{
         return $this->fetch();
     }
 
-    public function extension(){
-        $extension_id= input('param.id/d',1);
-        $second_house_extension =  model('second_house_extension')->where([['id','=',$extension_id],['status','=',1]])->find();
-        $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
-        $obj     = model('second_house')->alias('s');
-        $lists ="";
-        if (!empty($second_house_extension->val)){
-            $second_house_extension_arr = explode(',',$second_house_extension->val);
-            $where[] =[$second_house_extension->key,'in',$second_house_extension_arr];
-            $where[] = ['s.fcstatus','in',[169,170]];
-            $cache_name =  "second_house_extension_".$second_house_extension->key;
-            $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
-//                ->cache($cache_name,86401)
-                ->order('kptime asc')->select();
-        }
-        $this->assign('lists',$lists);
-        $this->assign('info',$second_house_extension);
-        return $this->fetch();
-    }
-
 
     /**
+
+
 
      * @return mixed
 
@@ -306,7 +267,7 @@ class Secondx extends HomeBase{
 
 
      */
-    public function detail1243()
+    public function detail()
 
     {
 
@@ -903,8 +864,6 @@ class Secondx extends HomeBase{
                  }else{
                     $lists[$key]['city']=$city_name;
                  }
-                $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
-                $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
             }
         return ['lists'=>$lists,'top'=>$top];
@@ -1296,7 +1255,6 @@ class Secondx extends HomeBase{
     private function search(){
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
-//        dd($param);
         $param['rading']     = 0;
         $param['tags']       = input('param.tags/d',0);
         $param['qipai']      = input('param.qipai',0);
@@ -1315,7 +1273,6 @@ class Secondx extends HomeBase{
         $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
-        $param['time_frame']   = input('param.time_frame',0);//查询时间
         $data['s.status']    = 1;
 
         //获取当前请求的参数
@@ -1380,7 +1337,6 @@ class Secondx extends HomeBase{
             $data[] = ['s.title','like','%'.$keyword.'%'];
             $seo_title .= '_'.$keyword;
         }
-
         if($param['search_type'] == 2) {
             if(!empty($param['metro'])){
                 $data['m.metro_id'] = $param['metro'];
@@ -1556,81 +1512,160 @@ class Secondx extends HomeBase{
 
 
 
-    private function getSort($sort){
-        switch($sort) {
-            case 0:
-                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
-                break;
-            case 1:
-                $order = ['price'=>'asc','id'=>'desc'];
-                break;
-            case 2:
-                $order = ['price'=>'desc','id'=>'desc'];
-                break;
-            case 3:
-                $order = ['average_price'=>'asc','id'=>'desc'];
-                break;
-            case 4:
-                $order = ['average_price'=>'desc','id'=>'desc'];
-                break;
-            case 5:
-                $order = ['acreage'=>'asc','id'=>'desc'];
-                break;
-            case 6:
-                $order = ['acreage'=>'desc','id'=>'desc'];
-                break;
-            case 7:
-                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
-                break;
-            case 8:
-                $order = ['marketprice'=>'desc'];
-                break;
-            case 9:
-                $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
-                break;
-            default:
-                $order = ['ordid'=>'asc','id'=>'desc'];
-                break;
-        }
-        return $order;
-    }
-    
-    
-    /**
-     * @description 获取房源点评
-     * @param $second_house_id 房ID
-     * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     * @auther xiaobin
-     */
-    public function anotherPerson()
+    private function getSort($sort)
+
+
+
     {
-        $code = 200;
-        $msg = "success";
-        $second_house_id = input("post.second_house_id");
-        $onReq = input("post.onReq");
-        if ($second_house_id > 0) {
-            //法拍专员点评/点评个数
-            $onReq = $onReq ==0 || $onReq==1 ? 0: ($onReq-1)*2;
-            $second_house_user_comment     = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
-                ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')->where([['s.kflj','neq',''],['model','=',4]])
-                ->group('s.id')->limit($onReq,2)
-                ->cache('another_'.$onReq,'1800')
-                ->select();
-            foreach ($second_house_user_comment as &$house){
-                $house['avatar'] = getAvatar($house->id,90);
-            }
-        } else {
-            $code = 500;
-            $msg = "error";
-            $second_house_user_comment = array();
+
+// print_r($sort);exit();
+
+        switch($sort)
+
+
+
+        {
+
+
+
+            case 0:
+
+
+
+                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 1:
+
+
+
+                $order = ['price'=>'asc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 2:
+
+
+
+                $order = ['price'=>'desc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 3:
+
+
+
+                $order = ['average_price'=>'asc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 4:
+
+
+
+                $order = ['average_price'=>'desc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 5:
+
+
+
+                $order = ['acreage'=>'asc','id'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 6:
+
+
+
+                $order = ['acreage'=>'desc','id'=>'desc'];
+
+
+
+                break;
+
+            case 7:
+
+
+
+                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
+
+
+
+                break;
+
+            case 8:
+
+
+
+                $order = ['marketprice'=>'desc'];
+
+
+
+                break;
+
+
+
+            case 9:
+
+
+
+                $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
+
+
+
+                break;
+
+
+
+            default:
+
+
+
+                $order = ['ordid'=>'asc','id'=>'desc'];
+
+
+
+                break;
+
+
+
         }
-        return json([
-            "code" => $code,
-            "msg" => $msg,
-            "data" => $second_house_user_comment
-        ]);
+
+
+
+        return $order;
+
+
+
     }
+
+
+
 }

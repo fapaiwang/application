@@ -16,7 +16,7 @@ class Index extends \app\common\controller\HomeBase
 //        $this->mod = model('user');
 //        $this->mod = model('user');
 //    }
-    public function index()
+    public function index_旧版()
 
     {
         $city_id  = $this->cityInfo['id'];
@@ -155,7 +155,7 @@ class Index extends \app\common\controller\HomeBase
      * @return mixed
      * @author: al
      */
-    public function index_o(){
+    public function index(){
         $IndexServer = new IndexServer();
         //顶部banner
         $info['top_bunner'] = $IndexServer->get_home_banner_arr(1,3);
@@ -200,7 +200,7 @@ class Index extends \app\common\controller\HomeBase
         $this->assign('news_strategy',$news_strategy);
         $info['news_strategy_list']  =$IndexServer->article_show(10,5);
         $this->assign('page_t',1);
-        return $this->fetch('index/index_1',$info);
+        return $this->fetch('index/index',$info);
     }
 
 
