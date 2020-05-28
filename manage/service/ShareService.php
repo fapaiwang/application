@@ -42,7 +42,7 @@ class ShareService
      */
     public function im_list($lists){
         foreach ($lists as $k=>$v){
-            $lists[$k]['s_price'] = substr($v['price'],0,-10);
+            $lists[$k]['s_price'] = $v['price'];
             $lists[$k]['cprice'] =round( $lists[$k]['s_price'] - $lists[$k]['cjprice'],2);
             $lists[$k]['types'] = $this->get_housing_type($lists[$k]['types']);
         }
