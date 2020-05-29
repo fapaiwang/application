@@ -580,7 +580,7 @@ function getCate($model='articleCate',$field='cate')
     $cate = "";
     if(!$cate)
     {
-        $lists = $obj->field('id,pid,name,alias')->where('status',1)->order("ordid desc")->select();
+        $lists = $obj->field('id,pid,name,alias')->where('status',1)->order("ordid asc")->select();
         if($lists){
             $cates = objToArray($lists);//普通列表
             $temp = [];
