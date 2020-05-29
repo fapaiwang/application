@@ -8,9 +8,6 @@ use app\server;
 use app\tools\ApiResult;
 use think\Controller;
 
-header("Access-Control-Allow-Origin:*");
-header("Access-Control-Allow-Methods:GET, POST, OPTIONS, DELETE");
-header("Access-Control-Allow-Headers:DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Accept-Language, Origin, Accept-Encoding");
 //……
 class SecondHouse extends Controller
 {
@@ -131,16 +128,45 @@ class SecondHouse extends Controller
         $time    = time();
         $where   = $this->search();
         $sort    = input('param.sort/d',0);
+        $acreage = $this->Acreage('acreage',input('param.acreage',''));//房屋面积
+        $rooms = $this->getRooms(input('param.room',''));//户型多选
+        $qipai = $this->getPrice('qipai',input('param.qipai',''));//房屋价格多选
+        $jieduan = $this->familyType('jieduan',input('param.jieduan',''));//阶段多选
+        $types = $this->familyType('types',input('param.types',''));//房屋户型
+        $type = $this->familyType('house_type',input('param.type',''));//房屋类型
+        //todo 地铁
+        
         $keyword = input('param.keyword');//搜索小区名称/房屋名称
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
+        if (!empty($type)) {//面积
+            $where[] = $type;
+        }
+        if (!empty($acreage)) {//面积
+            $where[] = $acreage;
+        }
+        if (!empty($keyword)) {//户型
+            $where[] = $acreage;
+        }
+        if (!empty($qipai)) {//总价多选
+            $where[] = $qipai;
+        }
+        if (!empty($jieduan)) {//阶段多选
+            $where[] = $jieduan;
+        }
+        if (!empty($types)) {//房屋户型
+            $where[] = $types;
+        }
+        if (!empty($rooms)) {//面积
+            $where[] = $rooms;
+        }
         //二手房列表
         if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
             //查询地铁关联表
             $field .= ',m.metro_name,m.station_name,m.distance';
             $join  = [['metro_relation m','m.house_id = s.id']];
             $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-        }else{
+        } else {
             if($sort==8){
                 $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
             }else if($sort==7){
@@ -158,9 +184,6 @@ class SecondHouse extends Controller
                 $join  = [['metro_relation m','m.house_id = s.id']];
                 $obj->join($join)->where('m.model','second_house')->group('s.id');
             }
-            $top   = $obj->field($field)->where($where)->where('top_time','gt',$time)->order(['timeout'=>'desc','id'=>'desc'])->select();
-        }else{
-            $top   = false;
         }
         foreach ($lists as $key => $value) {
             $estate_id=$lists[$key]['estate_id'];
@@ -193,16 +216,14 @@ class SecondHouse extends Controller
     public function search() {
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
-//        dd($param);
         $param['rading']     = 0;
         $param['tags']       = input('param.tags/d',0);
         $param['qipai']      = input('param.qipai',0);
-        $param['acreage']    = input('param.acreage',0);//面积
         $param['room']       = input('param.room',0);//户型
-        $param['types']       = input('param.types',0);//户型
-        $param['jieduan']       = input('param.jieduan',0);//户型
+//        $param['types']       = input('param.types',0);//户型
+//        $param['jieduan']       = input('param.jieduan',0);//户型
         $param['fcstatus']       = input('param.fcstatus',0);//状态
-        $param['type']       = input('param.type',0);//物业类型
+//        $param['type']       = input('param.type',0);//物业类型
         $param['renovation'] = input('param.renovation',0);//装修情况
         $param['metro']      = input('param.metro/d',0);//地铁线
         $param['metro_station'] = input('param.metro_station/d',0);//地铁站点
@@ -240,9 +261,9 @@ class SecondHouse extends Controller
         if($estate_id) {
             $data['s.estate_id'] = $estate_id;
         }
-        if(!empty($param['type'])){
-            $data['s.house_type'] = $param['type'];
-        }
+//        if(!empty($param['type'])){
+//            $data['s.house_type'] = $param['type'];
+//        }
         if(!empty($param['user_type'])){
             $data['s.user_type'] = $param['user_type'];
         }
@@ -270,24 +291,17 @@ class SecondHouse extends Controller
                 $data[] = ['s.city','in',$this->getCityChild($param['area'])];
             }
         }
-        if(!empty($param['qipai'])) {
-            $data[] = getSecondPrice($param['qipai'],'s.qipai');
-        }
-        if(!empty($param['room'])){
-            $data[] = getRoom($param['room'],'s.room');
-        }
-        if (!empty($param['types'])) {
-            $data['s.types'] = $param['types'];
-        }
-        if (!empty($param['jieduan'])) {
-            $data['s.jieduan'] = $param['jieduan'];
-        }
+       
+//        if (!empty($param['types'])) {
+//            $data['s.types'] = $param['types'];
+//        }
+//        if (!empty($param['jieduan'])) {
+//            $data['s.jieduan'] = $param['jieduan'];
+//        }
         if (!empty($param['fcstatus'])) {
             $data['s.fcstatus'] = $param['fcstatus'];
         }
-        if (!empty($param['acreage'])) {
-            $data[] = getAcreage($param['acreage'],'s.acreage');
-        }
+
         if (!empty($param['tags'])) {
             $data[] = ['','exp',\think\Db::raw("find_in_set({$param['tags']},s.tags)")];
         }
@@ -391,6 +405,27 @@ class SecondHouse extends Controller
     }
     
     /**
+     * @description
+     * @param $val
+     * @param $type
+     * @return array
+     * @auther xiaobin
+     */
+    public function familyType($val ,$type)
+    {
+        $param = [];
+        if ($type != "") {
+            $types = explode(",", $type);
+            if ($types ==1) {
+                $param = ["s.".$val,"eq",$type];
+            }
+            if ($types >1)  {
+                $param = ["s.".$val,"in",$types];
+            }
+        }
+        return $param;
+    }
+        /**
      * @description 总价
      * @return \think\response\Json
      * @auther xiaobin
@@ -422,6 +457,7 @@ class SecondHouse extends Controller
     }
     
     /**
+     *
      * @param $sort
      * @return array
      * 排序
@@ -435,7 +471,7 @@ class SecondHouse extends Controller
                 $order = ['price'=>'asc','id'=>'desc'];
                 break;
             case 2:
-                $order = ['price'=>'desc','id'=>'desc'];
+                $order = ['price'=>'desc','id'=>'desc'];//房屋总价
                 break;
             case 3:
                 $order = ['average_price'=>'asc','id'=>'desc'];
@@ -444,13 +480,13 @@ class SecondHouse extends Controller
                 $order = ['average_price'=>'desc','id'=>'desc'];
                 break;
             case 5:
-                $order = ['acreage'=>'asc','id'=>'desc'];
+                $order = ['acreage'=>'asc','id'=>'desc'];//房屋面积
                 break;
             case 6:
                 $order = ['acreage'=>'desc','id'=>'desc'];
                 break;
             case 7:
-                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];
+                $order = ['fabutimes'=>'desc','ordid'=>'desc','id'=>'desc'];//最新房源
                 break;
             case 8:
                 $order = ['marketprice'=>'desc'];
@@ -458,10 +494,139 @@ class SecondHouse extends Controller
             case 9:
                 $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
                 break;
+            case 10://开拍时间
+                $order = ['kptime'=>'desc'];
+                break;
             default:
                 $order = ['ordid'=>'asc','id'=>'desc'];
                 break;
         }
         return $order;
+    }
+    
+    /**
+     * @description 总价多选
+     * @param $name
+     * @param $Price
+     * @return array
+     * @auther xiaobin
+     */
+    public function getPrice($name, $Price){
+        if (empty($Price)) {
+            return [];
+        }
+        $acreages = explode(',', $Price);
+        $param = [];
+        if (count($acreages) ==1) {
+            $req = "egt";
+            if (strlen($Price) == 3) {
+                $req = "elt";
+            }
+            $param = ["s."."{$name}","{$req}",$Price];
+        } else {
+            if (strpos($acreages, "-") !==false) {
+                $start = $this->getVal(reset($acreage));
+                $end = $this->getVal(end($acreage));
+                $param = ["s."."{$name}","between",[$start,$end]];
+            }
+        }
+        return $param;
+    }
+    
+    /**
+     * @description 面积多选，获取查询范围
+     * @param $name string 字段名
+     * @param $acreage
+     * @return array
+     * @auther xiaobin
+     */
+    public function Acreage($name, $acreage) {
+        $param = [];
+        if ($acreage !="") {
+            $acreages = explode(',', $acreage);
+            if (count($acreages) ==1) {
+                if (strpos($acreage, "-") !==false) {
+                    $start = $this->getVal($acreage);
+                    $end = $this->getEndVal($acreage);
+                    $param = ["s."."{$name}","between",[$start,$end]];
+                } else {
+                    $req = "egt";
+                    if (strlen($acreage) == 3) {
+                        $req = "elt";
+                    }
+                    $param = ["s."."{$name}","{$req}",$acreage];
+                }
+            } else {
+                if (strpos($acreage, "-") !==false) {
+                    $start = $this->getVal(reset($acreages));
+                    $end = $this->getEndVal(end($acreages));
+                    $param = ["s."."{$name}","between",[$start,$end]];
+                }
+            }
+        }
+        return $param;
+    }
+    
+    /**
+     * @description 获取值
+     * @param $val
+     * @return bool|string
+     * @auther xiaobin
+     */
+    public function getVal($val)
+    {
+        if (strpos($val, "-") !==false) {
+            $endVal = substr($val,0,strpos($val, "-"));
+        } else {
+            $endVal = $val;
+        }
+        return $endVal;
+    }
+    
+    /**
+     * @description 获取值
+     * @param $val
+     * @return bool|string
+     * @auther xiaobin
+     */
+    public function getEndVal($val)
+    {
+        if (strpos($val, "-") !==false) {
+            $endVal = substr($val,strpos($val, "-")+1,strlen($val));
+        } else {
+            $endVal = $val;
+        }
+        return $endVal;
+    }
+    
+    /**
+     * @description 户型多选
+     * @param $room
+     * @return array
+     * @auther xiaobin
+     */
+    public function getRooms($room)
+    {
+        $param = [];
+        if ($room !="") {
+            $rooms = explode(',', $room);
+            if (count($rooms) >1) {
+                $first = reset($rooms);
+                $end = end($rooms);
+                if ($end - $first ==1) {
+                    $param = ["s.room","between",[$first,$end]];
+                } else {
+                    $param = ["s.room","in",[$room]];
+                }
+            } else {
+                if ($room ==6) {
+                    $param = ["s.room","egt",$room];
+                }
+                if ($room ==1) {
+                    $param = ["s.room","eq",$room];
+                }
+            }
+        }
+        return $param;
     }
 }
