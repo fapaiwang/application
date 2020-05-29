@@ -204,9 +204,11 @@
                     <div class="fangpai-detail-header-right-begin-baoming-right">
                         <span>{$info.weiguan}</span>人围观
                     </div>
+                    {if condition="$login_user.model eq 4"}
                     <div class="fangpai-detail-header-right-begin-baoming-right">
                         <span class="all_click all_click_dianping"  data-id="{$info.id}" data-type="1" data-model="second_house" data-uri="{:url('Dialog/fydp')}" >房源点评</span>
                     </div>
+                    {/if}
                 </div>
             </div>
                 <div class="fangpai-detail-header-right-people">
@@ -753,7 +755,7 @@
                 <input type="hidden" name="type" value="1">
                 <input type="hidden" name="model" value="second_house">
                 <input type="hidden" name="house_id" value="{$info.id}">
-                <input type="hidden" name="broker_id" value="{$userInfo.id}">
+                <input type="hidden" name="broker_id" value="{$info.broker_id}">
                 <input type="hidden" id="send_sms" value="1">
             </div>
             <div class="lijizhuce"  onclick="fangyuanfydp()">
