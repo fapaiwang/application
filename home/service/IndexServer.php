@@ -150,11 +150,11 @@ class IndexServer
     public function article_show($cate_id,$limit){
         $cache_name = 'article_show'.$cate_id.$limit;
         $article =  model('article')
-//            ->filed('id,title,img')
+            ->field('id,title,img')
             ->where([['status','=',1],['cate_id','=',$cate_id]])
-            ->order("create_time desc")
-            ->limit($limit)
-            ->cache($cache_name,3600);
+            ->order("ordid desc, create_time desc")
+            ->limit($limit);
+//            ->cache($cache_name,3600);
         if ($limit == 1){
             return $article->find();
         }else{
