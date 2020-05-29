@@ -188,7 +188,7 @@ class Index extends \app\common\controller\HomeBase
         //获取优质小区
         $info['quality_estate'] =$IndexServer->get_quality_estate(10);
         //获取资讯
-        $article_show_img =$IndexServer->article_show(1,1);
+        $article_show_img =$IndexServer->article_show(8,1);
         $this->assign('article_show_img',$article_show_img);
         $info['article_show_list']  =$IndexServer->article_show(3,5);
         //问答
