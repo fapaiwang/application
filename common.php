@@ -577,7 +577,7 @@ function getSettingCaches($key,$houseid)
 function getCate($model='articleCate',$field='cate')
 {
     $obj = model($model);
-    $cate = "";
+    $cate = cache($model);
     if(!$cate)
     {
         $lists = $obj->field('id,pid,name,alias')->where('status',1)->order("ordid asc")->select();
@@ -589,7 +589,7 @@ function getCate($model='articleCate',$field='cate')
             }
             $tree = list_to_tree($temp);//树形列表
             $cate = ['cate'=>$temp,'tree'=>$tree];
-            cache($model,$cate,1);
+            cache($model,$cate,3600);
         }
     }
     if($field && array_key_exists($field,$cate))
