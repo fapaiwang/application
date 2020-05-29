@@ -19,6 +19,7 @@ class News extends HomeBase
     public function index()
     {
         $cate    = getCate('articleCate','tree');
+        dd($cate);
         $cate_id = input('param.cate/d',0);
         $hits = input('hits',"");
         $keyword = input('keyword',"");
@@ -44,7 +45,6 @@ class News extends HomeBase
         if ($hits != "" && $hits == 'hot') {
             $order = "hits desc";
         }
-
         $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(6);
         $this->assign("newPic",$news->get_banner(16));
         $this->assign('cate_id',$cate_id);
