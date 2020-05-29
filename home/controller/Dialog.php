@@ -9,6 +9,8 @@ namespace app\home\controller;
 
 
 
+use think\Log;
+
 class Dialog extends \think\Controller
 
 {
@@ -71,10 +73,8 @@ class Dialog extends \think\Controller
         return $this->fetch();
 
     }
-    public function fydp()
-
-    {
-// print_r(1111111111);
+    public function fydp(){
+        \think\facade\Log::write("2345678");
         $house_id = input('get.house_id/d',0);
 
         $model    = input('get.model','house');

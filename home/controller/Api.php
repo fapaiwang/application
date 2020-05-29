@@ -708,84 +708,37 @@ class Api
 
      */
 
-    public function fydp()
-
-    {
-
+    public function fydp(){
         $data['house_id']  = input('post.house_id/d',0);
-
-        // $data['user_name'] = input('post.user_name');
-
         $data['model']     = input('post.model');
-
-        // $data['mobile']    = input('post.mobile');
-
         $data['type']      = input('post.type/d',1);
         $data['house_name']= input('post.house_name');
-
-        // $data['check_sms'] = input('post.check_sms','yes');
-
         $data['broker_id'] = input('post.broker_id/d',0);
-
-        // $sms_code          = input('post.sms_code');//短信验证码
-
         $token             = input('post.__token__');
-
         $userInfo          = $this->getUserInfo();
-
         $userInfo && $data['user_id'] = $userInfo['id'];
         $data['user_name']=$userInfo['user_name'];
         $data['mobile']=$userInfo['mobile'];
         $setting        = getSettingCache('user');
-
         $return['code'] = 0;
-
-        if(request()->isAjax())
-
-        {
-
-
-        if(!$userInfo)
-
-        {
-
+        if(request()->isAjax()) {
+        if(!$userInfo) {
             $return['msg'] = '请登录后再点评';
-
-        } else if(model('fydp')->allowField(true)->save($data))
-
-                {
-
-                    if($data['type'] == 4)
-
-                    {
-
-                        model('group')->where('house_id',$data['house_id'])->where('status',1)->setInc('sign_num');
-
-                    }
-
-                    session('__token__',null);
-
-                    action('home/Sms/sendNoticeSms',['data'=>$data]);
-
-                    $return['code'] = 1;
-
-                    $return['msg']  = '提交成功';
-
-                }else{
-
-                    $return['msg']  = '保存失败';
-
+        } else if(model('fydp')->allowField(true)->save($data)) {
+                if($data['type'] == 4){
+                    model('group')->where('house_id',$data['house_id'])->where('status',1)->setInc('sign_num');
                 }
-
-
+                session('__token__',null);
+                action('home/Sms/sendNoticeSms',['data'=>$data]);
+                $return['code'] = 1;
+                $return['msg']  = '提交成功';
+            }else{
+                $return['msg']  = '保存失败';
+            }
         }else{
-
             $return['msg']  = '提交成功';
-
         }
-
         return json($return);
-
     }
 
 /**
@@ -796,12 +749,8 @@ class Api
 
      */
 
-    public function bj()
-
-    {
-
-
-$data['house_id']  = input('post.house_id/d',0);
+    public function bj(){
+        $data['house_id']  = input('post.house_id/d',0);
 
         // $data['user_name'] = input('post.user_name');
 

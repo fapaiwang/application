@@ -11,7 +11,7 @@
 <script src="./homeStatic/js/swiper.jquery.min.js"></script>
 <script src="./homeStatic/js/swiper.min.js"></script>
 <script src="./homeStatic/js/jquery.waypoints.min.js"></script>
-<script src="./homeStatic/js/zhezhaoTab.js"></script>
+<script src="./homeStatic/js/hezhaoTab.js"></script>
 <script src="./homeStatic/js/detail.js?v={:time()}"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -203,6 +203,9 @@
                     </div>
                     <div class="fangpai-detail-header-right-begin-baoming-right">
                         <span>{$info.weiguan}</span>人围观
+                    </div>
+                    <div class="fangpai-detail-header-right-begin-baoming-right">
+                        <span class="all_click all_click_dianping"  data-id="{$info.id}" data-type="1" data-model="second_house" data-uri="{:url('Dialog/fydp')}" >房源点评</span>
                     </div>
                 </div>
             </div>
@@ -670,12 +673,7 @@
             <!--<div class="fangpai-detail-zhoubian-content">-->
             <!--</div>-->
         <!--</div>-->
-
-
-
     </div>
-
-
 </div>
 <div class="fangpai-detail-zhezhao">
     <div class="fangpai-detail-zhezhao-con">
@@ -739,5 +737,28 @@
         {/volist}
     </div>
 </div>
+
 <script src="./js/echarts.min.js"></script>
+{/block}
+{block name='bottom'}
+<div class="login-box">
+    <div class="login-content">
+        <div class="all_spring">
+            <div class="zhuce-header">
+                <p>房源点评</p>
+                <span><img src="/homeStatic/img/jiahao.png" class="close_model" style="padding-left:19px" alt=""></span>
+            </div>
+            <div class="zhuce-content all_spring_content">
+                <textarea id="pinglun_content" cols="70" rows="10"></textarea>
+                <input type="hidden" name="type" value="1">
+                <input type="hidden" name="model" value="second_house">
+                <input type="hidden" name="house_id" value="{$info.id}">
+                <input type="hidden" name="broker_id" value="{$userInfo.id}">
+                <input type="hidden" id="send_sms" value="1">
+            </div>
+            <div class="lijizhuce"  onclick="fangyuanfydp()">
+                提交
+            </div>
+        </div>
+    </div>
 {/block}

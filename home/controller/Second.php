@@ -198,7 +198,7 @@ class Second extends HomeBase{
                 $this->assign('jilu1',$jilu1);
 
                 //法拍专员点评/点评个数
-                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);;
+                $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
