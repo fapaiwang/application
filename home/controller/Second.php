@@ -176,6 +176,7 @@ class Second extends HomeBase{
             //second_house详情
             $info = $server->second_model($second_house_id);
             if($info){
+                $info["bianhao"] = substr($info["bianhao"],0,5);
                 //添加浏览量
                 updateHits($info['id'],'second_house');
                 //小区详情
@@ -1294,6 +1295,8 @@ class Second extends HomeBase{
 
 
     private function search(){
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
 //        dd($param);
@@ -1316,6 +1319,7 @@ class Second extends HomeBase{
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $param['time_frame']   = input('param.time_frame',0);//查询时间
+        $mod_types = input('get.mod');//默认传值
         $data['s.status']    = 1;
 
         //获取当前请求的参数
@@ -1443,6 +1447,12 @@ class Second extends HomeBase{
         if(!empty($param['is_free'])){
             $data['s.is_free'] = $param['is_free'];
         }
+        //今日新增
+        if (!empty($mod_types) && $mod_types == 3){
+            $data[] = ['s.fabutime','>',$start_time];
+            $data[] = ['s.fabutime','<',$end_time];
+        }
+
         if(!empty($_GET['zprice2'])){
             $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
         }
