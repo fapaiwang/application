@@ -577,7 +577,7 @@ function getSettingCaches($key,$houseid)
 function getCate($model='articleCate',$field='cate')
 {
     $obj = model($model);
-    $cate = cache($model);
+    $cate = "";
     if(!$cate)
     {
         $lists = $obj->field('id,pid,name,alias')->where('status',1)->order("ordid desc")->select();
