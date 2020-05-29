@@ -464,7 +464,7 @@
         </script>
 
 
-        {if condition="$second_house_user_comment_num"}   {/if}
+        {if condition="$second_house_user_comment_num"}
         <div id="fangpai-detail-zhuanyuan" class="fangpai-detail-zhuanyuan">
             <div class="fangpai-detail-zhuanyuan-title">
                 <h2 >法拍专员推荐</h2>
@@ -494,6 +494,7 @@
                 {/volist}
             </ul>
         </div>
+        {/if}
 
         <div id="fangpai-detail-daikuan" class="fangpai-detail-daikuan">
             <div class="fangpai-detail-daikuan-title">
@@ -742,25 +743,22 @@
 
 <script src="./js/echarts.min.js"></script>
 {/block}
-{block name='bottom'}
-<div class="login-box">
-    <div class="login-content">
-        <div class="all_spring">
-            <div class="zhuce-header all_spring_header">
-                <p>房源点评</p>
-                <span><img src="/homeStatic/img/jiahao.png" class="close_model" style="padding-left:19px" alt=""></span>
-            </div>
-            <div class="zhuce-content all_spring_content" style="margin-bottom: 20px">
-                <textarea id="pinglun_content" cols="70" rows="10"></textarea>
-                <input type="hidden" name="type" value="1">
-                <input type="hidden" name="model" value="second_house">
-                <input type="hidden" name="house_id" value="{$info.id}">
-                <input type="hidden" name="broker_id" value="{$info.broker_id}">
-                <input type="hidden" id="send_sms" value="1">
-            </div>
-            <div class="lijizhuce fangyuanfydp"  onclick="fangyuanfydp()">
-                提交
-            </div>
-        </div>
+{block name='zhezhao'}
+<div class="all_spring">
+    <div class="zhuce-header all_spring_header">
+        <p>房源点评</p>
+        <span><img src="/homeStatic/img/jiahao.png" class="close_model" style="padding-left:19px" alt=""></span>
     </div>
+    <div class="zhuce-content all_spring_content" style="margin-bottom: 20px">
+        <textarea id="pinglun_content" cols="70" rows="10"></textarea>
+        <input type="hidden" name="type" value="1">
+        <input type="hidden" name="model" value="second_house">
+        <input type="hidden" name="house_id" value="{$info.id}">
+        <input type="hidden" name="broker_id" value="{$info.broker_id}">
+        <input type="hidden" id="send_sms" value="1">
+    </div>
+    <div class="lijizhuce fangyuanfydp"  onclick="fangyuanfydp()">
+        提交
+    </div>
+</div>
 {/block}
