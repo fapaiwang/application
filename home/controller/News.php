@@ -19,7 +19,6 @@ class News extends HomeBase
     public function index()
     {
         $cate    = getCate('articleCate','tree');
-        dd($cate);
         $cate_id = input('param.cate/d',0);
         $hits = input('hits',"");
         $keyword = input('keyword',"");
