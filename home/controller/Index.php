@@ -190,15 +190,15 @@ class Index extends \app\common\controller\HomeBase
         //获取资讯
         $article_show_img =$IndexServer->article_show(8,1);
         $this->assign('article_show_img',$article_show_img);
-        $info['article_show_list']  =$IndexServer->article_show(3,5);
+        $info['article_show_list']  =$IndexServer->article_show(8,5);
         //问答
-        $news_wd =$IndexServer->article_show(9,1);
+        $news_wd =$IndexServer->article_show(10,1);
         $this->assign('news_wd',$news_wd);
-        $info['news_wd_list']  =$IndexServer->article_show(9,5);
+        $info['news_wd_list']  =$IndexServer->article_show(10,5);
         //攻略
-        $news_strategy =$IndexServer->article_show(10,1);
+        $news_strategy =$IndexServer->article_show(9,1);
         $this->assign('news_strategy',$news_strategy);
-        $info['news_strategy_list']  =$IndexServer->article_show(10,5);
+        $info['news_strategy_list']  =$IndexServer->article_show(9,5);
         $this->assign('page_t',1);
         return $this->fetch('index/index',$info);
     }
