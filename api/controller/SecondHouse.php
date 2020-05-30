@@ -167,6 +167,7 @@ class SecondHouse extends Controller
             $join  = [['metro_relation m','m.house_id = s.id']];
             $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
         } else {
+            
             if($sort==8){
                 $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
             }else if($sort==7){
@@ -465,7 +466,8 @@ class SecondHouse extends Controller
     private function getSort($sort) {
         switch ($sort) {
             case 0:
-                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
+//                $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc']; jieduan kptime
+                $order = ['jieduan'=>'asc','kptime'=>'desc'];
                 break;
             case 1:
                 $order = ['price'=>'asc','id'=>'desc'];
