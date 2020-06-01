@@ -54,11 +54,14 @@ class Banner extends Controller
         $banner_1 =  $this->index_service->get_home_banner(26);
         $banner_2 =  $this->index_service->get_home_banner(27);
         $arr[0]["name"] ="即将拍卖";
-        $arr[0]["describe"] ="即将拍卖即将拍卖即将拍卖";
+        $arr[0]["fcstatus"] =170;
+        $arr[0]["describe"] ="即将拍卖";
         $arr[1]["name"] ="正在进行";
-        $arr[1]["describe"] ="正在进行正在进行正在进行";
+        $arr[1]["fcstatus"] =169;
+        $arr[1]["describe"] ="正在进行";
         $arr[2]["name"] ="今日成交";
-        $arr[2]["describe"] ="今日成交今日成交今日成交";
+        $arr[2]["fcstatus"] =175;
+        $arr[2]["describe"] ="今日成交";
         if (!$banner_1->isEmpty() &&  !$banner_2->isEmpty()){
             $arr[0]["img"] =$banner_1[0]['setting'];
             $arr[1]["img"] =$banner_2[0]['setting'];
