@@ -1329,7 +1329,6 @@ class Second extends HomeBase{
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $param['time_frame']   = input('param.time_frame',0);//查询时间
-        $mod_types = input('get.mod');//默认传值
         $data['s.status']    = 1;
 
         //获取当前请求的参数
@@ -1458,7 +1457,7 @@ class Second extends HomeBase{
             $data['s.is_free'] = $param['is_free'];
         }
         //今日新增
-        if (!empty($mod_types) && $mod_types == 3){
+        if (!empty($param['time_frame']) && $param['time_frame'] == 1  ){
             $data[] = ['s.fabutime','>',$start_time];
             $data[] = ['s.fabutime','<',$end_time];
         }
@@ -1494,7 +1493,6 @@ class Second extends HomeBase{
             $param['zmianji2']=$_GET['zmianji2'];
         }
         $this->search_arr(array_filter($param));
-
         $this->assign('param',$param);
         return $data;
     }
