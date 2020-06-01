@@ -253,6 +253,12 @@ class Second extends HomeBase{
         return $this->fetch();
     }
 
+    /**
+     * 特色房源
+     * @param mixed
+     * @return mixed
+     * @author: al
+     */
     public function extension(){
         $extension_id= input('param.id/d',1);
         $second_house_extension =  model('second_house_extension')->where([['id','=',$extension_id],['status','=',1]])->find();
@@ -265,10 +271,14 @@ class Second extends HomeBase{
             $where[] = ['s.fcstatus','in',[169,170]];
             $cache_name =  "second_house_extension_".$second_house_extension->key;
             $lists = $obj->field($field)->where($where)->limit($second_house_extension->limit)
-//                ->cache($cache_name,86401)
+                ->cache($cache_name,86401)
                 ->order('kptime asc')->select();
+            $seo['title'] = $second_house_extension->seo_title;
+            $seo['keys']  =  $second_house_extension->seo_keys;
+            $seo['desc']  =  $second_house_extension->seo_desc;
         }
         $this->assign('lists',$lists);
+        $this->assign('seo',$seo);
         $this->assign('info',$second_house_extension);
         return $this->fetch();
     }
