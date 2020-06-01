@@ -29,6 +29,7 @@ class News extends HomeBase
             $info = $cateObj->where(['id'=>$cate_id])->field('name,seo_title,seo_keys,seo_desc')->find();
             $cate_ids         = $cateObj->get_child_ids($cate_id,true);
             $where[] = ['cate_id','in',$cate_ids];
+            $where[] = ['status','=',1];
 //            $this->setSeo($info,'name');
             $seo['title'] = $info['name']."-房拍网法拍百科";
             $seo['keys'] = $info['name'];
@@ -44,7 +45,7 @@ class News extends HomeBase
         if ($hits != "" && $hits == 'hot') {
             $order = "hits desc";
         }
-        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(6);
+        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->paginate(10);
         $this->assign("newPic",$news->get_banner(16));
         $this->assign('cate_id',$cate_id);
         $this->assign('lists',$lists);

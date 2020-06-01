@@ -21,7 +21,13 @@ class SecondHouse extends Controller
         $this->Second_Server = $Second_Server;
         $this->Index_Server = $Index_Server;
     }
-    //获取今日新增房源
+
+    /**
+     * 获取今日新增房源
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
     public function get_today_add(){
         $res = $this->Second_Server->get_today_add();
         if (!$res->isEmpty()){
@@ -31,7 +37,16 @@ class SecondHouse extends Controller
         }
 
     }
-    //推荐房源
+
+    /**
+     * 推荐房源
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function recommend_house(){
         $limit =input('get.limit') ?? 6;
         $res =  $this->Index_Server->get_recommend_house($limit);
@@ -41,7 +56,16 @@ class SecondHouse extends Controller
             return $this->error_o("未查询到推荐房源");
         }
     }
-    //自由购房源
+
+    /**
+     * 自由购房源
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function restrict_house(){
         $limit =input('get.limit') ?? 6;
         $res =  $this->Index_Server->get_restrict_house($limit);
@@ -51,7 +75,16 @@ class SecondHouse extends Controller
             return $this->error_o("未查询到自由购房源");
         }
     }
-    //获取优质小区
+
+    /**
+     * 获取优质小区
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function quality_estate(){
         $limit =input('get.limit') ?? 10;
        $res =  $this->Index_Server->get_quality_estate($limit);
@@ -629,5 +662,13 @@ class SecondHouse extends Controller
             }
         }
         return $param;
+    }
+    //特色房源
+    public function characteristicHouse(){
+        $res[0]["name"]="为你选房";
+        $res[0]["img"] =$this->Index_Server->get_home_banner(20);
+        $res[1]["name"]="特色房源";
+        $res[1]["name"]=$this->Index_Server->get_home_banner(21);
+        return $this->success_o($res);
     }
 }

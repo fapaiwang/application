@@ -22,7 +22,7 @@ class IndexServer
      * @throws \think\exception\DbException
      */
     public function get_home_banner_arr($space_id=1,$limit=0){
-        $banner_json= $this->get_home_banner($space_id);
+        $banner_json= $this->get_home_banner($space_id,$limit);
         $arr =[];
         if ($banner_json){
             foreach ($banner_json as $k=>$v){
@@ -44,13 +44,16 @@ class IndexServer
      * @throws \think\exception\DbException
      *
      */
-    public function get_home_banner($space_id=1,$limit=0){
+    public function get_home_banner($space_id=1,$limit=20){
         $cache_name = 'poster_img'.$space_id;
-        $banner = Cache::get($cache_name);
+        $banner =Cache::get($cache_name);
         if (!$banner){
             $cache_name = 'poster_img'.$space_id;
-            $poster_space = model('poster')->field('name,setting')->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()]])->select();
-            \think\facade\Cache::set($cache_name,$poster_space);
+            $banner = model('poster')->field('name,setting')
+                ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()]])
+               ->limit($limit)
+                ->select();
+            \think\facade\Cache::set($cache_name,$banner);
         }
         return $banner;
     }
@@ -145,7 +148,6 @@ class IndexServer
      * @param mixed
      * @return mixed
      * @author: al
-     * //todo 缓存关闭
      */
     public function article_show($cate_id,$limit){
         $cache_name = 'article_show'.$cate_id.$limit;
