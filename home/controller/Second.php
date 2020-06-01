@@ -1305,8 +1305,8 @@ class Second extends HomeBase{
 
 
     private function search(){
-        $start_time = strtotime(date('Y-m-d'));
-        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
+        $start_time = date('Y-m-d');
+        $end_time = date('Y-m-d',strtotime('+1 day'));
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
 //        dd($param);
