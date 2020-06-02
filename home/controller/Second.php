@@ -1459,23 +1459,30 @@ class Second extends HomeBase{
         if(!empty($param['is_free'])){
             $data['s.is_free'] = $param['is_free'];
         }
-        $start_time = date('Y-m-d');
+        $start_time = $end_time = "";
         if ($time_frame == 1){
-            $end_time = date('Y-m-d',strtotime( '+1 day'));
-        }elseif ($time_frame == 3){
-            $end_time = date('Y-m-d',strtotime( '+3 day'));
-        }elseif ($time_frame == 7){
-            $end_time = date('Y-m-d',strtotime( '+7 day'));
-        }elseif (!empty($param['time_frame'])){
             $start_time = date('Y-m-d');
             $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif ($time_frame == 3){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+3 day'));
+        }elseif ($time_frame == 7){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+7 day'));
+        }elseif ($time_frame == 30){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+30 day'));
+        }elseif (!empty($param['time_frame'])){
+            $start_time = explode('+',$param['time_frame'])[0];
+            $end_time = explode('+',$param['time_frame'])[1];
         }
         //今日新增
         if (!empty($param['time_frame'])){
             $data[] = ['s.fabutime','>',$start_time];
             $data[] = ['s.fabutime','<',$end_time];
         }
-
+        $this->assign('start_time',$start_time);
+        $this->assign('end_time',$end_time);
         if(!empty($_GET['zprice2'])){
             $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
         }

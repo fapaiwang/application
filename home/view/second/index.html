@@ -223,26 +223,24 @@
                             {/volist}
                         </ul>
                     </div>
-                    <!--<div class="item clearfix">-->
-                        <!--<h3>时间:</h3>-->
-                        <!--<ul class="list">-->
-                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active"{/if}>全部</a></li>-->
-                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>-->
-                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>-->
-                            <!--<li><a href="{:getUrl('Second/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>-->
-                            <!--<li><input type="text" placeholder="请输入时间" class="layui-input" id="test6" style="height: 25px;width: 170px" ></li>-->
-                            <!--<li><input type="submit" name="" value="确定" class="test6_substr"></li>-->
-                        <!--</ul>-->
-                        <!--<form action="{:url('Second/index')}">-->
-                            <!--<div class="s-box fix">-->
-                                <!--<input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">-->
-                                <!--<span>-</span>-->
-                                <!--<input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">-->
-                                <!--<span>平米</span>-->
-                                <!--<input type="submit" name="" value="确定" class="zprice">-->
-                            <!--</div>-->
-                        <!--</form>-->
-                    <!--</div>-->
+                    <div class="item clearfix">
+                        <h3>时间:</h3>
+
+                        <ul class="list">
+                            <li><a href="{:getUrl('Second/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active time_frame_all"{/if}>全部</a></li>
+                            <li><a href="{:getUrl('Second/index','time_frame',$param,1)}" rel="nofollow" {if condition='$search.time_frame eq 1'}class="active"{/if}>最近1天</a></li>
+                            <li><a href="{:getUrl('Second/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>
+                            <li><a href="{:getUrl('Second/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>
+                            <li><a href="{:getUrl('Second/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>
+                            <form>
+                                <li><input type="text" class="layui-input test-item" placeholder="请输入开始时间" id="state_time" style="height: 25px;width: 170px" value="{$start_time}"></li>
+                                <li>- </li>
+                                <li><input type="text" class="layui-input test-item" placeholder="请输入结束时间" id="end_time" style="height: 25px;width: 170px" value="{$end_time}"></li>
+                            </form>
+                            <input type="text" value="">
+                            <li><input type="submit" name="" value="确定" class="test6_substr"></li>
+                        </ul>
+                    </div>
                     <div class="item clearfix search-content-gengduo">
                         <div class=" search-content">
                             <h3 class="item-title">搜索条件:</h3>
@@ -749,18 +747,28 @@
     $('.fangpai-lie-list li').eq(2).after(li)
     layui.use('laydate', function(){
         var laydate = layui.laydate;
-        laydate.render({
-            elem: '#test6'
-            ,range: true
-        });
+        lay('.test-item').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+            });
+        })
     })
     $(".test6_substr").on('click',function () {
-        if ($("#test6").val().length <= 0){
-            layer.msg("请输入要搜索的时间");
+        var state_time = $("#state_time").val();
+        var end_time = $("#end_time").val();
+        var time_frame_str = '{$param.time_frame}';
+        if ($("#state_time").val().length <= 0){
+            layer.msg("请输入开始时间");
         }
-
-
-
+        if ($("#end_time").val().length <= 0){
+            layer.msg("请输入结束时间");
+        }
+        var time_frame_all = $('.active').attr('href');
+        var time_str = 'time_frame/'+state_time+"+"+end_time;
+        var th_str ='time_frame/'+time_frame_str;
+        var pj= time_frame_all.replace(th_str,time_str);
+        window.location.href=pj;
     })
 </script>
 <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>
