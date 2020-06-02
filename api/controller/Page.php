@@ -25,7 +25,7 @@ class Page extends Controller
         if ($res){
             return $this->success_o($res);
         }else{
-            return $this->error_o("未查询到今日房源");
+            return $this->error_o("未查询到首页导航");
         }
     }
     public function characteristic_second(){

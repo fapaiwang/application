@@ -1305,8 +1305,6 @@ class Second extends HomeBase{
 
 
     private function search(){
-        $start_time = date('Y-m-d');
-        $end_time = date('Y-m-d',strtotime('+1 day'));
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
 //        dd($param);
@@ -1328,7 +1326,7 @@ class Second extends HomeBase{
         $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
-        $param['time_frame']   = input('param.time_frame',0);//查询时间
+        $param['time_frame'] =$time_frame  = input('param.time_frame',0);//查询时间
         $data['s.status']    = 1;
 
         //获取当前请求的参数
@@ -1456,8 +1454,19 @@ class Second extends HomeBase{
         if(!empty($param['is_free'])){
             $data['s.is_free'] = $param['is_free'];
         }
+        $start_time = date('Y-m-d');
+        if ($time_frame == 1){
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif ($time_frame == 3){
+            $end_time = date('Y-m-d',strtotime( '+3 day'));
+        }elseif ($time_frame == 7){
+            $end_time = date('Y-m-d',strtotime( '+7 day'));
+        }elseif (!empty($param['time_frame'])){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }
         //今日新增
-        if (!empty($param['time_frame']) && $param['time_frame'] == 1  ){
+        if (!empty($param['time_frame'])){
             $data[] = ['s.fabutime','>',$start_time];
             $data[] = ['s.fabutime','<',$end_time];
         }
