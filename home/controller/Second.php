@@ -1328,7 +1328,12 @@ class Second extends HomeBase{
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $param['time_frame'] =$time_frame  = input('param.time_frame',0);//查询时间
         $data['s.status']    = 1;
-
+        //最新发布和自由购 只存在一个
+        if ($param['sort'] == 9){
+            $param['is_free']  = 0;
+        }elseif ($param['sort'] == 10){
+            $param['is_free']  = 1;
+        }
         //获取当前请求的参数
         $arr=$this->request->param();
         if(!empty($arr['keyword'])){
