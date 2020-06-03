@@ -160,6 +160,25 @@
                         <p>{$estate.years}年</p>
                     </li>
                 </ul>
+                <div class="fangpai-detail-header-right-people">
+                    <div class="fangpai-detail-header-right-people-left">
+                        <img src="/uploads/avatar/{$info['broker_id']}/avatar.jpg" alt="">
+                    </div>
+                    <div class="fangpai-detail-header-right-people-right">
+                        <div class="fangpai-detail-header-right-people-right-name">
+                            <b>{$info.contacts.contact_name}</b>
+                            <span>法拍专员</span>
+                            <p>法拍服务从业经验{$user_info.history_complate}年</p>
+                        </div>
+                        <div class="fangpai-detail-header-right-people-right-zixun" onclick='online("{$user.kflj}","{$userInfo.id}")'>
+                            <img src="/homeStatic/img/nvkefu22.png" alt="">
+                            <span>在线咨询</span>
+                        </div>
+                        <div class="fangpai-detail-header-right-people-right-phone">
+                            {$user.lxtel_zhuan}
+                        </div>
+                    </div>
+                </div>
                 <div class="fangpai-detail-header-right-begin">
                 <div class="fangpai-detail-header-right-begin-jiezhitime">
                     <span>开拍截止时间：</span>
@@ -210,28 +229,6 @@
                     </div>
                     {/if}
                 </div>
-            </div>
-                <div class="fangpai-detail-header-right-people">
-                    <div class="fangpai-detail-header-right-people-left">
-                        <img src="/uploads/avatar/{$info['broker_id']}/avatar.jpg" alt="">
-                    </div>
-                    <div class="fangpai-detail-header-right-people-right">
-                        <div class="fangpai-detail-header-right-people-right-name">
-                            <b>{$info.contacts.contact_name}</b>
-                            <span>法拍专员</span>
-                            <p>法拍服务从业经验{$user_info.history_complate}年</p>
-                        </div>
-                        <div class="fangpai-detail-header-right-people-right-zixun" onclick='online("{$user.kflj}","{$userInfo.id}")'>
-                            <img src="/homeStatic/img/nvkefu22.png" alt="">
-                            <span>在线咨询</span>
-                        </div>
-                        <div class="fangpai-detail-header-right-people-right-phone">
-                            {$user.lxtel_zhuan}
-                        </div>
-                    </div>
-                </div>
-
-
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
                         <h4>法拍专员</h4>
@@ -352,7 +349,7 @@
                 {if condition="!empty($userInfo)"}
                 <p style="width: 480px">{$info.qianfei}{$info.xiaci}</p>
                 {else \}
-                <p style="width: 480px">注册登录可看<span class="is_register">立即注册</span> <span class="is_login">登录</span></p>
+                <p style="width: 480px">注册登录可看<span class="is_register">立即注册</span> <span class="is_login">登录</span> <span class="is_login_cs">登录11</span> </p>
                 {/if}
             </div>
         </div>

@@ -1327,13 +1327,14 @@ class Second extends HomeBase{
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $param['time_frame'] =$time_frame  = input('param.time_frame',0);//查询时间
+        $param['end_time']  = input('param.end_time',0);//查询时间
         $mod_type  = input('param.mod',0);//传值
         $data['s.status']    = 1;
         //最新发布和自由购 只存在一个
-        if ($param['sort'] == 9){
-            $param['is_free']  = 0;
-        }elseif ($param['sort'] == 10){
+        if ($param['sort'] == 10){
             $param['is_free']  = 1;
+        }else{
+            $param['is_free']  = 0;
         }
         //获取当前请求的参数
         $arr=$this->request->param();
@@ -1474,8 +1475,8 @@ class Second extends HomeBase{
             $start_time = date('Y-m-d');
             $end_time = date('Y-m-d',strtotime( '+30 day'));
         }elseif (!empty($param['time_frame'])){
-            $start_time = explode('+',$param['time_frame'])[0];
-            $end_time = explode('+',$param['time_frame'])[1];
+            $start_time = $param['time_frame'];
+            $end_time = $param['end_time'];
         }
         //今日新增
         if (!empty($param['time_frame'])){
@@ -1524,6 +1525,12 @@ class Second extends HomeBase{
         return $data;
     }
 
+    /**
+     * 搜索字段
+     * @param $param
+     * @param mixed
+     * @author: al
+     */
     function search_arr($param){
         $res =[];
         //区域
@@ -1573,6 +1580,17 @@ class Second extends HomeBase{
         if (!empty($param['fcstatus'])){
             $res[] = getLinkMenuName(27,$param['fcstatus']);
         }
+         //搜索时间
+        if (!empty($param['time_frame'])){
+            $room = config('filter.all_search');
+            if (is_numeric($param['time_frame'])){
+                $res[] =$room[$param['time_frame']];
+            }
+//            else{
+//                $res[] =$param['time_frame'].'-'.$param['end_time'];
+//            }
+
+        }
         $this->assign('selected_nav',json_encode($res));
     }
 
@@ -1607,10 +1625,10 @@ class Second extends HomeBase{
                 $order = ['fcstatus'=>'asc','ordid'=>'asc','id'=>'desc'];
                 break;
             case 1:
-                $order = ['price'=>'asc','id'=>'desc'];
+                $order = ['qipai'=>'asc','id'=>'desc'];
                 break;
             case 2:
-                $order = ['price'=>'desc','id'=>'desc'];
+                $order = ['qipai'=>'desc','id'=>'desc'];
                 break;
             case 3:
                 $order = ['average_price'=>'asc','id'=>'desc'];

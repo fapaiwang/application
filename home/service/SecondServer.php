@@ -222,6 +222,8 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         $res[] =$this->get_linkmenu_one_arr(getLinkMenuCache(25),25);
         //状态
         $res[] =$this->get_linkmenu_one_arr(getLinkMenuCache(27),27);
+        //时间
+        $res[] =array_values(config('filter.all_search'));
         return $res;
     }
 

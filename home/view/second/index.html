@@ -248,11 +248,11 @@
                             </ul>
                             <div class="search-tiaojian-buttons">
                                 <p>
-                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <img src="/homeStatic/img/baocun.png" alt=""/>
                                     <span>保存</span>
                                 </p>
                                 <p class="search-tiaojian-buttons-clear">
-                                    <img src="/homeStatic/img/tabMenuH.png" alt=""/>
+                                    <img src="/homeStatic/img/laji.png" alt=""/>
                                     <span>清除</span>
                                 </p>
                             </div>
@@ -378,11 +378,15 @@
                                 </div>
                                 <div class="fangpai-shu-list-money">
                                     <div class="fangpai-shu-list-left">
-                                        <p>起拍价：<span>{$vo.qipai}</span>万
-                                            <b>市场价：{$vo.price}万</b>
-                                        </p>
+                                        {if condition="$vo.fcstatus eq 175"}
+                                            <p>成交价：<span>{$vo.cjprice}</span>万</p>
+                                        {else /}
+                                            <p>起拍价：<span>{$vo.qipai}</span>万</p>
+                                        {/if}
                                     </div>
+
                                     <div class="fangpai-shu-list-right">
+                                        <b>市场价：{$vo.price}万</b>
                                     </div>
                                     {if condition="$vo.fcstatus eq 169"}
                                     <!--进行中-->
@@ -440,7 +444,11 @@
                                     </div>
                                     <div class="fangpai-lie-list-time">
                                         <span>开拍时间：{$vo.kptime}</span>
+                                        {if condition="$vo.fcstatus eq 175"}
+                                        <p>成交价：<b>{$vo.cjprice}</b>万</p>
+                                        {else /}
                                         <p>起拍价：<b>{$vo.qipai}</b>万</p>
+                                        {/if}
                                     </div>
                                 </div>
                                 {if condition="$vo.fcstatus eq 169"}
@@ -757,17 +765,27 @@
     $(".test6_substr").on('click',function () {
         var state_time = $("#state_time").val();
         var end_time = $("#end_time").val();
-        var time_frame_str = '{$param.time_frame}';
+
+        var start_time_str = '{$param.time_frame}';
+        var end_time_str = '{$param.end_time}';
         if ($("#state_time").val().length <= 0){
             layer.msg("请输入开始时间");
+            return false;
         }
         if ($("#end_time").val().length <= 0){
             layer.msg("请输入结束时间");
+            return false;
         }
         var time_frame_all = $('.active').attr('href');
-        var time_str = 'time_frame/'+state_time+"+"+end_time;
-        var th_str ='time_frame/'+time_frame_str;
-        var pj= time_frame_all.replace(th_str,time_str);
+
+        var time_str = 'time_frame/'+state_time;
+        var th_str ='time_frame/'+start_time_str;
+
+        var en_time_str = 'end_time/'+end_time;
+        var end_th_str ='end_time/'+end_time_str;
+
+        var pj =  time_frame_all.replace(th_str,time_str);
+        pj = pj.replace(end_th_str,en_time_str);
         window.location.href=pj;
     })
 </script>
