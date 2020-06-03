@@ -866,7 +866,11 @@ class Second extends HomeBase{
     private function getLists(){
         $time    = time();
         $where   = $this->search();
+        $param['fcstatus']       = input('param.fcstatus',0);//状态
         $sort    = input('param.sort/d',0);
+        if ( $param['fcstatus'] == 175){
+            $sort = 10;
+        }
         $keyword = input('get.keyword');
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
         $obj     = model('second_house')->alias('s');
@@ -1650,6 +1654,9 @@ class Second extends HomeBase{
                 break;
             case 9:
                 $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
+                break;
+            case 10://已成交
+                $order = ['endtime'=>'desc','id'=>'desc'];
                 break;
             default:
                 $order = ['ordid'=>'asc','id'=>'desc'];
