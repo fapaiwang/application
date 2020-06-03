@@ -1327,6 +1327,7 @@ class Second extends HomeBase{
         $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
         $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
         $param['time_frame'] =$time_frame  = input('param.time_frame',0);//查询时间
+        $mod_type  = input('param.mod',0);//传值
         $data['s.status']    = 1;
         //最新发布和自由购 只存在一个
         if ($param['sort'] == 9){
@@ -1480,6 +1481,11 @@ class Second extends HomeBase{
         if (!empty($param['time_frame'])){
             $data[] = ['s.fabutime','>',$start_time];
             $data[] = ['s.fabutime','<',$end_time];
+        }
+        //
+        if ($mod_type == 3){
+            $data[] = ['s.fabutime','>',date('Y-m-d')];
+            $data[] = ['s.fabutime','<',date('Y-m-d',strtotime( '+1 day'))];
         }
         $this->assign('start_time',$start_time);
         $this->assign('end_time',$end_time);
