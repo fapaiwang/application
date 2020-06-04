@@ -443,10 +443,11 @@
                                         </div>
                                     </div>
                                     <div class="fangpai-lie-list-time">
-                                        <span>开拍时间：{$vo.kptime}</span>
                                         {if condition="$vo.fcstatus eq 175"}
-                                        <p>成交价：<b>{$vo.cjprice}</b>万</p>
+                                        <span>成交时间：{$vo.endtime}</span>
+                                        <p><b style="color: #333333">成交价：{$vo.cjprice}万</b></p>
                                         {else /}
+                                        <span>开拍时间：{$vo.kptime}</span>
                                         <p>起拍价：<b>{$vo.qipai}</b>万</p>
                                         {/if}
                                     </div>
