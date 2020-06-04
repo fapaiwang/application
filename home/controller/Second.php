@@ -1663,6 +1663,9 @@ class Second extends HomeBase{
             case 9:
                 $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
                 break;
+            case 10://自由狗
+                $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
+                break;
             case 11://已成交
                 $order = ['endtime'=>'desc','id'=>'desc'];
                 break;
