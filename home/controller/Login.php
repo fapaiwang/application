@@ -127,7 +127,7 @@ class Login extends HomeBase
         {
             $return['msg'] = '请填写登录名！';
         }elseif(session('__token__')!==$token){
-            $return['msg'] = '操作失败';
+            $return['msg'] = '操作失败t';
         }else{
             $where['user_name|mobile'] = $user_name;
             $where['password']         = passwordEncode($password);

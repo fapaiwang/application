@@ -41,7 +41,9 @@ class SecondHouse extends ManageBase
         $save_id = input('get.id') ?? 0;
         $list=model('second_house')->order('fabutimes desc')->select();
         $this->sort = ['fabutimes'=>'desc'];
+        $user = model('user')->field('id,nick_name')->where('model',4)->select();
         $this->assign('save_id',$save_id);
+        $this->assign('user_info',$user);
         $this->assign('list',$list);
     }
 
@@ -67,8 +69,10 @@ class SecondHouse extends ManageBase
 
         $fcstatus = input('get.fcstatus');
 
+        $user = input('get.user');
 
-      
+
+
         $rec_position = input('get.rec_position');
 
         $where   = [];
@@ -78,20 +82,19 @@ class SecondHouse extends ManageBase
         is_numeric($types) && $where['types'] = $types;
         is_numeric($fcstatus) && $where['fcstatus'] = $fcstatus;
         is_numeric($rec_position) && $where['rec_position'] = $rec_position;
-        
+        is_numeric($user) && $where['broker_id'] = $user;
+
 
         $keyword && $where[] = ['title','like','%'.$keyword.'%'];
 
         $data = [
-
             'status' => $status,
-
             'keyword'=> $keyword,
+            'user'=> $user,
             'types'=> $types,
             'fcstatus'=> $fcstatus,
             'rec_position'=> $rec_position,
             'jieduan'=> $jieduan
-
         ];
 
         $this->queryData = $data;

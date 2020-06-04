@@ -143,7 +143,23 @@
 
                 </div>
 
+                <div class="layui-inline">
 
+                    <label class="layui-form-label">经纪人</label>
+
+                    <div class="layui-input-inline" style="width:100px;">
+
+                        <select name="user">
+                            <option value="">-所有-</option>
+
+                            {volist name="user_info" id="val"}
+                            <option value="{$val.id}" {eq name="search.user" value="val.id"}selected="selected"{/eq} >{$val.nick_name}</option>
+                            {/volist}
+                        </select>
+
+                    </div>
+
+                </div>
                 
 
 
