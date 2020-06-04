@@ -1482,10 +1482,15 @@ class Second extends HomeBase{
             $start_time = $param['time_frame'];
             $end_time = $param['end_time'];
         }
-        //今日新增
+        //今日新增/今日成交 时间筛选
         if (!empty($param['time_frame'])){
-            $data[] = ['s.fabutime','>',$start_time];
-            $data[] = ['s.fabutime','<',$end_time];
+            if ($param['fcstatus'] == 175){
+                $data[] = ['s.endtime','>',$start_time];
+                $data[] = ['s.endtime','<',$end_time];
+            }else{
+                $data[] = ['s.fabutime','>',$start_time];
+                $data[] = ['s.fabutime','<',$end_time];
+            }
         }
         //
         if ($mod_type == 3){
