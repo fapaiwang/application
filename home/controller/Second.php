@@ -869,7 +869,7 @@ class Second extends HomeBase{
         $param['fcstatus']       = input('param.fcstatus',0);//状态
         $sort    = input('param.sort/d',0);
         if ( $param['fcstatus'] == 175){
-            $sort = 10;
+            $sort = 11;
         }
         $keyword = input('get.keyword');
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,
@@ -1663,7 +1663,7 @@ class Second extends HomeBase{
             case 9:
                 $order = ['rec_position'=>'desc','fcstatus'=>'asc','marketprice'=>'desc'];
                 break;
-            case 10://已成交
+            case 11://已成交
                 $order = ['endtime'=>'desc','id'=>'desc'];
                 break;
             default:
