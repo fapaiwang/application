@@ -153,7 +153,7 @@
                             <option value="">-所有-</option>
 
                             {volist name="user_info" id="val"}
-                            <option value="{$val.id}" {eq name="search.user" value="val.id"}selected="selected"{/eq} >{$val.nick_name}</option>
+                            <option value="{$val.id}" {if condition='$search.user eq $val.id'}selected="selected" {/if} >{$val.nick_name}</option>
                             {/volist}
                         </select>
 
