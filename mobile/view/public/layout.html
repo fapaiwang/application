@@ -32,7 +32,7 @@
         if (browser.versions.mobile) {
             window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
         }
-        console.log(browser.versions.webApp)
+        console.log(browser)
         if (browser.versions.webApp){
             console.log()
             window.location.href = "{:config('web_domain')}"+window.location.pathname;
