@@ -415,67 +415,70 @@
                             {/volist}
                         </ul>
                         <ul class="fangpai-lie-list">
-                            {volist name='lists' id='vo' empty='暂无数据'}
-                            <li data-id="{$vo.id}">
-                                <span style="display: none">{$vo.id}</span>
-                                <div class="fangpai-lie-list-img">
-                                    <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
-                                </div>
-                                <div class="fangpai-lie-list-content">
-                                    <div class="fangpai-lie-list-content-title">
-                                        <h3>{$vo.title}</h3>
-                                        <span class="fangpai-lie-list-content-title-red">&nbsp;&nbsp;&nbsp;{:getLinkMenuName(26,$vo['types'])}&nbsp;&nbsp;&nbsp;</span>
-                                        <span class="fangpai-lie-list-content-title-blue">&nbsp;&nbsp;&nbsp;{:getLinkMenuName(25,$vo['jieduan'])}&nbsp;&nbsp;&nbsp;</span>
+                            <div class="fangpai-lie-list-empty">
+                                {volist name='lists' id='vo' empty='暂无数据'}
+                                <li data-id="{$vo.id}">
+                                    <span style="display: none">{$vo.id}</span>
+                                    <div class="fangpai-lie-list-img">
+                                        <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
                                     </div>
-                                    <div class="fangpai-lie-list-info">
-                                        <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                    <div class="fangpai-lie-list-content">
+                                        <div class="fangpai-lie-list-content-title">
+                                            <h3>{$vo.title}</h3>
+                                            <span class="fangpai-lie-list-content-title-red">&nbsp;&nbsp;&nbsp;{:getLinkMenuName(26,$vo['types'])}&nbsp;&nbsp;&nbsp;</span>
+                                            <span class="fangpai-lie-list-content-title-blue">&nbsp;&nbsp;&nbsp;{:getLinkMenuName(25,$vo['jieduan'])}&nbsp;&nbsp;&nbsp;</span>
+                                        </div>
+                                        <div class="fangpai-lie-list-info">
+                                            <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
                                             {if strstr($vo.acreage,'.')}
                                                 <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
                                               {else}
                                                 <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
                                             {/if}
                                         </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
-                                    </div>
-                                    <div class="fangpai-lie-list-footer">
-                                        <div class="fangpai-lie-list-danjia">
-                                            单价：<span class="dj">{$vo.average_price|raw}</span>
-                                            <span>市场价：{$vo.price}万</span>
+                                        </div>
+                                        <div class="fangpai-lie-list-footer">
+                                            <div class="fangpai-lie-list-danjia">
+                                                单价：<span class="dj">{$vo.average_price|raw}</span>
+                                                <span>市场价：{$vo.price}万</span>
+                                            </div>
+                                        </div>
+                                        <div class="fangpai-lie-list-time">
+                                            {if condition="$vo.fcstatus eq 175"}
+                                            <span>成交时间：{$vo.endtime}</span>
+                                            <p><b style="color: #333333">成交价：{$vo.cjprice}万</b></p>
+                                            {else /}
+                                            <span>开拍时间：{$vo.kptime}</span>
+                                            <p>起拍价：<b>{$vo.qipai}</b>万</p>
+                                            {/if}
                                         </div>
                                     </div>
-                                    <div class="fangpai-lie-list-time">
-                                        {if condition="$vo.fcstatus eq 175"}
-                                        <span>成交时间：{$vo.endtime}</span>
-                                        <p><b style="color: #333333">成交价：{$vo.cjprice}万</b></p>
-                                        {else /}
-                                        <span>开拍时间：{$vo.kptime}</span>
-                                        <p>起拍价：<b>{$vo.qipai}</b>万</p>
-                                        {/if}
+                                    {if condition="$vo.fcstatus eq 169"}
+                                    <div class="fangpai-heng-list-absolute">
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
                                     </div>
-                                </div>
-                                {if condition="$vo.fcstatus eq 169"}
-                                <div class="fangpai-heng-list-absolute">
-                                    {:getLinkMenuName(27,$vo['fcstatus'])}
-                                </div>
-                                {elseif condition="$vo.fcstatus eq 170"}
-                                <div class="fangpai-heng-list-absolute-lan">
-                                    {:getLinkMenuName(27,$vo['fcstatus'])}
-                                </div>
-                                {else /}
-                                <div class="fangpai-heng-list-absolute-over">
-                                    <span style="display: none">{$vo.id}</span>
-                                    {:getLinkMenuName(27,$vo['fcstatus'])}
-                                </div>
-                                {/if}
-                                {if condition="$vo.is_free eq 1"}
-                                <div class="fangpai-shu-list-left-absolute">
-                                    自由购
-                                </div>
-                                {/if}
-                                <!--<div class="fangpai-heng-list-absolute-over">-->
-                                <!--已结束-->
-                                <!--</div>-->
-                            </li>
-                            {/volist}
+                                    {elseif condition="$vo.fcstatus eq 170"}
+                                    <div class="fangpai-heng-list-absolute-lan">
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
+                                    </div>
+                                    {else /}
+                                    <div class="fangpai-heng-list-absolute-over">
+                                        <span style="display: none">{$vo.id}</span>
+                                        {:getLinkMenuName(27,$vo['fcstatus'])}
+                                    </div>
+                                    {/if}
+                                    {if condition="$vo.is_free eq 1"}
+                                    <div class="fangpai-shu-list-left-absolute">
+                                        自由购
+                                    </div>
+                                    {/if}
+                                    <!--<div class="fangpai-heng-list-absolute-over">-->
+                                    <!--已结束-->
+                                    <!--</div>-->
+                                </li>
+                                {/volist}
+                            </div>
+
                         </ul>
                         {notempty name='pages'}
                         <div class="page_list clearfix">
