@@ -1473,14 +1473,14 @@ class Second extends HomeBase{
             $start_time = date('Y-m-d');
             $end_time = date('Y-m-d',strtotime( '+1 day'));
         }elseif ($time_frame == 3){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+3 day'));
+            $start_time = date('Y-m-d',strtotime( '-2 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
         }elseif ($time_frame == 7){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+7 day'));
+            $start_time = date('Y-m-d',strtotime( '-6 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
         }elseif ($time_frame == 30){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+30 day'));
+            $start_time = date('Y-m-d',strtotime( '-30 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
         }elseif (!empty($param['time_frame'])){
             $start_time = $param['time_frame'];
             $end_time = $param['end_time'];
