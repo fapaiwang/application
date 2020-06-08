@@ -50,7 +50,7 @@ class IndexServer
         if (!$banner){
             $cache_name = 'poster_img'.$space_id;
             $banner = model('poster')->field('name,setting')
-                ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()]])
+                ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
                ->limit($limit)
                 ->select();
             \think\facade\Cache::set($cache_name,$banner);
