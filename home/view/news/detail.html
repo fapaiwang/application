@@ -142,7 +142,7 @@
 
 
                     {volist name="bottomPic" id="pic"}
-                        <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.name}"></a>
+                        <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.setting['alt']}"></a>
                     {/volist}
                 </section>
                 <div class="relative_artc">
@@ -165,7 +165,7 @@
 
                             <span class="time">{$vo.create_time|date='Y-m-d H:i'}</span>
 
-                            <a href="{:url('News/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">{$vo.title}</a>
+                            <a href="{:url('News/detail',['id'=>$vo['id']])}" target="_blank" title="{$pic.setting['alt']}">{$vo.title}</a>
 
 
 
