@@ -173,6 +173,7 @@
 </div>
 
 <script type="text/javascript" src="/homeStatic/js/page.js?version={:time()}"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
 <script>
     //
     $(".verify_img").click(function(){
@@ -215,6 +216,27 @@
             }
         });
     }
+</script>
+<script>
+    $(function(){
+        $('.follow').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+            $.post(url,{house_id:house_id,model:model},function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg);
+                    if(me.hasClass('on'))
+                    {
+                        me.removeClass('on').text(result.text);
+                    }else{
+                        me.addClass('on').text(result.text);
+                    }
+                }else{
+                    layer.msg(result.msg);
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>
