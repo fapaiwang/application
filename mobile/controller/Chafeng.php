@@ -32,6 +32,13 @@ class Chafeng extends MobileBase
         return $this->fetch();
 
     }
+    public function jianjie()
+
+    {
+
+        return $this->fetch();
+
+    }
 
 
 
