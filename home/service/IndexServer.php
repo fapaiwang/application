@@ -155,7 +155,8 @@ class IndexServer
             ->field('id,title,img,create_time')
             ->where([['status','=',1],['cate_id','=',$cate_id]])
             ->order("ordid desc, create_time desc")
-            ->limit($limit);
+            ->limit($limit)
+            ->cache($cache_name,600);
         if ($limit == 1){
             return $article->find();
         }else{

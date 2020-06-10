@@ -12,7 +12,7 @@
 <script src="/homeStatic/js/swiper.jquery.min.js"></script>
 <script src="/homeStatic/js/swiper.min.js"></script>
 <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
-<script src="/homeStatic/js/homeList.js"></script>
+<script src="/homeStatic/js/homeList.js?v={:time()}"></script>
 <script src="/homeStatic/js/kf.js"></script>
 {/block}
 {block name='content'}
@@ -357,63 +357,65 @@
                 <div class="fangpai-shu-list-content">
                     <div class="fangpai-shu-list-content-left">
                         <!--块-->
-                        <ul class="fangpai-shu-list">
-                            {volist name='lists' id='vo' empty='暂无数据'}
-                            <li data-id="{$vo.id}">
-                                <div class="fangpai-shu-list-img">
-                                    <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
-                                    <div class="fangpai-shu-list-img-footer">
-                                        <span>开拍时间：{$vo.kptime}</span>|<span>{$vo.types_name}</span>|<span>{$vo.jieduan_name}</span>
+                        <ul class="fangpai-shu-list" style="display: none">
+                            <!--<div class="fangpai-lie-list-empty">-->
+                                {volist name='lists' id='vo' empty='暂无数据'}
+                                <li data-id="{$vo.id}">
+                                    <div class="fangpai-shu-list-img">
+                                        <img src="{$vo.img}" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                        <div class="fangpai-shu-list-img-footer">
+                                            <span>开拍时间：{$vo.kptime}</span>|<span>{$vo.types_name}</span>|<span>{$vo.jieduan_name}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <h3 class="fangpai-shu-list-title">{$vo.title}</h3>
-                                <div class="fangpai-shu-list-info">
-                                    <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
-                                    {if strstr($vo.acreage,'.')}
-                                        <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
-                                      {else}
-                                        <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
-                                    {/if}
-                                </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
-                                </div>
-                                <div class="fangpai-shu-list-money">
-                                    <div class="fangpai-shu-list-left">
-                                        {if condition="$vo.fcstatus eq 175"}
-                                            <p>成交价：<span>{$vo.cjprice}</span>万</p>
+                                    <h3 class="fangpai-shu-list-title">{$vo.title}</h3>
+                                    <div class="fangpai-shu-list-info">
+                                        <span>{$vo.estate_name}</span>|<span>{:getLinkMenuName(29,$vo['toilet'])}</span>|<span>
+                                        {if strstr($vo.acreage,'.')}
+                                            <span class="info">{$vo.acreage}{:config('filter.acreage_unit')}</span>
+                                          {else}
+                                            <span class="info">{$vo.acreage}.00{:config('filter.acreage_unit')}</span>
+                                        {/if}
+                                    </span>|<span>{:getLinkMenuName(4,$vo['orientations'])}向</span>|<span>{$vo['floor']}/{$vo['total_floor']}层</span>
+                                    </div>
+                                    <div class="fangpai-shu-list-money">
+                                        <div class="fangpai-shu-list-left">
+                                            {if condition="$vo.fcstatus eq 175"}
+                                                <p>成交价：<span>{$vo.cjprice}</span>万</p>
+                                            {else /}
+                                                <p>起拍价：<span>{$vo.qipai}</span>万</p>
+                                            {/if}
+                                        </div>
+
+                                        <div class="fangpai-shu-list-right">
+                                            <b>市场价：{$vo.price}万</b>
+                                        </div>
+                                        {if condition="$vo.fcstatus eq 169"}
+                                        <!--进行中-->
+                                        <div class="fangpai-shu-list-absolute">
+                                            {:getLinkMenuName(27,$vo['fcstatus'])}
+                                        </div>
+                                        {elseif condition="$vo.fcstatus eq 170"}
+                                        <!--预告中-->
+                                        <div class="fangpai-shu-list-absolute-lan">
+                                            {:getLinkMenuName(27,$vo['fcstatus'])}
+                                        </div>
                                         {else /}
-                                            <p>起拍价：<span>{$vo.qipai}</span>万</p>
+                                        <!--已成交-->
+                                        <div class="fangpai-shu-list-over">
+                                            <span style="display: none">{$vo.id}</span>
+                                            {:getLinkMenuName(27,$vo['fcstatus'])}
+                                        </div>
+                                        {/if}
+                                        {if condition="$vo.is_free eq 1"}
+                                        <div class="fangpai-shu-list-left-absolute">
+                                            自由购
+                                        </div>
                                         {/if}
                                     </div>
-
-                                    <div class="fangpai-shu-list-right">
-                                        <b>市场价：{$vo.price}万</b>
-                                    </div>
-                                    {if condition="$vo.fcstatus eq 169"}
-                                    <!--进行中-->
-                                    <div class="fangpai-shu-list-absolute">
-                                        {:getLinkMenuName(27,$vo['fcstatus'])}
-                                    </div>
-                                    {elseif condition="$vo.fcstatus eq 170"}
-                                    <!--预告中-->
-                                    <div class="fangpai-shu-list-absolute-lan">
-                                        {:getLinkMenuName(27,$vo['fcstatus'])}
-                                    </div>
-                                    {else /}
-                                    <!--已成交-->
-                                    <div class="fangpai-shu-list-over">
-                                        <span style="display: none">{$vo.id}</span>
-                                        {:getLinkMenuName(27,$vo['fcstatus'])}
-                                    </div>
-                                    {/if}
-                                    {if condition="$vo.is_free eq 1"}
-                                    <div class="fangpai-shu-list-left-absolute">
-                                        自由购
-                                    </div>
-                                    {/if}
-                                </div>
-                            </li>
-                            {/volist}
-                        </ul>
+                                </li>
+                                {/volist}
+                            <!--</div>-->
+                        </ul s >
                         <ul class="fangpai-lie-list">
                             <div class="fangpai-lie-list-empty">
                                 {volist name='lists' id='vo' empty='暂无数据'}
