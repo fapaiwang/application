@@ -1,124 +1,24 @@
-<!doctype html>
-<html lang="en">
-<head>
-<title>{$brokerInfo.nick_name}法拍专员_北京房拍网</title>
-    <meta name="keywords" content="法拍专员" />
-    <meta name="description" content="北京房拍网是专业的房产拍卖网站,专注于法拍房、拍卖信息的平台，汇聚千余套优质房源让老百姓放心拍房，安心入住新房北京，咨询电话400 677 0028" />
-    
-    <meta charset="UTF-8">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <script>
-        var browser = {
-            versions: function() {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                return {     //移动终端浏览器版本信息
-                    trident: u.indexOf('Trident') > -1, //IE内核
-                    presto: u.indexOf('Presto') > -1, //opera内核
-                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-                    mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-                    iPad: u.indexOf('iPad') > -1, //是否iPad
-                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-                };
-            } (),
-            language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        };
-        if (browser.versions.mobile) {
-            window.location.href = "{:config('mobile_domain')}"+window.location.pathname;
-        }
-    </script>
-    
-    <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/common.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/input.css">
-    <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
-    <script src="__STATIC__/js/jquery.min.js"></script>
-</head>
-<body>
-  <style type="text/css">
-.topBar{background: linear-gradient(#ffffff, #e3e3e3);box-shadow:1px 2px 2px #888}
-.nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
-.navBar .nav_list a { color: #000;}
-</style>
-  
-<!-- topBar S -->
-<div class="topBar" style="    margin-bottom: 2px;">
-    <div class="comWidth clearfix">
-        <div class="logo fl" style="line-height:70px">
-            <a href="{:url('Index/index')}" title="{$site.title}">
-                <img src="{$site.pc_logo_white}" alt="{$site.title}" style="height:66px" />
-            </a>
-        </div>
-        <div class="fl sele_city" style="height:70px">
-            <a href="javascript:;"  class="sele_city_btn" style="line-height:70px;color:#000">{$cityInfo['name']}<img src="__IMG__/icon/icon15.png" alt="" class="icon"></a>
-            <div class="city_list clearfix">
-                <i class="city-close">关闭</i>
-                {volist name='top_nav_city.city' id='vo'}
-                <dl class="clearfix">
-                    <dt class="bold">{$key}</dt>
-                    {volist name='vo' id='val'}
-                    <dd {if condition="$val.is_hot eq 1"}class="hot"{/if}><a href="{:url($controller.'/index@'.$val['domain'])}" rel="nofollow" title="{$val.name}">{$val.name}</a></dd>
-                    {/volist}
-                </dl>
-                {/volist}
-            </div>
-        </div>
-        <div class="navBar fl" style="height:70px">
-            <ul class="nav_list fl">
-                 <li style="padding: 10px 30px;"><a href="/" title="网站首页" target="_self" >网站首页</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/erf.html?sort=9" title="推荐房源" target="_self" {if !empty( $_GET['sort']) eq '9' }style="color:#00AC56"{/if} >推荐房源</a> </li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/xiaoqu.html?mod4=4" title="优质小区" target="_self" {if !empty( $_GET['mod4']) eq '4' }style="color:#00AC56"{/if} >优质小区</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/map/second.html?mod5=6" rel="nofollow" title="地图找房" target="_self" {if !empty( $_GET['mod5']) eq '6' }style="color:#00AC56"{/if} >地图找房</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/news.html?mod=5" title="资讯中心" target="_self" >资讯中心</a></li>
-              <li style="background:#d8d8d8;width:1px; height:70px;padding:0px"></li>
-              <li style="padding: 10px 30px;"><a href="/single-aboutus.html?mod6=8" rel="nofollow" title="关于我们" target="_self" {if !empty( $_GET['mod6']) eq '8' }style="color:#00AC56"{/if} >关于我们</a></li>
-            </ul>
-        </div>
-        <div class="log_link fr">
-            {notempty name='userInfo'}
-            <!-- 已登录状态 -->
-            <div class="loged" style="line-height:70px">
-                <div class="user_info">
-                    <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
-                    <span class="name" style="color:#000">{:hideStr($userInfo['nick_name'])}</span>
-                </div>
-                <div class="slide_tog" style="display:none;">
-                    <a href="{:url('user.index/index')}" style="color:#000">用户中心</a>
-                    <a href="{:url('Login/logout')}" style="color:#000">退出登录</a>
-                </div>
-            </div>
-            {else /}
-            <!-- 未登录状态 -->
-            <div class="not_log" style="line-height:70px;color:#000">
-                <a href="{:url('Login/index')}" rel="nofollow" style="color:#000">登录</a>
-                /
-                <a href="{:url('Login/register')}" rel="nofollow" style="color:#000">注册</a>
-            </div>
-            {/notempty}
-        </div>
-    </div>
-</div>
-<!-- topBar E -->
-<!--<script language=javascript>-->
-<!--var LiveAutoInvite0='您好，来自%IP%的朋友';-->
-<!--var LiveAutoInvite1='来自首页的对话';-->
-<!--var LiveAutoInvite2='网站商务通 主要功能：<BR>1、主动邀请<BR>2、即时沟通<BR>3、查看即时访问动态<BR>4、访问轨迹跟踪<BR>5、内部对话<BR>6、不安装任何插件也实现双向文件传输<BR><BR><B>如果您有任何问题请接受此邀请以开始即时沟通</B>';-->
-<!--</script>-->
-<!--<script language="javascript" src="https://pht.zoosnet.net/JS/LsJS.aspx?siteid=PHT64402395&float=1&lng=cn"></script>-->
-
-
-
+{extend name='public/page_list' /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
+<link rel="stylesheet" href="./homeStatic/css/common_orig.css?v={:time()}">
+<link rel="stylesheet" href="./homeStatic/css/css_orig.css?v={:time()}">
+<link rel="stylesheet" type="text/css" href="__CSS__/input.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/css.css">
+{/block}
+{block name='js'}
+<script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+{/block}
 {block name='content'}
+<style type="text/css">
+    .topBar{background: linear-gradient(#ffffff, #e3e3e3);box-shadow:1px 2px 2px #888}
+    .nav_list{background: linear-gradient(#ffffff, #e3e3e3);}
+    .navBar .nav_list a { color: #000;}
+</style>
 <!-- 内容 S-->
-<div class="cm_house agent_detail">
+<div class="cm_house agent_detail" style="margin-top: 70px">
     <div class="comWidth ">
         <div class="main clearfix">
             <div class="agent_info cm_rightArea fl">
@@ -134,33 +34,32 @@
                         {volist name='lists' id='vo' empty='暂无数据'}
                         <li>
                             <a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}">
-                                    {if $vo['fcstatus'] eq 169}
+                                {if $vo['fcstatus'] eq 169}
 
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 170}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status1.png" original="/static/images/status/status1.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 171}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 172}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 173}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 174}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
-                                    {/if}
-                                    {if $vo['fcstatus'] eq 175}
-                                    <div class="zzjx fix abs" style=""><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
-                                    {/if}
-								<span class="l_img fl" style="height: 185px;">
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status2.png" original="/static/images/status/status2.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 170}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status1.png" original="/static/images/status/status1.png" style="width:104px;height:43px;float: right;position: absolute;z-index: 55555;margin-left: 186px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 171}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status3.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 172}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status4.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 173}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status5.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 174}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status6.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                {/if}
+                                {if $vo['fcstatus'] eq 175}
+                                <div class="zzjx fix abs" style=""><img src="/static/images/status/status7.png" original="/static/images/status/status3.png" style="width:104px;height:auto;float: right;position: absolute;z-index: 55555;margin-left: 105px;  margin-top: 40px;"></div>
+                                {/if}
+                                <span class="l_img fl" style="height: 185px;">
 									<img src="{$vo.img}" onerror="this.src='/static/images/nopic.jpg'" alt="{$vo.title}">
 								</span>
-                                
-								<span class="r_con fr" style=" width: 555px;">
+                                <span class="r_con fr" style=" width: 515px;">
 									<h3>{:msubstr(strip_tags($vo['title']),0,22)}</h3>
 									<p>
                                         <span class="info">{:getLinkMenuName(29,$vo['toilet'])}</span>
@@ -223,24 +122,22 @@
         //event: "scrollstop"
     });
     $(function(){
-       $('.follow').on('click',function(){
-           var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
-           $.post(url,{house_id:house_id,model:model},function(result){
-               if(result.code == 1)
-               {
-                   layer.msg(result.msg,{icon:1});
-                   if(me.hasClass('on'))
-                   {
-                       me.removeClass('on').text(result.text);
-                   }else{
-                       me.addClass('on').text(result.text);
-                   }
-               }else{
-                   layer.msg(result.msg,{icon:2});
-               }
-           });
-       });
+        $('.follow').on('click',function(){
+            var house_id = $(this).data('id'),model = $(this).data('model'),url = $(this).data('uri'),me = $(this);
+            $.post(url,{house_id:house_id,model:model},function(result){
+                if(result.code == 1)
+                {
+                    layer.msg(result.msg,{icon:1});
+                    if(me.hasClass('on'))
+                    {
+                        me.removeClass('on').text(result.text);
+                    }else{
+                        me.addClass('on').text(result.text);
+                    }
+                }else{
+                    layer.msg(result.msg,{icon:2});
+                }
+            });
+        });
     });
 </script>
-</body>
-</html>
