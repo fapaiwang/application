@@ -123,7 +123,7 @@
 
                                 <span class="l_img fl" style="height: 185px;">
                                     <a href="{:url('Estate/detail',['id'=>$vo['id']])}" target="_blank" title="{$vo.title}">
-                                        <img src="__STATIC__/images/nopic.jpg" data-original="{:thumb($vo['img'],220,160)}" class="lazy" alt="{$vo.title}">
+                                        <img src="__STATIC__/images/nopic.jpg" data-original="{$vo['img']}" width="220px" height="160" class="lazy" alt="{$vo.title}">
                                     </a>
                                 </span>
                             <span class="r_con fr" style="width: 587px;">
