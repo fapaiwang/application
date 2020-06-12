@@ -7,12 +7,12 @@
     <title>{$seo.title}</title>
     <meta name="keywords" content="{$seo.keys}" />
     <meta name="description" content="{$seo.desc}" />
-    <link rel="stylesheet"  href="/homeStatic/css/common.css?v={:time()}">
-    <link rel="stylesheet"  href="/homeStatic/css/style.css?v={:time()}">
-    <link rel="stylesheet"  href="/homeStatic/css/headList.css?v={:time()}">
-    <link rel="stylesheet"  href="/homeStatic/css/footer.css?v={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/common.css">
+    <link rel="stylesheet"  href="/homeStatic/css/style.css">
+    <link rel="stylesheet"  href="/homeStatic/css/headList.css">
+    <link rel="stylesheet"  href="/homeStatic/css/footer.css">
     <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
-    <link rel="stylesheet"  href="/homeStatic/css/login.css?version={:time()}">
+    <link rel="stylesheet"  href="/homeStatic/css/login.css">
     {block name='css'}{/block}
     <script>
         var browser = {
@@ -172,9 +172,15 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/homeStatic/js/page.js?version={:time()}"></script>
+<script type="text/javascript" src="/homeStatic/js/page.js"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
+<script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script>
+    $("img.lazy").lazyload({
+        threshold : 100,
+        effect : "fadeIn"
+        //event: "scrollstop"
+    });
     //
     $(".verify_img").click(function(){
         var timenow = new Date().getTime();

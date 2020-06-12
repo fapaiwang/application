@@ -15,10 +15,12 @@
         <div class="swiper-wrapper">
             {volist name='top_bunner' id='vo'}
             <div class="swiper-slide">
-                <img src="{$vo.fileurl}" data-original="{$vo.fileurl}" alt="{$vo.alt}">
+                <img src="{$vo.fileurl}" data-original="{$vo.fileurl}" alt="{$vo.alt}" class="lazy">
             </div>
             {/volist}
         </div>
+        <!--<div class="swiper-button-prev"></div>-->
+        <!--<div class="swiper-button-next"></div>-->
         <div class="swiper-pagination"></div>
     </div>
     <div class="header-search">
@@ -108,7 +110,7 @@
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>
-                    <img src="{$vo.img}" data-original="{$vo.img}" alt="{$vo.title}">
+                    <img src="{$vo.img}" class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
                     <div class="tuijian-fangyuan-prompt">
                         {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
                             {if condition="getLinkMenuName(29,$vo['toilet'])"}
@@ -192,7 +194,7 @@
                     <div class="swiper-slide">
                         <div class="mingxing-slide-detail">
                             <span style="display: none">{$vo.id}</span>
-                            <a href="{:url('Estate/detail',['id'=>$vo.id])}"><img src="{$vo.img}" data-original="{$vo.img}" alt="{$vo.title}"></a>
+                            <a href="{:url('Estate/detail',['id'=>$vo.id])}"><img src="{$vo.img}" data-original="{$vo.img}" class="lazy" alt="{$vo.title}"></a>
                             <p>【{$vo.area_name}】 {$vo.title}</p>
                             <div class="mingxing-slide-detail-info">
                                 <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
@@ -340,7 +342,7 @@
 
                 {volist name='promise_banner' id='vo'}
                 <div class="fangpai-chengguo-list-detail">
-                    <img src="{$vo.fileurl}" alt="{$vo.alt}" data-original="{$vo.fileurl}" class="fangpai-chengnuo-list-img">
+                    <img alt="{$vo.alt}" data-original="{$vo.fileurl}" class="fangpai-chengnuo-list-img lazy">
                 </div>
                 {/volist}
             </div>

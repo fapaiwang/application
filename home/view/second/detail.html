@@ -46,7 +46,6 @@
     </ul>
 </div>
 <div class="fangpai-detail-box">
-
     <div class="fangpai-detail-weizhi">
         您的位置：<span>房拍网 > 房源详情 >{$info.title}</span>
     </div>
@@ -682,7 +681,7 @@
         <!--</div>-->
     </div>
 </div>
-<div class="fangpai-detail-zhezhao">
+    <div class="fangpai-detail-zhezhao">
     <div class="fangpai-detail-zhezhao-con">
         <div class="fangpai-detail-zhezhao-header">
             <img src="/homeStatic/img/jiahao.png" alt="">
@@ -715,26 +714,26 @@
             </div>
         </div>
     </div>
-</div>
-<div id="fangpai-detail-zhoubian" class="house_detail" style="width: 1200px;margin: 0 auto;">
-    <div class="comWidth">
-        <!-- con_wrap -->
-        <div class="con_wrap clearfix">
-            <!-- 周边配套 S-->
-            {include file='public/map_l' /}
-            <!-- 周边配套 E-->
+    </div>
+    <div id="fangpai-detail-zhoubian" class="house_detail" style="width: 1200px;margin: 0 auto;">
+        <div class="comWidth">
+            <!-- con_wrap -->
+            <div class="con_wrap clearfix">
+                <!-- 周边配套 S-->
+                {include file='public/map_l' /}
+                <!-- 周边配套 E-->
+            </div>
         </div>
     </div>
-</div>
 
-<input type="hidden" id="house_characteristic" value="{$house_characteristic}">
-{include file="second/kf"}
-<div id="fangpai-detail-monty" class="fangpai-shu-tuijian-box">
+    <input type="hidden" id="house_characteristic" value="{$house_characteristic}">
+    {include file="second/kf"}
+    <!--<div id="fangpai-detail-monty" class="fangpai-shu-tuijian-box">-->
     <div class="fangpai-shu-tuijian">
         <h2>推荐房源</h2>
         {volist name='recommend_house' id='vo'}
         <div class="tuijian-slide-detail tuijian-slide-detail_f">
-            <a href="{:url('Second/detail',['id'=>$vo.id])}"><img src="{$vo.img}" alt=""></a>
+            <a href="{:url('Second/detail',['id'=>$vo.id])}"><img src="{$vo.img}" data-original="{$vo.img}" class="lazy" alt=""></a>
             <p style="">{:msubstr(strip_tags($vo['title']),0,18)}</p>
             <div class="tuijian-slide-detail-info">
                 <span>{:getLinkMenuName(29,$vo['toilet'])}-{$vo.acreage}/㎡</span>
@@ -745,7 +744,7 @@
     </div>
 </div>
 
-<script src="./js/echarts.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
 {/block}
 {block name='zhezhao'}
 <div class="all_spring">
