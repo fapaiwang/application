@@ -144,6 +144,7 @@ class Second extends HomeBase{
         $this->assign('answer',$answer);//问答
         $this->assign('userInfo',$userInfo);//用户信息
         $this->assign('hot_news',$hot_news);
+        $this->assign('recommend_house', $IndexServer->get_recommend_house());//推荐房源
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
         $this->assign('keywords',$keywords);
