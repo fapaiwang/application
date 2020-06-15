@@ -46,7 +46,7 @@ class IndexServer
      */
     public function get_home_banner($space_id=1,$limit=20){
         $cache_name = 'poster_img'.$space_id;
-        $banner ="";
+        $banner =Cache::get($cache_name);
         if (!$banner){
             $cache_name = 'poster_img'.$space_id;
             $banner = model('poster')->field('name,setting')
@@ -92,11 +92,17 @@ class IndexServer
      */
     public function get_recommend_house($limit = 6){//
         $objs   = model('second_house');
-        $second_house   = $objs->field('id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime')
+        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime";
+        $second_house   = $objs->field($field)
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit($limit)
             ->cache("second_house_recommend_house".$limit,1800)
             ->select();
+        foreach ($second_house as $k=>$v){
+            $v->orientations_name =getLinkMenuName(4,$v->orientations);
+            $v->toilet_name =getLinkMenuName(29,$v->toilet);
+            return $v;
+        }
         return $second_house;
     }
     
@@ -110,12 +116,18 @@ class IndexServer
      * @auther xiaobin
      */
     public function get_restrict_house($limit = 6){
+        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime";
         $objs   = model('second_house');
-        $second_house   = $objs->field('title,room,qipai,img,living_room,orientations,acreage,create_time,toilet')
+        $second_house   = $objs->field($field)
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170],["is_free", "=", 1]])
             ->order('rec_position desc')->limit($limit)
             ->cache("second_house_restrict_house".$limit,3600)
             ->select();
+        foreach ($second_house as $k=>$v){
+            $v->orientations_name =getLinkMenuName(4,$v->orientations);
+            $v->toilet_name =getLinkMenuName(29,$v->toilet);
+            return $v;
+        }
         return $second_house;
     }
     

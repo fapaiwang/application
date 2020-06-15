@@ -121,17 +121,6 @@ class SecondServer
         $model = model('second_house')->field("lng,lat")->where("id",$house_id)->find();
         $res = Db::connect('www_fangpaiwang')->query("SELECT id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai,(2 * 6378.137 * ASIN(	SQRT(POW( SIN( PI( ) * ( " . $model->lng. "- fang_second_house.lng ) / 360 ), 2 ) + COS( PI( ) * " .$model->lat. " / 180 ) * COS(  fang_second_house.lat * PI( ) / 180 ) * POW( SIN( PI( ) * ( " . $model->lat . "- fang_second_house.lat ) / 360 ), 2 )))) AS distance FROM `fang_second_house`
 where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC LIMIT 4");
-//        $citys=$city_id;
-//        $map = "estate_id=$estate_id or city=$citys";
-//        $res = model('second_house')
-//            ->where('status',1)
-//            ->where('fcstatus','eq',170)
-//            ->where('id','neq',$house_id)
-//            ->where($map)
-//            ->field('id,title,room,living_room,toilet,acreage,fcstatus,price,img,qipai')
-//            ->order('id desc')
-//            ->limit(4)
-//            ->select();
         return $res;
     }
 

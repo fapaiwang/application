@@ -50,6 +50,7 @@ class SecondHouse extends Controller
     public function recommend_house(){
         $limit =input('get.limit') ?? 6;
         $res =  $this->Index_Server->get_recommend_house($limit);
+        return $this->success_o($res);
         if (!$res->isEmpty()){
             return $this->success_o($res);
         }else{
