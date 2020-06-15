@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div class="fang_tuijian" style="margin-top: 70px">
+    <div><input type="button" id="SaveDownload" value="生成图片"></div>
+    <div><img class="imgDiv_img" src="" style="width: 434px;" /></div>
+    <div class="fangyaun-share" id="body">
+        <div class="fangyaun-share-header">
+            <img src="{:getAvatar($login_user.id,90)}" data-original="{:getAvatar($login_user.id,90)}" alt="" class="fangyaun-share-header-touxiang lazy">
+            <div class="fangyaun-share-header-phone">
+                <h1>{$login_user.user_name}为您推荐</h1>
+                <p>联系方式：<span>{$login_user.mobile}</span></p>
+            </div>
+            <div class="fangyaun-share-header-code">
+                <img src="/static/images/noimg.jpg" alt="">
+            </div>
+        </div>
+        <div class="fangyaun-share-content">
+            <div class="fangyaun-share-content-buju">
+                <div class="fangyaun-share-content-buju-left">
+                    <img src="{$fenxiang_img[0]}" alt="">
+                </div>
+                <div class="fangyaun-share-content-buju-right">
+                    <img src="{$fenxiang_img[1]}" alt="">
+                    <img src="{$fenxiang_img[2]}" alt="">
+                </div>
+            </div>
+            <div class="fangyaun-share-content-address">
+                <img src="{$fenxiang_img[3]}" alt="">
+                <img src="{$fenxiang_img[4]}" alt="">
+            </div>
+            <div class="fangyaun-share-content-info">
+                <h2>{$info.title}</h2>
+                <ul>
+                    <li>
+                        <span>起拍价：</span>
+                        <b class="qipaijia"><span>{$info.qipai|raw}</span>万</b>
+                    </li>
+                    <li>
+                        <span>市场价：</span>
+                        <b class="shichangjia">{$info.qp_price}万</b>
+                    </li>
+                    <li>
+                        <span>捡漏指数：</span>
+                        <b class="jianlou">
+                            {for start="0" end="$info.marketprice"}
+                            <img src="/static/images/img-14.png">
+                            {/for}
+                        </b>
+                    </li>
+                    <li>
+                        <span>保证金：</span>
+                        <b>{$info.baozheng}万</b>
+                    </li>
+                    <li>
+                        <span>小区名称：</span>
+                        <b>{$estate.title}</b>
+                    </li>
+                    <li>
+                        <span>所在区域：</span>
+                        <b>{$estate.area_name}</b>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="fangyaun-share-content-huxing">
+                <p>
+                    户型：<span>{:getLinkMenuName(29,$info['toilet'])}</span>
+                </p>
+                <p>
+                    面积：<span>{$info.acreage}㎡</span>
+                </p>
+                <p>
+                    阶段：<span>{$info.jieduan_name}</span>
+                </p>
+            </div>
+            <div class="fangyaun-share-content-time">
+                起拍时间：<span>{$info.kptime}</span>
+            </div>
+            <div class="fangyaun-share-content-dashed">
+                <div class="fangyaun-share-content-dashed-left"></div>
+                <div class="fangyaun-share-content-dashed-center"></div>
+                <div class="fangyaun-share-content-dashed-right"></div>
+            </div>
+            <div class="fangyaun-share-content-footer">
+                <img src="./uploads/setting/20190929/120c260bbcf0d69d51492bbb1cc9162c.jpg" alt="">
+                <div class="fangyaun-share-content-footer-line"></div>
+                <div class="fangyaun-share-content-footer-info">
+                    <h2>微信长按识别二维码</h2>
+                    <p>查看更多房源信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
