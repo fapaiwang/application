@@ -144,7 +144,6 @@ class Second extends HomeBase{
         $this->assign('answer',$answer);//问答
         $this->assign('userInfo',$userInfo);//用户信息
         $this->assign('hot_news',$hot_news);
-        $this->assign('recommend_house', $IndexServer->get_recommend_house());//推荐房源
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
         $this->assign('keywords',$keywords);
@@ -220,7 +219,13 @@ class Second extends HomeBase{
                 $this->assign('jilu1',$jilu1);
                 $jilu =  model('transaction_record')->where('estate_id',$estate_id)->limit('5,200')->select();
                 $this->assign('jilu',$jilu);
-
+                //房源分享图片处理
+                $fenxiang_img[0] =$info["file"][0]["url"] ?? $info["img"];
+                $fenxiang_img[1] =$info["file"][1]["url"] ?? $info["img"];
+                $fenxiang_img[2] =$info["file"][2]["url"] ?? $info["img"];
+                $fenxiang_img[3] =$info["file"][3]["url"] ?? $info["img"];
+                $fenxiang_img[4] =$info["file"][4]["url"] ?? $info["img"];
+                $this->assign('fenxiang_img',$fenxiang_img);
 
                 //获取根据本房源-推荐房源
                 $recommend_house = $SecondServer->get_recommend_house($info['city'],$second_house_id,$estate_id);
