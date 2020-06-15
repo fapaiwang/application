@@ -40,7 +40,10 @@ class server
             ->field($second_house_field)
             ->join($join)->where($where)->find();
         //单价
-        $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
+        $info['junjia'] =0;
+        if (!empty($info['qipai']) && $info['acreage']){
+            $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
+        }
         //差价
         $info['chajia']=intval($info['price'])-intval($info['qipai']);
         //类型
