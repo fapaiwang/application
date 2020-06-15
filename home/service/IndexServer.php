@@ -101,7 +101,6 @@ class IndexServer
         foreach ($second_house as $k=>$v){
             $v->orientations_name =getLinkMenuName(4,$v->orientations);
             $v->toilet_name =getLinkMenuName(29,$v->toilet);
-            return $v;
         }
         return $second_house;
     }
@@ -126,7 +125,6 @@ class IndexServer
         foreach ($second_house as $k=>$v){
             $v->orientations_name =getLinkMenuName(4,$v->orientations);
             $v->toilet_name =getLinkMenuName(29,$v->toilet);
-            return $v;
         }
         return $second_house;
     }
