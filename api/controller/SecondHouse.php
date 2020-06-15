@@ -668,7 +668,7 @@ class SecondHouse extends Controller
         $res[0]["name"]="为你选房";
         $res[0]["img"] =$this->Index_Server->get_home_banner(20);
         $res[1]["name"]="特色房源";
-        $res[1]["name"]=$this->Index_Server->get_home_banner(21);
+        $res[1]["img"]=$this->Index_Server->get_home_banner(21);
         return $this->success_o($res);
     }
 }

@@ -46,12 +46,12 @@ class IndexServer
      */
     public function get_home_banner($space_id=1,$limit=20){
         $cache_name = 'poster_img'.$space_id;
-        $banner =Cache::get($cache_name);
+        $banner ="";
         if (!$banner){
             $cache_name = 'poster_img'.$space_id;
             $banner = model('poster')->field('name,setting')
                 ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
-               ->limit($limit)
+                ->limit($limit)
                 ->select();
             \think\facade\Cache::set($cache_name,$banner);
         }

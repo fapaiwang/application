@@ -31,6 +31,7 @@
                     <div class="layui-input-inline">
                         <input type="text" name="name" required placeholder="广告标题" value="{$info.name}" autocomplete="off" class="layui-input">
                     </div>
+                    <span style="color: red">标题为代码时请勿更改!!!</span>
                 </div>
                 <!--广告标题-->
 
@@ -73,6 +74,7 @@
                     <div class="layui-input-inline">
                         <input type="text" name="setting[linkurl]" placeholder="链接地址" value="{present name="info['setting']['linkurl']"}{$info.setting.linkurl}{/present}" autocomplete="off" class="layui-input"/>
                     </div>
+                    <span style="color: red">标题为代码/数字时请勿更改!!!</span>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">提示文字</label>
