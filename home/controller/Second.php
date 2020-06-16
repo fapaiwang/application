@@ -185,6 +185,8 @@ class Second extends HomeBase{
             $this->assign('estate', $estate);
             $this->assign('fenxiang_img', $fenxiang_img);
             $userInfo = $this->getUserInfo();
+            $user = model('user')->field('share_img')->where('id',$userInfo["id"])->find();
+            $userInfo["qr_code"] = $user->share_img;
             $this->assign('login_user',$userInfo);
         }else{
             return $this->fetch('public/404');
