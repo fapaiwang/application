@@ -50,7 +50,6 @@ class SecondHouse extends Controller
     public function recommend_house(){
         $limit =input('get.limit') ?? 6;
         $res =  $this->Index_Server->get_recommend_house($limit);
-        return $this->success_o($res);
         if (!$res->isEmpty()){
             return $this->success_o($res);
         }else{
@@ -110,6 +109,9 @@ class SecondHouse extends Controller
         $id = input('param.id',0);
         $house = new server();
         $houseRes = $house->second_model($id);
+        if(empty($houseRes)){
+            return $this->error_o("未找到当前房源");
+        }
         $traffic = $rim = "";
         if (!$houseRes['basic_info'] == "") {
             $basic_info = explode(',',$houseRes['basic_info']);

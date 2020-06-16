@@ -34,13 +34,12 @@ class server
             ,h.fcstatus,h.is_free,h.house_type,h.cjprice,h.endtime,h.hxsimg";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
-//            todo  缓存
-//            ->cache('second_house_'.$second_house_id,3600)
         $info = $obj->alias('h')
             ->field($second_house_field)
+            ->cache('second_house_'.$second_house_id,3600)
             ->join($join)->where($where)->find();
         if (empty($info)){
-            return "";
+            return "未找到房源";
         }
         //单价
         $info['junjia'] =0;

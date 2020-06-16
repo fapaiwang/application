@@ -90,9 +90,9 @@ class IndexServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function get_recommend_house($limit = 6){//
+    public function get_recommend_house($limit = 6){
         $objs   = model('second_house');
-        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime";
+        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types";
         $second_house   = $objs->field($field)
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit($limit)
@@ -101,6 +101,7 @@ class IndexServer
         foreach ($second_house as $k=>$v){
             $v->orientations_name =getLinkMenuName(4,$v->orientations);
             $v->toilet_name =getLinkMenuName(29,$v->toilet);
+            $v->types_name =getLinkMenuName(26,$v->types);
         }
         return $second_house;
     }
@@ -115,7 +116,7 @@ class IndexServer
      * @auther xiaobin
      */
     public function get_restrict_house($limit = 6){
-        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime";
+        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types";
         $objs   = model('second_house');
         $second_house   = $objs->field($field)
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170],["is_free", "=", 1]])
@@ -125,6 +126,7 @@ class IndexServer
         foreach ($second_house as $k=>$v){
             $v->orientations_name =getLinkMenuName(4,$v->orientations);
             $v->toilet_name =getLinkMenuName(29,$v->toilet);
+            $v->types_name =getLinkMenuName(26,$v->types);
         }
         return $second_house;
     }
