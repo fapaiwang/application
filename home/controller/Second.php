@@ -185,6 +185,7 @@ class Second extends HomeBase{
             $this->assign('estate', $estate);
             $this->assign('fenxiang_img', $fenxiang_img);
             $infos = cookie('userInfo');
+            dd($infos);
             $this->assign('login_user',$infos);
         }else{
             return $this->fetch('public/404');
