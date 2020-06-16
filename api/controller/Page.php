@@ -6,10 +6,6 @@ use app\home\service\SecondServer;
 use app\tools\ApiResult;
 use think\Controller;
 
-header("Access-Control-Allow-Origin:*");
-header("Access-Control-Allow-Methods:GET, POST, OPTIONS, DELETE");
-header("Access-Control-Allow-Headers:DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Accept-Language, Origin, Accept-Encoding");
-
 class Page extends Controller
 {
     use ApiResult;

@@ -6,11 +6,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="./homeStatic/css/fangyaunShare.css">
 </head>
 <body>
-<div class="fang_tuijian" style="margin-top: 70px">
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/share/js/jquery-git.js"></script>
+<script type="text/javascript" src="/share/js/shuiyin.js"></script>
+<script type="text/javascript" src="/share/js/html2canvas.js"></script>
+<div class="fang_tuijian">
     <div><input type="button" id="SaveDownload" value="生成图片"></div>
-    <div><img class="imgDiv_img" src="" style="width: 434px;" /></div>
+    <div><img class="imgDiv_img" src="" /></div>
     <div class="fangyaun-share" id="body">
         <div class="fangyaun-share-header">
             <img src="{:getAvatar($login_user.id,90)}" data-original="{:getAvatar($login_user.id,90)}" alt="" class="fangyaun-share-header-touxiang lazy">
@@ -100,5 +105,55 @@
         </div>
     </div>
 </div>
+<script>
+    $("#SaveDownload").click(function () //点击"保存下载控件"
+    {
+        var height = $('#body').height()
+        //克隆节点，默认为false，不复制方法属性，为true是全部复制。
+        var cloneDom = $('#body').clone(true);
+        //设置克隆节点的css属性，因为之前的层级为0，我们只需要比被克隆的节点层级低即可。
+        cloneDom.css({
+            "background-color": "white",
+            "position": "absolute",
+            "top": "0px",
+            "z-index": "-1",
+            "height": height
+        });
+        //将克隆节点动态追加到body后面。
+        // $("#body").append(cloneDom);
+
+
+        var newName = new Date().getTime().toString(16) + Math.ceil(Math.random() * 10000).toString(16);
+        $(function() {
+            html2canvas(document.querySelector("#body")).then(function(canvas) {
+                //   octet-stream
+                var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+                $(".imgDiv_img").attr("src",imgUri)
+
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                imgData = imgData.replace(_fixType(type),'image/octet-stream');
+                console.log(imgData);
+
+                var filename = 'fangpaiwang_' + (new Date()).getTime() + '.' + type;
+                saveFile(imgData,filename);
+            })
+        });
+    })
+
+    var _fixType = function(type) {
+        type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+        var r = type.match(/png|jpeg|bmp|gif/)[0];
+        return 'image/' + r;
+    };
+    var saveFile = function(data, filename){
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+    };
+</script>
 </body>
 </html>

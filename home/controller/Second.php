@@ -185,7 +185,6 @@ class Second extends HomeBase{
             $this->assign('estate', $estate);
             $this->assign('fenxiang_img', $fenxiang_img);
             $userInfo = $this->getUserInfo();
-            dd($userInfo);
             $this->assign('login_user',$userInfo);
         }else{
             return $this->fetch('public/404');

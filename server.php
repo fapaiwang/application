@@ -39,6 +39,9 @@ class server
         $info = $obj->alias('h')
             ->field($second_house_field)
             ->join($join)->where($where)->find();
+        if (empty($info)){
+            return "";
+        }
         //单价
         $info['junjia'] =0;
         if (!empty($info['qipai']) && $info['acreage']){
