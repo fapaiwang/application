@@ -39,7 +39,7 @@ class server
             ->cache('second_house_'.$second_house_id,3600)
             ->join($join)->where($where)->find();
         if (empty($info)){
-            return "未找到房源";
+            return "";
         }
         //单价
         $info['junjia'] =0;

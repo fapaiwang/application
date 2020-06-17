@@ -107,6 +107,9 @@ class SecondHouse extends Controller
     public function houseDetail()
     {
         $id = input('param.id',0);
+        if(empty($id)){
+            return $this->error_o("房源id不能为空");
+        }
         $house = new server();
         $houseRes = $house->second_model($id);
         if(empty($houseRes)){
