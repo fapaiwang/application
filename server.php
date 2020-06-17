@@ -117,7 +117,7 @@ class server
     public function user_info($second_house_id,$broker_id){
         //获取从业年限
         $user = model('user_info')->field('history_complate')->where('user_id',$broker_id)
-            ->cache('user_common_'.$second_house_id,84000)->find();
+            ->cache('user_common_'.$second_house_id)->find();
         return $user;
     }
 
