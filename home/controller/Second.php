@@ -175,8 +175,8 @@ class Second extends HomeBase{
             $info = $server->second_model($second_house_id);
             $this->assign('info', $info);
             //房源分享图片处理
-            $fenxiang_img[0] = $info["file"][0]["url"] ?? $info["img"];
-            $fenxiang_img[1] = $info["file"][1]["url"] ?? $info["img"];
+            $fenxiang_img[0] = $info["file"][1]["url"] ?? $info["img"];
+            $fenxiang_img[1] = $info["file"][0]["url"] ?? $info["img"];
             $fenxiang_img[2] = $info["file"][2]["url"] ?? $info["img"];
             $fenxiang_img[3] = $info["file"][3]["url"] ?? $info["img"];
             $fenxiang_img[4] = $info["file"][4]["url"] ?? $info["img"];
@@ -193,7 +193,39 @@ class Second extends HomeBase{
         }
         return $this->fetch();
     }
+    /**
+     * 微信分享
+     * @param mixed
+     * @return mixed
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function detail_sharing_wechat(){
 
+        $second_house_id = input('param.id/d',0);
+        if($second_house_id) {
+            $server = new server();
+            $info = $server->second_model($second_house_id);
+            $this->assign('info', $info);
+            //房源分享图片处理
+            $fenxiang_img[0] = $info["file"][1]["url"] ?? $info["img"];
+            $fenxiang_img[1] = $info["file"][0]["url"] ?? $info["img"];
+            $fenxiang_img[2] = $info["file"][2]["url"] ?? $info["img"];
+            //小区详情
+            $estate = $server->estate($info['estate_id']);
+            $this->assign('estate', $estate);
+            $this->assign('fenxiang_img', $fenxiang_img);
+            $userInfo = $this->getUserInfo();
+            $user = model('user')->field('share_img')->where('id',$userInfo["id"])->find();
+            $userInfo["qr_code"] = $user->share_img ?? "";
+            $this->assign('login_user',$userInfo);
+        }else{
+            return $this->fetch('public/404');
+        }
+        return $this->fetch();
+    }
     /**
      * 特色房源
      * @param mixed

@@ -67,7 +67,6 @@
                         <tr>
                             <!--区域背景色-->
                             <td style="font-size: 38px; background: {$color.city|default='#ffffff'};" rowspan="{$re.num}">{$re.city}</td>
-                            <!--<td style="font-size: 38px; background: #EDCBBB;" rowspan="{$re.num}">{$re.city}</td>-->
                             <td>{$re.name}</td>
                             <td>{$re.type}</td>
                             <td>{$re.bjprice}</td>
@@ -105,7 +104,7 @@
     {
         var height = $('#body').height()
         //克隆节点，默认为false，不复制方法属性，为true是全部复制。
-        var cloneDom = $('#body').clone(true);
+        var cloneDom = $('.fangpai-huizong').clone(true);
         //设置克隆节点的css属性，因为之前的层级为0，我们只需要比被克隆的节点层级低即可。
         cloneDom.css({
             "background-color": "white",
@@ -115,6 +114,8 @@
             "height": height
         });
         //将克隆节点动态追加到body后面。
+        // console.log(cloneDom)
+        // $("body").append(cloneDom);
 
 
         var newName = new Date().getTime().toString(16) + Math.ceil(Math.random() * 10000).toString(16);
@@ -123,13 +124,12 @@
                 //   octet-stream
                 var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
                 $(".imgDiv_img").attr("src",imgUri)
-
                 var type = 'png';
                 var imgData = canvas.toDataURL(type);
                 imgData = imgData.replace(_fixType(type),'image/octet-stream');
-                console.log(imgData);
-
                 var filename = 'fangpaiwang_' + (new Date()).getTime() + '.' + type;
+                // console.log(12345678);
+                // console.log(imgData);
                 saveFile(imgData,filename);
             })
         });

@@ -298,6 +298,7 @@
                 {/empty}
                 {if condition="$login_user.model eq 4"}
                     <li><span>页面分享：</span><a href="{:url('Second/detail_sharing',['id'=>$info.id])}">分享页</a></li>
+                    <li><span>公司分享：</span><a href="{:url('Second/detail_sharing_wechat',['id'=>$info.id])}">公司分享</a></li>
                 {/if}
             </ul>
         </div>

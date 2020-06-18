@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/homeStatic/css/common.css">
+    <link rel="stylesheet" href="/homeStatic/css/fangyuanpeitu.css">
+</head>
+
+<body>
+<div class="fangyuan-peitu">
+    <div class="fangyuan-peitu-header">
+        <p>{$estate.title}</p>
+    </div>
+    <div class="fangyuan-peitu-img">
+        <div class="fangyuan-peitu-img-left">
+            <img src="{$fenxiang_img[0]}" alt="">
+        </div>
+        <div class="fangyuan-peitu-img-right">
+            <img src="{$fenxiang_img[1]}" alt="">
+            <img src="{$fenxiang_img[2]}" alt="">
+        </div>
+    </div>
+    <div class="fangyuan-peitu-info">
+        <img src="/homeStatic/img/xiaoqu-content-top.png" alt="" class="fangipai-peitu-info-abs">
+        <img src="/homeStatic/img/xiaoqu-content-top.png" alt="" class="fangipai-peitu-info-abs">
+        <h2>{$info.title}</h2>
+        <ul>
+            <li>
+                <span>起拍价：</span>
+                <b class="qipaijia"><b>{$info.qipai|raw}</b>万</b>
+            </li>
+            <li class="fangyuan-peitu-info-abs">
+                <span>市场价：</span>
+                <b class="shichangjia">{$info.qp_price}万</b>
+            </li>
+            <li>
+                <span>捡漏指数：</span>
+                <b class="jianlou">
+                    {for start="0" end="$info.marketprice"}
+                    <img src="/static/images/img-14.png">
+                    {/for}
+                </b>
+            </li>
+            <li>
+                <span>保证金：</span>
+                <b>{$info.baozheng}万</b>
+            </li>
+        </ul>
+        <div class="fangyaun-peitu-content-huxing">
+            <p>
+                户型：<span>{:getLinkMenuName(29,$info['toilet'])}</span>
+            </p>
+            <p>
+                面积：<span>{$info.acreage}㎡</span>
+            </p>
+            <p>
+                阶段：<span>{$info.jieduan_name}</span>
+            </p>
+        </div>
+        <div class="fangyuan-peitu-content-footer">
+            <p>
+                起拍时间：<span>{$info.kptime}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="fangyuan-peitu-tuijian">
+        <h2>推荐理由</h2>
+    </div>
+
+</div>
+</body>
+
+</html>
