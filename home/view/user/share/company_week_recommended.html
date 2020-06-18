@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/homeStatic/css/common.css">
+    <link rel="stylesheet" href="/homeStatic/css/huizong.css?v={:time()}">
+    <style>
+        .fangpai-huizong {
+            width: 750px;
+            background: {$color.background|default='#ffffff'}; /*整体背景色*/
+            padding: 30px;
+        }
+        .fangpai-huizong-table-content table tbody tr {
+            background: {$color.one_line|default='#ffffff'}; /*单行色*/
+        }
+        .fangpai-huizong-table-content table tbody tr:nth-child(even) {
+            background: {$color.double_row|default='#FFFFFF'}; /*双行色*/
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="fangpai-huizong">
+    <div class="fangpai-huizong-header">
+        <div class="fangpai-huizong-header-left">
+            <p>{$time.year}</p>
+            <p>{$time.s_time}-{$time.e_time}</p>
+        </div>
+        <div class="fangpai-huizong-header-right">
+            <img src="./homeStatic/img/logo.png" alt="">
+        </div>
+    </div>
+    <div class="fangpai-huizong-banner">
+        <img src="{$back_img.setting.fileurl}" alt="" class="fangpai-huizong-banner-bigimg">
+        <img src="{$site.weixin_qrcode}" alt="" class="fangpai-huizong-banner-smallimg">
+    </div>
+    <div class="fangpai-huizong-table-header">
+        <span>6月8日-6月14日拍卖房源汇总</span>
+    </div>
+    <div class="fangpai-huizong-table-content">
+        {volist name="$arr" id="val"}
+
+        <table border="1" style="border-collapse: collapse; border-color: #ccc;">
+            <thead>
+            <td width="76">区域</td>
+            <td width="200">小区名</td>
+            <td width="72">用途</td>
+            <td width="78">面积</td>
+            <td width="88">起拍价</td>
+            <td width="80">保证金</td>
+            <td width="90">结束日期</td>
+            </thead>
+            <tbody>
+            {volist name="$recommended" id="re"}
+                {if condition="$val == $re.pid"}
+                    {present  name="$re.city"}
+                    <tr>
+                        <!--区域背景色-->
+                        <td style="font-size: 38px; background: {$color.city|default='#ffffff'};" rowspan="{$re.num}">{$re.city}</td>
+                        <!--<td style="font-size: 38px; background: #EDCBBB;" rowspan="{$re.num}">{$re.city}</td>-->
+                        <td>{$re.name}</td>
+                        <td>{$re.type}</td>
+                        <td>{$re.bjprice}</td>
+                        <td>{$re.price}</td>
+                        <td>{$re.bjprice}</td>
+                        <td>{$re.end_time}</td>
+                    </tr>
+                    {/present}
+                    {notpresent  name="$re.city"}
+                    <tr>
+                        <td>{$re.name}</td>
+                        <td>{$re.type}</td>
+                        <td>{$re.bjprice}</td>
+                        <td>{$re.price}</td>
+                        <td>{$re.bjprice}</td>
+                        <td>{$re.end_time}</td>
+                    </tr>
+                    {/notpresent}
+                {/if}
+            {/volist}
+            </tbody>
+        </table>
+        {/volist}
+    </div>
+    <div class="fangpai-huizong-footer">
+        <p>热线：<span>{$site.}</span></p>
+        <p>官网：<span>www.fangpaiwang.com</span></p>
+        <p>地址：<span>北京市东城区朝阳门银河SOHO D座11层51102</span></p>
+    </div>
+</div>
+</body>
+
+</html>

@@ -57,6 +57,40 @@ class IndexServer
         }
         return $banner;
     }
+    public function get_home_banner_arr_x($space_id=1,$limit=0){
+        $banner_json= $this->get_home_banner_x($space_id,$limit);
+        $arr =[];
+        if ($banner_json){
+            if ($limit == 1 || $limit < 1){
+                $arr[] =$banner_json['setting'];
+
+            }else{
+                foreach ($banner_json as $k=>$v){
+                    if ($k < $limit){
+                        $arr[] =$v['setting'];
+                    }
+                }
+            }
+        }
+        return $arr;
+    }
+    public function get_home_banner_x($space_id=1,$limit=20){
+        $cache_name = 'poster_img_x'.$space_id;
+        $banner =Cache::get($cache_name);
+        if (!$banner){
+            $cache_name = 'poster_img'.$space_id;
+            $banner = model('poster')->field('name,setting')
+                ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
+                ->limit($limit);
+            if ($limit == 1){
+                $res = $banner->find();
+            }else{
+                $res =$banner->select();
+            }
+            \think\facade\Cache::set($cache_name,$res);
+        }
+        return $res;
+    }
     /**
      * 查询统计数据
      * @param mixed

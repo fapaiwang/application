@@ -1297,3 +1297,20 @@ function login_user(){
     $infos = \org\Crypt::decrypt($infos);
     return $infos;
  }
+
+/**
+ * 创建数组
+ * @param $from
+ * @param $to
+ * @param int $step
+ * @param mixed
+ * @return array
+ * @author: al
+ */
+function array_range($from, $to, $step=1){
+    $array = array();
+    for ($x=$from; $x <= $to; $x += $step){
+        $array[] = $x;
+    }
+    return $array;
+}

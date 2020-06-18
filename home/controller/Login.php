@@ -3,6 +3,8 @@
 
 namespace app\home\controller;
 use app\common\controller\HomeBase;
+use app\home\service\IndexServer;
+use think\Db;
 use think\facade\Log;
 
 class Login extends HomeBase

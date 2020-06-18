@@ -157,5 +157,8 @@ class Poster extends ManageBase
         $cache_name = 'poster_img'.$spaceid;
         $poster_space = model('poster')->field('name,setting')->where([['spaceid','=',$spaceid],['startdate','<',time()],['enddate','>',time()],['status','=',1]])->select();
         \think\facade\Cache::set($cache_name,$poster_space);
+        $cache_name_x = 'poster_img_x'.$spaceid;
+        \think\facade\Cache::set($cache_name_x,$poster_space);
+
     }
 }
