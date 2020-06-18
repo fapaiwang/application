@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/homeStatic/css/common.css">
-    <link rel="stylesheet" href="/homeStatic/css/huizong.css?v={:time()}">
+    <link rel="stylesheet" href="/homeStatic/css/huizong.css">
     <style>
         .fangpai-huizong {
             width: 750px;
@@ -24,74 +24,136 @@
 </head>
 
 <body>
-<div class="fangpai-huizong">
-    <div class="fangpai-huizong-header">
-        <div class="fangpai-huizong-header-left">
-            <p>{$time.year}</p>
-            <p>{$time.s_time}-{$time.e_time}</p>
-        </div>
-        <div class="fangpai-huizong-header-right">
-            <img src="/homeStatic/img/logo.png" alt="">
-        </div>
-    </div>
-    <div class="fangpai-huizong-banner">
-        <img src="{$back_img.setting.fileurl}" alt="" width="690px" height="800px" class="fangpai-huizong-banner-bigimg">
-        <img src="{$site.weixin_qrcode}" alt="" width="124px" height="124px" class="fangpai-huizong-banner-smallimg">
-    </div>
-    <div class="fangpai-huizong-table-header">
-        <span>6月8日-6月14日拍卖房源汇总</span>
-    </div>
-    <div class="fangpai-huizong-table-content">
-        {volist name="$arr" id="val"}
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/share/js/jquery-git.js"></script>
+<script type="text/javascript" src="/share/js/shuiyin.js"></script>
+<script type="text/javascript" src="/share/js/html2canvas.js"></script>
 
-        <table border="1" style="border-collapse: collapse; border-color: #ccc;">
-            <thead>
-            <td width="76">区域</td>
-            <td width="200">小区名</td>
-            <td width="72">用途</td>
-            <td width="78">面积</td>
-            <td width="88">起拍价</td>
-            <td width="80">保证金</td>
-            <td width="90">结束日期</td>
-            </thead>
-            <tbody>
-            {volist name="$recommended" id="re"}
-                {if condition="$val == $re.pid"}
-                    {present  name="$re.city"}
-                    <tr>
-                        <!--区域背景色-->
-                        <td style="font-size: 38px; background: {$color.city|default='#ffffff'};" rowspan="{$re.num}">{$re.city}</td>
-                        <!--<td style="font-size: 38px; background: #EDCBBB;" rowspan="{$re.num}">{$re.city}</td>-->
-                        <td>{$re.name}</td>
-                        <td>{$re.type}</td>
-                        <td>{$re.bjprice}</td>
-                        <td>{$re.price}</td>
-                        <td>{$re.bjprice}</td>
-                        <td>{$re.end_time}</td>
-                    </tr>
-                    {/present}
-                    {notpresent  name="$re.city"}
-                    <tr>
-                        <td>{$re.name}</td>
-                        <td>{$re.type}</td>
-                        <td>{$re.bjprice}</td>
-                        <td>{$re.price}</td>
-                        <td>{$re.bjprice}</td>
-                        <td>{$re.end_time}</td>
-                    </tr>
-                    {/notpresent}
-                {/if}
+<script language="javascript" src="//scripts.easyliao.com/js/easyliao.js"></script>
+<div>
+    <div><input type="button" id="SaveDownload" value="生成图片"></div>
+    <div><img class="imgDiv_img" src="" /></div>
+    <div class="fangpai-huizong">
+        <div class="fangpai-huizong-header">
+            <div class="fangpai-huizong-header-left">
+                <p>{$time.year}</p>
+                <p>{$time.s_time}-{$time.e_time}</p>
+            </div>
+            <div class="fangpai-huizong-header-right">
+                <img src="/homeStatic/img/logo.png" alt="">
+            </div>
+        </div>
+        <div class="fangpai-huizong-banner">
+            <img src="{$back_img.setting.fileurl}" alt="" width="690px" height="800px" class="fangpai-huizong-banner-bigimg">
+            <img src="{$site.weixin_qrcode}" alt="" width="124px" height="124px" class="fangpai-huizong-banner-smallimg">
+        </div>
+        <div class="fangpai-huizong-table-header">
+            <span>6月8日-6月14日拍卖房源汇总</span>
+        </div>
+        <div class="fangpai-huizong-table-content">
+            {volist name="$arr" id="val"}
+
+            <table border="1" style="border-collapse: collapse; border-color: #ccc;">
+                <thead>
+                <td width="76">区域</td>
+                <td width="200">小区名</td>
+                <td width="72">用途</td>
+                <td width="78">面积</td>
+                <td width="88">起拍价</td>
+                <td width="80">保证金</td>
+                <td width="90">结束日期</td>
+                </thead>
+                <tbody>
+                {volist name="$recommended" id="re"}
+                    {if condition="$val == $re.pid"}
+                        {present  name="$re.city"}
+                        <tr>
+                            <!--区域背景色-->
+                            <td style="font-size: 38px; background: {$color.city|default='#ffffff'};" rowspan="{$re.num}">{$re.city}</td>
+                            <!--<td style="font-size: 38px; background: #EDCBBB;" rowspan="{$re.num}">{$re.city}</td>-->
+                            <td>{$re.name}</td>
+                            <td>{$re.type}</td>
+                            <td>{$re.bjprice}</td>
+                            <td>{$re.price}</td>
+                            <td>{$re.bjprice}</td>
+                            <td>{$re.end_time}</td>
+                        </tr>
+                        {/present}
+                        {notpresent  name="$re.city"}
+                        <tr>
+                            <td>{$re.name}</td>
+                            <td>{$re.type}</td>
+                            <td>{$re.bjprice}</td>
+                            <td>{$re.price}</td>
+                            <td>{$re.bjprice}</td>
+                            <td>{$re.end_time}</td>
+                        </tr>
+                        {/notpresent}
+                    {/if}
+                {/volist}
+                </tbody>
+            </table>
             {/volist}
-            </tbody>
-        </table>
-        {/volist}
-    </div>
-    <div class="fangpai-huizong-footer">
-        <p>热线：<span>{$site.telphone}</span></p>
-        <p>官网：<span>www.fangpaiwang.com</span></p>
-        <p>地址：<span>北京市东城区朝阳门银河SOHO D座11层51102</span></p>
+        </div>
+        <div class="fangpai-huizong-footer">
+            <p>热线：<span>{$site.telphone}</span></p>
+            <p>官网：<span>www.fangpaiwang.com</span></p>
+            <p>地址：<span>北京市东城区朝阳门银河SOHO D座11层51102</span></p>
+        </div>
     </div>
 </div>
+
+<script>
+    $("#SaveDownload").click(function () //点击"保存下载控件"
+    {
+        var height = $('#body').height()
+        //克隆节点，默认为false，不复制方法属性，为true是全部复制。
+        var cloneDom = $('#body').clone(true);
+        //设置克隆节点的css属性，因为之前的层级为0，我们只需要比被克隆的节点层级低即可。
+        cloneDom.css({
+            "background-color": "white",
+            "position": "absolute",
+            "top": "0px",
+            "z-index": "-1",
+            "height": height
+        });
+        //将克隆节点动态追加到body后面。
+        // $("#body").append(cloneDom);
+
+
+        var newName = new Date().getTime().toString(16) + Math.ceil(Math.random() * 10000).toString(16);
+        $(function() {
+            html2canvas(document.querySelector("#body")).then(function(canvas) {
+                //   octet-stream
+                var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+                $(".imgDiv_img").attr("src",imgUri)
+
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                imgData = imgData.replace(_fixType(type),'image/octet-stream');
+                console.log(imgData);
+
+                var filename = 'fangpaiwang_' + (new Date()).getTime() + '.' + type;
+                saveFile(imgData,filename);
+            })
+        });
+    })
+
+    var _fixType = function(type) {
+        type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+        var r = type.match(/png|jpeg|bmp|gif/)[0];
+        return 'image/' + r;
+    };
+    var saveFile = function(data, filename){
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+    };
+</script>
+<script type="text/javascript" charset="UTF-8" src="//scripts.easyliao.com/11122/40727.js"></script>
 </body>
 
 </html>
