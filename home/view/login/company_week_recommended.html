@@ -103,7 +103,6 @@
 <script>
     $("#SaveDownload").click(function () //点击"保存下载控件"
     {
-        console.log(1234);
         var height = $('#body').height()
         //克隆节点，默认为false，不复制方法属性，为true是全部复制。
         var cloneDom = $('#body').clone(true);
@@ -116,7 +115,6 @@
             "height": height
         });
         //将克隆节点动态追加到body后面。
-        // $("#body").append(cloneDom);
 
 
         var newName = new Date().getTime().toString(16) + Math.ceil(Math.random() * 10000).toString(16);
@@ -136,6 +134,20 @@
             })
         });
     })
+
+    var _fixType = function(type) {
+        type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+        var r = type.match(/png|jpeg|bmp|gif/)[0];
+        return 'image/' + r;
+    };
+    var saveFile = function(data, filename){
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+    };
 </script>
 </body>
 
