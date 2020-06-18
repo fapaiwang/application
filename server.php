@@ -36,7 +36,7 @@ class server
         $join = [['second_house_data d','h.id=d.house_id']];
         $info = $obj->alias('h')
             ->field($second_house_field)
-            ->cache('second_house_'.$second_house_id,3600)
+//            ->cache('second_house_'.$second_house_id,3600)
             ->join($join)->where($where)->find();
         if (empty($info)){
             return "";
@@ -117,7 +117,7 @@ class server
     public function user_info($second_house_id,$broker_id){
         //获取从业年限
         $user = model('user_info')->field('history_complate')->where('user_id',$broker_id)
-            ->cache('user_common_'.$second_house_id)->find();
+            ->cache('user_common_'.$second_house_id,3600)->find();
         return $user;
     }
 
