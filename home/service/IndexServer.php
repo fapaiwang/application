@@ -83,13 +83,13 @@ class IndexServer
                 ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
                 ->limit($limit);
             if ($limit == 1){
-                $res = $banner->find();
+                $banner = $banner->find();
             }else{
-                $res =$banner->select();
+                $banner =$banner->select();
             }
-            \think\facade\Cache::set($cache_name,$res);
+            \think\facade\Cache::set($cache_name,$banner);
         }
-        return $res;
+        return $banner;
     }
     /**
      * 查询统计数据
