@@ -117,9 +117,8 @@ class SecondHouse extends Controller
         }
         $traffic = $rim = "";
         if (!empty($houseRes['basic_info'])) {
-            $basic_info = explode('|',$houseRes['basic_info']);
-            $traffic = $basic_info[8];//交通出行
-            $rim = $basic_info[7];//周边配套
+            $traffic = $houseRes['basic_info'][8];//交通出行
+            $rim = $houseRes['basic_info'][7];//周边配套
         }
         $houseRes['traffic'] = $traffic;//交通出行
         $houseRes['rim'] = $rim;//周边配套
