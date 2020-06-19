@@ -253,6 +253,12 @@ class Login extends HomeBase
         $time["year"] = date("Y");
         $time['s_time']=date("m/d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1+7,date("Y")));
         $time['e_time']=date("m/d",mktime(23, 59 , 59,date("m"),date("d")-date("w")+1+13,date("Y")));
+        $s_time = explode("/",$time['s_time']);
+        $e_time = explode("/",$time['e_time']);
+        $time['s_month'] =$s_time[0] ?? 1;
+        $time['s_day']=$s_time[1] ?? 1;
+        $time['e_month']=$e_time[0] ?? 1;
+        $time['e_day']=$e_time[1] ?? 1;
         //查询数据
         $recommended =model("a_zhoutuijian")->select();
         $res = Db::query('select max(pid) as num from fang_a_zhoutuijian');
