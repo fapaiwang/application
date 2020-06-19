@@ -493,58 +493,10 @@
                        
                            <select name="floor">
                                 <!-- <option value="{$info.floor}">{$info.floor}</option> -->
-                                <option value="-1" {if condition="$info.floor eq -2"}selected="selected"{/if}>-2</option>
-                                <option value="-1" {if condition="$info.floor eq -1"}selected="selected"{/if}>-1</option>
-                                <option value="1" {if condition="$info.floor eq 1"}selected="selected"{/if}>1</option>
-                                <option value="2" {if condition="$info.floor eq 2"}selected="selected"{/if}>2</option>
-                                <option value="3" {if condition="$info.floor eq 3"}selected="selected"{/if}>3</option>
-                                <option value="4" {if condition="$info.floor eq 4"}selected="selected"{/if}>4</option>
-                                <option value="5" {if condition="$info.floor eq 5"}selected="selected"{/if}>5</option>
-                                <option value="6" {if condition="$info.floor eq 6"}selected="selected"{/if}>6</option>
-                                <option value="7" {if condition="$info.floor eq 7"}selected="selected"{/if}>7</option>
-                                <option value="8"  {if condition="$info.floor eq 8"}selected="selected"{/if}>8</option>
-                                <option value="9"  {if condition="$info.floor eq 9"}selected="selected"{/if}>9</option>
-                                <option value="10" {if condition="$info.floor eq 10"}selected="selected"{/if}>10</option>
-                                <option value="11" {if condition="$info.floor eq 11"}selected="selected"{/if}>11</option>
-                                <option value="12" {if condition="$info.floor eq 12"}selected="selected"{/if}>12</option>
-                                <option value="13" {if condition="$info.floor eq 13"}selected="selected"{/if}>13</option>
-                                <option value="14" {if condition="$info.floor eq 14"}selected="selected"{/if}>14</option>
-                                <option value="15" {if condition="$info.floor eq 15"}selected="selected"{/if}>15</option>
-                                <option value="16" {if condition="$info.floor eq 16"}selected="selected"{/if}>16</option>
-                                <option value="17" {if condition="$info.floor eq 17"}selected="selected"{/if}>17</option>
-                                <option value="18" {if condition="$info.floor eq 18"}selected="selected"{/if}>18</option>
-                                <option value="19" {if condition="$info.floor eq 19"}selected="selected"{/if}>19</option>
-                                <option value="20" {if condition="$info.floor eq 20"}selected="selected"{/if}>20</option>
-                                <option value="21" {if condition="$info.floor eq 21"}selected="selected"{/if}>21</option>
-                                <option value="22" {if condition="$info.floor eq 22"}selected="selected"{/if}>22</option>
-                                <option value="23" {if condition="$info.floor eq 23"}selected="selected"{/if}>23</option>
-                                <option value="24" {if condition="$info.floor eq 24"}selected="selected"{/if}>24</option>
-                                <option value="25" {if condition="$info.floor eq 25"}selected="selected"{/if}>25</option>
-                                <option value="26" {if condition="$info.floor eq 26"}selected="selected"{/if}>26</option>
-                                <option value="27" {if condition="$info.floor eq 27"}selected="selected"{/if}>27</option>
-                                <option value="28" {if condition="$info.floor eq 28"}selected="selected"{/if}>28</option>
-                                <option value="29" {if condition="$info.floor eq 29"}selected="selected"{/if}>29</option>
-                                <option value="30" {if condition="$info.floor eq 30"}selected="selected"{/if}>30</option>
-                                <option value="31" {if condition="$info.floor eq 31"}selected="selected"{/if}>31</option>
-                                <option value="32" {if condition="$info.floor eq 32"}selected="selected"{/if}>32</option>
-                                <option value="33" {if condition="$info.floor eq 33"}selected="selected"{/if}>33</option>
-                                <option value="34" {if condition="$info.floor eq 34"}selected="selected"{/if}>34</option>
-                                <option value="35" {if condition="$info.floor eq 35"}selected="selected"{/if}>35</option>
-                                <option value="36" {if condition="$info.floor eq 36"}selected="selected"{/if}>36</option>
-                                <option value="37" {if condition="$info.floor eq 37"}selected="selected"{/if}>37</option>
-                                <option value="38" {if condition="$info.floor eq 38"}selected="selected"{/if}>38</option>
-                                <option value="39" {if condition="$info.floor eq 39"}selected="selected"{/if}>39</option>
-                                <option value="40" {if condition="$info.floor eq 40"}selected="selected"{/if}>40</option>
-                                <option value="41" {if condition="$info.floor eq 41"}selected="selected"{/if}>41</option>
-                                <option value="42" {if condition="$info.floor eq 42"}selected="selected"{/if}>42</option>
-                                <option value="43" {if condition="$info.floor eq 43"}selected="selected"{/if}>33</option>
-                                <option value="44" {if condition="$info.floor eq 44"}selected="selected"{/if}>44</option>
-                                <option value="45" {if condition="$info.floor eq 45"}selected="selected"{/if}>45</option>
-                                <option value="46" {if condition="$info.floor eq 46"}selected="selected"{/if}>46</option>
-                                <option value="47" {if condition="$info.floor eq 47"}selected="selected"{/if}>47</option>
-                                <option value="48" {if condition="$info.floor eq 48"}selected="selected"{/if}>48</option>
-                                <option value="49" {if condition="$info.floor eq 49"}selected="selected"{/if}>49</option>
-                                <option value="50" {if condition="$info.floor eq 50"}selected="selected"{/if}>50</option>
+                               <option value="">-请选择-</option>
+                               {for start="-2" end="71"}
+                               <option value="{$i}" {if condition="$info.floor eq $i"}selected="selected"{/if}>{$i}</option>
+                               {/for}
                             </select>
 
 
@@ -556,57 +508,9 @@
 
                             <!-- <input type="text" class="layui-input" name="total_floor" value="{$info.total_floor}" placeholder="20"> -->
                             <select name="total_floor">
-                                <!-- <option value="{$info.floor}">{$info.floor}</option> -->
-                                <option value="1" {if condition="$info.total_floor eq 1"}selected="selected"{/if}>1</option>
-                                <option value="2" {if condition="$info.total_floor eq 2"}selected="selected"{/if}>2</option>
-                                <option value="3" {if condition="$info.total_floor eq 3"}selected="selected"{/if}>3</option>
-                                <option value="4" {if condition="$info.total_floor eq 4"}selected="selected"{/if}>4</option>
-                                <option value="5" {if condition="$info.total_floor eq 5"}selected="selected"{/if}>5</option>
-                                <option value="6" {if condition="$info.total_floor eq 6"}selected="selected"{/if}>6</option>
-                                <option value="7" {if condition="$info.total_floor eq 7"}selected="selected"{/if}>7</option>
-                                <option value="8"  {if condition="$info.total_floor eq 8"}selected="selected"{/if}>8</option>
-                                <option value="9"  {if condition="$info.total_floor eq 9"}selected="selected"{/if}>9</option>
-                                <option value="10" {if condition="$info.total_floor eq 10"}selected="selected"{/if}>10</option>
-                                <option value="11" {if condition="$info.total_floor eq 11"}selected="selected"{/if}>11</option>
-                                <option value="12" {if condition="$info.total_floor eq 12"}selected="selected"{/if}>12</option>
-                                <option value="13" {if condition="$info.total_floor eq 13"}selected="selected"{/if}>13</option>
-                                <option value="14" {if condition="$info.total_floor eq 14"}selected="selected"{/if}>14</option>
-                                <option value="15" {if condition="$info.total_floor eq 15"}selected="selected"{/if}>15</option>
-                                <option value="16" {if condition="$info.total_floor eq 16"}selected="selected"{/if}>16</option>
-                                <option value="17" {if condition="$info.total_floor eq 17"}selected="selected"{/if}>17</option>
-                                <option value="18" {if condition="$info.total_floor eq 18"}selected="selected"{/if}>18</option>
-                                <option value="19" {if condition="$info.total_floor eq 19"}selected="selected"{/if}>19</option>
-                                <option value="20" {if condition="$info.total_floor eq 20"}selected="selected"{/if}>20</option>
-                                <option value="21" {if condition="$info.total_floor eq 21"}selected="selected"{/if}>21</option>
-                                <option value="22" {if condition="$info.total_floor eq 22"}selected="selected"{/if}>22</option>
-                                <option value="23" {if condition="$info.total_floor eq 23"}selected="selected"{/if}>23</option>
-                                <option value="24" {if condition="$info.total_floor eq 24"}selected="selected"{/if}>24</option>
-                                <option value="25" {if condition="$info.total_floor eq 25"}selected="selected"{/if}>25</option>
-                                <option value="26" {if condition="$info.total_floor eq 26"}selected="selected"{/if}>26</option>
-                                <option value="27" {if condition="$info.total_floor eq 27"}selected="selected"{/if}>27</option>
-                                <option value="28" {if condition="$info.total_floor eq 28"}selected="selected"{/if}>28</option>
-                                <option value="29" {if condition="$info.total_floor eq 29"}selected="selected"{/if}>29</option>
-                                <option value="30" {if condition="$info.total_floor eq 30"}selected="selected"{/if}>30</option>
-                                <option value="31" {if condition="$info.total_floor eq 31"}selected="selected"{/if}>31</option>
-                                <option value="32" {if condition="$info.total_floor eq 32"}selected="selected"{/if}>32</option>
-                                <option value="33" {if condition="$info.total_floor eq 33"}selected="selected"{/if}>33</option>
-                                <option value="34" {if condition="$info.total_floor eq 34"}selected="selected"{/if}>34</option>
-                                <option value="35" {if condition="$info.total_floor eq 35"}selected="selected"{/if}>35</option>
-                                <option value="36" {if condition="$info.total_floor eq 36"}selected="selected"{/if}>36</option>
-                                <option value="37" {if condition="$info.total_floor eq 37"}selected="selected"{/if}>37</option>
-                                <option value="38" {if condition="$info.total_floor eq 38"}selected="selected"{/if}>38</option>
-                                <option value="39" {if condition="$info.total_floor eq 39"}selected="selected"{/if}>39</option>
-                                <option value="40" {if condition="$info.total_floor eq 40"}selected="selected"{/if}>40</option>
-                                <option value="41" {if condition="$info.total_floor eq 41"}selected="selected"{/if}>41</option>
-                                <option value="42" {if condition="$info.total_floor eq 42"}selected="selected"{/if}>42</option>
-                                <option value="43" {if condition="$info.total_floor eq 43"}selected="selected"{/if}>33</option>
-                                <option value="44" {if condition="$info.total_floor eq 44"}selected="selected"{/if}>44</option>
-                                <option value="45" {if condition="$info.total_floor eq 45"}selected="selected"{/if}>45</option>
-                                <option value="46" {if condition="$info.total_floor eq 46"}selected="selected"{/if}>46</option>
-                                <option value="47" {if condition="$info.total_floor eq 47"}selected="selected"{/if}>47</option>
-                                <option value="48" {if condition="$info.total_floor eq 48"}selected="selected"{/if}>48</option>
-                                <option value="49" {if condition="$info.total_floor eq 49"}selected="selected"{/if}>49</option>
-                                <option value="50" {if condition="$info.total_floor eq 50"}selected="selected"{/if}>50</option>
+                                {for start="-2" end="71"}
+                                <option value="{$i}" {if condition="$info.total_floor eq $i"}selected="selected"{/if}>{$i}</option>
+                                {/for}
                             </select>
                         </div>
 

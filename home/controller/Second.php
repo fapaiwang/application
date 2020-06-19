@@ -80,6 +80,9 @@ class Second extends HomeBase{
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
             $info = $server->second_model($second_house_id);
+            if (empty($info["bmrs"])){
+                $info["bmrs"] = 0;
+            }
             if($info){
                 $info["bianhao"] = substr($info["bianhao"],0,5);
                 //添加浏览量
@@ -910,8 +913,8 @@ class Second extends HomeBase{
                 $data[] = ['s.endtime','>',$start_time];
                 $data[] = ['s.endtime','<',$end_time];
             }else{
-                $data[] = ['s.fabutime','>',$start_time];
-                $data[] = ['s.fabutime','<',$end_time];
+                $data[] = ['s.kptime','>',$start_time];
+                $data[] = ['s.kptime','<',$end_time];
             }
         }
         //
