@@ -1,0 +1,120 @@
+{extend name='public/layout' /}
+{block name='content'}
+<link rel="stylesheet" href="/static/css/jquery.bigcolorpicker.css">
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/editDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">周分享设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">顶部banner</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[pc_logo_white]" id="pclogowhite" placeholder="" value="{$info.pc_logo_white}" autocomplete="off" class="layui-input ajax-img-text">
+						<div class="layui-box layui-upload-button" id="uploadwhite">
+							<span class="layui-upload-icon"><i class="layui-icon">&#xe61f;</i>图片</span>
+						</div>
+						<div id="pclogowhite-preview">
+							{notempty name="info.pc_logo_white"}
+							<img src="{$info.pc_logo_white}" alt="" width="100" />
+							{/notempty}
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">整体背景色</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[background]" value="{$info.background}" lay-verify="required" placeholder="整体背景色" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						整个框架的主体颜色
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">城市背景色</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[city]" value="{$info.city}"  lay-verify="required" placeholder="城市背景色" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						每个区域的背景色
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">单行</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[one_line]" value="{$info.one_line}"  lay-verify="required" placeholder="单行背景色" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						小区名	用途	面积	起拍价	保证金	结束日期 这些单行颜色
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">双行</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[double_row]" value="{$info.double_row}" lay-verify="required" placeholder="双行背景色" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						小区名	用途	面积	起拍价	保证金	结束日期 这些双行颜色
+					</div>
+				</div>
+			</div>
+
+			<input type="hidden" name="name" value="{$action_name}">
+			<input type="hidden" name="id" value="{$base.id}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" lay-submit="" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element','upload','colorpicker'], function(){
+        var $ = layui.jquery,element = layui.element,form = layui.form,upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upload'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#pclogo").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#pclogo-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+        upload.render({
+            elem: '#uploadwhite'
+            ,url: '{:url("ajaxUploadImg")}'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code == 0){
+                    return layer.msg('上传失败');
+                }else{
+                    //上传成功
+                    $("#pclogowhite").val(res.data);
+                    $img = "<img src='"+res.data+"' width='100' />";
+                    $("#pclogowhite-preview").html($img);
+                }
+            }
+            ,error: function(){
+                layer.msg('上传失败');
+            }
+        });
+    });
+</script>
+{/block}

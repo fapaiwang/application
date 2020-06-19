@@ -215,14 +215,6 @@ class Share extends  UserBase {
         if (empty($res[0]["num"])){
             return "统计房源城市pid错误";
         }
-        //颜色
-        $color["background"] ="#77bec9";
-        $color["city"] ="#8ec7d0";
-        $color["one_line"] ="#bdd9dd";
-        $color["double_row"] ="#FFFFFF";
-        //背景图
-        $back_img = $IndexServer->get_home_banner(28,1);
-//dd($back_img->setting["fileurl"]);
         $arr = array_range(1, $res[0]["num"], 1);
         foreach ($arr as $key=>$val){
             $num =0;
@@ -239,10 +231,9 @@ class Share extends  UserBase {
             }
         }
         $this->assign('time',$time);
-        $this->assign('color',$color);
+        $this->assign('color',cache('weekly_share'));
         $this->assign('arr',$arr);
         $this->assign('site',getSettingCache('site'));
-        $this->assign('back_img',$back_img[0]);
         $this->assign('recommended',$recommended);
         return $this->fetch();
     }

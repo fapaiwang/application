@@ -655,6 +655,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
 
     {
         $data = input('post.');
+
         if (strpos($data['refer'],'?')){
             $data['refer'] = substr($data['refer'],0,strripos($data['refer'],"?"));
             $data['refer'] = $data['refer'].'?id='.$data['id'];
@@ -809,78 +810,15 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if($data['jieduan'] == 163 && $data['fcstatus'] == 170){
             $data['bmrs'] = 0;
         }
-
         //法拍网同步结束
-
         //print_r($data);exit();
-
         // $data['online_consulting']=$data['online_consulting'];
-
-
         //$data['marketprice']=$data['price'];
 
-
-
-$data['fabutimes']=strtotime($data['fabutime']);
-        $marketprices=$data['price'];
-        $qipaiprice=$data['qipai'];
-
-
-        $jlzs=round($marketprices/$qipaiprice,1);
-                //默认一星
-                $data['marketprice'] =1;
-                //print_r($jlzs);
-                if($jlzs<'1.1'){
-
-                    $data['marketprice']='0';
-
-                }
-
-                if(($jlzs>='1.1') && ($jlzs<='2')){
-
-                    $data['marketprice']='1';
-
-                }
-                if(($jlzs>='1.3') && ($jlzs<='1.4')){
-
-                    $data['marketprice']='2';
-
-                }
-                if(($jlzs>='1.5') && ($jlzs<='1.6')){
-
-                    $data['marketprice']='3';
-
-                }
-                if(($jlzs>='1.7') && ($jlzs<='1.8')){
-
-                    $data['marketprice']='4';
-
-                }
-
-                if($jlzs>'1.8'){
-
-                    $data['marketprice']='5';
-
-                }
-                //如果是推荐房型,无需计算,直接5星
-                if (!empty($data['rec_position'])){
-                    $data['marketprice']='5';
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        $data['fabutimes']=strtotime($data['fabutime']);
+        if (!empty($data['rec_position'])){
+            $data['marketprice']='5';
+        }
         $result = $this->validate($data,'SecondHouse');//调用验证器验证
 
         $code   = 0;
