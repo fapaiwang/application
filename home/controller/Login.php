@@ -76,8 +76,6 @@ class Login extends HomeBase
             $return['msg'] = '两次密码输入不一致！';
         }elseif(!captcha_check($verify_code)){
             $return['msg'] = '验证码不正确';
-        }elseif(session('__token__')!== $token){
-            $return['msg'] = '操作失败';
         }elseif(checkMobileIsExists($mobile)){
             $return['msg'] = '该手机号码已被注册！';
         }else{
@@ -128,8 +126,6 @@ class Login extends HomeBase
         if(!$user_name)
         {
             $return['msg'] = '请填写登录名！';
-        }elseif(session('__token__')!==$token){
-            $return['msg'] = '操作失败t';
         }else{
             $where['user_name|mobile'] = $user_name;
             $where['password']         = passwordEncode($password);
