@@ -211,9 +211,9 @@ class Share extends  UserBase {
             return "统计房源城市pid错误";
         }
         //颜色
-        $color["background"] ="#b89686";
-        $color["city"] ="#EDCBBB";
-        $color["one_line"] ="#F2E2DA";
+        $color["background"] ="#77bec9";
+        $color["city"] ="#8ec7d0";
+        $color["one_line"] ="#bdd9dd";
         $color["double_row"] ="#FFFFFF";
         //背景图
         $back_img = $IndexServer->get_home_banner_x(28,1);
