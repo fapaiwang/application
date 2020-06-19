@@ -108,6 +108,9 @@ class Login extends HomeBase
     /**
      * @return \think\response\Json
      * 登录操作
+     *  elseif(session('__token__')!==$token){
+     *  $return['msg'] = '操作失败t';
+     *   }
      */
     public function loginDo()
     {
@@ -197,8 +200,6 @@ class Login extends HomeBase
             $return['msg'] = '密码至少由6位数字或字母组成！';
         }elseif($password!=$password2){
             $return['msg'] = '两次密码输入不一致！';
-        }elseif(session('__token__')!=$token){
-            $return['msg'] = '表单数据验证失败';
         }else{
             $where['mobile']  = $mobile;
             $data['password'] = $password;
@@ -265,7 +266,7 @@ class Login extends HomeBase
         $color["one_line"] ="#F2E2DA";
         $color["double_row"] ="#FFFFFF";
         //背景图
-        $back_img = $IndexServer->get_home_banner_x(28,1);
+        $back_img = $IndexServer->get_home_banner(28,1);
 //dd($back_img->setting["fileurl"]);
         $arr = array_range(1, $res[0]["num"], 1);
         foreach ($arr as $key=>$val){
