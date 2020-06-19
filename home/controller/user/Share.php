@@ -216,7 +216,7 @@ class Share extends  UserBase {
         $color["one_line"] ="#bdd9dd";
         $color["double_row"] ="#FFFFFF";
         //背景图
-        $back_img = $IndexServer->get_home_banner_x(28,1);
+        $back_img = $IndexServer->get_home_banner(28,1);
 //dd($back_img->setting["fileurl"]);
         $arr = array_range(1, $res[0]["num"], 1);
         foreach ($arr as $key=>$val){
