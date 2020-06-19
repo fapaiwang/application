@@ -251,9 +251,8 @@ class Login extends HomeBase
         $IndexServer = new IndexServer();
         //时间
         $time["year"] = date("Y");
-        $time['s_time']=date('m/d', (time() - ((date('w') == 0 ? 7 : date('w')) - 1) * 24 * 3600));
-        $time['e_time']=date('m/d', (time() + (7 - (date('w') == 0 ? 7 : date('w'))) * 24 * 3600));
-
+        $time['s_time']=date("m/d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1+7,date("Y")));
+        $time['e_time']=date("m/d",mktime(23, 59 , 59,date("m"),date("d")-date("w")+1+13,date("Y")));
         //查询数据
         $recommended =model("a_zhoutuijian")->select();
         $res = Db::query('select max(pid) as num from fang_a_zhoutuijian');
