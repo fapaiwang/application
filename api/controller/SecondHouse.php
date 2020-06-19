@@ -116,8 +116,8 @@ class SecondHouse extends Controller
             return $this->error_o("未找到当前房源");
         }
         $traffic = $rim = "";
-        if (!$houseRes['basic_info'] == "") {
-            $basic_info = explode(',',$houseRes['basic_info']);
+        if (!empty($houseRes['basic_info'])) {
+            $basic_info = explode('|',$houseRes['basic_info']);
             $traffic = $basic_info[8];//交通出行
             $rim = $basic_info[7];//周边配套
         }
