@@ -217,7 +217,6 @@ class Share extends  UserBase {
         $color["double_row"] ="#FFFFFF";
         //背景图
         $back_img = $IndexServer->get_home_banner_x(28,1);
-        dd($back_img);
 //dd($back_img->setting["fileurl"]);
         $arr = array_range(1, $res[0]["num"], 1);
         foreach ($arr as $key=>$val){
@@ -238,7 +237,7 @@ class Share extends  UserBase {
         $this->assign('color',$color);
         $this->assign('arr',$arr);
         $this->assign('site',getSettingCache('site'));
-        $this->assign('back_img',$back_img);
+        $this->assign('back_img',$back_img[0]);
         $this->assign('recommended',$recommended);
         return $this->fetch();
     }
