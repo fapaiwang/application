@@ -287,7 +287,7 @@ class Login extends HomeBase
         $this->assign('color',$color);
         $this->assign('arr',$arr);
         $this->assign('site',getSettingCache('site'));
-        $this->assign('back_img',$back_img);
+        $this->assign('back_img',$back_img[0]);
         $this->assign('recommended',$recommended);
         return $this->fetch();
     }
