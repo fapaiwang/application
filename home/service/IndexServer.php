@@ -78,7 +78,7 @@ class IndexServer
         $cache_name = 'poster_img_x'.$space_id;
         $banner =Cache::get($cache_name);
         if (!$banner){
-            $cache_name = 'poster_img'.$space_id;
+            $cache_name = 'poster_img_x'.$space_id;
             $banner = model('poster')->field('name,setting')
                 ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
                 ->limit($limit);
