@@ -13,8 +13,8 @@ class Tijiao extends \think\Model
 
 {
 
-    protected $autoWriteTimestamp = true;
-
-    protected $updateTime = false;
+    protected $autoWriteTimestamp = "datetime";
+    protected $createTime ="create_time";
+    protected $updateTime = "update_time";
 
 }

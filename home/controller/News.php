@@ -135,6 +135,7 @@ class News extends HomeBase
         
         $data["user_name"] = "游客";
         $data['mobile'] = $tel;
+        $data['source'] = 1;
         $msg = "预约的人太多了，请稍后尝试";
         
         if (model("tijiao")->save($data)) {

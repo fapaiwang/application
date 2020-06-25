@@ -7,15 +7,7 @@ use app\manage\service\SecondHouseService;
 use think\facade\Cache;
 
 class Index extends \app\common\controller\HomeBase
-
 {
-//    private $mod;
-//    private $index_server;
-//    public function initialize(IndexServer $index_server){
-//        parent::initialize();
-//        $this->mod = model('user');
-//        $this->mod = model('user');
-//    }
     public function index_旧版()
 
     {
@@ -204,8 +196,10 @@ class Index extends \app\common\controller\HomeBase
     }
 
 
-
-
+    public function extension_activities(){
+        $this->assign('page_t',1);
+        return $this->fetch();
+    }
 
 
 

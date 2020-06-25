@@ -32,6 +32,33 @@ class NewsService
         }
         return $banner;
     }
+
+    /**
+     * @param string $cate_id 类型id
+     * @param string $hits  点击次数
+     * @param $keyword 搜索标题
+     * @param mixed
+     * @return array|\PDOStatement|string|\think\Collection
+     * @author: al
+     */
+    public function article($cate_id="",$hits="",$keyword=""){
+        $where[] = ["status",'=',1];
+        if ($cate_id){//有类型
+            $where[] = ["cate_id",'=',$cate_id];
+        }
+        //排序正序/id倒序  hits点击次数
+        $order = "ordid asc,id desc";
+        if ($hits != "" && $hits == 'hot') {
+            $order = "hits desc";
+        }
+        if ($keyword != "") {
+            $where[] = ['title','like','%' . $keyword . '%'];
+        }
+        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->select();
+
+        return $lists;
+    }
+
     /**
      * @description 热门文章
      * @param int $limit 读取条数

@@ -1,0 +1,319 @@
+{extend name='public/page' /}
+{block name='css'}
+<link rel="stylesheet"  href="/homeStatic/css/promote_head.css?v={:time()}">
+<link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css">
+{/block}
+{block name='js'}
+<script src="/homeStatic/js/swiper.jquery.min.js"></script>
+<script src="/homeStatic/js/swiper.min.js"></script>
+<script src="/homeStatic/js/luodiye.js"></script>
+<script src="/homeStatic/js/promote.js"></script>
+{/block}
+{block name='content'}
+<div class="fpw_header_banner">
+    <div class="fpw_header_title">
+        <h1>专业从事不良资产处置15年</h1>
+        <h2>至今已为10000+用户节省上亿资金</h2>
+        <div class="fpw_header_title_info">
+            <span>房拍网为您实现安家梦</span>
+        </div>
+    </div>
+    <div style="height: 90px"></div>
+    <ul class="fpw_num-ul">
+        <li>
+            <img src="/homeStatic/img/jjpm.png" alt="">
+            <p class="num-detail1">
+                <span class="num-a1">{$statistics_num.soon_num}</span>套
+            </p>
+            <div class="num-line1"></div>
+            <div class="num-info1">
+                即将拍卖
+            </div>
+        </li>
+        <li>
+            <img src="/homeStatic/img/zzjx.png" alt="">
+            <p class="num-detail1">
+                <span class="num-a1">{$statistics_num.underway_num}</span>套
+            </p>
+            <div class="num-line1"></div>
+            <div class="num-info1">
+                正在进行
+            </div>
+        </li>
+        <li>
+            <img src="/homeStatic/img/jrxz.png" alt="">
+            <p class="num-detail1">
+                <span class="num-a1">{$statistics_num.add_num}</span>套
+            </p>
+            <div class="num-line1"></div>
+            <div class="num-info1">
+                今日新增
+            </div>
+        </li>
+        <li>
+            <img src="/homeStatic/img/jrcj.png" alt="">
+            <p class="num-detail1">
+                <span class="num-a1">{$statistics_num.deal_num}</span>套
+            </p>
+            <div class="num-line1"></div>
+            <div class="num-info1">
+                今日成交
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="fpw_header_advertisement">
+    <div class="fpw_header_advertisement_content">
+        <div class="fpw_header_advertisement_logo">
+            <img src="/homeStatic/img/logo_white_60.png" alt="">
+        </div>
+        <span class="fpw_header_advertisement_title">房拍网为您提供高性价比房源</span>
+        <div class="fpw_header_advertisement_button">
+            <a href="javascript:void(0)"  onclick="openJesongChatByGroup(11122,26881);return false;">点击咨询</a>
+            <img src="/homeStatic/img/greater_than_white_20.png" alt="">
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="fpw_content_evaluate">
+        <div class="swiper-container header-swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <span class="fpw_content_comment_info">
+                        我和房拍网合
+                        作有5年多的时间，他们从来
+                        没有让我失望过，并且我成功拍下的第一套房低于市场价
+                        200多万，房拍网服务一直是顶级的。不要犹豫，赶紧来加入吧!
+                    </span>
+                    <p class="fpw_content_reviewer">
+                        ——客户张先生
+                    </p>
+                </div>
+                <div class="swiper-slide">
+                    <span class="fpw_content_comment_info">
+                        我和房拍网合
+                        作有5年多的时间，他们从来
+                        没有让我失望过，并且我成功拍下的第一套房低于市场价
+                        200多万，房拍网服务一直是顶级的。不要犹豫，赶紧来加入吧!
+                    </span>
+                    <p class="fpw_content_reviewer">
+                        ——客户张先生
+                    </p>
+                </div>
+                <div class="swiper-slide">
+                    <span class="fpw_content_comment_info">
+                        我和房拍网合
+                        作有5年多的时间，他们从来
+                        没有让我失望过，并且我成功拍下的第一套房低于市场价
+                        200多万，房拍网服务一直是顶级的。不要犹豫，赶紧来加入吧!
+                    </span>
+                    <p class="fpw_content_reviewer">
+                        ——客户张先生
+                    </p>
+                </div>
+                <div class="swiper-slide">
+                    <span class="fpw_content_comment_info">
+                        我和房拍网合
+                        作有5年多的时间，他们从来
+                        没有让我失望过，并且我成功拍下的第一套房低于市场价
+                        200多万，房拍网服务一直是顶级的。不要犹豫，赶紧来加入吧!
+                    </span>
+                    <p class="fpw_content_reviewer">
+                        ——客户张先生
+                    </p>
+                </div>
+            </div>
+            <!--<div class="swiper-button-prev"></div>-->
+            <!--<div class="swiper-button-next"></div>-->
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="fpw_content_evaluate_url">
+            <div class="fpw_content_evaluate_url_detail">
+                <span><a href="/news.html">法拍百科</a><img src="/homeStatic/img/greater_than_hei_20.png" alt=""></span>
+            </div>
+            <div class="fpw_content_evaluate_url_detail">
+                <span><a href="/parts/company_profile.html">了解我们</a><img src="/homeStatic/img/greater_than_hei_20.png" alt=""></span>
+            </div>
+            <div class="fpw_content_evaluate_url_detail">
+                <span><a href="/erf.html">房源信息</a><img src="/homeStatic/img/greater_than_hei_20.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+    <div class="fpw_content_tuijian">
+        <h1 class="tuijian-title">推荐房源</h1>
+        <div class="tuijian-describe">重点推荐法拍房源，低于市场价20%起</div>
+        <ul class="tuijian-fangyuan-detail">
+            {volist name='recommend_house' id='vo'  empty='暂无数据'}
+            <li>
+                <div class="tuijian-fangyuan-head">
+                    <span class="tuijian-fangyuan-head-left">起拍价：<b>{$vo.qipai}</b>万</span>
+                    <span class="tuijian-fangyuan-head-right">{$vo.bmrs|default="0"}人报名</span>
+                </div>
+                <div class="tuijian-fangyuan-img">
+                    <img width="234px" height="166px" class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
+                </div>
+                <div class="tuijian-fangyuan-title">
+                    {$vo.title}
+                </div>
+                <div class=" tuijian-fangyuan-info">
+                    <p>{$vo.toilet_name}·{$vo.orientations_name}·{$vo.acreage}㎡</p>
+                    <p>开拍时间：{$vo.kptime}</p>
+                </div>
+                <div class="tuijian-fangyuan-url">
+                    <span><a href="{:url('Second/detail',['id'=>$vo.id])}">查看详情<img src="/homeStatic/img/greater_than_white_20.png" alt=""></a></span>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+        {notempty name='pages'}
+        <div class="page_list clearfix">
+            {$pages|raw}
+        </div>
+        {/notempty}
+        <div class="tuijian-fangyuan-all">
+            <a href="/erf.html">查看全部<img src="/homeStatic/img/greater_than_white_20.png" alt=""></a>
+
+        </div>
+
+    </div>
+</div>
+<div class="fpw_content_advertisement">
+    <div class="fpw_content_advertisement_info">
+        <div class="fpw_content_advertisement_logo">
+            <img src="/homeStatic/img/logo_white_60.png" alt="">
+        </div>
+        <span class="fpw_content_advertisement_title">房拍网为您提供高性价比房源</span>
+        <div class="fpw_content_advertisement_button">
+            <a href="javascript:void(0)"  onclick="openJesongChatByGroup(11122,26881);return false;">点击咨询</a>
+            <img src="/homeStatic/img/greater_than_white_20.png" alt="">
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="fpw_content_chengjiao">
+        <h1 class="tuijian-title">成交案例</h1>
+        <div class="tuijian-describe">每一个案例都体现出我们团队的实力</div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_1.jpg" class="lazy" alt="朝阳区 嘉铭桐城">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_2.jpg" class="lazy" alt="朝阳区 百子湾A派公寓">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_3.jpg" class="lazy" alt="朝阳区 幸福一村西里">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_4.jpg" class="lazy" alt="昌平区 立汤路保利垄上">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_5.jpg" class="lazy" alt="丰台区 文体路甲3号院">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_6.jpg" class="lazy" alt="朝阳区 青年路瑞丰水上">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_7.jpg" class="lazy" alt="顺义区 裕京花园">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_8.jpg" class="lazy" alt="海淀区 锦秋知春">
+                </div>
+                <div class="swiper-slide">
+                    <img data-original="/uploads/manual/promote/cj_9.jpg" class="lazy" alt="海淀区 富力桃园C区">
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="tuijian-fangyuan-all">
+            <a href="/erf-39-0-0-0-0-0-0-0-0-0-0-0-1/types/0/jieduan/0/fcstatus/175/is_free/0/time_frame/0/end_time/0.html">查看全部<img src="/homeStatic/img/greater_than_white_20.png" alt=""></a>
+        </div>
+    </div>
+    <div class="fpw_content_rongyu">
+        <h1 class="tuijian-title">企业荣誉</h1>
+        <div class="tuijian-describe">每一块荣誉牌匾无不证明房拍网辉煌经历及高要求的准则</div>
+        <div class="fpw_content_rongyu_img">
+            <img data-original="/uploads/manual/promote/ry_beipai.jpg" alt="北京拍卖行业协会" class="lazy">
+            <img data-original="/uploads/manual/promote/ry_fangcanxiehui.jpg" alt="中国房地产业协会" class="lazy">
+            <img data-original="/uploads/manual/promote/ry_fangzhong.jpg" alt="北京房地产中介行业协会" class="lazy">
+            <img data-original="/uploads/manual/promote/ry_hailun.jpg" alt="北京海伦律师事务所" class="lazy">
+            <img data-original="/uploads/manual/promote/ry_jingyun.jpg" alt="北京市景运律师事务所" class="lazy">
+            <img data-original="/uploads/manual/promote/ry_paimai.jpg" alt="拍卖经营批准证书" class="lazy">
+        </div>
+    </div>
+    <div class="fangpai-luodiye-jingjiren">
+        <h1 class="tuijian-title">资深经纪人</h1>
+        <div class="tuijian-describe">房拍网汇聚实战经验强资历丰厚的金牌经纪人</div>
+       <div class="fangpai-luodiye-jingjiren-all">
+           <div class="fangpai-luodiye-jingjiren-info">
+               <img data-original="/uploads/manual/promote/niannian.jpg" class="lazy" alt="资深经纪人黄经理">
+               <div class="swiper-slide-content">
+                   <h2>黄经理</h2>
+                   <p>五年行业经验</p>
+                   <p>尽调精准，专业规范</p>
+               </div>
+           </div>
+           <div class="fangpai-luodiye-jingjiren-info">
+               <img data-original="/uploads/manual/promote/liulei.jpg" class="lazy" alt="资深经纪人刘经理">
+               <div class="swiper-slide-content">
+                   <h2>刘经理</h2>
+                   <p>五年行业经验</p>
+                   <p>尽调精准，专业规范</p>
+               </div>
+           </div>
+           <div class="fangpai-luodiye-jingjiren-info">
+               <img data-original="/uploads/manual/promote/xiaoyan.jpg" class="lazy" alt="资深经纪人张经理">
+               <div class="swiper-slide-content">
+                   <h2>张经理</h2>
+                   <p>五年行业经验</p>
+                   <p>司法政策解读，实战专家</p>
+               </div>
+           </div>
+           <div class="fangpai-luodiye-jingjiren-info">
+               <img data-original="/uploads/manual/promote/jiayu.jpg" class="lazy" alt="资深经纪人武经理">
+               <div class="swiper-slide-content">
+                   <h2>武经理</h2>
+                   <p>五年行业经验</p>
+                   <p>司法政策解读，实战专家</p>
+               </div>
+           </div>
+       </div>
+    </div>
+
+</div>
+<div class="fpw_content_advertisement">
+    <div class="fpw_content_advertisement_info">
+        <div class="fpw_content_advertisement_logo">
+            <img src="/homeStatic/img/logo_white_60.png" alt="">
+        </div>
+        <span class="fpw_content_advertisement_title">口碑彰显实力 殊荣见证品质</span>
+        <div class="fpw_content_advertisement_button">
+            <a href="javascript:void(0)"  onclick="openJesongChatByGroup(11122,26881);return false;">点击咨询</a>
+            <img src="/homeStatic/img/greater_than_white_20.png" alt="">
+        </div>
+    </div>
+</div>
+<div class="fpw-contact">
+    <div class="fpw-contact-form">
+        <h1>联系我们</h1>
+        <div class="fpw-contact-form-miaoshu">从联系我们的一刻开始，房拍网全程为您保驾护航</div>
+       <div class="contact_input">
+           <li ><input type="text" name="user_name" placeholder="姓名"></li>
+           <li ><input type="text" name="mobile" placeholder="电话*"></li>
+           <li ><input type="text" name="email"  placeholder="邮箱"></li>
+       </div>
+        <textarea name="content" class="contact-textarea">给我们留言</textarea>
+        <div class="contact-button">
+            <button class="conact">提交<img src="/homeStatic/img/greater_than_white_20.png" alt=""></button>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+
+
+{/block}

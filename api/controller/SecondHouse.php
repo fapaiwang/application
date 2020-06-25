@@ -676,4 +676,23 @@ class SecondHouse extends Controller
         $res[1]["img"]=$this->Index_Server->get_home_banner(21);
         return $this->success_o($res);
     }
+    /**
+     * 获取当前房源的小区拍卖总数
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function second_estate_num(){
+        $second_house_id = input('get.second_house_id');
+        $estate_name = input('get.estate_name');
+        if (empty($second_house_id)){
+            return $this->error_o("房源id不能为空");
+        }
+        if (empty($estate_name)){
+            return $this->error_o("小区名称不能为空");
+        }
+        $num = $this->Second_Server->estate_second_num($second_house_id,$estate_name);
+        return $this->success_o($num);
+    }
+
 }

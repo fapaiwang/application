@@ -4,11 +4,14 @@
 namespace app\home\controller;
 use app\common\controller\HomeBase;
 use app\home\service\IndexServer;
+use app\tools\ApiResult;
 use think\Db;
 use think\facade\Log;
+use think\facade\Request;
 
 class Login extends HomeBase
 {
+    use ApiResult;
     private $mod;
     public function initialize(){
         parent::initialize();
@@ -288,4 +291,33 @@ class Login extends HomeBase
         return $this->fetch();
     }
 
+    /**
+     * 添加预留客户
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    function add_user(){
+        $mobile =input('post.mobile');
+        $request = Request::post();
+
+        if (empty($mobile) ){
+            return $this->error_o("手机号不能为空");
+        }
+        if (strlen($mobile) != 11){
+            return $this->error_o("请填写正确的手机格式");
+        }
+        $tijiao = model("tijiao")->where("mobile",$mobile)->find();
+        if ($tijiao){
+            return $this->error_o("手机号预留成功,感谢您的参与");
+        }
+        $request["create_time"] = date("Y-m-d H:i:s",time());
+        if (model("tijiao")->insert($request)){
+            return $this->success_o("感谢您的参与");
+        }else{
+            return $this->success_o("信息添加失败");
+        }
+
+
+    }
 }
