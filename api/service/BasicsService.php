@@ -79,4 +79,23 @@ class BasicsService{
         return $content;
 
     }
+    protected function getImgUrl($img)
+
+    {
+
+        if($img && strpos($img,'http://') !== FALSE)
+
+        {
+
+            return $img;
+
+        }else if(!$img || !file_exists('.'.$img)){
+
+            return $this->getHost().$this->defaultNoDomainImg;
+
+        }
+
+        return $this->getHost().$img;
+
+    }
 }
