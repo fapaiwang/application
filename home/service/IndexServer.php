@@ -130,7 +130,7 @@ class IndexServer
         $second_house   = $objs->field($field)
             ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
             ->order('rec_position desc')->limit($limit)
-            ->cache("second_house_recommend_house".$limit,1800)
+//            ->cache("second_house_recommend_house".$limit,1800)
             ->paginate($limit);
         foreach ($second_house as $k=>$v){
             $v->orientations_name =getLinkMenuName(4,$v->orientations);

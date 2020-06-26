@@ -17,9 +17,8 @@ use app\server;
 class Promote extends HomeNewBase
 {
 
-    public function one_yuan(){
+    public function advert(){
         $IndexServer = new IndexServer();
-        $SecondServer = new SecondServer();
 
         $statistics_num =$IndexServer->get_statistics_num();
         $recommend_house = $IndexServer->get_recommend_house(10);
