@@ -1523,7 +1523,7 @@ class Api
         $dai_lilv    = input('post.dai_lilv');
         $dai_huankuan    = input('post.dai_huankuan');
         $dai_bili    = input('post.dai_bili');
-        $dai_mianji    = input('post.dai_mianji');
+        $dai_mianji    = input('post.dai_mianji',80);
        $res =$this->house_loan_s($dai_nianxian,$dai_qipai,$dai_lilv,$dai_mianji,$dai_bili,$dai_huankuan);
         if ($res){
             $return['code'] = 1;
@@ -1563,6 +1563,9 @@ class Api
             \think\facade\Log::write("进本金");
             $res = debj($nianfen,$dai_qipai,$dai_lilv);
         }
+        if (empty($res)){
+            return false;
+        }
         //契税
         $info['qishui_price'] = $qishui_price;
         //贷款总金额
@@ -1585,15 +1588,15 @@ class Api
     //税费接口
     public function secondhand_tax(){
         $arr = [];
-        $house_price_listing = input('post.house_price_listing');//房产总价1
-        $house_area    = input('post.house_area');//面积1
-        $house_num    = input('post.first_house');//已购房产数1
-        $house_type    = input('post.building_type'); //房屋类型(公房,商品房,一类/二类 经济使用房)1
-        $is_dis_count    = input('post.last_trans_type'); //是否优惠1
-        $last_trans_price    = input('post.last_trans_price'); //房屋原值1
-        $residence_type    = input('post.house_type'); //住宅类型(普通住宅,非普通住宅)1
-        $buy_time    = input('post.buy_time'); //购买时间(2008年4月11日前,后)(1100,1101)
-        $location    = input('post.location'); //所在区域(城六区,郊区)(1000,1001)
+        $house_price_listing = input('house_price_listing');//房产总价1
+        $house_area    = input('house_area');//面积1
+        $house_num    = input('first_house');//已购房产数1
+        $house_type    = input('building_type'); //房屋类型(公房,商品房,一类/二类 经济使用房)1
+        $is_dis_count    = input('last_trans_type'); //是否优惠1
+        $last_trans_price    = input('last_trans_price'); //房屋原值1
+        $residence_type    = input('house_type'); //住宅类型(普通住宅,非普通住宅)1
+        $buy_time    = input('buy_time'); //购买时间(2008年4月11日前,后)(1100,1101)
+        $location    = input('location'); //所在区域(城六区,郊区)(1000,1001)
 
         $house_price = $house_price_listing * 10000;
         $house_original_price = $last_trans_price * 10000;
