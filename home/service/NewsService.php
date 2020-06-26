@@ -2,10 +2,14 @@
 
 namespace app\home\service;
 
+use app\api\service\BasicsService;
+use app\tools\ApiResult;
 use think\facade\Cache;
 
 class NewsService
 {
+    use ApiResult;
+    private $pageSize = 10;
     /**
      * @description 获取轮播图
      * @param int $space_id 父ID
@@ -41,11 +45,13 @@ class NewsService
      * @return array|\PDOStatement|string|\think\Collection
      * @author: al
      */
-    public function article($cate_id="",$hits="",$keyword=""){
+    public function article($cate_id="",$hits="",$keyword="",$page=1){
         $where[] = ["status",'=',1];
+        $return['code']="20000";
         if ($cate_id){//有类型
             $where[] = ["cate_id",'=',$cate_id];
         }
+
         //排序正序/id倒序  hits点击次数
         $order = "ordid asc,id desc";
         if ($hits != "" && $hits == 'hot') {
@@ -54,9 +60,48 @@ class NewsService
         if ($keyword != "") {
             $where[] = ['title','like','%' . $keyword . '%'];
         }
-        $lists = model('article')->where($where)->field('id,title,img,hits,description,create_time')->order($order)->select();
 
-        return $lists;
+        $obj   = model('article');
+        $obj   = $obj->where($where)->field('id,title,img,hits,come_from,description,create_time')->order('ordid asc,id desc');
+        $lists = $obj->page($page)->limit($this->pageSize)->select();
+
+        if(!$lists->isEmpty())
+        {
+            foreach($lists as &$v)
+            {
+                $v['create_time_date'] = getTime($v['create_time']);
+                $v['come_from']   = empty($v['come_from'])?getSettingCache('site','title'):$v['come_from'];
+            }
+            $return['code'] = 10000;
+        }
+        $obj->removeOption();
+        $count = $obj->where($where)->count();
+        $total_page = ceil($count/$this->pageSize);
+        $return['page']       = $page;
+        $return['total_page'] = $total_page;
+        $return['data']       = $lists;
+        return $return;
+    }
+
+    /**
+     *
+     * @param $article_id
+     * @param mixed
+     * @return array|null|\PDOStatement|string|\think\Model
+     * @author: al
+     */
+    public function details($article_id){
+        $where['id']     =$article_id;
+        $basics_service = new BasicsService();
+        $where['status'] = 1;
+        $info = model('article')->where($where)->field("id,title,hits,FROM_UNIXTIME(create_time,'%Y-%m-%d') as create_time,info,house_id")->find();
+        if($info) {
+            updateHits($article_id,'article');
+            $res  = $basics_service->filterContent($info['info']);
+            return $this->success_o($res);
+        }else{
+            return $this->error_o("未找到资讯");
+        }
     }
 
     /**

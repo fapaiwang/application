@@ -9,6 +9,8 @@ use app\home\service\NewsService;
 use app\tools\ApiResult;
 use app\tools\Constant;
 use think\Controller;
+use think\facade\Request;
+use think\Log;
 
 class Article extends Controller
 {
@@ -20,12 +22,29 @@ class Article extends Controller
     }
 
     /**
+     * cate 分类id
+     * page 页码
+     * hits 点击次数
+     * $keyword 搜索的字段
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function index(){
+        $cate_id = input('get.cate/d',0);
+        $page    = input('get.page/d',1);
+        $hits    = input('get.hits',1);
+        $keyword    = input('get.keyword',1);
+        $res =$this->news_service->article($cate_id,$hits,$keyword,$page);
+        return $this->success_o($res);
+    }
+    /**
      * 资讯分类
      * @param mixed
      * @return \think\response\Json
      * @author: al
      */
-    public function article_cate(){
+    public function type(){
         $cate    = getCate('articleCate','tree');
         if (!empty($cate)){
             return $this->success_o($cate);
@@ -33,19 +52,16 @@ class Article extends Controller
             return $this->error_o("未找到资讯分类");
         }
     }
-
-    /**
-     * cate_id 分类id
-     *
-     * @param mixed
-     * @return \think\response\Json
-     * @author: al
-     */
-    public function article(){
-        $cate_id = input('get.cate_id');
-        $res =$this->news_service->article($cate_id);
-        return $this->success_o($res);
+    public function details(){
+        $article_id = input('get.article_id/d',0);
+        \think\facade\Log::write($article_id);
+        if (empty($article_id)){
+            return $this->error_o("资讯详情id不能为空");
+        }
+        $res =$this->news_service->details($article_id);
+        return $res;
     }
+
 
 
 }
