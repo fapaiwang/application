@@ -85,7 +85,7 @@ class NewsService
 
     /**
      *
-     * @param $article_id
+     * @param $article_id 资讯id
      * @param mixed
      * @return array|null|\PDOStatement|string|\think\Model
      * @author: al

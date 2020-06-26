@@ -54,7 +54,6 @@ class Article extends Controller
     }
     public function details(){
         $article_id = input('get.article_id/d',0);
-        \think\facade\Log::write($article_id);
         if (empty($article_id)){
             return $this->error_o("资讯详情id不能为空");
         }
