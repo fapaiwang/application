@@ -98,4 +98,9 @@ class BasicsService{
         return $this->getHost().$img;
 
     }
+    protected function getHost(){
+
+        return "http://api.".config('url_domain_root');
+
+    }
 }
