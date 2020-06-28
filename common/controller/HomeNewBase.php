@@ -10,6 +10,7 @@ class HomeNewBase extends \think\Controller{
     public function initialize(){
         parent::initialize();
         //公司基本信息
+        $this->checkUserLogin();
         $site = getSettingCache('site');
         if($site['status'] == 0){
             die($site['reson']);
@@ -46,6 +47,17 @@ class HomeNewBase extends \think\Controller{
         $this->assign('link',$link);
     }
 
+    /**
+     * 用户信息
+     * @param mixed
+     * @author: al
+     */
+    private function checkUserLogin(){
+        $info = cookie('userInfo');
+        $info = \org\Crypt::decrypt($info);
+        $this->userInfo = $info;
+        $this->assign('userInfo',$info);
+    }
     /**
      * @return mixed
      * 空操作 找不到操作方法时执行
