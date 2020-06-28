@@ -2,11 +2,12 @@
 
 namespace app\home\controller;
 
+use app\common\controller\HomeNewBase;
 use app\home\service\IndexServer;
 use app\manage\service\SecondHouseService;
 use think\facade\Cache;
 
-class Index extends \app\common\controller\HomeBase
+class Index extends HomeNewBase
 {
     public function index_旧版()
 
