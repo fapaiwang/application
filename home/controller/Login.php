@@ -255,7 +255,7 @@ class Login extends HomeBase
         //时间
         $time["year"] = date("Y");
         $time['s_time']=date("m/d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1+7,date("Y")));
-        $time['e_time']=date("m/d",mktime(23, 59 , 59,date("m"),date("d")-date("w")+1+13,date("Y")));
+        $time['e_time']=date("m/d",mktime(23, 59 , 59,date("m"),date("d")-date("w")+13,date("Y")));
         $s_time = explode("/",$time['s_time']);
         $e_time = explode("/",$time['e_time']);
         $time['s_month'] =$s_time[0] ?? 1;
