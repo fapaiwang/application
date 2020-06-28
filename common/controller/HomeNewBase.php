@@ -9,8 +9,8 @@ class HomeNewBase extends \think\Controller{
 
     public function initialize(){
         parent::initialize();
-        //公司基本信息
         $this->checkUserLogin();
+        //公司基本信息
         $site = getSettingCache('site');
         if($site['status'] == 0){
             die($site['reson']);
