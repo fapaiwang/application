@@ -76,73 +76,32 @@ class Dialog extends \think\Controller
     public function fydp(){
         \think\facade\Log::write("2345678");
         $house_id = input('get.house_id/d',0);
-
         $model    = input('get.model','house');
-
         $type     = input('get.type/d',0);
-
         $user     = getSettingCache('user');
-
         $this->assign('data',[
-
             'house_id' => $house_id,
-
             'model'    => $model,
-
             'type'     => $type
-
         ]);
-
         $this->assign('info',$this->getHouseInfo($house_id,$model));
-// print_r($this->getHouseInfo($house_id,$model));
         $this->assign('user_setting',$user);
-
         return $this->fetch();
 
     }
-    public function bj()
-
-    {
-// print_r(1111111111);
-
+    public function bj(){
         $infos = cookie('userInfo');
         $infos = \org\Crypt::decrypt($infos);
-
-
-
-
-
-
-
-
-
-
-
-
-
         $house_id = input('get.house_id/d',0);
-
         $model    = input('get.model','house');
-
         $type     = input('get.type/d',0);
-
         $user     = getSettingCache('user');
-
-
-
         $bjpj=model('fydp')->where('house_id','eq',$house_id)->where('model','eq','second_house')->where('user_id','eq',$infos['id'])->group('user_id')->limit(1)->select();
-
-
         $this->assign('data',[
-
             'house_id' => $house_id,
-
             'model'    => $model,
-
             'type'     => $type
-
         ]);
-
         $this->assign('info',$this->getHouseInfo($house_id,$model));
 // print_r($this->getHouseInfo($house_id,$model));
         $this->assign('user_setting',$user);
@@ -174,9 +133,7 @@ class Dialog extends \think\Controller
 
         }
 
-        switch($model)
-
-        {
+        switch($model) {
 
             case 'house':
 

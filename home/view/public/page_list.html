@@ -13,6 +13,7 @@
     <link rel="stylesheet"  href="/homeStatic/css/footer.css">
     <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
     <link rel="stylesheet"  href="/homeStatic/css/login.css">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
     {block name='css'}{/block}
     <script>
         var browser = {
@@ -176,13 +177,18 @@
 </div>
 
 <script type="text/javascript" src="/homeStatic/js/page.js"></script>
-<script src="__STATIC__/js/layer/layer.js"></script>
+<!--<script src="__STATIC__/js/layer/layer.js"></script>-->
+<script src="/static/layui/layui.js"></script>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script>
     $("img.lazy").lazyload({
         threshold : 100,
         effect : "fadeIn"
         //event: "scrollstop"
+    });
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
     });
     //
     $(".verify_img").click(function(){
