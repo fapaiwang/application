@@ -722,9 +722,18 @@ class Api
         $setting        = getSettingCache('user');
         $return['code'] = 0;
         if(request()->isAjax()) {
-        if(!$userInfo) {
-            $return['msg'] = '请登录后再点评';
-        } else if(model('fydp')->allowField(true)->save($data)) {
+            if(!$userInfo) {
+                $return['msg'] = '请登录后再点评';
+            }
+            $where['house_id']  = $data['house_id'];
+            $where['broker_id'] = $data['broker_id'];
+            $where['user_id']    = $data['user_id'] ?? 1;
+            $fydp_find = model('fydp')->where($where)->find();
+            if (!empty($fydp_find)){
+                $return['msg']  = "此房源已经评论,请勿重复提交";
+                return json($return);
+            }
+            if(model('fydp')->allowField(true)->save($data)) {
                 if($data['type'] == 4){
                     model('group')->where('house_id',$data['house_id'])->where('status',1)->setInc('sign_num');
                 }
