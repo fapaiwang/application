@@ -46,6 +46,7 @@ class IndexServer
      */
     public function get_home_banner($space_id=1,$limit=20){
         $cache_name = 'poster_img'.$space_id;
+//        $banner ="";
         $banner =Cache::get($cache_name);
         if (!$banner){
             $cache_name = 'poster_img'.$space_id;

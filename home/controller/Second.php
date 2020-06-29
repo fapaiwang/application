@@ -142,9 +142,10 @@ class Second extends HomeBase{
                 $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
                 $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
                 $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
-                $seo['title'] = $info['title'].'法拍二手房信息_房拍网法拍房房源栏目';
-                $seo['keys']  = $info['title'].'法拍房二手房信息';
-                $seo['desc']  = '提供'.$info['title'].'房屋起拍价、户型大小、特色、周边医院公交等法拍二手房信息。';
+                $seo['title'] = $info['title'].',北京法拍房-金铂顺昌房拍网';
+                $seo['keys']  = $info['title'].',北京法拍房,金铂顺昌房拍网';
+                $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$info['title'].'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
+
                 $this->assign('seo',$seo);
 
                 $this->assign('house_loan',json_encode($house_loan));

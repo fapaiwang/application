@@ -71,16 +71,13 @@ class News extends HomeBase
             $where['status'] = 1;
             $where['id']     = $id;
             $info = model('article')->where($where)->find();
-            if(!$info)
-            {
+            if(!$info){
                 return $this->fetch('public/404');
             }
-            if($info['house_id'])
-            {
+            if($info['house_id']){
                 //获取楼盘信息
                $house_info = model('house')->where('id',$info['house_id'])->where('status',1)->field('id,img,title,unit,price,sale_phone,address,city')->find();
-               if($house_info)
-               {
+               if($house_info) {
                    $city_spid = model('city')->get_spid($house_info['city']);
                    $city_arr  = explode('|',$city_spid);
                    $city_pid  = $city_arr[0];
@@ -90,9 +87,16 @@ class News extends HomeBase
                }
                 $this->assign('house_info',$house_info);
             }
-            $this->setSeo($info);
+            $article_cate = model("article_cate")->field("name")->where("id",$info["cate_id"])->find();
+            $article_cate_type = $article_cate->name ?? "法拍百科";
+            $seo['title'] = $info->title."-".$article_cate_type."-金铂顺昌房拍网";
+            $seo['keys'] = $info->title.",".$article_cate_type.",金铂顺昌房拍网";
+            $seo['desc'] =  $info->title.",更多法拍资讯、行业知识尽在金铂顺昌房拍网。";
+            $this->assign('seo',$seo);
+
+//            $this->setSeo($info);
             updateHits($info['id'],'article');
-    
+
             $news = new NewsService();
             $index = new IndexServer();
             $this->assign('cate',$cate);

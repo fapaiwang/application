@@ -14,7 +14,7 @@
 
 <!-- 资讯 S-->
 <section class="article_banner">
-    {volist name="newPic" id="pic"}
+    {volist name="newPic" id="pic"  empty='暂无数据'}
     <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.name}"></a>
     {/volist}
 </section>

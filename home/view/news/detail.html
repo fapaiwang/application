@@ -138,51 +138,28 @@
 
                 </div>
                 <section class="news_img clearfix">
-
-
-
-                    {volist name="bottomPic" id="pic"}
+                    {volist name="bottomPic" id="pic" }
                         <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.setting['alt']}"></a>
                     {/volist}
                 </section>
                 <div class="relative_artc">
-
                     <div class="title">
-
                         <h3>相关文章</h3>
-
                         <a href="{:url('News/index')}" class="more">更多</a>
-
                         <p class="b_l"></p>
-
                     </div>
-
                     <ul class="list clearfix">
-
                         {volist name='relation' id='vo'}
-
                         <li>
-
                             <span class="time">{$vo.create_time|date='Y-m-d H:i'}</span>
-
                             <a href="{:url('News/detail',['id'=>$vo['id']])}" target="_blank" title="{$pic.setting['alt']}">{$vo.title}</a>
-
-
-
                         </li>
-
                         {/volist}
-
                     </ul>
-
                 </div>
-
             </div>
-
             <!-- 文章详情 E-->
-
         </div>
-
         <div class="rightArea cm_rightArea ">
 
             {include file='news/new_right' /}
