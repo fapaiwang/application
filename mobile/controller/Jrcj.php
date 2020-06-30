@@ -14,8 +14,8 @@ class Jrcj extends MobileBase
         $stime =date('Y-m-d',strtotime('-1 day'));
         $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-//            ->where('kptime','>',$stime)
-//            ->where('kptime','<',$etime)
+            ->where('kptime','>',$stime)
+            ->where('kptime','<',$etime)
             ->where('fcstatus','in','169,170')
             ->select();
         Log::write("开始进行-每日数据更新");
