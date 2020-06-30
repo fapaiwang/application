@@ -21,30 +21,26 @@ class Jrcj extends MobileBase
         Log::write("开始进行-每日数据更新");
          foreach ($lists as $key => $value) {
             $lists[$key]['kptimes']=strtotime($lists[$key]['kptime']);
-            $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']);
+            $lists[$key]['bianetimes']=strtotime($lists[$key]['bianetime']); //变卖截止时间
             $sTime=time();
             // print_r($lists[$key]['fcstatus']);
             if($lists[$key]['fcstatus']==169 || $lists[$key]['fcstatus']==170 || $lists[$key]['fcstatus']==171){
                 $ctimes=$sTime-$lists[$key]['kptimes'];
                 // print_r($lists[$key]['jieduan']);
-                if($lists[$key]['jieduan']==163){
+                if($lists[$key]['jieduan']==163){ //变卖
                     $ctimess=$sTime-$lists[$key]['bianetimes'];
-                    if($ctimes>=0){
-                        //当前时间-开拍时间
-                        if($ctimess >= 0){
-                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//正在进行169
+                    if($ctimes>=0){ //当前时间超过开拍时间 当前时间-开拍时间
+                        if($ctimess >= 0){ //当前时间超过变卖截止时间
+                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行169
                         // print_r($ctimes);echo "aaa";
                         }else{
-                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//已结束171
+                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
                          // print_r($ctimes);echo "aaa";
                         }
-                        // else{
-                        // model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
-                        //  // print_r($ctimes);echo "aaa";
-                        // }
-
                     }else{
-                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
+                        if ( $lists[$key]['fcstatus'] != 170){
+                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
+                        }
                     }
                 
                 }else{
