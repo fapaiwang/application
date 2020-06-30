@@ -62,21 +62,12 @@ class Estate extends HomeBase
             $where['id'] = $id;
             $where['status'] = 1;
             $info = model('estate')->where($where)->find();
-			
-			
-			//print_r($info);
-//			echo 123;
-//			exit();
-//			
-			
-            if(!$info)
-            {
+            if(!$info){
                 return $this->fetch('public/404');
             }
-//            $this->setSeo($info);
-            $seo['title'] = $info['title'].'法拍二手房信息_房拍网优质小区栏目';
-            $seo['keys']  = $info['title'].'法拍二手房信息';
-            $seo['desc']  = '提供'.$info['title'].'详情及周边医院、公交等法拍二手房信息。';
+            $seo['title'] = $info['title'].'热门小区,北京法拍二手房源-金铂顺昌房拍网';
+            $seo['keys']  = $info['title'].',热门小区,北京法拍二手房源,金铂顺昌房拍网';
+            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$info['title'].'】法拍房源信息详情：'.$info['title'].'房源、周边配套及附近小区详情等法拍二手房源信息，让您安心购房';
             $this->assign('seo',$seo);
             updateHits($info['id'],'estate');
             $this->assign('record',$this->getComplateRecord($info['id']));
