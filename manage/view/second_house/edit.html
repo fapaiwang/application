@@ -148,15 +148,18 @@
                         </div>
 
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡ 市场价<a href="javascript:;" data-title="不填写价格或填写0前台显示为待定" class="layui-icon layui-icon-tips alert" style="display:none"></a></div>
-
                         <div class="layui-input-inline" style="width:80px;">
-
                             <input type="text" class="layui-input" lay-verify="price" id="price" name="price" placeholder="122"  autocomplete="off" value="{$info->getData('price')}" >
-
                         </div>
-
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
 
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">参考价 </label>
+                        <div class="layui-input-inline" style="width:80px;">
+                            <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice" name="ckprice" placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" >
+                        </div>
+                        <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
                     </div>
 
                     <div class="layui-inline">

@@ -31,7 +31,7 @@ class server
             h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice,h.elevator,h.auction_attr,h.enforcement,
             h.land_purpose,h.land_certificate,h.property_no,h.house_purpse,h.management,h.lease,h.mortgage,h.sequestration,
             h.vacate,h.is_commission,h.is_school,h.is_metro,h.xiaci,h.qianfei,h.lng,h.lat,h.estate_name,h.rec_position,h.fcstatus
-            ,h.fcstatus,h.is_free,h.house_type,h.cjprice,h.endtime,h.hxsimg";
+            ,h.fcstatus,h.is_free,h.house_type,h.cjprice,h.endtime,h.hxsimg,h.ckprice";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
         $info = $obj->alias('h')

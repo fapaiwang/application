@@ -144,6 +144,12 @@
                         <span>保证金：</span>
                         <span>{$info.baozheng}万</span>
                     </li>
+                    {if condition="$login_user.model eq 4"}
+                    <li>
+                        <span>参考价：</span>
+                        <span>{$info.ckprice}万</span>
+                    </li>
+                    {/if}
                 </ul>
                 <ul class="fangpai-detail-header-right-detail">
                     <li>
