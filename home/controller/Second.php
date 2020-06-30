@@ -80,10 +80,10 @@ class Second extends HomeBase{
             db('second_house')->where('id','=',$second_house_id)->setInc('weiguan');
             //second_house详情
             $info = $server->second_model($second_house_id);
-            if (empty($info["bmrs"])){
-                $info["bmrs"] = 0;
-            }
             if($info){
+                if (empty($info["bmrs"])){
+                    $info["bmrs"] = 0;
+                }
                 $info["bianhao"] = substr($info["bianhao"],0,5);
                 //添加浏览量
                 updateHits($info['id'],'second_house');
