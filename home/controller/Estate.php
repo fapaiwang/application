@@ -65,7 +65,7 @@ class Estate extends HomeBase
             if(!$info){
                 return $this->fetch('public/404');
             }
-            $seo['title'] = $info['title'].'热门小区,北京法拍二手房源-金铂顺昌房拍网';
+            $seo['title'] = $info['title'].',热门小区,北京法拍二手房源-金铂顺昌房拍网';
             $seo['keys']  = $info['title'].',热门小区,北京法拍二手房源,金铂顺昌房拍网';
             $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$info['title'].'】法拍房源信息详情：'.$info['title'].'房源、周边配套及附近小区详情等法拍二手房源信息，让您安心购房';
             $this->assign('seo',$seo);
