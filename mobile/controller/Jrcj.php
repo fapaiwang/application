@@ -14,8 +14,8 @@ class Jrcj extends MobileBase
         $stime =date('Y-m-d',strtotime('-1 day'));
         $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
-            ->where('kptime','>',$stime)
-            ->where('kptime','<',$etime)
+//            ->where('kptime','>',$stime)
+//            ->where('kptime','<',$etime)
             ->where('fcstatus','in','169,170')
             ->select();
         Log::write("开始进行-每日数据更新");
@@ -45,22 +45,23 @@ class Jrcj extends MobileBase
                 
                 }else{
                     if($ctimes >= 0 && $ctimes < 3600*24){ //小于当前时间 并且未超过1天
-                        model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行
-                        if($lists[$key]['house_type'] == 46){
-                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
-                        }
-                        // print_r($ctimes);echo "aaa";
+                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行
+                            if($lists[$key]['house_type'] == 46){
+                                model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
+                            }
                         }elseif($ctimes >= (3600*24)){//超过1天的还未已结束
-                        Log::write("开始进行-过期数据");
-                            $aa = model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
-                             Log::write("已执行的id-".$lists[$key]['id']);
-                             Log::write("执行状态".$aa);
-                         // print_r($ctimes);echo "aaa";
+                            Log::write("开始进行-过期数据");
+                                if ( $lists[$key]['fcstatus'] != 171){
+                                    $aa = model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
+                                    Log::write("已执行的id-".$lists[$key]['id']);
+                                    Log::write("执行状态".$aa);
+                                }
                         }else{
-                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
-                         // print_r($ctimes);echo "aaa";
+                            if ( $lists[$key]['fcstatus'] != 170){
+                                model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>170]);//即将开始170
+                            }
                         }
-                    }
+                }
             }
         }
         
