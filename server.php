@@ -110,7 +110,7 @@ class server
      */
     public function user($second_house_id,$broker_id){
         $user_info = model('user')->field('lxtel_zhuan,kflj,share_img')->where('id',$broker_id)
-            ->cache('user_info_yewu',3600)
+            ->cache('user_info_yewu_'.$broker_id,3600)
             ->find();
         return $user_info;
     }
