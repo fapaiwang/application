@@ -99,18 +99,23 @@ class Second extends HomeBase{
                 $estate_num = $SecondServer->estate_second_num($second_house_id,$info['estate_name']);
                 $this->assign('estate_num',$estate_num);
                 $estate_id=$info['estate_id'];
-                //小区的所有房源
-//                $estate_seconf = $SecondServer->estate_second($estate_id,10);
-//                $this->assign('estate_seconf',$estate_seconf);
                 //拍卖成交记录
                 $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->cache("transaction_record_".$estate_id,84000)->select();
                 $this->assign('jilu1',$jilu1);
 
                 //法拍专员点评/点评个数
                 $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
+                $user["user_id"] = $user["id"];
+                $user["history_complate"] = $user_info->history_complate;
+                $second_house_business[0]=$user->toArray();
+                $second_house_user_comment_list = $SecondServer->second_house_user_comment_list($second_house_id,$info['broker_id']);
+                if ($second_house_user_comment_list){
+                    $second_house_business[1] =$second_house_user_comment_list;
+                }
                 $second_house_user_comment_num= count($second_house_user_comment->toArray());
                 $this->assign('second_house_user_comment_num',$second_house_user_comment_num);
                 $this->assign('second_house_user_comment',$second_house_user_comment);
+                $this->assign('second_house_business',$second_house_business);
                 //房源特色标签
                 $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan_name'],$info['marketprice'],
                     $info['is_commission'],$info['is_school'],$info['is_metro']);
@@ -142,6 +147,7 @@ class Second extends HomeBase{
                 $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
                 $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
                 $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
+                //tdk
                 $seo['title'] = $info['title'].',北京法拍房-金铂顺昌房拍网';
                 $seo['keys']  = $info['title'].',北京法拍房,金铂顺昌房拍网';
                 $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$info['title'].'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
@@ -1115,14 +1121,19 @@ class Second extends HomeBase{
         $msg = "success";
         $second_house_id = input("post.second_house_id");
         $onReq = input("post.onReq");
+        $secondSer = new SecondServer();
+        Log::write("-------------12-------------".$onReq);
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
-            $onReq = $onReq ==0 || $onReq==1 ? 0: ($onReq-1)*2;
-            $second_house_user_comment     = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
-                ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')->where([['s.kflj','neq',''],['model','=',4]])
-                ->group('s.id')->limit($onReq,2)
-                ->cache('another_'.$onReq,'1800')
-                ->select();
+            $second_house_user_comment = $secondSer->second_house_user_comment($second_house_id,2,1);
+//            $onReq = $onReq ==0 || $onReq==1 ? 0: ($onReq-1)*2;
+//            $second_house_user_comment = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
+//                ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')->where([['s.kflj','neq',''],['model','=',4]])
+////                ->group('s.id')
+//                    ->order("2")
+////                ->limit($onReq,2)
+////                ->cache('another_'.$onReq,'1800')
+//                ->select();
             foreach ($second_house_user_comment as &$house){
                 $house['avatar'] = getAvatar($house->id,90);
             }

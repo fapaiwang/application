@@ -5,6 +5,7 @@ namespace app\home\service;
 
 
 use app\home\controller\Poster;
+use app\tools\ApiResult;
 use function GuzzleHttp\debug_resource;
 use think\console\command\make\Model;
 use think\Db;
@@ -13,6 +14,7 @@ use think\Log;
 
 class SecondServer
 {
+    use ApiResult;
     /**
      * 房源点评
      * @param $second_house_id 房源id
@@ -23,16 +25,27 @@ class SecondServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    //todo 房源点评 后期需要更新缓存
-    public function second_house_user_comment($second_house_id){
+    public function second_house_user_comment($second_house_id,$limit=2,$is_rand=0){
         $obj     = model('fydp')->alias('s');
-        $fydp=$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
+        $fydp =$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
             ->field('s.id,s.user_id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')
             ->where('s.house_id',$second_house_id)->where('s.model','second_house')
-            ->group('s.user_id')->limit(2)
-//            ->cache('fydp_'.$second_house_id,'3600')
-            ->select();
+            ->group('s.user_id')->limit($limit);
+
+            if (!empty($is_rand)){
+                $fydp = $fydp->orderRaw('rand()');
+            }
+        $fydp =$fydp->select();
        return $fydp;
+    }
+
+    public function second_house_user_comment_list($second_house_id,$user_id){
+        $obj     = model('fydp')->alias('s');
+        $fydp =$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
+            ->field('s.id,s.user_id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')
+            ->where('s.house_id',$second_house_id)->where('s.model','second_house')->where("s.user_id",'<>',$user_id)
+            ->group('s.user_id')->find();
+        return $fydp;
     }
     /**
      * 获取小区的所有房源
@@ -273,6 +286,28 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             cache($cache_name,$street_cache,86400);
         }
         return $street_cache;
+    }
+    /**
+     * 获取法拍专员(带聊天图片)
+     * @param mixed
+     * @return array|mixed|\PDOStatement|string|\think\Collection
+     * @author: al
+     */
+    public function user_fapai(){
+        $user_fapai_arr = cache("user_yewu");
+        if (!$user_fapai_arr){
+        $user_fapai_arr = model('user')->alias('s')
+            ->join([['user_info info','info.user_id = s.id']])
+            ->field('s.id,s.nick_name,s.lxtel,info.history_complate,s.kflj')
+            ->where([['s.kflj','neq',''],['model','=',4]])
+            ->group('s.id')
+            ->select();
+            foreach ($user_fapai_arr as &$house){
+                $house['avatar'] = getAvatar($house->id,90);
+            }
+            cache("user_yewu",$user_fapai_arr,3600);
+        }
+        return $user_fapai_arr;
     }
 
 }
