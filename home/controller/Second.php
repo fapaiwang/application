@@ -1123,7 +1123,6 @@ class Second extends HomeBase{
         $second_house_id = input("post.second_house_id");
         $onReq = input("post.onReq");
         $secondSer = new SecondServer();
-        Log::write("-------------12-------------".$onReq);
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
             $onReq = input("post.onReq");
@@ -1137,7 +1136,7 @@ class Second extends HomeBase{
 ////                ->cache('another_'.$onReq,'1800')
 //                ->select();
             foreach ($second_house_user_comment as &$house){
-                $house['avatar'] = getAvatar($house->id,90);
+                $house['avatar'] = getAvatar($house->user_id,90);
             }
         } else {
             $code = 500;
