@@ -30,7 +30,7 @@ class SecondServer
         $fydp =$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
             ->field('s.id,s.user_id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')
             ->where('s.house_id',$second_house_id)->where('s.model','second_house')
-            ->group('s.user_id')->limit($limit);
+            ->group('s.user_id') ->limit($limit);
 
             if (!empty($is_rand)){
                 $fydp = $fydp->orderRaw('rand()');

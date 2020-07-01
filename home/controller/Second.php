@@ -72,6 +72,7 @@ class Second extends HomeBase{
     }
 
     public function detail(){
+
         $second_house_id = input('param.id/d',0);
         if($second_house_id){
             $server = new server();
@@ -1125,6 +1126,7 @@ class Second extends HomeBase{
         Log::write("-------------12-------------".$onReq);
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
+            $onReq = input("post.onReq");
             $second_house_user_comment = $secondSer->second_house_user_comment($second_house_id,2,1);
 //            $onReq = $onReq ==0 || $onReq==1 ? 0: ($onReq-1)*2;
 //            $second_house_user_comment = model('user')->alias('s')->join([['user_info info','info.user_id = s.id']])
