@@ -1121,7 +1121,6 @@ class Second extends HomeBase{
         $code = 200;
         $msg = "success";
         $second_house_id = input("post.second_house_id");
-        $onReq = input("post.onReq");
         $secondSer = new SecondServer();
         if ($second_house_id > 0) {
             //法拍专员点评/点评个数
@@ -1138,6 +1137,7 @@ class Second extends HomeBase{
             foreach ($second_house_user_comment as &$house){
                 $house['avatar'] = getAvatar($house->user_id,90);
             }
+            Log::write("--------------second_house_user_comment-------------".$second_house_user_comment);
         } else {
             $code = 500;
             $msg = "error";
