@@ -9,7 +9,7 @@
     <meta name="description" content="{$seo.desc}" />
     <link rel="stylesheet"  href="/homeStatic/css/common.css">
     <link rel="stylesheet"  href="/homeStatic/css/style.css">
-    <link rel="stylesheet"  href="/homeStatic/css/head.css">
+    <link rel="stylesheet"  href="/homeStatic/css/head.css?v={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css">
     <link rel="stylesheet"  href="/homeStatic/css/login.css">
     <link rel="stylesheet" href="/static/layui/css/layui.css">
@@ -49,10 +49,12 @@
         <a href="{:url('Index/index')}" title="{$site.title}">
             <img src="/homeStatic/img/logo.png" class="header-logo" alt="logo" width="168" height="65">
         </a>
-        <ul class="header-nav">
+        <ul class="header-nav left-100">
             {volist name='head_nav' id='vo'}
             <li><a href="{$vo.url}"  {if $vo.id eq $page_t } class="active" {/if}>{$vo.title}</a></li>
             {/volist}
+            <li><a href="">加加加加</a></li>
+            <li><a href="">加加加加</a></li>
         </ul>
         <div class="log_link fr" style="margin-left: 80px;">
             {notempty name='userInfo'}
@@ -71,11 +73,15 @@
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
                 <a href="#" class="login_label login_open" rel="nofollow">登录</a>
-                <span style="color: #fff">|</span>
+                <span style="color: #fff"> </span>
                 <a href="#" class="login_label zhuce_open" rel="nofollow">注册</a>
             </div>
             {/notempty}
         </div>
+        <ul class="header-nav" style="margin-left: 30px">
+            <img src="/homeStatic/img/tel_bai.png" alt="tel" class="harder-tel" style="margin-right: 5px;margin-bottom: 5px">
+            <li style="margin-bottom: 5px"><a href="" style="font-size:140%;">{$site.telphone}</a></li>
+        </ul>
     </div>
 </div>
 

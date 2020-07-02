@@ -9,7 +9,7 @@
     <meta name="description" content="{$seo.desc}" />
     <link rel="stylesheet"  href="/homeStatic/css/common.css">
     <link rel="stylesheet"  href="/homeStatic/css/style.css">
-    <link rel="stylesheet"  href="/homeStatic/css/headList.css">
+    <link rel="stylesheet"  href="/homeStatic/css/headList.css?v={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/footer.css">
     <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
     <link rel="stylesheet"  href="/homeStatic/css/login.css">
@@ -48,7 +48,7 @@
         <a href="{:url('Index/index')}" title="{$site.title}">
             <img src="/homeStatic/img/redLogo.png" alt="logo" width="168" height="65">
         </a>
-        <ul class="header-nav">
+        <ul class="header-nav left-100">
             {volist name='head_nav' id='vo'}
                 <li><a href="{$vo.url}"  {if $vo.model_action eq $model_url } class="active" {/if}>{$vo.title}</a></li>
             {/volist}
@@ -75,6 +75,10 @@
             </div>
             {/notempty}
         </div>
+        <ul class="header-nav left-20" style="margin-left: 30px">
+            <img src="/homeStatic/img/tel_red.png" alt="tel" class="harder-tel" style="margin-right: 5px;margin-bottom: 5px">
+            <li style="margin-bottom: 5px"><a href="" style="font-size:140%;">{$site.telphone}</a></li>
+        </ul>
     </div>
 
 </div>
