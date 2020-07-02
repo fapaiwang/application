@@ -1,0 +1,81 @@
+{extend name="public/layout" /}
+
+{block name='content'}
+
+<form class="layui-form" id="info_form" action="{:url('Comment/edit')}" method="post" enctype="multipart/form-data">
+
+	<div class="layui-tab layui-tab-brief">
+
+		<ul class="layui-tab-title">
+
+			<li class="layui-this">点评信息</li>
+
+		</ul>
+
+		<div class="layui-tab-content">
+
+			<div class="layui-tab-item layui-show">
+
+				<div class="layui-form-item">
+
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>评论人</label>
+
+					<div class="layui-input-inline">
+
+						<input type="text" lay-verify="title" value="{$arr.user_name}"  autocomplete="off" class="layui-input" disabled>
+
+					</div>
+
+				</div>
+                <div class="layui-form-item">
+
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>法拍员</label>
+
+					<div class="layui-input-inline">
+
+						<input type="text" lay-verify="title" value="{$arr.nick_name}"  autocomplete="off" class="layui-input" disabled>
+
+					</div>
+
+				</div>
+				<div class="layui-form-item">
+
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>标题</label>
+
+					<div class="layui-input-inline">
+
+						<input type="text" lay-verify="title" value="{$arr.title}" autocomplete="off" class="layui-input" disabled>
+
+					</div>
+
+				</div>
+
+				<div class="layui-form-item layui-form-text">
+
+					<label class="layui-form-label">简介</label>
+
+					<div class="layui-input-block" style="width:880px;">
+
+						<textarea placeholder="简介" name="house_name" class="layui-textarea">{$arr.house_name}</textarea>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<input type="hidden" name="id"  value="{$arr.id}">
+	<div class="layui-form-item">
+
+		<label class="layui-form-label">&nbsp;</label>
+
+		<button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+
+	</div>
+
+</form>
+{/block}
