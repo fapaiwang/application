@@ -1,7 +1,9 @@
 {extend name="public/layout" /}
 
 {block name='content'}
-
+<style>
+.width: 110px；! important
+</style>
 <!--列表-->
 
 <div class="layui-form" >
@@ -190,12 +192,12 @@
                     {$val.title}
 
                 </td>
-                <td>
+                <td >
+<!--                     <span data-tdtype="edit" data-field="house_name" data-id="{$val.id}" class="tdedit" style="">{$val.house_name}</span>
+ -->
 
-                    {$val.house_name}
-
+                  {$val.house_name}
                 </td>
-
                 <td>
 
                     <div class="layui-table-cell">
@@ -221,9 +223,8 @@
                 <td>
 
                     <div class="layui-table-cell">
-
+                        <a href="/index.php/comment/edit/id/{$val.id}.html" class="layui-btn layui-btn-xs">编辑</a>
                         {:rights($options,$val['id'],$val['user_name'],$menuid)}
-
                     </div>
 
                 </td>
@@ -275,8 +276,7 @@
         $(".J_cate_select").select({field : 'J_cate_id',id : 'J_cate_select'});
 
     });
-
+    
 </script>
-
 {/block}
 
