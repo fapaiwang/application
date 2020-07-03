@@ -11,7 +11,7 @@ class Jrcj extends MobileBase
 //        $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
 //            ->whereTime('kptime','>','-2 day' )
 //            ->where('fcstatus','in','169,170,171')->select();
-        $stime =date('Y-m-d',strtotime('-1 day'));
+        $stime =date('Y-m-d',strtotime('-2 day'));
         $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
             ->where('kptime','>',$stime)
@@ -31,11 +31,11 @@ class Jrcj extends MobileBase
                     $ctimess=$sTime-$lists[$key]['bianetimes'];
                     if($ctimes>=0){ //当前时间超过开拍时间 当前时间-开拍时间
                         if($ctimess >= 0){ //当前时间超过变卖截止时间
-                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//正在进行169
+                            model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>171]);//已结束171
                         // print_r($ctimes);echo "aaa";
                         }else{
                             if ($lists[$key]['fcstatus'] != 169){
-                                model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//已结束171
+                                model('second_house')->where(['id'=>$lists[$key]['id']])->update(['fcstatus'=>169]);//正在进行169
                             }
                         }
                     }else{
