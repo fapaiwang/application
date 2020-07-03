@@ -11,7 +11,7 @@ class Jrcj extends MobileBase
 //        $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
 //            ->whereTime('kptime','>','-2 day' )
 //            ->where('fcstatus','in','169,170,171')->select();
-        $stime =date('Y-m-d',strtotime('-2 day'));
+        $stime =date('Y-m-d',strtotime('-2 month'));
         $etime =date('Y-m-d',strtotime('+2 day'));
         $lists = model('second_house')->field('id,title,kptime,bianetime,fcstatus,jieduan,house_type')
             ->where('kptime','>',$stime)
