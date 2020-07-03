@@ -237,10 +237,13 @@
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
                         <h4>法拍专员</h4>
+                        {if condition="$second_house_user_comment_num"}
                         <div class="fangpai-detail-fixed-refresh" data-id="{$info.id}" data-tit="{$info.title}" data-img="{$info.img}">
                             <img src="" alt="">
                             <span class="">换一换</span>
                         </div>
+
+                        {/if}
                     </div>
                     <ul class="fangpai-detail-fixed-list">
                         {volist name='$second_house_business' id='vo'}
