@@ -708,4 +708,23 @@ class SecondHouse extends Controller
         return $this->success_o($num);
     }
 
+    /**
+     * 获取房源资讯
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function second_house_comment(){
+       $house_id = input('house_id');
+       $limit = input('limit');
+       $is_rand = input('is_rand');
+        if (empty($house_id)){
+            return $this->error_o("房源id不能为空");
+        }
+        $info = $this->Second_Server->second_house_user_comment($house_id,$limit,$is_rand);
+        return $this->success_o($info);
+    }
 }
