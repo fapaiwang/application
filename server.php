@@ -65,6 +65,41 @@ class server
         return $info;
     }
 
+    public function second_detail_ohter($id){
+        $where['h.id']     = $id;
+        $where['h.status'] = 1;
+        $second_house_field  ="h.title,h.types,h.price,h.baozheng,h.toilet,h.floor,h.total_floor,
+            d.house_id,h.orientations,h.acreage,h.estate_id,h.id,h.broker_id,h.jieduan,h.types,
+            h.basic_info,h.elevator,h.auction_attr,h.enforcement,
+            h.land_purpose,h.land_certificate,h.property_no,h.house_purpse,h.management,h.lease,h.mortgage,h.sequestration,
+            h.vacate,h.estate_name,h.rec_position,h.fcstatus,h.fcstatus,h.is_free,h.house_type";
+        $obj  = model('second_house');
+        $join = [['second_house_data d','h.id=d.house_id']];
+        $info = $obj->alias('h')
+            ->field($second_house_field)
+//            ->cache('second_house_'.$second_house_id,3600)
+            ->join($join)->where($where)->find();
+        $info['junjia'] =0;
+        if (!empty($info['qipai']) && $info['acreage']){
+            $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
+        }
+        //差价
+        $info['chajia']=intval($info['price'])-intval($info['qipai']);
+        //类型
+        $xsname =getLinkMenuCache(26)[$info['types']] ??"";
+        $info['xsname']=$xsname['name'] ?? "";
+        //起拍价格
+        $info['qp_price'] = $info['price'];
+        //成交价格
+        $info['cjprice']=sprintf("%.2f",$info['cjprice']);
+        //基本信息
+        if (!empty($info['basic_info'])){
+            $info['basic_info']=explode('|',$info['basic_info']);
+        }
+        //拍卖阶段
+        $info['jieduan_name'] =getLinkMenuName(25, $info['jieduan']);
+        return $info;
+    }
     /**
      * 房源是否关注
      * @param $estate_id

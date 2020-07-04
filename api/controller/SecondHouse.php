@@ -15,11 +15,14 @@ class SecondHouse extends Controller
     protected $Second_Server;
     protected $Index_Server;
     protected $cityInfo;
+    protected $server;
+
     
-    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server)
+    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server,server $server)
     {
         $this->Second_Server = $Second_Server;
         $this->Index_Server = $Index_Server;
+        $this->server = $server;
     }
 
     /**
@@ -152,8 +155,18 @@ class SecondHouse extends Controller
         $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);;
         return $this->success_o($houseRes);
     }
-    
-    
+
+    public function second_detail_ohter(){
+        $id = input('param.id',0);
+        if(empty($id)){
+            return $this->error_o("房源id不能为空");
+        }
+        $info = $this->server->second_detail_ohter($id);
+        if(empty($info)){
+            return $this->error_o("未找到当前房源");
+        }
+        return $this->success_o($info);
+    }
     /**
      * @description 获取房源列表
      * @throws \think\db\exception\DataNotFoundException
