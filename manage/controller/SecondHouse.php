@@ -1,13 +1,15 @@
 <?php
 
 namespace app\manage\controller;
-
+//namespace PHPExcel;
+//use think\Loader;
 use \app\common\controller\ManageBase;
 use app\manage\service\SecondHouseService;
 use app\manage\service\Synchronization;
 use think\Config;
 use think\Db;
 use think\facade\Log;
+
 
 class SecondHouse extends ManageBase
 
@@ -1735,7 +1737,148 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         }
         return $res;
     }
+    /**
+     *    房源信息详情
+     * 
+     */
+    public function detail(){
+        $id = input('param.id/d');
+        $arr = model('second_house')->field('id,title,qipai,price,acreage')->where('id',$id)->find();
+        if($arr['acreage']>=90){
+              $arr['tax_rate']=1.5;
+        }else{
+              $arr['tax_rate']=1;
+        }
+        $this->assign('arr',$arr);
+        return $this->fetch();
+    }
+    /**
+     * 房产收益计算
+     */
+    public function ajaxcalculation(){
+        $qipai = input('param.qipai');
+        $price = input('param.price');
+        $qianfei = input('param.qianfei');
+        $qita = input('param.qita');
+        $tax_rate = input('param.tax_rate');
+        $price_increase_range = input('param.price_increase_range');
+        $qianfei = $qianfei+$qita;
+        $number = intval(($price-$qipai)/$price_increase_range);
+        $qishui = round($qipai*$tax_rate/100);
+        $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>0);
+        unset($qishui);
+        for($i=0;$i<$number;$i++){
+            $qipai = $qipai+$price_increase_range;
+            $qishui = round($qipai*$tax_rate/100);
+            if($qipai/$price>0.9){
+                $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>1); 
+            }else{
+                $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>0);
+            }
+            unset($qishui);
+        }
+        return $data;
+    }
+    function excelFileExport() 
+    {
+        $qipai = input('param.qipai');
+        $name = input('param.title');
+        $price = input('param.price');
+        $qianfei = input('param.qianfei');
+        $qita = input('param.qita');
+        $tax_rate = input('param.tax_rate');
+        $price_increase_range = input('param.price_increase_range');
+        $qianfei = $qianfei+$qita;
+        $number = intval(($price-$qipai)/$price_increase_range);
+        $qishui = round($qipai*$tax_rate/100);
+        $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>0);
+        unset($qishui);
+        for($i=0;$i<$number;$i++){
+            $qipai = $qipai+$price_increase_range;
+            $qishui = round($qipai*$tax_rate/100);
+            if($qipai/$price>0.9){
+                $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>1); 
+            }else{
+                $data[] = array('qipai'=>$qipai,'qianfei'=>$qianfei,'qishui'=>$qishui,'price'=>$price,'cost'=>$qipai+$qianfei+$qishui,'status'=>0);
+            }
+            unset($qishui);
+        }
+        $title='配资房产收益表';
+        //文件名
+        $fileName = $title. '('.date("Y-m-d",time()) .'导出）'. ".xls";
+        //加载第三方类库
+        require'../extend/PHPExcel/Classes/PHPExcel.php';
+        require'../extend/PHPExcel/Classes/PHPExcel/IOFactory.php';
+        //实例化excel类
+        $excelObj = new \PHPExcel();
+        //构建列数--根据实际需要构建即可
+        $letter = array('A','B','C','D','E');
+        $excelObj->getActiveSheet()->mergeCells( 'A1:E1'); 
+        $excelObj->getActiveSheet()->setCellValue("A1",$name);
+        //表头数组--需和列数一致
+        $tableheader = array('起拍价(万)','物业欠费(万)','契税(万)','市场价(万)','共计成本');
+        //填充表头信息
+        for ($i = 0; $i < count($tableheader); $i++) {
+            $excelObj->getActiveSheet()->setCellValue("$letter[$i]2", "$tableheader[$i]");
+        }
+        //循环填充数据
+        foreach ($data as $k => $v) {
+            $num = $k + 3;
+            //设置每一列的内容
+            $excelObj->setActiveSheetIndex(0)
+                ->setCellValue('A' . $num, $v['qipai'])
+                ->setCellValue('B' . $num, $v['qianfei'])
+                ->setCellValue('C' . $num, $v['qishui'])
+                ->setCellValue('D' . $num, $v['price'])
+                ->setCellValue('E' . $num, $v['cost']);
+                //设置行高
+                $excelObj->getActiveSheet()->getRowDimension($k+3)->setRowHeight(30);
+            //设置行背景色
+            if($v['status']==1){
+                $excelObj->getActiveSheet()->getStyle('A'.$num.':E'.$num)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+            }
+        }
+        //以下是设置宽度
+        $excelObj->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $excelObj->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+        $excelObj->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $excelObj->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $excelObj->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+        //设置表头行高
+        $excelObj->getActiveSheet()->getRowDimension(1)->setRowHeight(28);
+        $excelObj->getActiveSheet()->getRowDimension(2)->setRowHeight(28);
+        //$excelObj->getActiveSheet()->getRowDimension(3)->setRowHeight(28);
 
+        //设置居中
+        //$excelObj->getActiveSheet()->getStyle('A1:D1'.($k+2))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
+        //所有垂直居中
+        //$excelObj->getActiveSheet()->getStyle('A1:D1'.($k+2))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 
+        //设置字体样式
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setName('黑体');
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setSize(20);
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);  
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setName('宋体');
+        $excelObj->getActiveSheet()->getStyle('A1:D1')->getFont()->setSize(16);
+        $excelObj->getActiveSheet()->getStyle('A1:D1'.($k+2))->getFont()->setSize(10);
+
+        //设置自动换行
+        $excelObj->getActiveSheet()->getStyle('A1:D1'.($k+2))->getAlignment()->setWrapText(true);
+
+        // 重命名表
+        $fileName = iconv("utf-8", "gb2312", $fileName); 
+
+        // 设置下载打开为第一个表
+        $excelObj->setActiveSheetIndex(0); 
+
+        //设置header头信息
+        header('Content-Type: application/vnd.ms-excel;charset=UTF-8');
+        header("Content-Disposition: attachment;filename={$fileName}");
+        header('Cache-Control: max-age=0');
+        $writer = \PHPExcel_IOFactory::createWriter($excelObj, 'Excel2007');
+        $writer->save('php://output');
+        exit();
+    }
 }
