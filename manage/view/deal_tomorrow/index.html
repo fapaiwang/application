@@ -1,0 +1,161 @@
+{extend name="public/layout" /}
+
+{block name='content'}
+
+<!--二手房列表-->
+
+<style>
+
+    .layui-form-select{width:100px;}
+
+</style>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form layui-border-box layui-table-view">
+
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('SecondHouse/ajaxEdit')}">
+
+            <colgroup>
+
+                <col width="25%">
+
+                <col width="10%">
+
+                <col width="10%">
+
+                <col width="25%">
+
+                <col width="20%">
+
+                <col width="10%">
+            </colgroup>
+
+            <thead>
+
+            <tr>
+              <style>
+                .layui-table-cell{padding:0 8px;!important}
+              </style>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell" >房源名称</div>
+
+                </th>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell"><span>报名人数</span></div>
+
+                </th>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell"><span>编号</span></div>
+
+                </th>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell"><span>链接</span></div>
+
+                </th>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell"><span>开拍时间</span></div>
+
+                </th>
+                <th style="text-align:center;">
+
+                    <div class="layui-table-cell"><span>阶段</span></div>
+
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {volist name="list" id="val"}
+
+            <tr>
+                <td>
+
+                    <div class="layui-table-cell">
+
+                            {$val.title}
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <div class="layui-table-cell">
+
+                        {$val.bmrs}
+
+                    </div>
+
+                </td>
+                <td>
+
+                    <div class="layui-table-cell">
+
+                        {$val.bianhao}
+
+                    </div>
+
+                </td>
+                <td>
+
+                    <div class="layui-table-cell">
+
+                        {$val.lianjie}
+
+                    </div>
+
+                </td>
+                <td>
+
+                    <div class="layui-table-cell">
+
+                        {$val.oneetime}
+
+                    </div>
+
+                </td>
+
+                <td class="kaifazhe-switch">
+
+                    <div class="layui-table-cell">
+
+                        {switch $val.jieduan}
+                        {case 161}一拍{/case}
+                        {case 162}二拍{/case}
+                        {case 163}变卖{/case}
+                        {/switch}
+
+                    </div>
+
+                </td>
+            </tr>
+
+            {/volist}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="kaifazhe-fix-bottom layui-clear">
+
+        <div class="kaifazhe-list-option layui-fl">
+
+            <a href="{:url('DealTomorrow/excelFileExport')}" class="layui-btn btn-submit w200">导出表格</a>
+
+        </div>
+
+    </div>
+
+</form>
+
+{/block}
+
