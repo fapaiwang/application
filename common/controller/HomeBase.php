@@ -67,7 +67,8 @@ class HomeBase extends \think\Controller
         $action = $this->request->action();//方法名
         $model_url = $module.'/'.$controller.'@'.$action;
         //获取页头 页脚 导航栏
-        $head_nav = model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')->where([['status','=',1],['pos','=',1]])->select();
+        $head_nav = model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
+            ->where([['status','=',1],['pos','=',1]])->order("ordid asc")->select();
         $this->assign('head_nav',$head_nav);
         $this->assign('model_url',$model_url);
         //todo ->cache('86400')

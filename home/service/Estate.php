@@ -166,4 +166,22 @@ class Estate
         }
         return $order;
     }
+    public function detail($id){
+        $where['id'] = $id;
+        $where['status'] = 1;
+        $field="title,area_name,img,file,address,lng,lat,years,data,price";
+        $info = model('estate')->field($field)->where($where)->find();
+        if ($info) {
+//            $info['price']  = $info['price'].config('filter.house_price_unit');
+//            $info['tags']   = array_filter(explode(',',$info['tags']));
+//            $info['house_type'] = getLinkMenuName(9,$info['house_type']);
+            updateHits($info['id'], 'estate');//更新点击量
+        }
+        return $info;
+    }
+    public function getSecondByEstateId(){
+
+    }
+
+
 }

@@ -15,11 +15,14 @@ class SecondHouse extends Controller
     protected $Second_Server;
     protected $Index_Server;
     protected $cityInfo;
+    protected $server;
+
     
-    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server)
+    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server,server $server)
     {
         $this->Second_Server = $Second_Server;
         $this->Index_Server = $Index_Server;
+        $this->server = $server;
     }
 
     /**
@@ -152,8 +155,18 @@ class SecondHouse extends Controller
         $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);;
         return $this->success_o($houseRes);
     }
-    
-    
+
+    public function second_detail_ohter(){
+        $id = input('param.id',0);
+        if(empty($id)){
+            return $this->error_o("房源id不能为空");
+        }
+        $info = $this->server->second_detail_ohter($id);
+        if(empty($info)){
+            return $this->error_o("未找到当前房源");
+        }
+        return $this->success_o($info);
+    }
     /**
      * @description 获取房源列表
      * @throws \think\db\exception\DataNotFoundException
@@ -695,4 +708,23 @@ class SecondHouse extends Controller
         return $this->success_o($num);
     }
 
+    /**
+     * 获取房源资讯
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function second_house_comment(){
+       $house_id = input('house_id');
+       $limit = input('limit');
+       $is_rand = input('is_rand');
+        if (empty($house_id)){
+            return $this->error_o("房源id不能为空");
+        }
+        $info = $this->Second_Server->second_house_user_comment($house_id,$limit,$is_rand);
+        return $this->success_o($info);
+    }
 }
