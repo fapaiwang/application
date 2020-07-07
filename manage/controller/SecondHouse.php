@@ -1749,6 +1749,8 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         }else{
               $arr['tax_rate']=1;
         }
+        $arr['qipai'] = $arr['qipai']*10000;
+        $arr['price'] = $arr['price']*10000;
         $this->assign('arr',$arr);
         return $this->fetch();
     }
@@ -1816,7 +1818,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         $excelObj->getActiveSheet()->mergeCells( 'A1:E1'); 
         $excelObj->getActiveSheet()->setCellValue("A1",$name);
         //表头数组--需和列数一致
-        $tableheader = array('起拍价(万)','物业欠费(万)','契税(万)','市场价(万)','共计成本');
+        $tableheader = array('起拍价','物业欠费','契税','市场价 ','共计成本');
         //填充表头信息
         for ($i = 0; $i < count($tableheader); $i++) {
             $excelObj->getActiveSheet()->setCellValue("$letter[$i]2", "$tableheader[$i]");
