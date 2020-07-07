@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="ie-comp|webkit">
     <title>{$seo.title}</title>
     <meta name="keywords" content="{$seo.keys}" />
     <meta name="description" content="{$seo.desc}" />
@@ -59,7 +60,7 @@
             <div class="loged" style="line-height:70px">
                 <div class="user_info" style="line-height:70px">
                     <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
-                    <span class="name">{:hideStr($userInfo['nick_name'])}</span>
+                    <span class="name" style="color: #000">{:hideStr($userInfo['nick_name'])}</span>
                 </div>
                 <div class="slide_tog" style="display:none;">
                     <a class="login_label" href="{:url('user.index/index')}">用户中心</a>
