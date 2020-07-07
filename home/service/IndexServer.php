@@ -53,6 +53,7 @@ class IndexServer
             $banner = model('poster')->field('name,setting')
                 ->where([['spaceid','=',$space_id],['startdate','<',time()],['enddate','>',time()],["status",'=',1]])
                 ->limit($limit)
+                ->order("ordid desc")
                 ->select();
             \think\facade\Cache::set($cache_name,$banner);
         }
@@ -132,7 +133,7 @@ class IndexServer
         $second_house = cache($cache_name);
         if (!$second_house){
             $objs   = model('second_house');
-            $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types,bmrs,abbreviation";
+            $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types,bmrs,abbreviation,hits";
             $second_house   = $objs->field($field)
                 ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
                 ->order('rec_position desc')->limit($limit)->orderRand("rand()")

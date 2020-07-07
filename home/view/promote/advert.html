@@ -155,7 +155,7 @@
             <li>
                 <div class="tuijian-fangyuan-head">
                     <span class="tuijian-fangyuan-head-left">起拍价：<b>{$vo.qipai}</b>万</span>
-                    <span class="tuijian-fangyuan-head-right">{$vo.bmrs|default="0"}人报名</span>
+                    <span class="tuijian-fangyuan-head-right">{$vo.hits|default="0"}人围观</span>
                 </div>
                 <div class="tuijian-fangyuan-img">
                     <img width="234px" height="166px" class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
@@ -340,7 +340,15 @@
         </div>
     </div>
 </div>
+<div class="footers_banner">
+    <img src="__STATIC__/home/images/banner/footers.png" alt="首届法拍节">
+    <img src="/homeStatic/img/jiahao.png" class="close_banner" alt="">
+</div>
 <script>
+    //关闭底部广告
+    $(".close_banner").on("click",function () {
+        $(".footers_banner").hide();
+    })
 </script>
 
 
