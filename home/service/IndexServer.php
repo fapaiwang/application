@@ -118,6 +118,7 @@ class IndexServer
 
     /**
      * 获取推荐房源(6套)
+     * $type 1 推荐 2捡漏
      * @param mixed
      * @return array|null|\PDOStatement|string|\think\Model
      * @author: al
@@ -125,19 +126,25 @@ class IndexServer
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function get_recommend_house($limit = 6){
-        $objs   = model('second_house');
-        $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types,bmrs";
-        $second_house   = $objs->field($field)
-            ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
-            ->order('rec_position desc')->limit($limit)
-//            ->cache("second_house_recommend_house".$limit,1800)
-            ->paginate($limit);
-        foreach ($second_house as $k=>$v){
-            $v->orientations_name =getLinkMenuName(4,$v->orientations);
-            $v->toilet_name =getLinkMenuName(29,$v->toilet);
-            $v->types_name =getLinkMenuName(26,$v->types);
+    public function get_recommend_house($limit = 6,$type=1){
+        $cache_name ="second_house_recommend_house1_".$limit."_".$type;
+//        $cache_name ="";
+        $second_house = cache($cache_name);
+        if (!$second_house){
+            $objs   = model('second_house');
+            $field ="id,title,room,qipai,img,living_room,orientations,acreage,price,create_time,toilet,kptime,types,bmrs,abbreviation";
+            $second_house   = $objs->field($field)
+                ->where([['status','=',1],['toilet','<>',0],['rec_position','=',1],['fcstatus','=',170]])
+                ->order('rec_position desc')->limit($limit)->orderRand("rand()")
+                ->paginate($limit);
+            foreach ($second_house as $k=>$v){
+                $v->orientations_name =getLinkMenuName(4,$v->orientations);
+                $v->toilet_name =getLinkMenuName(29,$v->toilet);
+                $v->types_name =getLinkMenuName(26,$v->types);
+            }
+            cache($cache_name,$second_house,3600);
         }
+
         return $second_house;
     }
     

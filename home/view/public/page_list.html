@@ -8,9 +8,9 @@
     <meta name="keywords" content="{$seo.keys}" />
     <meta name="description" content="{$seo.desc}" />
     <link rel="stylesheet"  href="/homeStatic/css/common.css">
-    <link rel="stylesheet"  href="/homeStatic/css/style.css">
+    <link rel="stylesheet"  href="/homeStatic/css/style.css?v={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/headList.css?v={:time()}">
-    <link rel="stylesheet"  href="/homeStatic/css/footer.css">
+    <link rel="stylesheet"  href="/homeStatic/css/footer.css?v={:time()}">
     <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
     <link rel="stylesheet"  href="/homeStatic/css/login.css">
     <link rel="stylesheet" href="/static/layui/css/layui.css">
@@ -53,7 +53,7 @@
                 <li><a href="{$vo.url}"  {if $vo.model_action eq $model_url } class="active" {/if}>{$vo.title}</a></li>
             {/volist}
         </ul>
-        <div class="log_link fr" style="margin-left: 80px">
+        <div class="log_link fr" style="margin-left: 40px">
             {notempty name='userInfo'}
             <!-- 已登录状态 -->
             <div class="loged" style="line-height:70px">
@@ -76,7 +76,6 @@
             {/notempty}
         </div>
         <ul class="header-nav left-20" style="margin-left: 30px">
-            <span  style="margin-right: 10px;margin-bottom: 5px" class="login_label">热线电话: </span>
             <li style="margin-bottom: 5px"><a href="" style="font-size:140%;">{$site.telphone}</a></li>
         </ul>
     </div>
@@ -183,6 +182,7 @@
 <script type="text/javascript" src="/homeStatic/js/page.js"></script>
 <!--<script src="__STATIC__/js/layer/layer.js"></script>-->
 <script src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/homeStatic/js/footers.js"></script>
 <script src="__STATIC__/js/plugins/jquery.lazyload.js"></script>
 <script>
     $("img.lazy").lazyload({

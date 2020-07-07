@@ -9,141 +9,8 @@ use think\facade\Cache;
 
 class Index extends HomeNewBase
 {
-    public function index_旧版()
-
-    {
-        $city_id  = $this->cityInfo['id'];
-
-        $city     = getCity();
-
-        if($city_id && isset($city[$city_id]) && isset($city[$city_id]['_child']))
-
-        {
-
-            $city  = $city[$city_id]['_child'];
-
-        }
-
-        //优惠，人气，热销楼盘
-
-        $house = [$this->getPositionHouse(4,4),$this->getPositionHouse(3,4),$this->getPositionHouse(1,4)];
-
-
-
-
-
-        $full_screen = db('module')->field('id')->where('type',1)->where('status',1)->where('terminal',1)->order('ordid asc')->select();
-
-        $fix_module  = db('module')->field('id')->where('type',2)->where('status',1)->where('terminal',1)->order('ordid asc')->select();
-
-        $this->assign('full_module',$full_screen);
-
-        $this->assign('fix_module',$fix_module);
-
-
-
-        $this->assign('area',$city);
-
-        $this->assign('search_city',$city);
-
-        $this->assign('group',$this->getNewGroup());
-
-        $this->assign('rec_house',$house);
-
-        $this->assign('discount_house',$this->getDiscountHouse());
-
-        $this->assign('hot_house',$this->getHotHouse());
-
-        $this->assign('recommon',$this->getPositionHouse(2,3));//热盘推荐
-
-        $this->assign('neareast_house',$this->getNearestOpenedHouse());//近期开盘
-
-        $this->assign('house_news',$this->getNewsByCateId(0,14));//楼盘资讯
-
-        $this->assign('house_guide',$this->getSpecailHouse());//楼盘导购
-
-        $this->assign('news_cate_2',$this->getNewsByCateId(2));
-
-        $this->assign('news_cate_3',$this->getNewsByCateId(3));
-
-        $this->assign('second_house',$this->getSecondHouse());//二手房
-
-        $this->assign('rental_house',$this->getRentalHouse());//出租房
-
-        $this->assign('estate',$this->getEstate());
-
-        $this->assign('ups_downs_house',$this->getUpsAndDownsHouse());//新盘涨幅
-
-        $this->assign('ups_downs_second_house',$this->getUpsAndDownsSecondHouse());//二手房涨幅
-
-        $this->assign('news_cate_5',$this->getNewsByCateId(5,8));//优惠活动
-
-        $this->assign('special',getLinkMenuCache(3));//特色
-
-        $this->assign('house_type',getLinkMenuCache(2));//新房类型
-
-        $this->assign('rental_type',getLinkMenuCache(9));//出租房类型
-
-        $this->assign('broker',$this->getBroker());//经纪人
-
-        $this->assign('new_subscribe',$this->getNewSubcribe());//最新预约
-
-        $this->assign('time',time());
-
-
-
-// zp
-
-
-
-
-
-            $objs   = model('second_house');
-
-            $times=time();
-
-            // $zzcount = model('second_house')->where('fcstatus',169)->where('status',1)->where('timeout','lt',$times)->count();
-
-            $zzcount = model('second_house')->where(['fcstatus'=>169,'status'=>1])->count();
-
-            // $zzcount = model('second_house')->where('fcstatus',169)->count();
-
-            $jjcount = $objs->where('fcstatus',170)->where('status',1)->count();
-
-            // $jjcount = $objs->where('fcstatus',170)->where('status',1)->count();
-
-        
-
-// print_r($zzcount);exit();
-
-            $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y'));
-
-            $endToday=mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
-
-            $jrcount = $objs->where('fabutimes','between',[$beginToday,$endToday])->where('status',1)->count();
-
-            $this->assign('zzcount',$zzcount);
-
-            $this->assign('jjcount',$jjcount);
-
-            $this->assign('jrcount',$jrcount);
-
-
-
-// zpend
-
-
-
-
-
-
-
-        return $this->fetch('index/index');
-
-    }
-
     /**
-     * 首页重写
+     * 首页
      * @param mixed
      * @return mixed
      * @author: al
@@ -163,7 +30,9 @@ class Index extends HomeNewBase
             $this->assign('flow_chart', $flow_chart[0]);
         }
         //获取推荐房源(6套)
-        $info['recommend_house'] =$recommend_house = $IndexServer->get_recommend_house();
+        $info['recommend_house'] =$recommend_house = $IndexServer->get_recommend_house(6);
+        $info['jianlou_house'] = $IndexServer->get_recommend_house(6);
+//        dd( $IndexServer->get_recommend_house(6));
         //获取特色房源(5个) 1-2-2
         $info['ts_left_banner'] = $IndexServer->get_home_banner_arr(6,1);
         $info['ts_right_banner'] = $IndexServer->get_home_banner_arr(7,2);

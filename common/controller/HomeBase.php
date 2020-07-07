@@ -4,6 +4,7 @@
 
 namespace app\common\controller;
 
+use app\home\service\IndexServer;
 use think\image\Exception;
 
 
@@ -58,7 +59,7 @@ class HomeBase extends \think\Controller
             'seo_keys'  => (isset($this->cityInfo['seo_keys']) && !empty($this->cityInfo['seo_title']))?$this->cityInfo['seo_keys']:$site['seo_keys'],
             'seo_desc'  => (isset($this->cityInfo['seo_desc']) && !empty($this->cityInfo['seo_title']))?$this->cityInfo['seo_desc']:$site['seo_desc']
         ];
-
+        $this->footers();
         $this->getMenu();
         $this->setSeo();
         //当前所在页面
@@ -71,8 +72,7 @@ class HomeBase extends \think\Controller
             ->where([['status','=',1],['pos','=',1]])->order("ordid asc")->select();
         $this->assign('head_nav',$head_nav);
         $this->assign('model_url',$model_url);
-        //todo ->cache('86400')
-        $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->select();
+        $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->cache('86400')->select();
         $this->assign('footer_nav',$footer_nav);
         $model_url = $module.'/'.$controller;
         $seo_s =  model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
@@ -97,7 +97,16 @@ class HomeBase extends \think\Controller
 
     }
 
-
+    //底部信息
+    public function footers(){
+        $IndexServer = new IndexServer();
+        $people_house = $IndexServer->get_recommend_house(16,1);
+        $jianlou_house = $IndexServer->get_recommend_house(16,2);
+        $footer_estate = $IndexServer->get_quality_estate(20);
+        $this->assign('footer_jianlou_house',$jianlou_house);
+        $this->assign('people_house',$people_house);
+        $this->assign('footer_estate',$footer_estate);
+    }
 
     //设置站点优化
 

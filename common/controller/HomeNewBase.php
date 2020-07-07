@@ -1,6 +1,7 @@
 <?php
 namespace app\common\controller;
 
+use app\home\service\IndexServer;
 use think\image\Exception;
 
 class HomeNewBase extends \think\Controller{
@@ -17,22 +18,19 @@ class HomeNewBase extends \think\Controller{
         }
         !isset($site['city_domain']) && $site['city_domain'] = 0;
         $this->site = $site;
-
-
+        $this->footers();
         //当前所在页面
         $module = $this->request->module();//模块名
         $controller = $this->request->controller();//控制器名
         $action = $this->request->action();//方法名
         $model_url = $module.'/'.$controller.'@'.$action;
-
         //获取页头 页脚 导航栏
         $head_nav = model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
             ->where([['status','=',1],['pos','=',1]])->order("ordid asc")->select();
 
         $this->assign('head_nav',$head_nav);
         $this->assign('model_url',$model_url);
-        //todo ->cache('86400')
-        $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->select();
+        $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')->where(['status'=>1,'pos'=>2])->cache('86400')->select();
         $this->assign('footer_nav',$footer_nav);
         $model_url = $module.'/'.$controller;
         $seo_s =  model('nav')->field('id,title,url,action,seo_title,seo_keys,seo_desc,model_action')
@@ -46,7 +44,16 @@ class HomeNewBase extends \think\Controller{
         $this->assign('site',$site);
         $this->assign('link',$link);
     }
-
+    //底部信息
+    public function footers(){
+        $IndexServer = new IndexServer();
+        $people_house = $IndexServer->get_recommend_house(16,1);
+        $jianlou_house = $IndexServer->get_recommend_house(16,2);
+        $footer_estate = $IndexServer->get_quality_estate(20);
+        $this->assign('footer_jianlou_house',$jianlou_house);
+        $this->assign('people_house',$people_house);
+        $this->assign('footer_estate',$footer_estate);
+    }
     /**
      * 用户信息
      * @param mixed
