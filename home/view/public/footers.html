@@ -10,12 +10,12 @@
     <div class="fapai-footer-tab-content"  style="color:#fff;">
         <div class="fapai-footer-tab-item fapai-footer-tab-item-active">
             {volist name='footer_jianlou_house' id='vo'}
-            <span><a href="{:url('News/detail',['id'=>$vo['id']])}">{$vo.abbreviation}</a></span>
+            <span><a href="{:url('Second/detail',['id'=>$vo['id']])}">{$vo.abbreviation}</a></span>
             {/volist}
         </div>
         <div class="fapai-footer-tab-item">
             {volist name='people_house' id='vo'}
-            <span><a href="{:url('News/detail',['id'=>$vo['id']])}">{$vo.abbreviation}</a></span>
+            <span><a href="{:url('Second/detail',['id'=>$vo['id']])}">{$vo.abbreviation}</a></span>
             {/volist}
         </div>
         <div class="fapai-footer-tab-item">

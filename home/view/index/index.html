@@ -119,7 +119,7 @@
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>
-                    <img src="{$vo.img}" class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
+                    <img class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
                     <div class="tuijian-fangyuan-prompt">
                         {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
                             {if condition="getLinkMenuName(29,$vo['toilet'])"}
@@ -188,7 +188,7 @@
             <span>更多推荐房源</span>
         </div>
         <div class="fapaidai">
-            <a href="{$waist_bunner.linkurl}"><img src="{$waist_bunner.fileurl}" data-original="$waist_bunner.fileurl}" alt="{$waist_bunner.alt}"></a>
+            <a href="{$waist_bunner.linkurl}"><img data-original="{$waist_bunner.fileurl}" class="lazy" alt="{$waist_bunner.alt}"></a>
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">捡漏房源</h2>
@@ -199,7 +199,7 @@
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>
-                    <img src="{$vo.img}" class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
+                    <img class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
                     <div class="tuijian-fangyuan-prompt">
                         {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
                             {if condition="getLinkMenuName(29,$vo['toilet'])"}
@@ -268,7 +268,7 @@
             <span>更多捡漏房源</span>
         </div>
         <div class="fapaidai">
-            <a href="{$waist_bunner.linkurl}"><img src="{$waist_bunner.fileurl}" data-original="$waist_bunner.fileurl}" alt="{$waist_bunner.alt}"></a>
+            <a href="{$waist_bunner.linkurl}"><img data-original="{$waist_bunner.fileurl}" class="lazy" alt="{$waist_bunner.alt}"></a>
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">热门小区</h2>
@@ -297,7 +297,7 @@
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">法拍房竞拍流程</h2>
             <div class="tuijian-fangyuan-info">30秒整体了解拍房流程</div>
-            <img src="{$flow_chart.fileurl}" data-original="{$flow_chart.fileurl}" alt="{$flow_chart.fileurl}" class="jingpailiucheng-img">
+            <img data-original="{$flow_chart.fileurl}" alt="{$flow_chart.fileurl}" class="jingpailiucheng-img lazy">
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">特色法拍房源</h2>
@@ -306,19 +306,19 @@
         <div class="tese-img-list">
             <div class="img-list-left">
                 {volist name='ts_left_banner' id='vo'}
-                <a href="{$vo.linkurl}"><img src="{$vo.fileurl}" data-original="{$vo.fileurl}" data-url="" alt="{$vo.alt}"></a>
+                <a href="{$vo.linkurl}"><img data-original="{$vo.fileurl}" class="lazy" data-url="" alt="{$vo.alt}"></a>
                 {/volist}
             </div>
             <div class="img-list-right">
                 <div class="img-list-right-top">
                     {volist name='ts_right_banner' id='vo'}
-                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}" data-original="{$vo['fileurl']}" alt="{$vo['alt']}"></a>
+                    <a href="{$vo.linkurl}"><img data-original="{$vo['fileurl']}" class="lazy" alt="{$vo['alt']}"></a>
 
                     {/volist}
                 </div>
                 <div class="img-list-right-bottom">
                     {volist name='ts_right_lower_banner' id='vo'}
-                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}" data-original="{$vo['fileurl']}" alt="{$vo['alt']}"></a>
+                    <a href="{$vo.linkurl}"><img data-original="{$vo['fileurl']}" class="lazy" alt="{$vo['alt']}"></a>
                     {/volist}
                 </div>
             </div>
