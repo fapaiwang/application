@@ -4,9 +4,6 @@
         <div class="footer-tab-nav-tap">热门房产</div>
         <div class="footer-tab-nav-tap">热门小区</div>
         <div class="footer-tab-nav-tap">热门页面</div>
-        {if condition="$model_url == 'home/Index@index'"}
-        <div class="footer-tab-nav-tap">友情链接</div>
-        {/if}
     </div>
     <div class="footer-line-button" style="margin-top: 26px"></div>
 
@@ -21,13 +18,11 @@
             <span><a href="{:url('News/detail',['id'=>$vo['id']])}">{$vo.abbreviation}</a></span>
             {/volist}
         </div>
-        {if condition="$model_url == 'home/Index@index'"}
-            <div class="fapai-footer-tab-item">
-                {volist name='footer_estate' id='vo'}
-                <span><a href="{:url('Estate/detail',['id'=>$vo['id']])}">{$vo.title}</a></span>
-                {/volist}
-            </div>
-        {/if}
+        <div class="fapai-footer-tab-item">
+            {volist name='footer_estate' id='vo'}
+            <span><a href="{:url('Estate/detail',['id'=>$vo['id']])}">{$vo.title}</a></span>
+            {/volist}
+        </div>
         <div class="fapai-footer-tab-item">
             <span><a href="/erf-39-0-0-0-0-0-45-0-0-0-0-0-1/types/0/jieduan/0/fcstatus/0/is_free/0/time_frame/0/end_time/0.html">司法房产</a></span>
             <span><a href="/erf-39-0-0-0-0-0-48-0-0-0-0-0-1/types/0/jieduan/0/fcstatus/0/is_free/0/time_frame/0/end_time/0.html">社会委托</a></span>
@@ -38,11 +33,6 @@
             <span><a href="/extension-4.html">一口价房源</a></span>
             <span><a href="/extension-3.html">学校周边</a></span>
             <span><a href="/extension-1.html">重点推荐</a></span>
-        </div>
-        <div class="fapai-footer-tab-item">
-            {volist name='link' id='vo'}
-            <span><a href="{$vo.url}">{$vo.name}</a></span>
-            {/volist}
         </div>
     </div>
     <div class="footer-about">

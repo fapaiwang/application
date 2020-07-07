@@ -30,8 +30,8 @@ class Index extends HomeNewBase
             $this->assign('flow_chart', $flow_chart[0]);
         }
         //获取推荐房源(6套)
-        $info['recommend_house'] =$recommend_house = $IndexServer->get_recommend_house(6);
-        $info['jianlou_house'] = $IndexServer->get_recommend_house(6);
+        $info['recommend_house'] =$recommend_house = $IndexServer->get_recommend_house(6,1);
+        $info['jianlou_house'] = $IndexServer->get_recommend_house(6,2);
 //        dd( $IndexServer->get_recommend_house(6));
         //获取特色房源(5个) 1-2-2
         $info['ts_left_banner'] = $IndexServer->get_home_banner_arr(6,1);
