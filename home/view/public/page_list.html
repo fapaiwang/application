@@ -43,7 +43,6 @@
 <body>
 <!--客服代码-->
 <script language="javascript" src="//scripts.easyliao.com/js/easyliao.js"></script>
-<a href="javascript:void(0)"  onclick="openJesongChatByGroup(11122,26881);return false;"></a>
 <div class="header-box">
     <div class="header-content">
         <a href="{:url('Index/index')}" title="{$site.title}">
@@ -60,13 +59,14 @@
             <div class="loged" style="line-height:70px">
                 <div class="user_info" style="line-height:70px">
                     <img src="{:getAvatar($userInfo['id'],30)}" width="30" height="30" alt="">
-                    <span class="name" style="color: #000">{:hideStr($userInfo['nick_name'])}</span>
+                    <span  style="font-size: 14px">{:hideStr($userInfo['nick_name'])}</span>
                 </div>
                 <div class="slide_tog" style="display:none;">
                     <a class="login_label" href="{:url('user.index/index')}">用户中心</a>
                     <a class="login_label" href="{:url('Login/logout')}">退出登录</a>
                 </div>
             </div>
+
             {else /}
             <!-- 未登录状态 -->
             <div class="not_log" style="line-height:70px;color:#000">
@@ -77,7 +77,7 @@
             {/notempty}
         </div>
         <ul class="header-nav left-20" style="margin-left: 30px">
-            <li style="margin-bottom: 5px"><a href="" style="font-size:140%;">{$site.telphone}</a></li>
+            <li style="margin-bottom: 5px"><a href="" style="font-size:140%;color: #CF2924">{$site.telphone}</a></li>
         </ul>
     </div>
 
