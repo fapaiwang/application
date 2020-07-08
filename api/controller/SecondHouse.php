@@ -7,6 +7,7 @@ use app\home\service\SecondServer;
 use app\server;
 use app\tools\ApiResult;
 use think\Controller;
+use think\Db;
 
 //……
 class SecondHouse extends Controller
@@ -726,5 +727,21 @@ class SecondHouse extends Controller
         }
         $info = $this->Second_Server->second_house_user_comment($house_id,$limit,$is_rand);
         return $this->success_o($info);
+    }
+    //获取房源的成交记录
+    //todo
+    public function transaction_record(){
+        $estate_id = input('estate_id');
+        if (empty($estate_id)){
+            return $this->error_o("小区id不能为空");
+        }
+        $show ="";
+        $estate = model("estate")->field("title")->where('id',$estate_id)->find();
+        if ($estate && !empty($estate->title)){
+           $show =  Db::connect('db2')->name('show')
+               ->where([['district',"=",$estate->title],["status","=",7]])
+               ->select();
+        }
+        return $this->success_o($show);
     }
 }
