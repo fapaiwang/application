@@ -41,8 +41,6 @@ class EstateNew extends Controller
         }
         return $this->success_o($info);
     }
-    //获取房源的成交记录
-    //todo
     /**
      * 小区房源交易记录
      * @param mixed
