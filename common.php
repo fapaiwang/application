@@ -1315,3 +1315,24 @@ function array_range($from, $to, $step=1){
     return $array;
 }
 
+/**
+ * 根据id 获取法拍网类型
+ * @param $id
+ * @param mixed
+ * @return mixed
+ * @author: al
+ */
+function fa_option_type($id){
+    if (empty($id)){
+        return "";
+    }
+    $result = cache("fa_option_type");
+    if (!$result){
+        $list  = \think\Db::connect('db2')->field("id,title")->name('options')->select();
+        foreach ($list as $k => $v) {
+            $result[$v['id']]= $v["title"];
+        }
+        cache("fa_option_type",$result);
+    }
+    return $result[$id];
+}
