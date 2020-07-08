@@ -728,27 +728,5 @@ class SecondHouse extends Controller
         $info = $this->Second_Server->second_house_user_comment($house_id,$limit,$is_rand);
         return $this->success_o($info);
     }
-    //获取房源的成交记录
-    //todo
-    public function transaction_record(){
-        $estate_id = input('estate_id');
-        if (empty($estate_id)){
-            return $this->error_o("小区id不能为空");
-        }
-        $show ="";
-        $estate = model("estate")->field("title")->where('id',$estate_id)->find();
-        if ($estate && !empty($estate->title)){
-           $show =  Db::connect('db2')->name('show')
-               ->where([['district',"=",$estate->title],["status","=",7]])
-               ->field("title,house_type,face,floor,tot_floor,tot_area,price,f_time")
-               ->order("f_time desc")
-               ->select();
-           foreach ($show as $k=>$v){
-                $show[$k]["f_time"] = date("Y-m-d",$v["f_time"]);
-               $show[$k]["house_type"]=fa_option_type($show[$k]["house_type"]);
-               $show[$k]["face"]=fa_option_type($show[$k]["face"]);
-           }
-        }
-        return $this->success_o($show);
-    }
+
 }
