@@ -124,12 +124,15 @@ class server
      * @throws \think\exception\DbException
      */
     public function estate($estate_id){
-        $estate =model('estate')
-            ->field('id,title,years,address,data,area_name,img')
-            ->where('id',$estate_id)
-            ->cache('estate_'.$estate_id,84001)
-            ->find();
-//        dd($estate);
+        $cache_name = 'estate_detail_'.$estate_id;
+        $estate = cache($cache_name);
+        if (!$estate){
+            $estate =model('estate')
+                ->field('id,title,years,address,data,area_name,img')
+                ->where('id',$estate_id)
+                ->find();
+            cache($cache_name,$estate,7200);
+        }
         return $estate;
     }
 
