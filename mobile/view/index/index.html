@@ -477,9 +477,9 @@ jQuery(function($){
 
 <p class="detail-text" style="color:#666;line-height:1rem"><a href="{:url('Second/detail',['id'=>$vo['id']])}" title="{$vo.title}"><b>{:msubstr(strip_tags($vo['title']),0,16)}</b></a></p>
 {if strstr($vo.acreage,'.')}
-<p class="detail-text" style="color:#666;line-height:1rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p>
+<p class="detail-text" style="color:#666;line-height:1rem">建筑面积：{$vo.acreage}{:config('filter.acreage_unit')}</p>
 {else}
-<p class="detail-text" style="color:#666;line-height:1rem">面积：{$vo.acreage}.00{:config('filter.acreage_unit')}</p>
+<p class="detail-text" style="color:#666;line-height:1rem">建筑面积：{$vo.acreage}.00{:config('filter.acreage_unit')}</p>
 {/if}
                     <!-- <p class="detail-text" style="color:#000;line-height:.9rem">面积：{$vo.acreage}{:config('filter.acreage_unit')}</p> -->
                     <!-- <p class="detail-text" style="color:#000;line-height:.9rem">均价：{$vo.average_price|raw}</p> -->
