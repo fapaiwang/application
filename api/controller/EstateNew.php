@@ -55,8 +55,24 @@ class EstateNew extends Controller
         $show = $this->estate_service->transaction_record($estate_id);
         return $this->success_o($show);
     }
-
-
+    //本小区房源
+    public function estate_house(){
+        $estate_id = input('estate_id');
+        if (empty($estate_id)){
+            return $this->error_o("小区id不能为空");
+        }
+        $estate_house = $this->estate_service->estate_house($estate_id);
+        return $this->success_o($estate_house);
+    }
+    //附近小区
+    public function neighborhood_estate(){
+        $estate_id = input('estate_id');
+        if (empty($estate_id)){
+            return $this->error_o("小区id不能为空");
+        }
+        $estate_house = $this->estate_service->neighborhood_estate($estate_id);
+        return $estate_house;
+    }
 
 
 }

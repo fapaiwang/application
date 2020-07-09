@@ -63,6 +63,34 @@ class Tools extends Controller
         ];
         return $this->success_o($res);
     }
+    /**
+     * //贷款年限
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function house_loan_years(){
+        $start    = input('start',5);
+        $end    = input('end',26);
+        $arr = array_range($start,$end,1);
+        return $this->success_o($arr);
+    }
+
+    /**
+     * 获取贷款比例
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function house_loan_bili(){
+        $start    = input('start',5);
+        $end    = input('end',70);
+        $step    = input('step',5);
+        $arr = array_range($start,$end,$step);
+        $arr[]=100;
+        rsort($arr);
+        return $this->success_o($arr);
+    }
 
 
 }

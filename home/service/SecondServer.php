@@ -115,7 +115,7 @@ class SecondServer
         if (!empty($is_metro)){
             $arr[] = "地铁沿线";
         }
-        return json_encode($arr);
+        return json_encode($arr,JSON_UNESCAPED_UNICODE);
     }
 
     /**
