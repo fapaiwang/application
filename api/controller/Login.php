@@ -125,6 +125,13 @@ class Login extends ApiBase
         $return['code'] = 200;
         return json($return);
     }
+
+    /**
+     * 获取用户信息
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
     public function login_user(){
         return $this->success_o(login_user());
     }
