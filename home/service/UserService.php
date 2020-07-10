@@ -59,13 +59,10 @@ class UserService
     {
         $field = "h.id,h.title,h.estate_name,h.img,h.room,h.living_room,h.toilet,h.price,h.average_price,h.city,h.address,h.acreage,h.orientations,h.renovation";
         $lists = $this->getSubscribeLists('second_house',$field);
-        $this->assign('lists',$lists);
-        $this->assign('pages',$lists->render());
-        return $this->fetch();
+        return $lists;
     }
 
-    private function getSubscribeLists($model,$field)
-    {
+    private function getSubscribeLists($model,$field){
         $obj = model('subscribe');
         $where['f.user_id'] =login_user()["id"];
         $where['f.model']   = $model;
