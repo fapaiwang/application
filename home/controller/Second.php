@@ -277,7 +277,6 @@ class Second extends HomeBase{
         $where = $where_data['data'];
         $index_url = $where_data['index_url_new'];
         $param = $where_data['param'];
-        //$param['fcstatus']       = input('param.fcstatus',0);//状态
         $sort    = $param['sort'];//input('param.sort/d',0);
         if ( $param['fcstatus'] == 175){
             $sort = 11;
@@ -496,7 +495,7 @@ class Second extends HomeBase{
                     $seo_title .= '北京';
                 }
                 $title_area = getCityName($param['area'],'');
-                //$this->assign('rading',$rading);
+                $this->assign('rading',$rading);
                 if($param['area']!=39){
                     $seo_array[] = array('letter'=>'a','keyword'=>getCityName($area_id),'type'=>1,'id'=>0);
                 }
