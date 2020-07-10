@@ -4,10 +4,12 @@ namespace app\api\controller;
 
 
 use app\common\controller\ApiBase;
+use app\tools\ApiResult;
 use think\Log;
 
 class Login extends ApiBase
 {
+    use ApiResult;
     /**
      * @return \think\response\Json
      * 用户登录
@@ -122,5 +124,8 @@ class Login extends ApiBase
         cache($token,null);
         $return['code'] = 200;
         return json($return);
+    }
+    public function login_user(){
+        return $this->success_o(login_user());
     }
 }
