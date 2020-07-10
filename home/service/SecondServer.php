@@ -469,14 +469,18 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
      */
     function parameter_json($parameter,$keyword){
         $data = array();
+        $status = 0;
         if($parameter!=''){
             $parameter=preg_split("/(?=[a-z])/",$parameter);
             unset($parameter[0]);
             foreach($parameter as $k=>$v){
                 $data[] = array('id'=>substr($v,0,1),'number_str'=>substr($v,1));
+                if(substr($v,0,1)=='x'){
+                    $status = 1;
+                }
             }
         }
-        if($keyword!=''){
+        if($keyword!=''&&$status==0){
             $data[] = array('id'=>'x','number_str'=>$keyword);
         }
         return json_encode($data);
@@ -636,6 +640,17 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             $index_url = implode('|',$url);
             return $index_url;
         }*/
+    }
+    /**
+    *   搜索关键字
+     *  拼接where条件
+     *  已选中的搜索条件数组$seo_array
+     */
+    function search_keyword($keyword){
+        $title = ['s.title','like','%'.$keyword.'%'];
+        $contacts = ['s.contacts','like','%'.$keyword.'%'];
+        $seo = array('letter'=>'x','keyword'=>$keyword,'id'=>'');
+        return array('title'=>$title,'contacts'=>$contacts,'seo'=>$seo);
     }
 
 
