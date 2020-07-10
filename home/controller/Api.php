@@ -447,7 +447,7 @@ class Api
                 $return['code'] = 1;
                 $return['msg']  = '取消关注成功';
                 $return['status']  = '0';
-                $return['text'] = '关注房源';
+                $return['text'] = '关注';
             }else{
                 if(db('follow')->insert($data)) {
                     $return['code'] = 1;
