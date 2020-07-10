@@ -111,10 +111,25 @@ class HomeBase extends \think\Controller
     //设置站点优化
 
     protected function setSeo($info='',$field='title',$q=''){
-
-        if(!empty($info)){
-
+        /*if(!empty($info)){
             $seo['title'] = empty($info['seo_title']) ? $info[$field].'_'.$this->seo['title'] : $info['seo_title'].'_'.$this->seo['title'];
+
+            $seo['keys']  = empty($info['seo_keys']) ? (empty($info['seo_title']) ? $info[$field]:$info['seo_title']) : $info['seo_keys'];//$seoarr[$key]['keys'];
+
+            $seo['desc']  = empty($info['seo_desc']) ? '' : $info['seo_desc'];//$seoarr[$key]['desc'];
+
+        }else{
+            $site['title'] = empty($q) ? $this->seo['seo_title'].'_'.$this->seo['title'] : $q .'_'.$this->seo['title'];
+
+            $site['keys']  = empty($this->seo['seo_keys']) ? $this->seo['seo_title'] : $this->seo['seo_keys'];
+
+            $site['desc']  = empty($this->seo['seo_desc']) ? '' : $this->seo['seo_desc'];
+
+            $seo = $site;
+
+        }*/
+        if(!empty($info)){
+            $seo['title'] = empty($info['seo_title']) ? $info[$field] : $info['seo_title'];
 
             $seo['keys']  = empty($info['seo_keys']) ? (empty($info['seo_title']) ? $info[$field]:$info['seo_title']) : $info['seo_keys'];//$seoarr[$key]['keys'];
 

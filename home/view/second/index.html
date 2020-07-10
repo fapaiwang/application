@@ -24,7 +24,7 @@
         <div class="sear_box">
             <form action="{:url('Second/index')}" style="display: flex;">
                 <div class="ipt_area">
-                    <input type="text" style="width: 600px;height: 48px;" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keywords}" onClick='showhidediv("baip")';>
+                    <input type="text" style="width: 600px;height: 48px;" name="keyword" id="keyword" autocomplete="off" placeholder="输入小区名称或房源名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt" value="{$keyword}" onClick='showhidediv("baip")';>
                     <span class="placeholder">输入小区名称或房源名称</span>
                     <ul id="search-box">
                     </ul>
@@ -64,8 +64,8 @@
         <div class="seleBar fangpai-select">
             {notempty name='metro'}
             <div class="search-tab clearfix">
-                <a href="{:getUrl('Second/index','search_type',[],1)}" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
-                <a href="{:getUrl('Second/index','search_type',[],2)}" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
+                <a  onclick="search_event('q',1)" href="javascript:void(0);" title="按区域查询" {if condition="$search.search_type eq 1"}class="active"{/if}><i class="iconfont" {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe609;</i>按区域查询</a>
+                <a  onclick="search_event('q',2)" href="javascript:void(0);" title="按地铁查询" {if condition="$search.search_type eq 2"}class="active"{/if}><i class="iconfont"  {if $search.search_type.id eq 1 } style="color: #fff" {/if}>&#xe61e;</i>按地铁查询</a>
             </div>
             {/notempty}
             <div class="box">
@@ -73,9 +73,9 @@
                 <div class="item clearfix">
                     <h3>地铁:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','metro',$param,0)}" rel="nofollow" {if condition="$search.metro eq 0"}class="active"{/if}>全部</a></li>
+                        <li onclick="search_event('k',0)"><a href="javascript:void(0);" rel="nofollow" {if condition="$search.metro eq 0"}class="active"{/if}>全部</a></li>
                         {volist name='metro' id='vo'}
-                        <li><a href="{:getUrl('Second/index','metro',$param,$vo['id'])}" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('k',{$vo['id']})"><a href="javascript:void(0);" {if condition="$search.metro eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -83,9 +83,9 @@
                 <div class="item clearfix">
                     <h3>站点:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','metro_station',$param,0)}" rel="nofollow" {if condition='$search.metro_station eq 0'}class="active"{/if}>全部</a></li>
+                        <li onclick="search_event('l',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.metro_station eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='metro_station' id='vo'}
-                        <li><a href="{:getUrl('Second/index','metro_station',$param,$vo['id'])}" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('l',{$vo['id']})"><a href="javascript:void(0);" {if condition="$search.metro_station eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -94,9 +94,9 @@
                 <div class="item clearfix">
                     <h3>区域:</h3>
                     <ul class="list">
-                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,0)}" rel="nofollow" {if condition="$search.area eq $cityId"}class="active"{/if}>全部</a></li>
+                        <li style=" margin-left: 20px;" onclick="search_event('a',39)"><a href="javascript:void(0);" rel="nofollow" {if condition="$search.area eq $cityId"}class="active"{/if}>全部</a></li>
                         {volist name='area' id='vo'}
-                        <li style=" margin-left: 20px;"><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li style=" margin-left: 20px;" onclick="search_event('a',{$vo['id']})"><a href="javascript:void(0);" {if condition="$search.area eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -104,9 +104,9 @@
                 <div class="item clearfix">
                     <h3>商圈:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','area',$param,$param['area'])}" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
+                        <li onclick="search_event('a',{$param['area']})"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.rading eq 0'}class="active"{/if}>全部</a></li>
                         {volist name='rading' id='vo'}
-                        <li><a href="{:getUrl('Second/index','area',$param,$vo['id'])}" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('a',{$vo['id']})"><a href="javascript:void(0);" {if condition="$search.rading eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
@@ -115,18 +115,19 @@
                 <div class="item clearfix">
                     <h3>形式:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','type',$param,0)}" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>
+
+                        <!--<li onclick="search_event('i',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.type eq 0'}class="active"{/if}>全部</a></li>-->
                         {volist name='house_type' id='vo'}
-                        <li><a href="{:getUrl('Second/index','type',$param,$key)}" {if condition="$search.type eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('i',{$vo['id']})"><a href="javascript:void(0);" {if condition="$vo['status'] eq 1"} class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                     </ul>
                 </div>
                 <div class="item clearfix">
                     <h3>类型:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','types',$param,0)}" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>
+                        <!--<li onclick="search_event('f',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.types eq 0'}class="active"{/if}>全部</a></li>-->
                         {volist name='types' id='vo'}
-                        <li><a href="{:getUrl('Second/index','types',$param,$key)}" {if condition="$search.types eq $key"}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('f',{$vo['id']})"><a href="javascript:void(0);"  {if condition="$vo['status'] eq 1"} class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
 
                     </ul>
@@ -135,20 +136,20 @@
                 <div class="item clearfix">
                     <h3>总价:</h3>
                     <ul class="list">
-                        <li><a href="{:getUrl('Second/index','qipai',$param,0)}" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
+                        <li onclick="search_event('c',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.qipai eq 0'}class="active"{/if}>全部</a></li>
                         {volist name=':getSecondPrice()' id='vo'}
-                        <li><a href="{:getUrl('Second/index','qipai',$param,$key)}" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                        <li onclick="search_event('c',{$key})"><a href="javascript:void(0);" {if condition='$search.qipai eq $key'}class="active"{/if}>{$vo.name}</a></li>
                         {/volist}
                         <li>
-                            <form action="{:url('Second/index')}">
+                            <!--<form action="{:url('Second/index')}">-->
                                 <div class="s-box fix">
                                     <input type="text" class="zprice1" name="zprice1" id="zprice1" value="{$search.zprice1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
                                     <span style="margin: 0 5px">-</span>
                                     <input type="text" class="zprice2" name="zprice2" id="zprice2" value="{$search.zprice2}"  data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
                                     <span>万元</span>
-                                    <input type="submit" name="" value="确定" class="zprice">
+                                    <input type="submit" name="" value="确定" class="zprice zprice_click">
                                 </div>
-                            </form>
+                            <!--</form>-->
                         </li>
                     </ul>
                 </div>
@@ -156,6 +157,9 @@
                     <div class="search-content">
                         <h3 class="item-title">搜索条件:</h3>
                         <ul class="search-tiaojian">
+                            {volist name='seo_array' id='vo'}
+                            <li onclick="search_cl('{$vo.letter}',{$vo.id})"><b>{$vo.keyword}</b><span><img src="/homeStatic/img/cha.png" alt=""></span></li>
+                            {/volist}
                         </ul>
                         <div class="search-tiaojian-buttons">
                             <p>
@@ -174,38 +178,38 @@
                     <div class="item clearfix">
                         <h3>面积:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Second/index','acreage',$param,0)}" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
+                            <li onclick="search_event('d',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.acreage eq 0'}class="active"{/if}>全部</a></li>
                             {volist name=':getAcreage()' id='vo'}
-                            <li><a href="{:getUrl('Second/index','acreage',$param,$key)}" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
+                            <li onclick="search_event('d',{$key})"><a href="javascript:void(0);" {if condition='$search.acreage eq $key'}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                             <li>
-                                <form action="{:url('Second/index')}">
+<!--                                <form action="{:url('Second/index')}">-->
                                     <div class="s-box fix">
                                         <input type="text" class="zmianji1" name="zmianji1" id="zmianji1" value="{$search.zmianji1}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px; border:1px solid #ccc;">
                                         <span>-</span>
                                         <input type="text"  class="zmianji2" name="zmianji2" id="zmianji2" value="{$search.zmianji2}" data-uri="{:url('Ajax/searchSecond')}" style="width: 50px;border:1px solid #ccc;">
                                         <span>平米</span>
-                                        <input type="submit" name="" value="确定" class="zprice">
+                                        <input type="submit" name="" value="确定" class="zprice zmianji_click">
                                     </div>
-                                </form>
+                                <!--</form>-->
                             </li>
                         </ul>
                     </div>
                     <div class="item clearfix">
                         <h3>户型:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Second/index','room',$param,0)}" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>
-                            {volist name=':getRoom()' id='vo'}
-                            <li><a href="{:getUrl('Second/index','room',$param,$key)}" {if condition='$search.room eq $key'}class="active"{/if}>{$vo}</a></li>
+                            <!--<li onclick="search_event('e',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.room eq 0'}class="active"{/if}>全部</a></li>-->
+                            {volist name='huxing' id='vo'}
+                            <li onclick="search_event('e',{$vo['id']})"><a href="javascript:void(0);" {if condition="$vo['status'] eq 1"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                         </ul>
                     </div>
                     <div class="item clearfix">
                         <h3>阶段:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Second/index','jieduan',$param,0)}" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>
+                            <!--<li onclick="search_event('g',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.jieduan eq 0'}class="active"{/if}>全部</a></li>-->
                             {volist name='jieduan' id='vo'}
-                            <li><a href="{:getUrl('Second/index','jieduan',$param,$vo['id'])}" {if condition="$search.jieduan eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            <li onclick="search_event('g',{$vo['id']})"><a href="javascript:void(0);" {if condition="$vo.status eq 1"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                             {if condition="$search.is_free eq 9"}
                             <!--<li><a href="{:getUrl('Second/index','is_free',$param,1)}"><b>自由购</b></a></li>-->
@@ -217,9 +221,9 @@
                     <div class="item clearfix">
                         <h3>状态:</h3>
                         <ul class="list">
-                            <li><a href="{:getUrl('Second/index','fcstatus',$param,0)}" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
+                            <li onclick="search_event('h',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.fcstatus eq 0'}class="active"{/if}>全部</a></li>
                             {volist name='fcstatus' id='vo'}
-                            <li><a href="{:getUrl('Second/index','fcstatus',$param,$vo['id'])}" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
+                            <li onclick="search_event('h',{$vo['id']})"><a href="javascript:void(0);" {if condition="$search.fcstatus eq $vo['id']"}class="active"{/if}>{$vo.name}</a></li>
                             {/volist}
                         </ul>
                     </div>
@@ -227,11 +231,11 @@
                         <h3>时间:</h3>
 
                         <ul class="list">
-                            <li><a href="{:getUrl('Second/index','time_frame',$param,0)}" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active time_frame_all"{/if}>全部</a></li>
-                            <li><a href="{:getUrl('Second/index','time_frame',$param,1)}" rel="nofollow" {if condition='$search.time_frame eq 1'}class="active"{/if}>最近1天</a></li>
-                            <li><a href="{:getUrl('Second/index','time_frame',$param,3)}" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>
-                            <li><a href="{:getUrl('Second/index','time_frame',$param,7)}" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>
-                            <li><a href="{:getUrl('Second/index','time_frame',$param,30)}" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>
+                            <li onclick="search_event('r',0)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.time_frame eq 0'}class="active time_frame_all"{/if}>全部</a></li>
+                            <li onclick="search_event('r',1)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.time_frame eq 1'}class="active"{/if}>最近1天</a></li>
+                            <li onclick="search_event('r',3)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.time_frame eq 3'}class="active"{/if}>最近3天</a></li>
+                            <li onclick="search_event('r',7)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.time_frame eq 7'}class="active"{/if}>最近7天</a></li>
+                            <li onclick="search_event('r',30)"><a href="javascript:void(0);" rel="nofollow" {if condition='$search.time_frame eq 30'}class="active"{/if}>最近30天</a></li>
                             <form>
                                 <li><input type="text" class="layui-input test-item" placeholder="请输入开始时间" id="state_time" style="height: 25px;width: 170px" value="{$start_time}"></li>
                                 <li>- </li>
@@ -245,6 +249,9 @@
                         <div class=" search-content">
                             <h3 class="item-title">搜索条件:</h3>
                             <ul class="search-tiaojian">
+                                {volist name='seo_array' id='vo'}
+                                <li onclick="search_cl('{$vo.letter}',{$vo.id})"><b>{$vo.keyword}</b><span><img src="/homeStatic/img/cha.png" alt=""></span></li>
+                                {/volist}
                             </ul>
                             <div class="search-tiaojian-buttons">
                                 <p>
@@ -316,38 +323,37 @@
                     </div>
                     <div class="tab sort-tab fr" style="display:black; float:right;">
                         <ul>
-                            <li style="margin-left:0px;">
-                                <a href="{:getUrl('Second/index','sort',$param,0)}" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
+                            <li style="margin-left:0px;" onclick="search_event('m',0)"><a href="javascript:void(0);" style="background:none;" {if condition='$search.sort eq 0'}class="active" style="text-align:center;" {/if}></a>
                             </li>
-                            <li ><a href="{:getUrl('Second/index','sort',$param,7)}" style="background:none;" {if condition='$search.sort eq 7'}class="active"{/if}>最新发布</a></li>
+                            <li onclick="search_event('m',7)"><a href="javascript:void(0);" style="background:none;" {if condition='$search.sort  eq 7'}class="active"{/if}>最新发布</a></li>
                             <!--<li><a href="{:getUrl('Second/index','sort',$param,8)}" style="background:none;" {if condition='$search.sort eq 8'}class="active"{/if}>捡漏房源</a></li>-->
                             {if condition='$search.sort eq 10'}
                             <!--<li><a href="{:getUrl('Second/index','is_free',$param,0)}" style="background:none;" {if condition='$search.is_free eq 1'}class="active"{/if}>自由购</a></li>-->
-                            <li><a href="{:getUrl('Second/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 10'}class="active"{/if}>自由购</a></li>
+                            <li onclick="search_event('m',9)"><a href="javascript:void(0);" style="background:none;" {if condition='$search.sort eq 10'}class="active"{/if}>自由购</a></li>
                             {else /}
                             <!--<li><a href="{:getUrl('Second/index','is_free',$param,1)}" style="background:none;">自由购</a></li>-->
-                            <li><a href="{:getUrl('Second/index','sort',$param,10)}" style="background:none;">自由购</a></li>
+                            <li onclick="search_event('m',10)"><a href="javascript:void(0);" style="background:none;">自由购</a></li>
                             {/if}
                             {if condition='$search.sort eq 1'}
-                            <li><a href="{:getUrl('Second/index','sort',$param,2)}" class="active up">房屋总价</a></li>
+                            <li onclick="search_event('m',2)"><a href="javascript:void(0);" class="active up">房屋总价</a></li>
                             {elseif condition='$search.sort eq 2'}
-                            <li><a href="{:getUrl('Second/index','sort',$param,1)}" class="active down">房屋总价</a></li>
+                            <li onclick="search_event('m',1)"><a href="javascript:void(0);" class="active down">房屋总价</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Second/index','sort',$param,1)}">房屋总价</a></li>
+                            <li onclick="search_event('m',1)"><a href="javascript:void(0);">房屋总价</a></li>
                             {/if}
                             {if condition='$search.sort eq 3'}
-                            <li ><a href="{:getUrl('Second/index','sort',$param,4)}" class="active up">房屋单价</a></li>
+                            <li  onclick="search_event('m',4)"><a href="javascript:void(0);" class="active up">房屋单价</a></li>
                             {elseif condition='$search.sort eq 4'}
-                            <li ><a href="{:getUrl('Second/index','sort',$param,3)}" class="active down">房屋单价</a></li>
+                            <li  onclick="search_event('m',3)"><a href="javascript:void(0);" class="active down">房屋单价</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Second/index','sort',$param,3)}">房屋单价</a></li>
+                            <li onclick="search_event('m',3)"><a href="javascript:void(0);">房屋单价</a></li>
                             {/if}
                             {if condition='$search.sort eq 5'}
-                            <li><a href="{:getUrl('Second/index','sort',$param,6)}" class="active up">房屋面积</a></li>
+                            <li onclick="search_event('m',6)"><a href="javascript:void(0);" class="active up">房屋面积</a></li>
                             {elseif condition='$search.sort eq 6'}
-                            <li><a href="{:getUrl('Second/index','sort',$param,5)}" class="active down">房屋面积</a></li>
+                            <li onclick="search_event('m',5)"><a href="javascript:void(0);" class="active down">房屋面积</a></li>
                             {else /}
-                            <li><a href="{:getUrl('Second/index','sort',$param,5)}">房屋面积</a></li>
+                            <li onclick="search_event('m',5)"><a href="javascript:void(0);">房屋面积</a></li>
                             {/if}
 
                             <!-- <li><a href="{:getUrl('Second/index','sort',$param,9)}" style="background:none;" {if condition='$search.sort eq 9'}class="active"{/if}>推荐房源</a></li> -->
@@ -489,6 +495,7 @@
                         {/notempty}
                         <input type="hidden" id="selected_nav" value="{$selected_nav}">
                         <input type="hidden" id="list_page_search_field" value="{$list_page_search_field}">
+
                         <div class="fangpai-shu-tuijian">
                             <h2>推荐小区</h2>
                             <div class="tuijian-swiper-container">
@@ -520,6 +527,9 @@
         </div>
     </div>
 </div>
+
+
+<input type="hidden" id="parameter_json" value="{$parameter_json}">
 <!--弹窗-->
 <div class="fangpai-detail-dialog">
     <div class="fangpai-detail-dialog-content">
@@ -757,21 +767,234 @@
     {{# } }}
 </script>
 <script>
-    var li = '<li data-id="banner" style="height: 195px"><a href=""><img src="{$waist_bunner.fileurl}" style="height: 100%; width: 100%; padding-bottom: 35px" alt=""></a></li>'
-    $('.fangpai-lie-list li').eq(2).after(li)
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        lay('.test-item').each(function(){
-            laydate.render({
-                elem: this
-                ,trigger: 'click'
-            });
-        })
+    //删除单个搜索条件
+    function search_cl(id,number){
+        let parameter_json = $("#parameter_json").val();
+        let index_url = 'erf?';
+        if(parameter_json==''){
+            window.location.href=index_url;
+        }else{
+            index_url += 'a=';
+        }
+        let obj = jQuery.parseJSON(parameter_json);
+        if(id=='tu'){
+            for(var i=0;i<obj.length;i++){
+                if('t'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+                if('u'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='vw'){
+            for(var i=0;i<obj.length;i++){
+                if('v'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+                if('w'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='rs'){
+            for(var i=0;i<obj.length;i++){
+                if('r'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+                if('s'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='a'||id=='h'||id=='i'||id=='m'||id=='c'||id=='d'||id=='r'||id=='f'){
+            for(var i=0;i<obj.length;i++){
+                if(id==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }else{
+            for(var i=0;i<obj.length;i++){
+                if(id==obj[i]['id']){
+                    let str = obj[i]['number_str'].split(',');
+                    for(var s=0;s<str.length;s++) {
+                        if(str[s]==number){
+                            str.splice(s,1);
+                        }
+                    }
+                    if(str==''){
+                        obj.splice(i,1);
+                    }else{
+                        obj[i]['number_str'] = str;
+                    }
+                }
+            }
+        }
+        if(obj!='') {
+            for (var i = 0; i < obj.length; i++) {
+                index_url += obj[i]['id'] + obj[i]['number_str'];
+            }
+        }
+        window.location.href=index_url;
+    }
+    //全功能搜索排序
+    //拼接搜索条件
+    //如果是acd则只取一个
+    //拼接的第一个参数去除|
+    //参数与原有参数一致则逗号拼接
+    //某个选项为0时清除当前选项的条件
+    function search_event(id,number){
+        let parameter_json = $("#parameter_json").val();
+        let index_url = 'erf?a=';
+        if(parameter_json==''){
+            index_url += id+number;
+            window.location.href=index_url;
+        }
+        let obj = jQuery.parseJSON(parameter_json);
+        if(id=='a'||id=='h'||id=='i'||id=='m'||id=='f'||number==0){
+            for(var i=0;i<obj.length;i++){
+                if(id==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='c'){
+            for(var i=0;i<obj.length;i++){
+                if('c'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+            for(var i=0;i<obj.length;i++){
+                if('t'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+            for(var i=0;i<obj.length;i++){
+                if('u'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='d'){
+            for(var i=0;i<obj.length;i++){
+                if('d'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+            for(var i=0;i<obj.length;i++){
+                if('v'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+            for(var i=0;i<obj.length;i++){
+                if('w'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(id=='r'){
+            for(var i=0;i<obj.length;i++){
+                if('r'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+            for(var i=0;i<obj.length;i++){
+                if('s'==obj[i]['id']){
+                    obj.splice(i,1);
+                }
+            }
+        }
+        if(obj!='') {
+            for (var i = 0; i < obj.length; i++) {
+                index_url += obj[i]['id'] + obj[i]['number_str'];
+            }
+        }
+        if(number!=0){
+            index_url += id+number;
+        }
+        window.location.href=index_url;
+    }
+    $(".zprice_click").on('click',function () {
+        var zprice1 = $("#zprice1").val();
+        var zprice2 = $("#zprice2").val();
+        if (zprice1.length <= 0){
+            layer.msg("请输入价格");
+            return false;
+        }
+        if (zprice2.length <= 0){
+            layer.msg("请输入价格");
+            return false;
+        }
+        let parameter_json = $("#parameter_json").val();
+        let index_url = 'erf?a=';
+        if(parameter_json==''){
+            index_url += 't'+zprice1+'u'+zprice2;
+            window.location.href=index_url;
+        }
+        let obj = jQuery.parseJSON(parameter_json);
+        for(var i=0;i<obj.length;i++){
+            if('c'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            if('t'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            if('u'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            index_url += obj[i]['id']+obj[i]['number_str'];
+        }
+        index_url += 't'+zprice1+'u'+zprice2;
+        window.location.href=index_url;
+    })
+    $(".zmianji_click").on('click',function () {
+        var zmianji1 = $("#zmianji1").val();
+        var zmianji2 = $("#zmianji2").val();
+        if (zmianji1.length <= 0){
+            layer.msg("请输入面积");
+            return false;
+        }
+        if (zmianji2.length <= 0){
+            layer.msg("请输入面积");
+            return false;
+        }
+        let parameter_json = $("#parameter_json").val();
+        let index_url = 'erf?a=';
+        if(parameter_json==''){
+            index_url += 'v'+zmianji1+'w'+zmianji2;
+            window.location.href=index_url;
+        }
+        let obj = jQuery.parseJSON(parameter_json);
+        for(var i=0;i<obj.length;i++){
+            if('d'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            if('v'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            if('w'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            index_url += obj[i]['id']+obj[i]['number_str'];
+        }
+        index_url += 'v'+zmianji1+'w'+zmianji2;
+        window.location.href=index_url;
     })
     $(".test6_substr").on('click',function () {
         var state_time = $("#state_time").val();
         var end_time = $("#end_time").val();
-
         var start_time_str = '{$param.time_frame}';
         var end_time_str = '{$param.end_time}';
         if ($("#state_time").val().length <= 0){
@@ -782,17 +1005,47 @@
             layer.msg("请输入结束时间");
             return false;
         }
-        var time_frame_all = $('.active').attr('href');
-
+        var time_frame_all = $("#index_url").val();
         var time_str = 'time_frame/'+state_time;
         var th_str ='time_frame/'+start_time_str;
 
         var en_time_str = 'end_time/'+end_time;
         var end_th_str ='end_time/'+end_time_str;
 
-        var pj =  time_frame_all.replace(th_str,time_str);
-        pj = pj.replace(end_th_str,en_time_str);
-        window.location.href=pj;
+        pj = time_frame_all+'|r.'+state_time+'|s.'+end_time;
+        let parameter_json = $("#parameter_json").val();
+        let index_url = 'erf?a=';
+        if(parameter_json==''){
+            index_url += 'r'+state_time+'s'+end_time;
+            window.location.href=index_url;
+        }
+        let obj = jQuery.parseJSON(parameter_json);
+        for(var i=0;i<obj.length;i++){
+            if('r'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            if('s'==obj[i]['id']){
+                obj.splice(i,1);
+            }
+        }
+        for(var i=0;i<obj.length;i++){
+            index_url += obj[i]['id']+obj[i]['number_str'];
+        }
+        index_url += 'r'+state_time+'s'+end_time;
+        window.location.href=index_url;
+    })
+    var li = '<li data-id="banner" style="height: 195px"><a href=""><img src="{$waist_bunner.fileurl}" style="height: 100%; width: 100%; padding-bottom: 35px" alt=""></a></li>'
+    $('.fangpai-lie-list li').eq(2).after(li)
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        lay('.test-item').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+            });
+        })
     })
 </script>
 <script type="text/javascript" src="__STATIC__/js/layer/laytpl.js"></script>

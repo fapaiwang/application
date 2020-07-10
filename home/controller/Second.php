@@ -23,23 +23,22 @@ class Second extends HomeBase{
     public function index(){
         $result = $this->getLists();
         $lists  = $result['lists'];
-        $arr=$this->request->param();
+        /*$arr=$this->request->param();
         if(!empty($arr['keyword'])){
             $keywords = $arr['keyword'];
         }else{
             $keywords='';
-        }
+        }*/
         $IndexServer= new IndexServer();
         $SecondServer= new SecondServer();
         //问答
         $answer = model('article')->field('id,title,hits,create_time')->where('cate_id',10)->cache('answer',3600)->order('hits desc')->limit(5)->select();
         $hot_news = model('article')->field('id,title')->where('cate_id','neq',10)->cache('hot_news',3600)->order('hits desc')->limit(5)->select();
         $area = input('param.area/d', $this->cityInfo['id']);
-//        if ($area < 57){
-//            $area=0;
-//        }
+
         $quality_estate =$IndexServer->get_quality_estate(10);
         $list_page_search_field = $SecondServer->list_page_search_field($area);
+       // print_r($list_page_search_field);die;
         $userInfo = login_user();
         $waist_bunner = $IndexServer->get_home_banner_arr(19,1);
         if (!empty($waist_bunner)) {
@@ -51,13 +50,13 @@ class Second extends HomeBase{
         $this->assign('hot_news',$hot_news);
         $this->assign('quality_estate',$quality_estate);//推荐小区
         $this->assign('list_page_search_field',json_encode($list_page_search_field));//列表页搜索栏数据
-        $this->assign('keywords',$keywords);
+        //$this->assign('keywords',$keywords);
         $this->assign('metro',Metro::index($this->cityInfo['id']));//地铁线
-        $this->assign('house_type',getLinkMenuCache(9));//类型
+        //$this->assign('house_type',getLinkMenuCache(9));//类型
         $this->assign('orientations',getLinkMenuCache(4));//朝向
         $this->assign('floor',getLinkMenuCache(7));//朝向
-        $this->assign('types',getLinkMenuCache(26));//类型s
-        $this->assign('jieduan',getLinkMenuCache(25));//阶段
+        //$this->assign('types',getLinkMenuCache(26));//类型s
+        //$this->assign('jieduan',getLinkMenuCache(25));//阶段
         $this->assign('fcstatus',getLinkMenuCache(27));//状态
         $this->assign('renovation',getLinkMenuCache(8));//装修情况
         $this->assign('tags',getLinkMenuCache(14));//标签
@@ -295,9 +294,12 @@ class Second extends HomeBase{
      */
     private function getLists(){
         $time    = time();
-        $where   = $this->search();
-        $param['fcstatus']       = input('param.fcstatus',0);//状态
-        $sort    = input('param.sort/d',0);
+        $where_data   = $this->search();
+        $where = $where_data['data'];
+        $index_url = $where_data['index_url_new'];
+        $param = $where_data['param'];
+        //$param['fcstatus']       = input('param.fcstatus',0);//状态
+        $sort    = $param['sort'];//input('param.sort/d',0);
         if ( $param['fcstatus'] == 175){
             $sort = 11;
         }
@@ -312,14 +314,14 @@ class Second extends HomeBase{
             //查询地铁关联表
             $field .= ',m.metro_name,m.station_name,m.distance';
             $join  = [['metro_relation m','m.house_id = s.id']];
-            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
         }else{
             if($sort==8){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
             }else if($sort==7){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
             }else{
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
             }
         }
         if($lists->currentPage() == 1){
@@ -741,7 +743,442 @@ class Second extends HomeBase{
 
 
 
+    private function search_test1(){
+        $parameter = input('param.a');
+        $estate_id     = input('param.estate_id/d',0);//小区id
+        $param = $this->decompose($parameter);
+        $time_frame  = $param['time_frame'];//查询时间
+        $mod_type  = input('param.mod',0);//传值
+        $data['s.status']    = 1;
+        //最新发布和自由购 只存在一个
+        if ($param['sort'] == 10){
+            $param['is_free']  = 1;
+        }else{
+            $param['is_free']  = 0;
+        }
+        //获取当前请求的参数
+        $arr=$this->request->param();
+        if(!empty($arr['keyword'])){
+            $keyword = $arr['keyword'];
+        }else{
+            $keyword = $param['keyword'];//input('get.keyword');
+        }
+        //显示街道时
+        if ($param['area']  > 57){
+            $param['street'] =$param['area'];
+        }
+        if(!empty($_GET['rec_position'])){
+            $rec_position=$_GET['rec_position'];
+        }
+        $zmianji1=$param['zmianji1'];
+        $zmianji2=$param['zmianji2'];
+        $zprice1=$param['zprice1'];
+        $zprice2=$param['zprice2'];
+        //seo优化
+        $seo_title = '';
+        //搜索条件html
+        $parameter_html = array();
+        if($estate_id) {
+            $data['s.estate_id'] = $estate_id;
+            $estate_name = model('estate')->where('id',$estate_id)->value('title');
+            $seo_title .= '_'.$estate_name.'二手房';
+        }
+        if(!empty($param['type'])){
+            $data[] = array('s.house_type','in',$param['type']);
+        }
+        if(!empty($param['user_type'])){
+            $data['s.user_type'] = $param['user_type'];
+        }
+        if(!empty($param['orientations'])){
+            $data['s.orientations'] = $param['orientations'];
+        }
+        if($param['renovation']){
+            $data['s.renovation'] = $param['renovation'];
+        }
+        if($keyword){
+            if(!empty($_GET['type'])){
+                $house_type=$_GET['type'];
+                $param['types']=$house_type;
+            }
+            $param['keyword'] = $keyword;
+            $data[] = ['s.title','like','%'.$keyword.'%'];
+            $seo_title .= '_'.$keyword;
+        }
+
+        if($param['search_type'] == 2) {
+            if(!empty($param['metro'])){
+                $data['m.metro_id'] = $param['metro'];
+                $seo_title .= '_地铁'.Metro::getMetroName($param['metro']);
+                $this->assign('metro_station',Metro::metroStation($param['metro']));
+            }else{
+                $data[] = ['s.city','in',$this->getCityChild()];
+            }
+            if(!empty($param['metro_station'])){
+                $data['m.station_id'] = $param['metro_station'];
+                $seo_title .= '_'.Metro::getStationName($param['metro_station']);
+            }
+        }else{
+            if(!empty($param['area'])){
+                $data[] = ['s.city','in',$this->getCityChild($param['area'])];
+                $rading = $this->getRadingByAreaId($param['area']);
+                //print_r($rading[$param['area']]['pid']);die;
+                //读取商圈
+                $param['rading'] = 0;
+                if($rading && array_key_exists($param['area'],$rading)){
+                    $param['rading']  = $param['area'];
+                    $param['area']    = $rading[$param['area']]['pid'];
+                }
+                $param['area']!=$this->cityInfo['id'] && $seo_title .= '_'.getCityName($param['area'],'').'二手房';
+                $this->assign('rading',$rading);
+            }
+        }
+
+        if(!empty($param['qipai'])) {
+            $data[] = getSecondPrice($param['qipai'],'s.qipai');
+            $qipai  = config('filter.second_qipai');
+            isset($qipai[$param['qipai']]) && $seo_title .= '_'.$qipai[$param['qipai']]['name'];
+            $param['zprice1'] = 0;
+            $param['zprice2'] = 0;
+        }elseif(!empty($zprice2)&&!empty($zprice1)){
+            $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
+        }
+        if(!empty($param['room'])){
+            $data[] = getRoom($param['room'],'s.room');
+            $room   = config('filter.room');
+            isset($room[$param['room']]) && $seo_title .= '_'.$room[$param['room']];
+        }
+        if(!empty($param['types'])){
+            $data['s.types'] = $param['types'];
+            $seo_title .= '_'.getLinkMenuName(26,$param['types']);
+        }
+        if(!empty($param['jieduan'])) {
+            $data['s.jieduan'] = $param['jieduan'];
+            $seo_title .= '_'.getLinkMenuName(25,$param['jieduan']);
+        }
+        if(!empty($param['fcstatus'])) {
+            $data['s.fcstatus'] = $param['fcstatus'];
+            $seo_title .= '_'.getLinkMenuName(27,$param['fcstatus']);
+        }
+        if(!empty($param['acreage'])){
+            $data[] = getAcreage($param['acreage'],'s.acreage');
+            $acreage = config('filter.acreage');
+            isset($acreage[$param['acreage']]) && $seo_title .= '_'.$acreage[$param['acreage']]['name'];
+            $param['zmianji1'] = 0;
+            $param['zmianji2'] = 0;
+        }elseif(!empty($zmianji1)&&!empty($zmianji2)){
+            $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
+        }
+        if(!empty($param['tags'])){
+            $data[] = ['','exp',\think\Db::raw("find_in_set({$param['tags']},s.tags)")];
+            $seo_title .= '_'.getLinkMenuName(14,$param['tags']);
+        }
+        $data[] = ['s.timeout','gt',time()];
+        //是否是自由购
+        if(!empty($param['is_free'])){
+            $data['s.is_free'] = $param['is_free'];
+        }
+        $start_time = $end_time = "";
+        if ($time_frame == 1){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif ($time_frame == 3){
+            $start_time = date('Y-m-d',strtotime( '-2 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif ($time_frame == 7){
+            $start_time = date('Y-m-d',strtotime( '-6 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif ($time_frame == 30){
+            $start_time = date('Y-m-d',strtotime( '-30 day'));
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+        }elseif (!empty($param['time_frame'])){
+            $start_time = $param['time_frame'];
+            $end_time = $param['end_time'];
+        }
+        //今日新增/今日成交 时间筛选
+        if (!empty($param['time_frame'])){
+            if ($param['fcstatus'] == 175){
+                $data[] = ['s.endtime','>',$start_time];
+                $data[] = ['s.endtime','<',$end_time];
+            }else{
+                $data[] = ['s.kptime','>',$start_time];
+                $data[] = ['s.kptime','<',$end_time];
+            }
+        }
+        //
+        if ($mod_type == 3){
+            $data[] = ['s.fabutime','>',date('Y-m-d')];
+            $data[] = ['s.fabutime','<',date('Y-m-d',strtotime( '+1 day'))];
+        }
+        $this->assign('start_time',$start_time);
+        $this->assign('end_time',$end_time);
+        /*if(!empty($_GET['zprice2'])){
+            $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
+        }*/
+        if(!empty($_GET['rec_position'])){
+            $data[] = ['rec_position','eq',1];
+        }
+
+
+        $search = $param;
+        $seo_title  = trim($seo_title,'_');
+
+        $seo_title && $this->setSeo(['seo_title'=>$seo_title,'seo_keys'=>str_replace('_',',',$seo_title)]);
+        //unset($param['rading']);
+        $data = array_filter($data);
+        $this->assign('search',$search);
+
+        $this->search_arr(array_filter($param));
+        //解决地区商圈选择问题
+        if(isset($param['rading'])&&$param['rading']>0){
+            $param['area']    = $param['rading'];
+        }
+        $index_url_new = $this->recombination($param);
+        if(empty($index_url_new)){
+            $index_url = 'erf?';
+        }else{
+            $index_url = 'erf?a='.$index_url_new;
+        }
+        $this->assign('index_url',$index_url);
+        $this->assign('param',$param);
+        $this->assign('keyword',$keyword);
+        //返回搜索条件
+        $parameter_json = $this->parameter_json($parameter);
+        $this->assign('parameter_json',$parameter_json);
+        return array('data'=>$data,'index_url_new'=>$index_url_new,'param'=>$param);
+    }
+
+    /**
+    *  搜索
+     */
     private function search(){
+        $secondSer = new SecondServer();
+        $parameter = input('param.a');
+        $estate_id     = input('param.estate_id/d',0);//小区id
+        $param = $secondSer->decompose($parameter,$this->cityInfo['id']);
+        $time_frame  = $param['time_frame'];//查询时间
+        $mod_type  = input('param.mod',0);//传值
+        $data['s.status']    = 1;
+        $area_id = $param['area'];
+        //最新发布和自由购 只存在一个
+        if ($param['sort'] == 10){
+            $param['is_free']  = 1;
+        }else{
+            $param['is_free']  = 0;
+        }
+        //获取当前请求的参数
+        $arr=$this->request->param();
+        if(!empty($arr['keyword'])){
+            $keyword = $arr['keyword'];
+        }else{
+            $keyword = $param['keyword'];
+        }
+        //显示街道时
+        if ($param['area']  > 57){
+            $param['street'] =$param['area'];
+        }
+        if(!empty($_GET['rec_position'])){
+            $rec_position=$_GET['rec_position'];
+        }
+        $zmianji1=$param['zmianji1'];
+        $zmianji2=$param['zmianji2'];
+        $zprice1=$param['zprice1'];
+        $zprice2=$param['zprice2'];
+        //seo优化
+        $seo_title = '';
+        $seo_array = array();
+        if($estate_id) {
+            $data['s.estate_id'] = $estate_id;
+            $estate_name = model('estate')->where('id',$estate_id)->value('title');
+        }
+
+        if($keyword){
+            $param['keyword'] = $keyword;
+            $data[] = ['s.title','like','%'.$keyword.'%'];
+            //$seo_title .= $keyword;
+            $seo_array[] = array('letter'=>'x','keyword'=>$keyword,'id'=>'');
+        }
+        $title_area = '';
+        if($param['search_type'] == 2) {
+
+        }else{
+            if(!empty($param['area'])){
+                $data[] = ['s.city','in',$this->getCityChild($param['area'])];
+                $rading = $this->getRadingByAreaId($param['area']);
+                //读取商圈
+                $param['rading'] = 0;
+                if($rading && array_key_exists($param['area'],$rading)){
+                    $param['rading']  = $param['area'];
+                    $param['area']    = $rading[$param['area']]['pid'];
+                }
+                if($param['area']!=$this->cityInfo['id']){
+                    $seo_title .= getCityName($area_id,'');
+                }else{
+                    $seo_title .= '北京';
+                }
+                //$param['area']!=$this->cityInfo['id'] && $seo_title .= getCityName($area_id,'');
+                $title_area = getCityName($param['area'],'');
+                $this->assign('rading',$rading);
+                //print_r($param['area']);die;
+                if($param['area']!=39){
+                    $seo_array[] = array('letter'=>'a','keyword'=>getCityName($area_id),'type'=>1,'id'=>0);
+                }
+            }
+        }
+        if(!empty($param['qipai'])) {
+            $data[] = getSecondPrice($param['qipai'],'s.qipai');
+            $qipai  = config('filter.second_qipai');
+            isset($qipai[$param['qipai']]) && $seo_title .= $qipai[$param['qipai']]['name'];
+            $seo_array[] = array('letter'=>'c','keyword'=>$qipai[$param['qipai']]['name'],'type'=>1,'id'=>0);
+            $param['zprice1'] = 0;
+            $param['zprice2'] = 0;
+        }elseif(!empty($zprice2)&&!empty($zprice1)){
+            $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
+            $seo_title .= $zprice1.'到'.$zprice2.'万元';
+            $seo_array[] = array('letter'=>'tu','keyword'=>$zprice1.'到'.$zprice2.'万元','type'=>1,'id'=>0);
+        }
+        if(!empty($param['acreage'])){
+            $data[] = getAcreage($param['acreage'],'s.acreage');
+            $acreage = config('filter.acreage');
+            isset($acreage[$param['acreage']]) && $seo_title .= $acreage[$param['acreage']]['name'];
+            $param['zmianji1'] = 0;
+            $param['zmianji2'] = 0;
+            $seo_array[] = array('letter'=>'d','keyword'=>$acreage[$param['acreage']]['name'],'id'=>$param['acreage']);
+        }elseif(!empty($zmianji1)&&!empty($zmianji2)){
+            $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
+            $seo_title .= $zmianji1.'_'.$zmianji2.'m²';
+            $seo_array[] = array('letter'=>'vw','keyword'=>$zmianji1.'_'.$zmianji2.'m²','id'=>$zmianji1);
+        }
+        if(!empty($param['room'])){
+            $room_array   = config('filter.room');
+            $data[] = array('s.room','in',$param['room']);
+            $room_find = explode(',',$param['room']);
+            foreach($room_array as $k=>$v){
+                if(in_array($k,$room_find)){
+                    $seo_title .= $v;
+                    $seo_array[] = array('letter'=>'e','keyword'=>$v,'type'=>1,'id'=>$k);
+                }
+            }
+        }
+        if(!empty($param['jieduan'])) {
+            $data[] = array('s.jieduan','in',$param['jieduan']);
+            $jieduan_list = model('linkmenu')->field('id,name')->where('status','=',1)->where('id','in',$param['jieduan'])->select();
+            $jieduan_list = objToArray($jieduan_list);
+            foreach($jieduan_list as $k=>$v){
+                $seo_title .= $v['name'];
+                $seo_array[] = array('letter'=>'g','keyword'=>$v['name'],'id'=>$v['id']);
+            }
+        }
+        if(!empty($param['fcstatus'])) {
+            $data['s.fcstatus'] = $param['fcstatus'];
+            $seo_title .= getLinkMenuName(27,$param['fcstatus']);
+            $seo_array[] = array('letter'=>'h','keyword'=>getLinkMenuName(27,$param['fcstatus']),'id'=>$param['fcstatus']);
+        }
+        $start_time = $end_time = "";
+        if ($time_frame == 1){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+            $seo_title .= '最近1天';
+            $seo_array[] = array('letter'=>'r','keyword'=>'最近1天','id'=>1);
+        }elseif ($time_frame == 3){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+2 day'));
+            $seo_title .= '最近3天';
+            $seo_array[] = array('letter'=>'r','keyword'=>'最近3天','id'=>3);
+        }elseif ($time_frame == 7){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+6 day'));
+            $seo_title .= '最近7天';
+            $seo_array[] = array('letter'=>'r','keyword'=>'最近7天','id'=>7);
+        }elseif ($time_frame == 30){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+29 day'));
+            $seo_title .= '最近30天';
+            $seo_array[] = array('letter'=>'r','keyword'=>'最近30天','id'=>30);
+        }elseif (!empty($param['time_frame'])){
+            $start_time = $param['time_frame'];
+            $end_time = $param['end_time'];
+            $seo_array[] = array('letter'=>'rs','keyword'=>$start_time.'到'.$end_time,'id'=>0);
+        }
+        if (!empty($param['time_frame'])){
+            $data[] = ['s.endtime','>',$start_time];
+            $data[] = ['s.endtime','<',$end_time];
+        }
+        if ($mod_type == 3){
+            $data[] = ['s.fabutime','>',date('Y-m-d')];
+            $data[] = ['s.fabutime','<',date('Y-m-d',strtotime( '+1 day'))];
+        }
+        if(!empty($param['types'])){
+            $data[] = array('s.types','in',$param['types']);
+            $types_list = model('linkmenu')->field('id,name')->where('status','=',1)->where('id','in',$param['types'])->select();
+            $types_list = objToArray($types_list);
+            foreach($types_list as $k=>$v){
+                $seo_title .= $v['name'];
+                $seo_array[] = array('letter'=>'f','keyword'=>$v['name'],'id'=>$v['id']);
+            }
+        }
+        $data[] = ['s.timeout','gt',time()];
+        //是否是自由购
+        if(!empty($param['is_free'])){
+            $data['s.is_free'] = $param['is_free'];
+            $seo_title .= '自由购';
+        }
+        //房源类型
+        if(!empty($param['type'])){
+            $data['s.house_type'] = $param['type'];
+            $seo_array[] = array('letter'=>'i','keyword'=>getLinkMenuName(9,$param['type']),'id'=>$param['type']);
+        }
+        $this->assign('start_time',$start_time);
+        $this->assign('end_time',$end_time);
+        if(!empty($_GET['rec_position'])){
+            $data[] = ['rec_position','eq',1];
+        }
+        $search = $param;
+        //$seo_title  = trim($seo_title,'_');
+        $setSeo = $secondSer->seo_data($seo_title,$title_area,$param['type']);
+
+        $seo_title && $this->setSeo($setSeo,'','');
+        $data = array_filter($data);
+        $this->assign('search',$search);
+        $this->search_arr(array());
+        //解决地区商圈选择问题
+        if(isset($param['rading'])&&$param['rading']>0){
+            $param['area']    = $param['rading'];
+        }
+        $column = $secondSer->column($param);
+        $this->assign('jieduan',$column['jieduan']);
+        $this->assign('huxing',$column['huxing']);
+        $this->assign('types',$column['types']);
+        $this->assign('house_type',$column['house_type']);
+        $this->assign('param',$param);
+        $this->assign('keyword',$keyword);
+        $this->assign('seo_array',$seo_array);
+        //返回搜索条件
+        $parameter_json = $secondSer->parameter_json($parameter,$keyword);
+        $this->assign('parameter_json',$parameter_json);
+        if($keyword!=''){
+            $parameter .= 'x'.$keyword;
+        }
+        return array('data'=>$data,'index_url_new'=>$parameter,'param'=>$param);
+    }
+
+    /**
+    *  搜索条件
+
+    function parameter_html($id){
+        $where['status'] = '1';
+        $where['id'] = array('in',$id);
+        $lists = model('linkmenu')->field('id,menuid,name')->where('status','=',1)->where('id','in',$id)->select();
+        $lists = objToArray($lists);//普通列表
+        $seo_title = '';
+        foreach($lists as $k=>$v){
+            $seo_title .=$v['name'];
+        }
+        return array('list'=>$lists,'seo_title'=>$seo_title);
+    }*/
+    /**
+    *   测试备份
+     */
+    private function search_test(){
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param['area'] = input('param.area/d', $this->cityInfo['id']);
 //        dd($param);
@@ -974,9 +1411,9 @@ class Second extends HomeBase{
      * @author: al
      */
     function search_arr($param){
-        $res =[];
+         $res =[];
         //区域
-        if ($param['area'] && $param['area'] != 39){
+        if (!empty($param['area']) && $param['area'] != 39){
             $area = getCityName($param['area'],',');
             if ($area){
                 $ex_area = explode(',',$area);
@@ -1034,6 +1471,7 @@ class Second extends HomeBase{
 
         }
         $this->assign('selected_nav',json_encode($res));
+
     }
 
 

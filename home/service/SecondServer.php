@@ -309,5 +309,334 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         }
         return $user_fapai_arr;
     }
+    /**
+    *  拼接jdk参数
+     */
+    function seo_data($seo_title='',$title_area='',$type=''){
+        if($type==45||$type==0){
+            $seo['seo_title'] = $seo_title.'法拍房,法拍房源信息-金铂顺昌房拍网';
+            $seo['seo_keys']  = $seo_title.'法拍房,法拍房源信息,金铂顺昌房拍网';
+            $seo['seo_desc']  = '金铂顺昌房拍网为北京知名网络司法房产拍卖，法拍房辅拍机构，专业从事15年。网站汇聚'.$title_area.'网上司法拍卖房源信息，更多法拍房源信息就到金铂顺昌房拍网。';
+        }elseif($type==46){
+            $seo['seo_title'] = $seo_title.'法拍房,国有资产拍卖房源信息-金铂顺昌房拍网';
+            $seo['seo_keys']  = $seo_title.'法拍房,国有资产拍卖信息,金铂顺昌房拍网';
+            $seo['seo_desc']  = '金铂顺昌房拍网为北京知名网络司法房产拍卖，法拍房辅拍机构，专业从事15年。网站汇聚'.$title_area.'网上司法拍卖国有资产信息，更多法拍房源信息就到金铂顺昌房拍网。';
+        }elseif($type==47){
+            $seo['seo_title'] = $seo_title.'法拍房,涉诉房产拍卖房源信息-金铂顺昌房拍网';
+            $seo['seo_keys']  = $seo_title.'法拍房,涉诉房产拍卖信息,金铂顺昌房拍网';
+            $seo['seo_desc']  = '金铂顺昌房拍网为北京知名网络司法房产拍卖，法拍房辅拍机构，专业从事15年。网站汇聚'.$title_area.'网上司法拍卖涉诉房产信息，更多法拍房源信息就到金铂顺昌房拍网。';
+        }elseif($type==48){
+            $seo['seo_title'] = $seo_title.'法拍房,社会委托拍卖房源信息-金铂顺昌房拍网';
+            $seo['seo_keys']  = $seo_title.'法拍房,社会委托拍卖信息,金铂顺昌房拍网';
+            $seo['seo_desc']  = '金铂顺昌房拍网为北京知名网络司法房产拍卖，法拍房辅拍机构，专业从事15年。网站汇聚'.$title_area.'网上司法拍社会委托信息，更多法拍房源信息就到金铂顺昌房拍网。';
+        }
+        return $seo;
+    }
+    /**
+     *    分解url路径
+     */
+    public function decompose($url,$area_id){
+        $param['area'] = $area_id;
+        $param['rading']        = 0;
+        $param['tags']          = 0;
+        $param['qipai']         = 0;
+        $param['acreage']       = 0;//面积
+        $param['room']          = 0;//户型
+        $param['types']         = 0;//户型
+        $param['jieduan']       = 0;//户型
+        $param['fcstatus']      = 0;//状态
+        $param['type']          = 0;//物业类型
+        $param['renovation']    = 0;//装修情况
+        $param['metro']         = 0;//地铁线
+        $param['metro_station'] = 0;//地铁站点
+        $param['sort']          = 0;//排序
+        $param['is_free']       = 0;//自由购
+        $param['orientations']  = 0;//朝向
+        $param['user_type']     = 0;//1个人房源  2中介房源
+        $param['search_type']   = 0;//查询方式 1按区域查询 2按地铁查询
+        $param['time_frame']    = 0;//查询时间
+        $param['end_time']      = 0;//查询时间
+        $param['zprice1']       = 0;//查询价格
+        $param['zprice2']       = 0;//查询价格
+        $param['zmianji1']      = 0;//查询面积
+        $param['zmianji2']      = 0;//查询面积
+        $param['keyword']      = '';//查询面积
+        $array=preg_split("/(?=[a-z])/",$url);
+        unset($array[0]);
+        $str = array();
+        foreach($array as $k=>$v){
+            $str[] = array('letter'=>substr($v,0,1),'keyword'=>substr($v,1));
+        }
+        foreach($str as $k=>$v){
+            if($v['letter']=='a'){
+                $param['area'] = $v['keyword'];
+            }elseif($v['letter']=='b'){
+                if($param['tags']==0){
+                    $param['tags'] = $v['keyword'];
+                }else{
+                    $param['tags'] = $param['tags'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='c'){
+                $param['qipai'] = $v['keyword'];
+            }elseif($v['letter']=='d'){
+                $param['acreage'] = $v['keyword'];
+            }elseif($v['letter']=='e'){
+                if($param['room']==0){
+                    $param['room'] = $v['keyword'];
+                }else{
+                    $param['room'] = $param['room'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='f'){
+                if($param['types']==0){
+                    $param['types'] = $v['keyword'];
+                }else{
+                    $param['types'] = $param['types'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='g'){
+                if($param['jieduan']==0){
+                    $param['jieduan'] = $v['keyword'];
+                }else{
+                    $param['jieduan'] = $param['jieduan'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='h'){
+                $param['fcstatus'] = $v['keyword'];
+            }elseif($v['letter']=='i'){
+                $param['type'] = $v['keyword'];
+            }elseif($v['letter']=='j'){
+                if($param['renovation']==0){
+                    $param['renovation'] = $v['keyword'];
+                }else{
+                    $param['renovation'] = $param['renovation'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='k'){
+                if($param['metro']==0){
+                    $param['metro'] = $v['keyword'];
+                }else{
+                    $param['metro'] = $param['metro'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='l'){
+                if($param['metro_station']==0){
+                    $param['metro_station'] = $v['keyword'];
+                }else{
+                    $param['metro_station'] = $param['metro_station'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='m'){
+                $param['sort'] = $v['keyword'];
+            }elseif($v['letter']=='n'){
+                if($param['is_free']==0){
+                    $param['is_free'] = $v['keyword'];
+                }else{
+                    $param['is_free'] = $param['is_free'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='o'){
+                if($param['orientations']==0){
+                    $param['orientations'] = $v['keyword'];
+                }else{
+                    $param['orientations'] = $param['orientations'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='p'){
+                if($param['user_type']==0){
+                    $param['user_type'] = $v['keyword'];
+                }else{
+                    $param['user_type'] = $param['user_type'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='q'){
+                if($param['search_type']==0){
+                    $param['search_type'] = $v['keyword'];
+                }else{
+                    $param['search_type'] = $param['search_type'].','.$v['keyword'];
+                }
+            }elseif($v['letter']=='r'){
+                $param['time_frame'] = $v['keyword'];
+            }elseif($v['letter']=='s'){
+                $param['end_time'] = $v['keyword'];
+            }elseif($v['letter']=='t'){
+                $param['zprice1'] = $v['keyword'];
+            }elseif($v['letter']=='u'){
+                $param['zprice2'] = $v['keyword'];
+            }elseif($v['letter']=='v'){
+                $param['zmianji1'] = $v['keyword'];
+            }elseif($v['letter']=='w'){
+                $param['zmianji2'] = $v['keyword'];
+            }elseif($v['letter']=='x'){
+                $param['keyword'] = $v['keyword'];
+            }
+        }
+        return $param;
+    }
+    /**
+     *    搜索参数转换为json串
+     */
+    function parameter_json($parameter,$keyword){
+        $data = array();
+        if($parameter!=''){
+            $parameter=preg_split("/(?=[a-z])/",$parameter);
+            unset($parameter[0]);
+            foreach($parameter as $k=>$v){
+                $data[] = array('id'=>substr($v,0,1),'number_str'=>substr($v,1));
+            }
+        }
+        if($keyword!=''){
+            $data[] = array('id'=>'x','number_str'=>$keyword);
+        }
+        return json_encode($data);
+        /*if($parameter==''&&$keyword==''){
+            return '';
+        }elseif($parameter!=''&&$keyword==''){
+            $parameter_arr = explode('|',$parameter);
+            $data = array();
+            foreach($parameter_arr as $k=>$v){
+                $str = explode('.',$v);
+                $data[] = array('id'=>$str[0],'number_str'=>$str[1]);
+            }
+            return json_encode($data);
+        }elseif($parameter!=''&&$keyword!=''){
+            $parameter_arr = explode('|',$parameter);
+            $data = array();
+            $status = 0;
+            foreach($parameter_arr as $k=>$v){
+                $str = explode('.',$v);
+                $data[] = array('id'=>$str[0],'number_str'=>$str[1]);
+                if($str[0]=='x'){
+                    $status = 1;
+                }
+            }
+            if($status==0){
+                $data[] = array('id'=>'x','number_str'=>$keyword);
+            }
+            return json_encode($data);
+        }elseif($parameter==''&&$keyword!=''){
+            $data = array();
+            $data[] = array('id'=>'x','number_str'=>$keyword);
+            return json_encode($data);
+        }*/
+    }
+    /**
+     *    筛选参数
+     */
+    public function column($param){
+        //形式
+        $house_type = getLinkMenuCache(9);
+        if($param['type']!=''){
+            $param['type'] = explode(",",$param['type']);
+            $param['type'] = array_unique($param['type']);
+            foreach($house_type as $k=>$v){
+                $house_type[$k]['status'] = 0;
+                foreach($param['type'] as $ks=>$vs){
+                    if($v['id']==$vs) {
+                        $house_type[$k]['status'] = 1;
+                    }
+                }
+            }
+            array_unshift($house_type,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>0));
+        }else{
+            foreach($house_type as $k=>$v){
+                $house_type[$k]['status'] = 0;
+            }
+            array_unshift($house_type,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
+        }
+        //类型
+        $types = getLinkMenuCache(26);
+        //print_r($types);die;
+        if($param['types']!=''){
+            $param['types'] = explode(",",$param['types']);
+            $param['types'] = array_unique($param['types']);
+            foreach($types as $k=>$v){
+                $types[$k]['status'] = 0;
+                foreach($param['types'] as $ks=>$vs){
+                    if($v['id']==$vs) {
+                        $types[$k]['status'] = 1;
+                    }
+                }
+            }
+            array_unshift($types,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>0));
+        }else{
+            foreach($types as $k=>$v){
+                $types[$k]['status'] = 0;
+            }
+            array_unshift($types,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
+        }
+        //户型
+        $getRooms = getRoom('','s.room');
+        $getRoom = array();
+        foreach($getRooms as $k=>$v){
+            $getRoom[$k]['id'] = $k;
+            $getRoom[$k]['name'] = $v;
+            $getRoom[$k]['status'] = 0;
+        }
+        if($param['room']!=''){
+            $param['room'] = explode(",",$param['room']);
+            $param['room'] = array_unique($param['room']);
+            foreach($getRoom as $k=>$v){
+                foreach($param['room'] as $ks=>$vs){
+                    if($v['id']==$vs) {
+                        $getRoom[$k]['status'] = 1;
+                    }
+                }
+            }
+            array_unshift($getRoom,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>0));
+        }else{
+            array_unshift($getRoom,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
+        }
+        //阶段
+        $jieduan = getLinkMenuCache(25);
+        if($param['jieduan']!=''){
+            $param['jieduan'] = explode(",",$param['jieduan']);
+            $param['jieduan'] = array_unique($param['jieduan']);
+            foreach($jieduan as $k=>$v){
+                $jieduan[$k]['status'] = 0;
+                foreach($param['jieduan'] as $ks=>$vs){
+                    if($v['id']==$vs) {
+                        $jieduan[$k]['status'] = 1;
+                    }
+                }
+            }
+            array_unshift($jieduan,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>0));
+        }else{
+            foreach($jieduan as $k=>$v){
+                $jieduan[$k]['status'] = 0;
+            }
+            array_unshift($jieduan,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
+        }
+        return array('jieduan'=>$jieduan,'huxing'=>$getRoom,'types'=>$types,'house_type'=>$house_type);
+    }
+    /**
+     *    组合url路径
+     */
+    public function recombination($parameter,$keyword){
+
+       /* $url = array();
+        if($param['area']>0){       $url[] = 'a.'.$param['area'];}
+        if($param['tags']>0){       $url[] = 'b.'.$param['tags'];}
+        if($param['qipai']>0){      $url[] = 'c.'.$param['qipai'];}
+        if($param['acreage']>0){    $url[] = 'd.'.$param['acreage'];}
+        if($param['room']>0){       $url[] = 'e.'.$param['room'];}
+        if($param['types']>0){      $url[] = 'f.'.$param['types'];}
+        if($param['jieduan']>0){    $url[] = 'g.'.$param['jieduan'];}
+        if($param['fcstatus']>0){   $url[] = 'h.'.$param['fcstatus'];}
+        if($param['type']>0){       $url[] = 'i.'.$param['type'];}
+        if($param['renovation']>0){ $url[] = 'j.'.$param['renovation'];}
+        if($param['metro']>0){      $url[] = 'k.'.$param['metro'];}
+        if($param['metro_station']>0){$url[] = 'l.'.$param['metro_station'];}
+        if($param['sort']>0){       $url[] = 'm.'.$param['sort'];}
+        if($param['is_free']>0){    $url[] = 'n.'.$param['is_free'];}
+        if($param['orientations']>0){$url[] = 'o.'.$param['orientations'];}
+        if($param['user_type']>0){  $url[] = 'p.'.$param['user_type'];}
+        if($param['search_type']>0){$url[] = 'q.'.$param['search_type'];}
+        if($param['time_frame']>0){ $url[] = 'r.'.$param['time_frame'];}
+        if($param['end_time']>0){   $url[] = 's.'.$param['end_time'];}
+        if($param['zprice1']>0){    $url[] = 't.'.$param['zprice1'];}
+        if($param['zprice2']>0){    $url[] = 'u.'.$param['zprice2'];}
+        if($param['zmianji1']>0){   $url[] = 'v.'.$param['zmianji1'];}
+        if($param['zmianji2']>0){   $url[] = 'w.'.$param['zmianji2'];}
+        if($param['keyword']!=''){  $url[] = 'x.'.$param['keyword'];}
+        if(empty($url)){
+            return '';
+        }else{
+            $index_url = implode('|',$url);
+            return $index_url;
+        }*/
+    }
+
 
 }
