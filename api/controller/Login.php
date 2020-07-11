@@ -135,4 +135,56 @@ class Login extends ApiBase
     public function login_user(){
         return $this->success_o(login_user());
     }
+    public function registerDo(){
+        $mobile      = input('mobile');
+        $sms_code    = input('sms_code');
+        if (empty($sms_code)){
+            return $this->error_o("短信验证码不能为空！");
+        }
+        $token       = input('token');
+        $user        = getSettingCache('user');
+        $return['code'] = 0;
+        if($user['open_reg'] == 0){
+            return  $this->error_o("网站关闭注册功能！");
+        }elseif(!is_mobile($mobile)) {
+            return $this->error_o("手机号码格式不正确！");
+        }elseif($user['reg_sms'] == 1 && cache($mobile)!=$sms_code){
+            return $this->error_o("短信验证码不正确！");
+        }
+//        elseif(session('__token__')!== $token){
+////todo  token
+//            $return['msg'] = '操作失败';
+//        }
+        elseif(checkMobileIsExists($mobile)){
+            return $this->error_o("该手机号码已被注册！");
+        }else{
+            $data['user_name'] = $data['nick_name'] = $mobile;
+            $data['mobile']    = $mobile;
+            $data['login_time'] = time();
+            $data['model']      = 1;
+            \app\common\model\User::event('after_insert',function($obj){
+                $info_data = [];
+                $obj->userInfo()->save($info_data);
+            });
+            if(model('user')->allowField(true)->save($data)) {
+
+                cache($mobile,null);
+
+                // unset($data['password']);
+
+                $data['id']  = model('user')->id;
+
+                $info = \org\Crypt::encrypt(json_encode($data));
+
+                cookie('userInfo',$info);
+//todo 清除token
+//                session('__token__',null);//清除token
+               return $this->success_o("恭喜您！注册成功！");
+            }else{
+                return $this->error_o("注册失败");
+            }
+        }
+
+    }
+
 }
