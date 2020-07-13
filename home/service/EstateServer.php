@@ -55,7 +55,7 @@ class EstateServer
         if (empty($model)){
             return $this->error_o("未找到当前小区");
         }
-        $res = Db::connect('www_fangpaiwang')->query("SELECT id,title,price,(2 * 6378.137 * ASIN(	SQRT(POW( SIN( PI( ) * ( " . $model->lng. "- fang_estate.lng ) / 360 ), 2 ) + COS( PI( ) * " .$model->lat. " / 180 ) * COS(  fang_estate.lat * PI( ) / 180 ) * POW( SIN( PI( ) * ( " . $model->lat . "- fang_estate.lat ) / 360 ), 2 )))) AS distance FROM `fang_estate`
+        $res = Db::connect('www_fangpaiwang')->query("SELECT id,title,price,img,(2 * 6378.137 * ASIN(	SQRT(POW( SIN( PI( ) * ( " . $model->lng. "- fang_estate.lng ) / 360 ), 2 ) + COS( PI( ) * " .$model->lat. " / 180 ) * COS(  fang_estate.lat * PI( ) / 180 ) * POW( SIN( PI( ) * ( " . $model->lat . "- fang_estate.lat ) / 360 ), 2 )))) AS distance FROM `fang_estate`
          where id != ".$estate_id." ORDER BY distance ASC LIMIT 2");
         if ($res){
             foreach ($res as $k=>$v){
