@@ -442,6 +442,7 @@ class Second extends HomeBase{
         $mod_type  = input('param.mod',0);//传值
         $data['s.status']    = 1;
         $area_id = $param['area'];
+        $is_show_more = 0;
         //最新发布和自由购 只存在一个
         if ($param['sort'] == 10){
             $param['is_free']  = 1;
@@ -520,10 +521,12 @@ class Second extends HomeBase{
             $param['zmianji1'] = 0;
             $param['zmianji2'] = 0;
             $seo_array[] = array('letter'=>'d','keyword'=>$acreage[$param['acreage']]['name'],'id'=>$param['acreage']);
+            $is_show_more = 1;
         }elseif(!empty($zmianji1)&&!empty($zmianji2)){
             $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
             $seo_title .= $zmianji1.'_'.$zmianji2.'m²';
             $seo_array[] = array('letter'=>'vw','keyword'=>$zmianji1.'_'.$zmianji2.'m²','id'=>$zmianji1);
+            $is_show_more = 1;
         }
         if(!empty($param['room'])){
             $room_array   = config('filter.room');
@@ -535,6 +538,7 @@ class Second extends HomeBase{
                     $seo_array[] = array('letter'=>'e','keyword'=>$v,'type'=>1,'id'=>$k);
                 }
             }
+            $is_show_more = 1;
         }
         if(!empty($param['jieduan'])) {
             $data[] = array('s.jieduan','in',$param['jieduan']);
@@ -544,11 +548,13 @@ class Second extends HomeBase{
                 $seo_title .= $v['name'];
                 $seo_array[] = array('letter'=>'g','keyword'=>$v['name'],'id'=>$v['id']);
             }
+            $is_show_more = 1;
         }
         if(!empty($param['fcstatus'])) {
             $data['s.fcstatus'] = $param['fcstatus'];
             $seo_title .= getLinkMenuName(27,$param['fcstatus']);
             $seo_array[] = array('letter'=>'h','keyword'=>getLinkMenuName(27,$param['fcstatus']),'id'=>$param['fcstatus']);
+            $is_show_more = 1;
         }
         $start_time = $end_time = "";
         if ($time_frame == 1){
@@ -577,9 +583,11 @@ class Second extends HomeBase{
             $seo_array[] = array('letter'=>'rs','keyword'=>$start_time.'到'.$end_time,'id'=>0);
         }
         if (!empty($param['time_frame'])){
-            $data[] = ['s.endtime','>',$start_time];
-            $data[] = ['s.endtime','<',$end_time];
+            $data[] = ['s.termination_datetime','>',$start_time];
+            $data[] = ['s.termination_datetime','<',$end_time];
+            $is_show_more = 1;
         }
+
         if ($mod_type == 3){
             $data[] = ['s.fabutime','>',date('Y-m-d')];
             $data[] = ['s.fabutime','<',date('Y-m-d',strtotime( '+1 day'))];
@@ -634,6 +642,7 @@ class Second extends HomeBase{
         $this->assign('keyword',$keyword);
         $this->assign('seo_array',$seo_array);
         $this->assign('parameter_json',$parameter_json);
+        $this->assign('is_show_more',$is_show_more);
         return array('data'=>$data,'index_url_new'=>$parameter,'param'=>$param);
     }
     /**
