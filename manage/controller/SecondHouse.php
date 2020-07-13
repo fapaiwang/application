@@ -234,13 +234,25 @@ $this->assign('fpy',$fpy);
         if (!empty($data['jieduan'])){
             if ($data['jieduan'] == 161 && $data['oneetime']){
                 $fa_etime =strtotime(date($data['oneetime'])) ?? "";
+                $data['termination_datetime'] = $data['oneetime'];
+
             }elseif ($data['jieduan'] == 162 && $data['twoetime']){
                 $fa_etime =strtotime(date($data['twoetime'])) ?? "";
+                $data['termination_datetime'] = $data['twoetime'];
+
             }elseif ($data['jieduan'] == 163 && $data['bianetime']){
                 $fa_etime =strtotime(date($data['bianetime'])) ?? "";
+                $data['termination_datetime'] = $data['bianetime'];
             }
         }
-
+        if($data['fcstatus']==175){
+            if(!empty($data['endtime'])){
+                $data['termination_datetime'] = $data['endtime'];
+            }else{
+                $data['termination_datetime'] = '';
+            }
+        }
+        //print_r($data);die;
         //面积
         $fa_acreage =$price=0;
         if (!empty($data['acreage'])){
@@ -714,12 +726,25 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if (!empty($data['jieduan'])){
             if ($data['jieduan'] == 161 && $data['oneetime']){
                 $fa_etime =strtotime(date($data['oneetime'])) ?? "";
+                $data['termination_datetime'] = $data['oneetime'];
+
             }elseif ($data['jieduan'] == 162 && $data['twoetime']){
                 $fa_etime =strtotime(date($data['twoetime'])) ?? "";
+                $data['termination_datetime'] = $data['twoetime'];
+
             }elseif ($data['jieduan'] == 163 && $data['bianetime']){
                 $fa_etime =strtotime(date($data['bianetime'])) ?? "";
+                $data['termination_datetime'] = $data['bianetime'];
             }
         }
+        if($data['fcstatus']==175){
+            if(!empty($data['endtime'])){
+                $data['termination_datetime'] = $data['endtime'];
+            }else{
+                $data['termination_datetime'] = '';
+            }
+        }
+        //print_r($data);die;
         $sz=new Synchronization();
         if (!empty($data['city'])){
             $address = explode(' ',$sz->get_city($data['city']));
