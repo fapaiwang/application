@@ -181,12 +181,12 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
      * 获取小区的房源-套数
      * @param $second_house_id 房源id
      * @param $estate_name 小区名称
-     * @param mixed
+     * @param mixed todo 修改测试套数
      * @return float|string
      * @author: al
      */
     public function estate_second_num($second_house_id,$estate_name){
-        $estate_second_house_num ='estate_second_house_num_'.$second_house_id.'_'.$estate_name;
+        $estate_second_house_num ='estate_second_house_num_'.$estate_name;
         $estate_num = model('second_house')->where('estate_name',$estate_name)
             ->cache($estate_second_house_num,3600)->count();
         return $estate_num;

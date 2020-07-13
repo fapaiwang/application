@@ -5,6 +5,7 @@ namespace app\api\controller;
 
 use app\common\controller\ApiBase;
 use app\tools\ApiResult;
+use think\facade\Request;
 use think\Log;
 
 class Login extends ApiBase
@@ -58,7 +59,6 @@ class Login extends ApiBase
         }
         return json($return);
     }
-
     /**
      * 用户注册
      */
@@ -102,7 +102,6 @@ class Login extends ApiBase
         }
         return json($return);
     }
-
     /**
      * @return \think\response\Json
      * 获取用户配置
@@ -125,7 +124,10 @@ class Login extends ApiBase
         $return['code'] = 200;
         return json($return);
     }
-
+    public function logoutUser(){
+        cookie('userInfo',null);
+        return $this->success_o("退出成功");
+    }
     /**
      * 获取用户信息
      * @param mixed
@@ -145,9 +147,10 @@ class Login extends ApiBase
     public function registerDo(){
         $mobile      = input('mobile');
         $sms_code    = input('sms_code');
-//        if (empty($sms_code)){
-//            return $this->error_o("短信验证码不能为空！");
-//        }
+        $password    = input('password');
+        if (empty($sms_code)){
+            return $this->error_o("短信验证码不能为空！");
+        }
         $token       = input('token');
         $user        = getSettingCache('user');
         $return['code'] = 0;
@@ -168,7 +171,9 @@ class Login extends ApiBase
             $data['user_name'] = $data['nick_name'] = $mobile;
             $data['mobile']    = $mobile;
             $data['login_time'] = time();
+            $data['password'] = $password;
             $data['model']      = 1;
+//            return $this->success_o($data);
             \app\common\model\User::event('after_insert',function($obj){
                 $info_data = [];
                 $obj->userInfo()->save($info_data);
@@ -194,4 +199,118 @@ class Login extends ApiBase
 
     }
 
+    /**
+     * 手机端登录(验证码)
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function loginDo(){
+        $user_name   = input('mobile');
+        $sms_code    = input('sms_code');
+        $user        = getSettingCache('user');
+        $return['code'] = 0;
+        if(!$user_name){
+            return $this->error_o("请填写登录名！");
+        } elseif($user['reg_sms'] == 1 && cache($user_name)!=$sms_code){
+            return $this->error_o("短信验证码不正确！");
+        } else{
+            $where['mobile'] = $user_name;
+            $where['status']           = 1;
+            $info = model("user")->where($where)->field('id,model,user_name,mobile,nick_name')->find();
+            if($info) {
+                $edit['login_time'] = time();
+                $edit['login_ip']   = request()->ip();
+                $edit['login_num']  = \think\Db::raw('login_num+1');
+
+                model("user")->save($edit,['id'=>$info['id']]);
+                $model = $info->getData('model');
+                $info  = $info->toArray();
+                $info['model'] = $model;
+                $info = \org\Crypt::encrypt(json_encode($info));
+                cookie('userInfo',$info);
+                // session('__token__',null);//清除token
+                return $this->success_o("登录成功");
+            }else{
+                return   $this->error_o("用户不存在,请先注册！");
+            }
+        }
+    }
+
+    /**
+     * 密码登录
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function loginPwd(){
+        $user_name   = input('mobile');
+        $password    = input('password');
+        if(!$user_name) {
+            return $this->error_o("请填写登录名！");
+        }else{
+            $where['mobile'] = $user_name;
+            $where['password']         = passwordEncode($password);
+            $where['status']           = 1;
+            $uinfo = model('user')->field('password')->where('user_name',$user_name)->find();
+            if(empty($uinfo)){
+                return $this->error_o("账号为快捷登录！");
+            }
+            $info = model('user')->where($where)->field('id,model,user_name,mobile,nick_name')->find();
+            if($info) {
+                $edit['login_time'] = time();
+                $edit['login_ip']   = request()->ip();
+                $edit['login_num']  = \think\Db::raw('login_num+1');
+                model('user')->save($edit,['id'=>$info['id']]);
+                $model = $info->getData('model');
+                $info  = $info->toArray();
+                $info['model'] = $model;
+                $info = \org\Crypt::encrypt(json_encode($info));
+                cookie('userInfo',$info);
+//                session('__token__',null);//清除token
+                return $this->success_o("登录成功");
+            }else{
+                return $this->success_o("用户不存在或账号密码不正确！");
+            }
+        }
+    }
+
+    /**
+     * 重置密码
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function resetPassword(){
+        $mobile   = input('mobile');
+        $sms_code = input('sms_code');
+        $password = input('password');
+        $password2 = input('password2');
+//        $token     = input('post.token');
+        if(!is_mobile($mobile)) {
+            return $this->error_o('手机号码格式不正确！');
+        }elseif(!checkMobileIsExists($mobile)){
+            return $this->error_o('用户不存在！请确认手机号码输入是否正确！');
+        }elseif(cache($mobile)!=$sms_code){
+            return $this->error_o('短信验证码不正确！');
+        }elseif(strlen($password)<6){
+            return $this->error_o('密码至少由6位数字或字母组成！');
+        }elseif($password!=$password2){
+            return $this->error_o('新两次密码输入不一致！！');
+        }else{
+            $where['mobile']  = $mobile;
+            $data['password'] = $password;
+            if(model('user')->save($data,$where)) {
+                session('__token__',null);
+                cache($mobile,null);
+                return $this->success_o("密码重置成功，请您重新登录");
+            }else{
+                return $this->error_o('新密码与原密码相同，重置失败！');
+            }
+        }
+    }
+    public function xieyi(){
+        $mobile =input('param.mobile');
+        return $mobile;
+    }
 }
