@@ -135,12 +135,19 @@ class Login extends ApiBase
     public function login_user(){
         return $this->success_o(login_user());
     }
+
+    /**
+     * 验证码注册
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
     public function registerDo(){
         $mobile      = input('mobile');
         $sms_code    = input('sms_code');
-        if (empty($sms_code)){
-            return $this->error_o("短信验证码不能为空！");
-        }
+//        if (empty($sms_code)){
+//            return $this->error_o("短信验证码不能为空！");
+//        }
         $token       = input('token');
         $user        = getSettingCache('user');
         $return['code'] = 0;
