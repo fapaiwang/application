@@ -59,6 +59,20 @@ class Second extends HomeBase{
         $this->assign('pages',$lists->render());
         $this->assign('top_lists',$result['top']);
         $this->assign('storage_open',getSettingCache('storage','open'));
+        $this->assign('search',$result['search']);
+        $this->assign('jieduan',$result['jieduan']);
+        $this->assign('huxing',$result['huxing']);
+        $this->assign('types',$result['types']);
+        $this->assign('house_type',$result['house_type']);
+        $this->assign('param',$result['param']);
+        $this->assign('keyword',$result['keyword']);
+        $this->assign('seo_array',$result['seo_array']);
+        $this->assign('parameter_json',$result['parameter_json']);
+        $this->assign('is_show_more',$result['is_show_more']);
+        $this->assign('start_time',$result['start_time']);
+        $this->assign('end_time',$result['end_time']);
+        $this->assign('rading',$result['rading']);
+        $this->setSeo($result['setSeo'],'','');
         return $this->fetch();
     }
 
@@ -335,7 +349,10 @@ class Second extends HomeBase{
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
             }
-        return ['lists'=>$lists,'top'=>$top];
+        return ['lists'=>$lists,'top'=>$top,'search'=>$where_data['search'],'jieduan'=>$where_data['jieduan'],'huxing'=>$where_data['huxing'],
+            'house_type'=>$where_data['house_type'],'types'=>$where_data['types'],'param'=>$where_data['param'],'keyword'=>$where_data['keyword'],
+            'seo_array'=>$where_data['seo_array'],'parameter_json'=>$where_data['parameter_json'],'is_show_more'=>$where_data['is_show_more'],
+            'start_time'=>$where_data['start_time'],'end_time'=>$where_data['end_time'],'rading'=>$where_data['rading'],'setSeo'=>$where_data['setSeo']];
     }
 
     /**
@@ -443,6 +460,14 @@ class Second extends HomeBase{
         $data['s.status']    = 1;
         $area_id = $param['area'];
         $is_show_more = 0;
+        //seo优化
+        $seo_title = '';
+        $seo_array = array();
+        //分页参数
+        $index_url_new = $parameter;
+        $title_area = '';
+        $rading = array();
+
         //最新发布和自由购 只存在一个
         if ($param['sort'] == 10){
             $param['is_free']  = 1;
@@ -451,11 +476,6 @@ class Second extends HomeBase{
         }
         //获取当前请求的参数
         $arr=$this->request->param();
-        if(!empty($arr['keyword'])){
-            $keyword = $arr['keyword'];
-        }else{
-            $keyword = $param['keyword'];
-        }
         //显示街道时
         if ($param['area']  > 57){
             $param['street'] =$param['area'];
@@ -467,20 +487,25 @@ class Second extends HomeBase{
         $zmianji2=$param['zmianji2'];
         $zprice1=$param['zprice1'];
         $zprice2=$param['zprice2'];
-        //seo优化
-        $seo_title = '';
-        $seo_array = array();
         if($estate_id) {
             $data['s.estate_id'] = $estate_id;
             $estate_name = model('estate')->where('id',$estate_id)->value('title');
         }
+        //判断是否有关键字
+        if(!empty($arr['keyword'])){
+            $keyword = $arr['keyword'];
+            $index_url_new = $parameter.'x'.$arr['keyword'];
+        }else{
+            $keyword = $param['keyword'];
+        }
+        //使用关键字拼接搜索条件-拼接SEO信息
         if($keyword){
             $param['keyword'] = $keyword;
             $search_keyword = $secondSer->search_keyword($keyword);
-            $data[] = array('s.title|s.contacts','like','%'.$keyword.'%');
-            $seo_array[] = array('letter'=>'x','keyword'=>$keyword,'id'=>0);
+            $data[] = $search_keyword['title'];
+            $seo_array[] = $search_keyword['seo'];
         }
-        $title_area = '';
+
         if($param['search_type'] != 2 && !empty($param['area'])){
                 $data[] = ['s.city','in',$this->getCityChild($param['area'])];
                 $rading = $this->getRadingByAreaId($param['area']);
@@ -496,7 +521,6 @@ class Second extends HomeBase{
                     $seo_title .= '北京';
                 }
                 $title_area = getCityName($param['area'],'');
-                $this->assign('rading',$rading);
                 if($param['area']!=39){
                     $seo_array[] = array('letter'=>'a','keyword'=>getCityName($area_id),'type'=>1,'id'=>0);
                 }
@@ -513,20 +537,15 @@ class Second extends HomeBase{
             $seo_title .= $zprice1.'到'.$zprice2.'万元';
             $seo_array[] = array('letter'=>'tu','keyword'=>$zprice1.'到'.$zprice2.'万元','type'=>1,'id'=>0);
         }
-
-        if(!empty($param['acreage'])){
-            $data[] = getAcreage($param['acreage'],'s.acreage');
-            $acreage = config('filter.acreage');
-            isset($acreage[$param['acreage']]) && $seo_title .= $acreage[$param['acreage']]['name'];
-            $param['zmianji1'] = 0;
-            $param['zmianji2'] = 0;
-            $seo_array[] = array('letter'=>'d','keyword'=>$acreage[$param['acreage']]['name'],'id'=>$param['acreage']);
+        //对面积搜索进行逻辑处理
+        $search_acreage = $secondSer->search_acreage($param['acreage'],$zmianji1,$zmianji2);
+        if(!empty($search_acreage['data'])){
+            $data[] = $search_acreage['data'];
+            $seo_title .= $search_acreage['seo_title'];
+            $seo_array[] = $search_acreage['seo_array'];
             $is_show_more = 1;
-        }elseif(!empty($zmianji1)&&!empty($zmianji2)){
-            $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
-            $seo_title .= $zmianji1.'_'.$zmianji2.'m²';
-            $seo_array[] = array('letter'=>'vw','keyword'=>$zmianji1.'_'.$zmianji2.'m²','id'=>$zmianji1);
-            $is_show_more = 1;
+            $param['zmianji1'] = $search_acreage['zmianji1'];
+            $param['zmianji2'] = $search_acreage['zmianji2'];
         }
         if(!empty($param['room'])){
             $room_array   = config('filter.room');
@@ -557,37 +576,21 @@ class Second extends HomeBase{
             $is_show_more = 1;
         }
         $start_time = $end_time = "";
-        if ($time_frame == 1){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+1 day'));
-            $seo_title .= '最近1天';
-            $seo_array[] = array('letter'=>'r','keyword'=>'最近1天','id'=>1);
-        }elseif ($time_frame == 3){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+2 day'));
-            $seo_title .= '最近3天';
-            $seo_array[] = array('letter'=>'r','keyword'=>'最近3天','id'=>3);
-        }elseif ($time_frame == 7){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+6 day'));
-            $seo_title .= '最近7天';
-            $seo_array[] = array('letter'=>'r','keyword'=>'最近7天','id'=>7);
-        }elseif ($time_frame == 30){
-            $start_time = date('Y-m-d');
-            $end_time = date('Y-m-d',strtotime( '+29 day'));
-            $seo_title .= '最近30天';
-            $seo_array[] = array('letter'=>'r','keyword'=>'最近30天','id'=>30);
-        }elseif (!empty($param['time_frame'])){
-            $start_time = $param['time_frame'];
-            $end_time = $param['end_time'];
-            $seo_array[] = array('letter'=>'rs','keyword'=>$start_time.'到'.$end_time,'id'=>0);
+        //对时间搜索进行逻辑处理
+        $search_time = $secondSer->search_time($time_frame,$param['end_time']);
+        if(!empty($search_time['start_time'])){
+            $start_time = $search_time['start_time'];
+            $end_time = $search_time['end_time'];
+            $seo_title .= $search_time['seo_title'];
+        }
+        if(!empty($search_time['seo_array'])){
+            $seo_array[] =  $search_time['seo_array'];
         }
         if (!empty($param['time_frame'])){
             $data[] = ['s.termination_datetime','>',$start_time];
             $data[] = ['s.termination_datetime','<',$end_time];
             $is_show_more = 1;
         }
-
         if ($mod_type == 3){
             $data[] = ['s.fabutime','>',date('Y-m-d')];
             $data[] = ['s.fabutime','<',date('Y-m-d',strtotime( '+1 day'))];
@@ -612,16 +615,14 @@ class Second extends HomeBase{
             $data['s.house_type'] = $param['type'];
             $seo_array[] = array('letter'=>'i','keyword'=>getLinkMenuName(9,$param['type']),'id'=>$param['type']);
         }
-        $this->assign('start_time',$start_time);
-        $this->assign('end_time',$end_time);
         if(!empty($_GET['rec_position'])){
             $data[] = ['rec_position','eq',1];
         }
         $search = $param;
         $setSeo = $secondSer->seo_data($seo_title,$title_area,$param['type']);
-        $seo_title && $this->setSeo($setSeo,'','');
+
+        //$seo_title && $this->setSeo($setSeo,'','');
         $data = array_filter($data);
-        $this->search_arr(array());
         //解决地区商圈选择问题
         if(isset($param['rading'])&&$param['rading']>0){
             $param['area']    = $param['rading'];
@@ -629,21 +630,9 @@ class Second extends HomeBase{
         $column = $secondSer->column($param);
         //返回搜索条件
         $parameter_json = $secondSer->parameter_json($parameter,$keyword);
-        /*if($keyword!=''){
-            $parameter .= 'x'.$keyword;
-        }
-        print_r($parameter);die;*/
-        $this->assign('search',$search);
-        $this->assign('jieduan',$column['jieduan']);
-        $this->assign('huxing',$column['huxing']);
-        $this->assign('types',$column['types']);
-        $this->assign('house_type',$column['house_type']);
-        $this->assign('param',$param);
-        $this->assign('keyword',$keyword);
-        $this->assign('seo_array',$seo_array);
-        $this->assign('parameter_json',$parameter_json);
-        $this->assign('is_show_more',$is_show_more);
-        return array('data'=>$data,'index_url_new'=>$parameter,'param'=>$param);
+        return array('data'=>$data, 'index_url_new'=>$index_url_new,'param'=>$param,'search'=>$search,'jieduan'=>$column['jieduan'],'huxing'=>$column['huxing'],
+            'types'=>$column['types'],'house_type'=>$column['house_type'],'param'=>$param,'keyword'=>$keyword,'seo_array'=>$seo_array,'parameter_json'=>$parameter_json,
+            'is_show_more'=>$is_show_more,'start_time'=>$start_time,'end_time'=>$end_time,'rading'=>$rading,'setSeo'=>$setSeo);
     }
     /**
      * 搜索字段

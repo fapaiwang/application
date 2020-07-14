@@ -647,10 +647,67 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
      *  已选中的搜索条件数组$seo_array
      */
     function search_keyword($keyword){
-        $title = ['s.title','like','%'.$keyword.'%'];
-        $contacts = ['s.contacts','like','%'.$keyword.'%'];
-        $seo = array('letter'=>'x','keyword'=>$keyword,'id'=>'');
-        return array('title'=>$title,'contacts'=>$contacts,'seo'=>$seo);
+        return array('title'=>array('s.title|s.contacts','like','%'.$keyword.'%'),'seo'=>array('letter'=>'x','keyword'=>$keyword,'id'=>0));
+    }
+    /**
+     *  对时间搜索进行逻辑判断
+     *  已选中的搜索条件数组$seo_array
+     */
+    function search_time($time_frame,$end_time){
+        if ($time_frame == 1){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+1 day'));
+            $seo_title = '最近1天';
+            $seo_array = array('letter'=>'r','keyword'=>'最近1天','id'=>1);
+        }elseif ($time_frame == 3){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+2 day'));
+            $seo_title = '最近3天';
+            $seo_array = array('letter'=>'r','keyword'=>'最近3天','id'=>3);
+        }elseif ($time_frame == 7){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+6 day'));
+            $seo_title = '最近7天';
+            $seo_array = array('letter'=>'r','keyword'=>'最近7天','id'=>7);
+        }elseif ($time_frame == 30){
+            $start_time = date('Y-m-d');
+            $end_time = date('Y-m-d',strtotime( '+29 day'));
+            $seo_title = '最近30天';
+            $seo_array = array('letter'=>'r','keyword'=>'最近30天','id'=>30);
+        }elseif (!empty($time_frame)){
+            $start_time = $time_frame;
+            $seo_title = '';
+            $seo_array = array('letter'=>'rs','keyword'=>$time_frame.'到'.$end_time,'id'=>0);
+        }else{
+            $start_time = '';
+            $end_time = '';
+            $seo_title = '';
+            $seo_array = array();
+        }
+        return array('start_time'=>$start_time,'end_time'=>$end_time,'seo_title'=>$seo_title,'seo_array'=>$seo_array);
+    }
+    /**
+     *  对面积搜索进行逻辑判断
+     *  已选中的搜索条件数组$seo_array
+     */
+    function search_acreage($acreage,$zmianji1,$zmianji2){
+        if(!empty($acreage)){
+            $data = getAcreage($acreage,'s.acreage');
+            $acreages = config('filter.acreage');
+            isset($acreages[$acreage]) && $seo_title = $acreages[$acreage]['name'];
+            $zmianji1 = 0;
+            $zmianji2 = 0;
+            $seo_array = array('letter'=>'d','keyword'=>$acreages[$acreage]['name'],'id'=>$acreage);
+        }elseif(!empty($zmianji1)&&!empty($zmianji2)){
+            $data = ['s.acreage','between',[$zmianji1,$zmianji2]];
+            $seo_title = $zmianji1.'_'.$zmianji2.'m²';
+            $seo_array = array('letter'=>'vw','keyword'=>$zmianji1.'_'.$zmianji2.'m²','id'=>$zmianji1);
+        }else{
+            $data = array();
+            $seo_title = '';
+            $seo_array = array();
+        }
+        return array('data'=>$data,'seo_title'=>$seo_title,'seo_array'=>$seo_array,'zmianji1'=>$zmianji1,'zmianji2'=>$zmianji2);
     }
 
 
