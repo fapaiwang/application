@@ -2,7 +2,7 @@
 {block name='css'}
 <link rel="stylesheet" type="text/css" href="__CSS__/reset.css">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/common_orig.css">
-<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css">
+<link rel="stylesheet" type="text/css" href="/homeStatic/css/homeList.css?v={:time()}">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/kf.css">
 <link rel="stylesheet" type="text/css" href="/homeStatic/css/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/css.css">
@@ -12,7 +12,7 @@
 <script src="/homeStatic/js/swiper.jquery.min.js"></script>
 <script src="/homeStatic/js/swiper.min.js"></script>
 <script src="/homeStatic/js/jquery.waypoints.min.js"></script>
-<script src="/homeStatic/js/homeList.js?v={:time()}"></script>
+<script src="/homeStatic/js/homeList.js"></script>
 <script src="/homeStatic/js/kf.js"></script>
 {/block}
 {block name='content'}
@@ -417,6 +417,11 @@
                                             自由购
                                         </div>
                                         {/if}
+                                        {if condition="$vo.house_type eq 48"}
+                                        <div class="fangpai-shu-list-left-absolute" style="background: #4cc7a4">
+                                            社会委托
+                                        </div>
+                                        {/if}
                                     </div>
                                 </li>
                                 {/volist}
@@ -478,6 +483,11 @@
                                     {if condition="$vo.is_free eq 1"}
                                     <div class="fangpai-shu-list-left-absolute">
                                         自由购
+                                    </div>
+                                    {/if}
+                                    {if condition="$vo.house_type eq 48"}
+                                    <div class="fangpai-shu-list-left-absolute" style=" background: #4cc7a4;width: 70px">
+                                        社会委托
                                     </div>
                                     {/if}
                                     <!--<div class="fangpai-heng-list-absolute-over">-->
