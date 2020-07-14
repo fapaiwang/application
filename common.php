@@ -1297,7 +1297,12 @@ function login_user(){
     $infos = \org\Crypt::decrypt($infos);
     return $infos;
  }
-
+function loginUser($user_id){
+    $cache = "user_info_".$user_id;
+    $infos = cache($cache);
+    $infos = \org\Crypt::decrypt($infos);
+    return $infos;
+}
 /**
  * 创建数组
  * @param $from

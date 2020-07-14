@@ -5,6 +5,7 @@ namespace app\api\controller;
 
 use app\common\controller\ApiBase;
 use app\tools\ApiResult;
+use think\Db;
 use think\facade\Request;
 use think\Log;
 
@@ -15,13 +16,11 @@ class Login extends ApiBase
      * @return \think\response\Json
      * 用户登录
      */
-    public function index()
-    {
+    public function index(){
         $account  = input('post.user_name');
         $password = input('post.password');
         $return['code'] = 0;
-        if(!$account)
-        {
+        if(!$account){
             $return['msg'] = '请填写用户名';
         }else if(!$password){
             $return['msg'] = '请填写密码';
@@ -125,7 +124,9 @@ class Login extends ApiBase
         return json($return);
     }
     public function logoutUser(){
+        $id =input("param.user_id");
         cookie('userInfo',null);
+        cache("user_info_".$id,null);
         return $this->success_o("退出成功");
     }
     /**
@@ -134,12 +135,20 @@ class Login extends ApiBase
      * @return \think\response\Json
      * @author: al
      */
-    public function login_user(){
-        return $this->success_o(login_user());
+    public function loginUser(){
+        $id =input("param.user_id");
+        if (empty($id)){
+            return $this->success_o("用户id不能为空");
+        }
+        $info = loginUser($id);
+        if (empty(loginUser($id))){
+            return $this->error_o("当前用户未登录");
+        }
+        return $this->success_o($info);
     }
 
     /**
-     * 验证码注册
+     * 验证码/密码 注册
      * @param mixed
      * @return \think\response\Json
      * @author: al
@@ -185,9 +194,9 @@ class Login extends ApiBase
                 // unset($data['password']);
 
                 $data['id']  = model('user')->id;
-
+                $data['img']      = getAvatar($data['id'],90,90);
                 $info = \org\Crypt::encrypt(json_encode($data));
-
+                cache("user_info_".$data['id'],$info,2592000);
                 cookie('userInfo',$info);
 //todo 清除token
 //                session('__token__',null);//清除token
@@ -219,16 +228,19 @@ class Login extends ApiBase
             $where['status']           = 1;
             $info = model("user")->where($where)->field('id,model,user_name,mobile,nick_name')->find();
             if($info) {
+                $user_id  = $info['id'];
                 $edit['login_time'] = time();
                 $edit['login_ip']   = request()->ip();
                 $edit['login_num']  = \think\Db::raw('login_num+1');
 
-                model("user")->save($edit,['id'=>$info['id']]);
+                model("user")->save($edit,['id'=>$user_id]);
                 $model = $info->getData('model');
                 $info  = $info->toArray();
                 $info['model'] = $model;
+                $info['img'] = getAvatar($user_id,90,90);
                 $info = \org\Crypt::encrypt(json_encode($info));
                 cookie('userInfo',$info);
+                cache("user_info_".$user_id,$info,2592000);
                 // session('__token__',null);//清除token
                 return $this->success_o("登录成功");
             }else{
@@ -258,15 +270,18 @@ class Login extends ApiBase
             }
             $info = model('user')->where($where)->field('id,model,user_name,mobile,nick_name')->find();
             if($info) {
+                $user_id  = $info['id'];
                 $edit['login_time'] = time();
                 $edit['login_ip']   = request()->ip();
                 $edit['login_num']  = \think\Db::raw('login_num+1');
-                model('user')->save($edit,['id'=>$info['id']]);
+                model('user')->save($edit,['id'=>$user_id]);
                 $model = $info->getData('model');
                 $info  = $info->toArray();
                 $info['model'] = $model;
+                $info['img'] = getAvatar($user_id,90,90);
                 $info = \org\Crypt::encrypt(json_encode($info));
                 cookie('userInfo',$info);
+                cache("user_info_".$user_id,$info,2592000);
 //                session('__token__',null);//清除token
                 return $this->success_o("登录成功");
             }else{
@@ -303,14 +318,30 @@ class Login extends ApiBase
             if(model('user')->save($data,$where)) {
                 session('__token__',null);
                 cache($mobile,null);
+                $info = model("user")->where($where)->field('id,model,user_name,mobile,nick_name')->find()->toArray();
+                $info['img'] = getAvatar($info["id"],90,90);
+                $user_id = $info['id'];
+//                $info = \org\Crypt::encrypt(json_encode($info));
+                cache("user_info_".$user_id,null);
                 return $this->success_o("密码重置成功，请您重新登录");
             }else{
                 return $this->error_o('新密码与原密码相同，重置失败！');
             }
         }
     }
-    public function xieyi(){
-        $mobile =input('param.mobile');
-        return $mobile;
+
+    /**
+     * 用户协议
+     * @param mixed
+     * @return mixed|\think\response\Json
+     * @author: al
+     */
+    public function agreement(){
+        $agreement   = model('pages')->where('id',3)->cache('pages_3',84000)->find();
+
+        return $agreement;
     }
+
+
+
 }

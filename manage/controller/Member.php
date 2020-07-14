@@ -5,6 +5,7 @@
 namespace app\manage\controller;
 
 use app\common\controller\ManageBase;
+use think\facade\Log;
 
 class Member extends ManageBase
 
@@ -89,8 +90,8 @@ class Member extends ManageBase
                 $obj->userInfo()->save($info_data);
 
             $this->uploadAvatar($obj->id);
-
-
+            //添加用户缓存
+            $this->user_cache_add($obj);
 
         });
 
@@ -143,7 +144,8 @@ class Member extends ManageBase
             }
 
             $this->uploadAvatar($obj->id);
-
+            //编辑用户缓存
+            $this->user_cache_add($obj);
             $member->errMsg = '编辑成功';
 
             return true;
@@ -159,9 +161,8 @@ class Member extends ManageBase
         \app\common\model\User::event('after_delete',function($obj){
 
             //删除用户资料
-
             $obj->userInfo->delete();
-
+            cache("user_info_".$obj->id,null);
         });
 
         parent::delete();
@@ -304,6 +305,17 @@ class Member extends ManageBase
 
         return trim($img,'.');
 
+    }
+
+    public function user_cache_add($obj){
+        $arr["id"] = $obj->id;
+        $arr["model"] =$obj->model;
+        $arr["user_name"] =$obj->user_name;
+        $arr["mobile"] =$obj->mobile;
+        $arr["nick_name"] =$obj->nick_name;
+        $arr["img"] = getAvatar($obj->id,90,90);
+        $info = \org\Crypt::encrypt(json_encode($arr));
+        cache("user_info_".$obj->id,$info,2592000);
     }
 
 }
