@@ -168,7 +168,34 @@ class Sms
         return  json($return);
     }
 
-
+    public function sendSmsGet(){
+        $mobile = input('get.mobile');
+        $exists = input('get.exists/d',0);
+        $return['code'] = 0;
+        if(!is_mobile($mobile)){
+            $return['msg'] = '手机号码格式不正确！';
+        }elseif($exists == 2 && !checkMobileIsExists($mobile)){
+            $return['msg'] = '该用户不存在！';
+        }else{
+            $code = codestr(6,1);
+            cache($mobile,$code,300);
+            $data['code'] = $code;
+            try{
+                $smsConfig = getSettingCache('sms');
+                if($smsConfig['sms_type'] == 1){
+                    //阿里云
+                    $return = $this->aliSms($mobile,$data);
+                }else{
+                    //云信
+                    $return = $this->yunXinSms($smsConfig,$mobile,$data);
+                }
+            }catch(\Exception $e){
+                $return['code'] = 0;
+                $return['msg']  = $e->getMessage();
+            }
+        }
+        return  json($return);
+    }
 
     /**
 
