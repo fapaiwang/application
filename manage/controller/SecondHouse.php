@@ -4,6 +4,7 @@ namespace app\manage\controller;
 //namespace PHPExcel;
 //use think\Loader;
 use \app\common\controller\ManageBase;
+use app\home\service\ToolsServer;
 use app\manage\service\SecondHouseService;
 use app\manage\service\Synchronization;
 use think\Config;
@@ -1768,15 +1769,28 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
      */
     public function detail(){
         $id = input('param.id/d');
+        $lists = model('operatio_log')->alias('o')->join('user u','u.id = o.operator')->where('o.house_id',$id)->where('o.type','in','3,4')
+            ->field('o.id,o.type,o.create_time,u.nick_name')->order('o.create_time desc')->paginate(30,false,['query'=>['id'=>$id]]);
+        $this->assign('id',$id);
+        $this->assign('lists',$lists);
+        $this->assign('pages',$lists->render());
+        return $this->fetch();
+    }
+    /**
+    *  房源收益计算页面
+     */
+    function profit(){
+        $id = input('param.id/d');
         $arr = model('second_house')->field('id,title,qipai,price,acreage')->where('id',$id)->find();
         if($arr['acreage']>=90){
-              $arr['tax_rate']=1.5;
+            $arr['tax_rate']=1.5;
         }else{
-              $arr['tax_rate']=1;
+            $arr['tax_rate']=1;
         }
         $arr['qipai'] = $arr['qipai']*10000;
         $arr['price'] = $arr['price']*10000;
         $this->assign('arr',$arr);
+        $this->assign('id',$id);
         return $this->fetch();
     }
     /**
@@ -1907,5 +1921,190 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         $writer = \PHPExcel_IOFactory::createWriter($excelObj, 'Excel2007');
         $writer->save('php://output');
         exit();
+    }
+    /**
+    *   尽职调查报告
+     */
+    public function report(){
+        $ToolsServer= new ToolsServer();
+        $id  = input('param.id/d',0);
+        if(!$id)
+        {
+            $this->error('参数错误');
+        }
+        $url   = request()->server('HTTP_REFERER');
+        $data = model('second_house_data')->where(['house_id'=>$id])->find();
+        $position_lists = model('position_cate')->where(['model'=>"second_house"])->field('id,title')->select();
+        $house_position_cate_id = model('position')->where(['house_id' => $id, 'model' => 'second_house'])->column('cate_id');//获取该楼盘 所属的推荐位id
+        $datas = model('second_house')->where(['id'=>$id])->find();
+        $str=$datas['hximg'];
+        $var=explode(",",$str);
+        $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
+        $info = model('second_house')->find($id);
+        $estate = model('estate')->where(['id'=>$datas['estate_id']])->field("years,data")->find();
+        if($data['bidding_cycle']==0){
+            $data['bidding_cycle']=24;
+        }
+        $jiage  = 0;
+        $mianji = $datas['acreage'];
+        if($datas['ckprice']>0){
+            $jiage = $datas['ckprice'];
+        }elseif($datas['price']>0){
+            $jiage = $datas['price'];
+        }
+        if(empty($data['deed_tax'])&&!empty($datas['qipai'])){
+            $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
+        }
+        if(empty($data['first_suite'])&&!empty($jiage)){
+            $data['first_suite'] = $ToolsServer->deen_tax($jiage,$mianji);
+        }
+        if(empty($data['second_suite'])&&!empty($jiage)){
+            $data['second_suite'] = $ToolsServer->deen_tax($jiage,$mianji,501);
+        }
+        if(empty($data['lending_rate'])){
+            $lending_rate = getSettingCache('tools');
+            $data['lending_rate'] = $lending_rate['lilv'];
+        }
+        $this->assign('years',$estate['years']);
+        $this->assign('developer',$estate['data']['developer']);
+        $this->assign('back_url',$url);
+        $this->assign('info', $info);
+        $this->assign('var',$var);
+        $this->assign('fpy',$fpy);
+        $this->assign('position_lists',$position_lists);
+        $this->assign('position_cate_id',$house_position_cate_id);
+        $this->assign('data',$data);
+        $this->assign('id',$id);
+        return $this->fetch();
+    }
+    /**
+    *    尽职调查报告编辑
+     */
+    public function report_edit(){
+        if(request()->isPost())
+        {
+            $data = input('post.');
+            unset($data['orientations']);unset($data['toilet']);
+            $code   = 0;
+            $msg    = '';
+            $obj = model('second_house');
+            $house_array = array();
+            $house_array['elevator']         = $data['elevator'];
+            $house_array['bianhao']          = $data['bianhao'];
+            $house_array['xiaci']            = $data['xiaci'];
+            $house_array['qianfei']          = $data['qianfei'];
+            $house_array['enforcement']      = $data['enforcement'];
+            $house_array['land_purpose']     = $data['land_purpose'];
+            $house_array['land_certificate'] = $data['land_certificate'];
+            $house_array['property_no']      = $data['property_no'];
+            $house_array['house_purpse']     = $data['house_purpse'];
+            $house_array['management']       = $data['management'];
+            $house_array['lease']            = $data['lease'];
+            $house_array['sequestration']    = $data['sequestration'];
+            $house_array['vacate']           = $data['vacate'];
+            $house_array['mortgage']         = $data['mortgage'];
+            if(isset($data['is_free'])){
+                $house_array['is_free']         = $data['is_free'];
+                unset($data['is_free']);
+            }else{
+                $house_array['is_free']         = 0;
+            }
+            if(isset($data['is_commission'])){
+                $house_array['is_commission']   = $data['is_commission'];
+                unset($data['is_commission']);
+            }else{
+                $house_array['is_commission']         = 0;
+            }
+            if(isset($data['is_school'])){
+                $house_array['is_school']        = $data['is_school'];
+                unset($data['is_school']);
+            }else{
+                $house_array['is_school']         = 0;
+            }
+            if(isset($data['is_metro'])){
+                $house_array['is_metro']         = $data['is_metro'];
+                unset($data['is_metro']);
+            }else{
+                $house_array['is_metro']         = 0;
+            }
+            $data['update_time'] = time();
+            $house_array['update_time'] = time();
+            $house_id = $data['id'];
+            $back_url = $data['back_url'];
+            if($data['decoration']==0){
+                $decoration = '';
+            }elseif($data['decoration']==1){
+                $decoration = '精装';
+            }elseif($data['decoration']==2){
+                $decoration = '简装';
+            }elseif($data['decoration']==3){
+                $decoration = '毛坯';
+            }
+            $basic_info = array($data['house_property'],$data['years'],$data['house_orientation'],$decoration,$data['heating_mode'],
+                $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
+            );
+            $house_array['basic_info'] = implode('|',$basic_info);
+            unset($data['elevator']);unset($data['bianhao']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
+            unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
+            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);unset($data['developer']);
+            unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
+            if(!empty($_FILES['hxsimg']['name'])) {
+                $hxsimg = request()->file('hxsimg');
+                if ($hxsimg) {
+                    $info = $hxsimg->move(env('root_path') . 'public/wj');
+                    if ($info) {
+                        $image = $info->getSaveName();
+                        $house_array['hxsimg'] = '/wj/' . $image;
+                    }
+                }
+            }
+            \think\Db::startTrans();
+            try{
+                $a = model('second_house')->where(['id'=>$house_id])->update($house_array);
+                $b = model('second_house_data')->where(['house_id'=>$house_id])->update($data);
+                if($a&&$b){
+                    $code = 1;
+                    $msg = '编辑房源信息成功';
+                    \think\Db::commit();
+                }else{
+                    $code = 1;
+                    $msg = '编辑房源信息失败';
+                    \think\Db::rollback();
+                }
+            }catch(\Exception $e){
+                \think\facade\Log::record('编辑房源信息出错：'.$e->getMessage());
+                \think\Db::rollback();
+                $msg = $e->getMessage();
+            }
+            if($code == 1)
+            {
+                $this->success($msg,'second_house/report?id='.$house_id);
+            }else{
+                $this->error($msg,'second_house/report?id='.$house_id);
+            }
+        }
+    }
+    /**
+    *   成交人记录，签单人记录，签单时间
+     */
+    public function operation(){
+        if(request()->isPost())
+        {
+            $data = input('post.');
+            $data['create_time'] = time();
+            $c = model('operatio_log')->insert($data);
+            if($c)
+            {
+                $this->success('记录成功');
+            }else{
+                $this->error('记录失败');
+            }
+        }else{
+            $id  = input('param.id/d',0);
+            $user = model('user')->field('id,nick_name')->where('model',4)->select();
+            $this->assign('user_info',$user);
+            $this->assign('id',$id);
+            return $this->fetch();
+        }
     }
 }

@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 namespace app\home\controller\user;
 
 use app\common\controller\UserBase;
@@ -10,323 +6,127 @@ use app\common\controller\UserBase;
 use app\common\service\PublishCount;
 
 class Send extends UserBase
-
 {
-
     private $allow ;
-
     public function initialize()
-
     {
-
         parent::initialize();
 
         $this->allow = ['second_house','rental'];
 
     }
-
     /**
-
      * 保存二手房
-
      */
-
     public function saveSecond()
-
     {
-
         if(request()->isPost())
-
         {
-
             $data = input('post.');
-
+            unset($data['orientations']);unset($data['toilet']);
             $code   = 0;
-
             $msg    = '';
-
-            $status = getSettingCache('user','check_second');
-
-            $result = $this->validate($data,'app\manage\validate\SecondHouse');//调用验证器验证
-
-            if(true !== $result)
-
-            {
-
-                // 验证失败 输出错误信息
-
-                $msg = $result;
-
+            $house_array = array();
+            $house_array['elevator']         = $data['elevator'];
+            $house_array['bianhao']          = $data['bianhao'];
+            $house_array['xiaci']            = $data['xiaci'];
+            $house_array['qianfei']          = $data['qianfei'];
+            $house_array['enforcement']      = $data['enforcement'];
+            $house_array['land_purpose']     = $data['land_purpose'];
+            $house_array['land_certificate'] = $data['land_certificate'];
+            $house_array['property_no']      = $data['property_no'];
+            $house_array['house_purpse']     = $data['house_purpse'];
+            $house_array['management']       = $data['management'];
+            $house_array['lease']            = $data['lease'];
+            $house_array['sequestration']    = $data['sequestration'];
+            $house_array['vacate']           = $data['vacate'];
+            $house_array['mortgage']         = $data['mortgage'];
+            if(isset($data['is_free'])){
+                $house_array['is_free']         = $data['is_free'];
+                unset($data['is_free']);
             }else{
-
-                $obj = model('second_house');
-
-                \think\Db::startTrans();
-
-                try{
-
-                    !empty($data['map']) && $location = explode(',',$data['map']);
-
-                    $data['lng']     = isset($location[0]) ? $location[0] : 0;
-
-                    $data['lat']     = isset($location[1]) ? $location[1] : 0;
-
-                    $data['average_price'] = 0;
-
-                    $data['broker_id'] = $this->userInfo['id'];
-
-                    $data['user_type'] = $this->userInfo['model'];
-
-                    $data['status']    = is_numeric($status)?$status:1;
-
-                    $data['tags']      = isset($data['tags'])?implode(',',$data['tags']):0;
-                    $marketprices=$data['price'];   
-            $qipaiprice=$data['qipai'];
-            
-            
-            $jlzs=round($marketprices/$qipaiprice,1);
-            
-            //print_r($jlzs);
-            if($jlzs<'1.1'){
-            
-                $data['marketprice']='0';
-            
+                $house_array['is_free']         = 0;
             }
-            
-            if(($jlzs>='1.1') && ($jlzs<='2')){
-            
-                $data['marketprice']='1';
-            
+            if(isset($data['is_commission'])){
+                $house_array['is_commission']   = $data['is_commission'];
+                unset($data['is_commission']);
+            }else{
+                $house_array['is_commission']         = 0;
             }
-            if(($jlzs>='1.3') && ($jlzs<='1.4')){
-            
-                $data['marketprice']='2';
-            
+            if(isset($data['is_school'])){
+                $house_array['is_school']        = $data['is_school'];
+                unset($data['is_school']);
+            }else{
+                $house_array['is_school']         = 0;
             }
-            if(($jlzs>='1.5') && ($jlzs<='1.6')){
-            
-                $data['marketprice']='3';
-            
+            if(isset($data['is_metro'])){
+                $house_array['is_metro']         = $data['is_metro'];
+                unset($data['is_metro']);
+            }else{
+                $house_array['is_metro']         = 0;
             }
-            if(($jlzs>='1.7') && ($jlzs<='1.8')){
-            
-                $data['marketprice']='4';
-            
+            $data['update_time'] = time();
+            $house_array['update_time'] = time();
+            $house_id = $data['id'];
+            $back_url = $data['back_url'];
+            if($data['decoration']==0){
+                $decoration = '';
+            }elseif($data['decoration']==1){
+                $decoration = '精装';
+            }elseif($data['decoration']==2){
+                $decoration = '简装';
+            }elseif($data['decoration']==3){
+                $decoration = '毛坯';
             }
-
-            if($jlzs>'1.8'){
-            
-                $data['marketprice']='5';
-            
-            }
-                
-                // 编号
-             // $today = date ( "Ymd",time ());
-             // $info=$obj->order('id desc')->limit(1)->find();
-
-             // if($info['bianhao_hao']==$today){
-             //   $bianhao=intval($info['bianhao']);
-             //   $bianhao++;
-             //   $bianhao=strval($bianhao);
-             //   $bianhao1 = sprintf("%03d", $bianhao);
-             //   $data['bianhao_hao']=$today;
-             //    $data['bianhao']=$bianhao1;
-             // }else{
-             //    $data['bianhao_hao']=$today;
-             //    $data['bianhao']='001';
-             // }
-  
-       // $today = date ( "Ymd",time ());
-       // $info=$obj->order('id desc')->limit(1)->find();
-       //    if($info['bianhao_hao']==$today){
-       //         $bianhao_bian=intval($info['bianhao_bian']);
-       //         $bianhao_bian++;
-       //         $bianhao_bian=strval($bianhao_bian);
-       //         $bianhao1 = sprintf("%03d", $bianhao_bian);
-       //         $data['bianhao_hao']=$today;
-       //          $data['bianhao_bian']=$bianhao1;
-       //       }else{
-       //          $data['bianhao_hao']=$today;
-       //          $data['bianhao_bian']='001';
-       //       }
-       //  if(!empty($data['bianhao'])){
-           
-       //       $data['bianhao']=$data['bianhao'].$data['bianhao_hao'].$data['bianhao_bian'];
-       //  }else
-       //  {
-       //       $data['bianhao']='T'.$data['bianhao_hao'].$data['bianhao_bian'];
-       //  }
-
-                $suiji=rand(1000,9999);
-        if(!empty($data['bianhao'])){
-           
-             $data['bianhao']=$data['bianhao'].$suiji;
-        }else
-        {
-             $data['bianhao']='T'.$suiji;
-        }
-
-                if (!empty($_FILES['hxsimg']['name'])) {
-
-               $hxsimg = request()->file('hxsimg');
-    
-              if($hxsimg){
-                     $info = $hxsimg->move(env('root_path'). 'public/wj');
-                  
-                     if($info){      
-                   
-                          $image= $info->getSaveName();
-                        $data['hxsimg']='/wj/'.$image;
-                     } 
-                     
-                 }
-             } 
-
-
-
-
-                    if($data['price']>0 && $data['acreage']>0)
-
-                    {
-
-                        $data['average_price'] = ceil($data['price'] * 10000 / $data['acreage']);
-
+            $basic_info = array($data['house_property'],$data['years'],$data['house_orientation'],$decoration,$data['heating_mode'],
+                $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
+            );
+            $house_array['basic_info'] = implode('|',$basic_info);
+            unset($data['elevator']);unset($data['bianhao']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
+            unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
+            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);unset($data['developer']);
+            unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
+            $broker_id = $this->userInfo['id'];
+            if(!empty($_FILES['hxsimg']['name'])) {
+                $hxsimg = request()->file('hxsimg');
+                if ($hxsimg) {
+                    $info = $hxsimg->move(env('root_path') . 'public/wj');
+                    if ($info) {
+                        $image = $info->getSaveName();
+                        $house_array['hxsimg'] = '/wj/' . $image;
                     }
-
-                    $img          = $this->uploadImg();
-
-                    $data['file'] = $this->getPic();
-
-                    if(isset($data['id']) && $data['id'])
-
-                    {
-
-                        if(isset($data['timeout']) && $data['timeout'])
-
-                        {
-
-                            //验证发布数量是否达到限制
-
-                            $check  = PublishCount::check($this->userInfo['id'],$this->userInfo['model']);
-
-                            if($check['code'] == 1){
-
-                                $img && $data['img'] = $img;
-
-                                (empty($data['img']) && !empty($data['file'])) && $data['img'] = $data['file'][0]['url'];
-
-                                $data['ratio'] = $this->addHousePrice($data['id'],$data['average_price']);
-
-                                if($obj->allowField(true)->save($data,['id'=>$data['id']]))
-
-                                {
-
-                                    $this->optionHouseData($data['id'],$data,'second_house',true);
-
-                                }
-
-                                $code = 1;
-
-                                $msg = isset($check['msg'])?'上架成功！'.$check['msg']:'编辑房源信息成功';
-
-                            }else{
-
-                                $msg = $check['msg'];
-
-                            }
-
-                        }else{
-
-                            $img && $data['img'] = $img;
-
-                            (empty($data['img']) && !empty($data['file'])) && $data['img'] = $data['file'][0]['url'];
-
-                            $data['ratio'] = $this->addHousePrice($data['id'],$data['average_price']);
-
-                            if($obj->allowField(true)->save($data,['id'=>$data['id']]))
-
-                            {
-
-                                $this->optionHouseData($data['id'],$data,'second_house',true);
-
-                            }
-
-                            $code = 1;
-
-                            $msg = '编辑房源信息成功';
-
-                        }
-
-                    }else{
-
-                        //验证发布数量是否达到限制
-
-                        $check  = PublishCount::check($this->userInfo['id'],$this->userInfo['model']);
-
-                        if($check['code'] == 1){
-
-                            $data['img'] = $img;
-
-                            !isset($data['timeout']) && $data['timeout'] = 1;
-
-                            (empty($data['img']) && !empty($data['file'])) && $data['img'] = $data['file'][0]['url'];
-
-                            if($obj->allowField(true)->save($data))
-
-                            {
-
-                                $house_id = $obj->id;
-
-                                $this->optionHouseData($house_id,$data);
-
-                                $this->addHousePrice($house_id,$data['average_price']);
-
-                                \app\manage\service\Price::calculationPrice($data['estate_id']);
-
-                            }
-
-                            $code = 1;
-
-                            $msg = isset($check['msg'])?'发布成功！'.$check['msg']:'添加房源信息成功';
-
-                        }else{
-
-                            $msg = $check['msg'];
-
-                        }
-
-                    }
-
-                    \think\Db::commit();
-
-                }catch(\Exception $e){
-
-                    \think\facade\Log::record('添加房源信息出错：'.$e->getMessage());
-
-                    \think\Db::rollback();
-
-                    $msg = $e->getMessage();
-
                 }
-
             }
-
-            $back_url = isset($data['back_url'])?$data['back_url']:null;
-
+            $log_arr['operator'] = $broker_id;
+            $log_arr['house_id'] = $house_id;
+            $log_arr['type'] = 2;
+            $log_arr['create_time'] = time();
+            \think\Db::startTrans();
+            try{
+                $a = model('second_house')->where(['id'=>$house_id,'broker_id'=>$broker_id])->update($house_array);
+                $b = model('second_house_data')->where(['house_id'=>$house_id])->update($data);
+                $c = model('operatio_log')->insert($log_arr);
+                if($a&&$b&&$c){
+                    $code = 1;
+                    $msg = '编辑房源信息成功';
+                    \think\Db::commit();
+                }else{
+                    $code = 1;
+                    $msg = '编辑房源信息失败';
+                    \think\Db::rollback();
+                }
+            }catch(\Exception $e){
+                    \think\facade\Log::record('编辑房源信息出错：'.$e->getMessage());
+                    \think\Db::rollback();
+                    $msg = $e->getMessage();
+            }
             if($code == 1)
-
             {
-
                 $this->success($msg,$back_url);
-
             }else{
-
                 $this->error($msg,$back_url);
-
             }
-
         }
-
     }
 
 

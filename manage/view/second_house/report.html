@@ -1,32 +1,24 @@
-{extend name='user/public/layout' /}
+{extend name="public/layout" /}
+
 {block name='content'}
-<form class="layui-form" id="info_form" action="{:url('user.send/saveSecond')}" method="post" enctype="multipart/form-data">
+<form class="layui-form" id="info_form" action="{:url('second_house/report_edit')}" method="post" enctype="multipart/form-data">
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
-            <li class="layui-this">编辑二手房</li>
-            <li style="pointer-events:none;">可编辑<?php echo 3-$edit_number;?>次</li>
+            <a href="/second_house/detail/id/{$id}"><li>房源详情</li></a>
+            <a href="/second_house/profit/id/{$id}"><li>收益计算</li></a>
+            <a href="/second_house/report/id/{$id}"><li class="layui-this">尽职调查报告</li></a>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-
                 <div class="layui-form-item" style="pointer-events:none;">
-
                     <div class="layui-inline">
-
                         <label class="layui-form-label"><span class="layui-form-alert">*</span>房源名称</label>
-
                         <div class="layui-input-inline">
-
                             {$info.title}
-
                         </div>
-
                     </div>
-
                     <div class="layui-inline" >
-
                         <label class="layui-form-label"><span class="layui-form-alert">*</span>房型 {$info.id}</label>
-
                         <div class="layui-input-inline" >
                             {:getLinkMenu(29,'toilet','select',$info['toilet'])}
                         </div>
@@ -726,20 +718,11 @@
     <div class="layui-form-item" >
         <label class="layui-form-label">&nbsp;</label>
         <input type="hidden" name="id" id="id" value="{$info.id}">
-        {if condition='$edit_number lt 3'}
         <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
-        {/if}
 
     </div>
 </form>
 <div style="padding-top: 100px"></div>
-<input type="hidden" id="uploadUrl" value="{:url('SecondHouse/ajaxUploadImg')}">
-
-<input type="hidden" id="deleteUrl" value="{:url('SecondHouse/deleteImg')}">
-
-<input type="hidden" id="deleteVideo" value="{:url('SecondHouse/deleteVideo')}" />
-
-{:hook('ueditor',['id'=>'info','upload'=>true])}
 <script src="__JS__/option.js"></script>
 <script>
     //注意：选项卡 依赖 element 模块，否则无法进行功能性操作

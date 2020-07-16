@@ -532,7 +532,7 @@ class Second extends HomeBase{
             $seo_array[] = array('letter'=>'c','keyword'=>$qipai[$param['qipai']]['name'],'type'=>1,'id'=>0);
             $param['zprice1'] = 0;
             $param['zprice2'] = 0;
-        }elseif(!empty($zprice2)&&!empty($zprice1)){
+        }elseif($zprice2!=''&&$zprice1!=''){
             $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
             $seo_title .= $zprice1.'到'.$zprice2.'万元';
             $seo_array[] = array('letter'=>'tu','keyword'=>$zprice1.'到'.$zprice2.'万元','type'=>1,'id'=>0);

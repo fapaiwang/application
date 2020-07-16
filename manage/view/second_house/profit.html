@@ -1,0 +1,138 @@
+{extend name="public/layout" /}
+
+{block name='content'}
+
+
+    <div class="layui-tab layui-tab-brief">
+
+        <ul class="layui-tab-title">
+            <a href="/second_house/detail/id/{$id}"><li>房源详情</li></a>
+            <a href="/second_house/profit/id/{$id}"><li class="layui-this">收益计算</li></a>
+            <a href="/second_house/report/id/{$id}"><li>尽职调查报告</li></a>
+        </ul>
+        <div class="layui-tab-content">
+
+            <div class="layui-tab-item layui-show">
+
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>起拍价</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text" id="qipai" lay-verify="title" value="{$arr.qipai}"  autocomplete="off" class="layui-input" disabled>
+
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>市场价</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text" id="price" lay-verify="title" value="{$arr.price}"  autocomplete="off" class="layui-input" disabled>
+
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>物业欠费</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text" id="qianfei" lay-verify="title" autocomplete="off" class="layui-input">
+
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>其他费用</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text" id="qita" lay-verify="title"  autocomplete="off" class="layui-input">
+
+                    </div>
+
+                </div>
+                 <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>税率</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text"  lay-verify="title" value="{$arr.tax_rate}%" autocomplete="off" class="layui-input" disabled>
+
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"><span class="layui-form-alert">*</span>加价幅度</label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="text" id="price_increase_range" lay-verify="title" autocomplete="off" class="layui-input">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <input type="hidden" id="id"  value="{$arr.id}">
+    <input type="hidden" id="title"  value="{$arr.title}">
+    <input type="hidden" id="tax_rate"  value="{$arr.tax_rate}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <button type="button" lay-submit="" class="layui-btn btn-submit w200" onclick="calculation()">计算</button>
+    </div>
+    <div class='show_html'></div>
+
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>                           
+<script>
+
+function calculation(){
+    var title = $("#title").val();
+    var qipai = $("#qipai").val();
+    var price = $("#price").val();
+    var qianfei = $("#qianfei").val();
+    var qita = $("#qita").val();
+    var tax_rate = $("#tax_rate").val();
+    var price_increase_range = $("#price_increase_range").val();
+    if(title!=''&&qipai!=''&&price!=''&&qianfei!=''&&qita!=''&&tax_rate!=''&&price_increase_range!=''){
+        var show_html_top = '<div class="layui-form layui-border-box layui-table-view"><table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0"><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><style>.layui-table-cell{padding:0 8px;!important}</style><th style="text-align:center;"><div class="layui-table-cell"><span>起拍价</span></div></th><th style="text-align:center;"><div class="layui-table-cell"><span>物业欠费</span></div></th><th style="text-align:center;"><div class="layui-table-cell"><span>契税</span></div></th><th style="text-align:center;"><div class="layui-table-cell"><span>市场价</span></div></th><th style="text-align:center;"><div class="layui-table-cell"><span>共计成本</span></div></th></tr></thead><tbody>';
+        var show_html_end = '</tbody></table></div><div class="layui-form-item"><label class="layui-form-label">&nbsp;</label><a href="/second_house/excelFileExport/qipai/'+qipai+'/price/'+price+'/qianfei/'+qianfei+'/qita/'+qita+'/tax_rate/'+tax_rate+'/price_increase_range/'+price_increase_range+'/title/'+title+'" class="layui-btn btn-submit w200">导出表格</a></div>';
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            data:{"qipai":qipai,"price":price,"qianfei":qianfei,"qita":qita,"tax_rate":tax_rate,"price_increase_range":price_increase_range},
+            url:"{:url('SecondHouse/ajaxcalculation')}",//目标地址
+            success:function(data){
+                var show_html = show_html_top;
+                for(var i=0;i<data.length;i++){
+                    if(data[i]['status']==1){
+                        show_html +='<tr bgcolor="red"><td><div class="layui-table-cell">'+data[i]['qipai']+'</div></td><td><div class="layui-table-cell">'+data[i]['qianfei']+'</div></td><td><div class="layui-table-cell">'+data[i]['qishui']+'</div></td><td><div class="layui-table-cell">'+data[i]['price']+'</div></td><td><div class="layui-table-cell">'+data[i]['cost']+'</div></td></tr>';
+                    }else{
+                        show_html +='<tr><td><div class="layui-table-cell">'+data[i]['qipai']+'</div></td><td><div class="layui-table-cell">'+data[i]['qianfei']+'</div></td><td><div class="layui-table-cell">'+data[i]['qishui']+'</div></td><td><div class="layui-table-cell">'+data[i]['price']+'</div></td><td><div class="layui-table-cell">'+data[i]['cost']+'</div></td></tr>';
+                    }
+                    
+                } 
+                show_html += show_html_end;
+                $('.show_html').html(show_html);
+            },
+        })
+    }else{
+        alert("请补全信息在计算！！！");
+    }
+}      
+
+</script>
+{/block}

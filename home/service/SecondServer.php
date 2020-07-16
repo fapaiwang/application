@@ -698,7 +698,7 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             $zmianji1 = 0;
             $zmianji2 = 0;
             $seo_array = array('letter'=>'d','keyword'=>$acreages[$acreage]['name'],'id'=>$acreage);
-        }elseif(!empty($zmianji1)&&!empty($zmianji2)){
+        }elseif($zmianji1!=''&&$zmianji2!=''){
             $data = ['s.acreage','between',[$zmianji1,$zmianji2]];
             $seo_title = $zmianji1.'_'.$zmianji2.'m²';
             $seo_array = array('letter'=>'vw','keyword'=>$zmianji1.'_'.$zmianji2.'m²','id'=>$zmianji1);

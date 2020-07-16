@@ -1,17 +1,7 @@
 <?php
-
-
-
-
 namespace app\home\controller\user;
-
-
-
-
-
 use app\common\controller\UserBase;
-
-
+use app\home\service\ToolsServer;
 
 class Second extends UserBase
 
@@ -76,44 +66,63 @@ class Second extends UserBase
      */
 
     public function edit()
-
     {
-
-        $id    = input('param.id/d',0);
-
-        $url   = request()->server('HTTP_REFERER');
-
-
-
-
-
-        
-
-
-
-
-        if(!$id){
-
+        $ToolsServer= new ToolsServer();
+        $id  = input('param.id/d',0);
+        if(!$id)
+        {
             $this->error('参数错误');
-
-        }else{
-
-            $where['id']        = $id;
-
-            $where['broker_id'] = $this->userInfo['id'];
-
-            $info = model('second_house')->where($where)->find();
-            $data = model('second_house_data')->where(['house_id'=>$id])->find();
-$this->assign('data',$data);
-
-            $this->assign('back_url',$url);
-
-            $this->assign('info',$info);
-
         }
-
+        $url   = request()->server('HTTP_REFERER');
+        $data = model('second_house_data')->where(['house_id'=>$id])->find();
+        $position_lists = model('position_cate')->where(['model'=>"second_house"])->field('id,title')->select();
+        $house_position_cate_id = model('position')->where(['house_id' => $id, 'model' => 'second_house'])->column('cate_id');//获取该楼盘 所属的推荐位id
+        $datas = model('second_house')->where(['id'=>$id])->find();
+        $str=$datas['hximg'];
+        $var=explode(",",$str);
+        $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
+        $info = model('second_house')->find($id);
+        $estate = model('estate')->where(['id'=>$datas['estate_id']])->field("years,data")->find();
+        if($data['bidding_cycle']==0){
+            $data['bidding_cycle']=24;
+        }
+        $jiage  = 0;
+        $mianji = $datas['acreage'];
+        if($datas['ckprice']>0){
+            $jiage = $datas['ckprice'];
+        }elseif($datas['price']>0){
+            $jiage = $datas['price'];
+        }
+        if(empty($data['deed_tax'])&&!empty($datas['qipai'])){
+            $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
+        }
+        if(empty($data['first_suite'])&&!empty($jiage)){
+            $data['first_suite'] = $ToolsServer->deen_tax($jiage,$mianji);
+        }
+        if(empty($data['second_suite'])&&!empty($jiage)){
+            $data['second_suite'] = $ToolsServer->deen_tax($jiage,$mianji,501);
+        }
+        if(empty($data['lending_rate'])){
+            $lending_rate = getSettingCache('tools');
+            $data['lending_rate'] = $lending_rate['lilv'];
+        }
+        //查询已编辑次数
+        $broker_id = $this->userInfo['id'];
+        $where['operator'] = $broker_id;
+        $where['house_id'] = $id;
+        $where['type'] = 2;
+        $edit_number = model('operatio_log')->where($where)->count();
+        $this->assign('edit_number',$edit_number);
+        $this->assign('years',$estate['years']);
+        $this->assign('developer',$estate['data']['developer']);
+        $this->assign('back_url',$url);
+        $this->assign('info', $info);
+        $this->assign('var',$var);
+        $this->assign('fpy',$fpy);
+        $this->assign('position_lists',$position_lists);
+        $this->assign('position_cate_id',$house_position_cate_id);
+        $this->assign('data',$data);
         return $this->fetch();
-
     }
 
     /**
