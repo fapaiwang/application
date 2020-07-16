@@ -111,7 +111,7 @@ class Second extends HomeBase{
                 //法拍专员点评/点评个数
                 $second_house_user_comment = $SecondServer->second_house_user_comment($second_house_id);
                 $user["user_id"] = $user["id"];
-                $user["history_complate"] = $user_info->history_complate;
+                $user["history_complate"] = $user_info->history_complate ?? 0;
                 $second_house_business[0]=$user->toArray();
                 $second_house_user_comment_list = $SecondServer->second_house_user_comment_list($second_house_id,$info['broker_id']);
                 if ($second_house_user_comment_list){

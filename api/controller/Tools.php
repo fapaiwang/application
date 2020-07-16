@@ -56,9 +56,9 @@ class Tools extends Controller
      */
     public function house_loan_lilv(){
         $res["dai_lilv"] =[
-            ["val"=>4.41,"describe"=>"基准利率9折(5.145%)"],
-            ["val"=>4.655,"describe"=>"基准利率95折(5.145%)"],
-            ["val"=>4.0,"describe"=>"基准利率(5.145%)"],
+            ["val"=>4.41,"describe"=>"基准利率9折(4.41%)"],
+            ["val"=>4.655,"describe"=>"基准利率95折(4.655%)"],
+            ["val"=>4.0,"describe"=>"基准利率(4.0%)"],
             ["val"=>5.145,"describe"=>"基准利率上浮5%(5.145%)"]
         ];
         return $this->success_o($res);

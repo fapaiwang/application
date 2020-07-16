@@ -1,0 +1,158 @@
+{extend name='public/layout' /}
+{block name='content'}
+<style>
+	.layui-form-item .layui-input-inline{width:300px;}
+</style>
+<!--网站设置-->
+<form class="layui-form" id="info_form" action="{:url('Setting/addDo')}" method="post">
+	<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">税费计算</li>
+		</ul>
+
+
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">利率上浮30%</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv130]" id="lilv130" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">利率上浮20%</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv120]" id="lilv120" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">利率上浮10%</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv110]" id="lilv110" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">利率上浮5%</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv105]" id="lilv105" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv]" lay-verify="required" id="lilv" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+						只添加我就可以了,填写每月的LPR
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率95折</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv95]" id="lilv95" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率9折</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv90]"  id="lilv90" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率85折</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv85]"  id="lilv85" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率8折</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv80]" id="lilv80" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+					<label class="layui-form-label">基准利率7折</label>
+					<div class="layui-input-inline">
+						<input type="text" name="data[lilv70]" id="lilv70" placeholder="" autocomplete="off" class="layui-input" value=""/>
+					</div>
+					<div class="layui-input-inline">
+
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">&nbsp;</label>
+				<button type="submit" lay-submit="" class="layui-btn btn-submit">提交</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $("#lilv").blur(function(){
+        var lilv =$(this).val();
+        if ($.isNumeric(lilv)){
+            calculation(lilv,130)
+            calculation(lilv,120)
+            calculation(lilv,110)
+            calculation(lilv,105)
+            calculation(lilv,95)
+            calculation(lilv,90)
+            calculation(lilv,85)
+            calculation(lilv,80)
+            calculation(lilv,70)
+        } else{
+            layer.msg('只能填写数字', {icon:2});
+        }
+    });
+    function calculation(lilv,num) {
+        var calculation =lilv * num /100;
+        $("#lilv"+num).val(calculation.toFixed(2));
+
+    }
+</script>
+{/block}

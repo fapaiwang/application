@@ -27,6 +27,18 @@ class UserService
         $lists = $this->getFollowLists('second_house',$field);
         return $lists;
     }
+
+    /**
+     * 关注的小区
+     * @param mixed
+     * @return \think\Paginator
+     * @author: al
+     */
+    public function followEstate(){
+        $field = 'distinct(h.id),h.title,h.img,h.house_type,h.years,h.address,h.price,h.complate_num';
+        $lists = $this->getFollowLists('second_house',$field);
+        return $lists;
+    }
     //关注
     private function getFollowLists($model,$field){
         $obj = model('follow');
