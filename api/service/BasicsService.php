@@ -103,4 +103,5 @@ class BasicsService{
         return "http://api.".config('url_domain_root');
 
     }
+
 }

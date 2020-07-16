@@ -7,6 +7,7 @@ use app\home\service\SecondServer;
 use app\home\service\UserService;
 use app\server;
 use app\tools\ApiResult;
+use app\tools\RequestResult;
 use think\Controller;
 use think\Db;
 
@@ -14,6 +15,7 @@ use think\Db;
 class User extends Controller
 {
     use ApiResult;
+    use RequestResult;
     protected $User_Server;
 
     public function __construct(UserService $User_Server)
@@ -28,10 +30,14 @@ class User extends Controller
      * @author: al
      */
     public function followHouse(){
-        if (empty(login_user())){
+        $user_id = input("param.user_id");
+        if (empty($user_id)){
+            return $this->error_o("用户id不能为空");
+        }
+        if (empty(loginUser($user_id))){
             return $this->error_o("请登录后再操作");
         }
-        $info = $this->User_Server->followHouse();
+        $info = $this->User_Server->followHouse($user_id);
         return $this->success_o($info);
     }
     /**
@@ -41,10 +47,26 @@ class User extends Controller
      * @author: al
      */
     public function subscribeHouse(){
-        if (empty(login_user())){
+        $user_id = input("param.user_id");
+        if (empty($user_id)){
+            return $this->error_o("用户id不能为空");
+        }
+        if (empty(loginUser($user_id))){
             return $this->error_o("请登录后再操作");
         }
-        $info = $this->User_Server->subscribeHouse();
+        $info = $this->User_Server->subscribeHouse($user_id);
         return $this->success_o($info);
     }
+    public function followEstate(){
+        $user_id = input("param.user_id");
+        if (empty($user_id)){
+            return $this->error_o("用户id不能为空");
+        }
+        if (empty(loginUser($user_id))){
+            return $this->error_o("请登录后再操作");
+        }
+        $info = $this->User_Server->followEstate($user_id);
+        return $this->success_o($info);
+    }
+
 }
