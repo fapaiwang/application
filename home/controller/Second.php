@@ -801,4 +801,10 @@ class Second extends HomeBase{
             "data" => $second_house_user_comment
         ]);
     }
+    function sitemap(){
+        $arr = model('second_house')->field('id')->where('status','=',1)->select();
+        foreach($arr as $k=>$v){
+            echo 'https://www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
+        }
+    }
 }
