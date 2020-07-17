@@ -26,6 +26,7 @@ class SecondServer
      * @throws \think\exception\DbException
      */
     public function second_house_user_comment($second_house_id,$limit=2,$is_rand=0){
+
         $obj     = model('fydp')->alias('s');
         $fydp =$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
             ->field('s.id,s.user_id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')
@@ -36,6 +37,9 @@ class SecondServer
                 $fydp = $fydp->orderRaw('rand()');
             }
         $fydp =$fydp->select();
+        foreach ($fydp as $v){
+            $v["img"] = getAvatar($v['user_id'],90);
+        }
        return $fydp;
     }
 
@@ -561,6 +565,20 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             array_unshift($types,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
         }
         //户型
+        $getRoom = $this->roomSplicing($param['room']);
+        //阶段
+        $jieduan = $this->stageSplicing($param['jieduan']);
+        return array('jieduan'=>$jieduan,'huxing'=>$getRoom,'types'=>$types,'house_type'=>$house_type);
+    }
+
+    /**
+     * 获取户型
+     * @param int $room
+     * @param mixed
+     * @return array
+     * @author: al
+     */
+    public function roomSplicing($room=0){
         $getRooms = getRoom('','s.room');
         $getRoom = array();
         foreach($getRooms as $k=>$v){
@@ -568,11 +586,11 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             $getRoom[$k]['name'] = $v;
             $getRoom[$k]['status'] = 0;
         }
-        if($param['room']!=''){
-            $param['room'] = explode(",",$param['room']);
-            $param['room'] = array_unique($param['room']);
+        if($room !=''){
+            $room = explode(",",$room);
+            $room = array_unique($room);
             foreach($getRoom as $k=>$v){
-                foreach($param['room'] as $ks=>$vs){
+                foreach($room as $ks=>$vs){
                     if($v['id']==$vs) {
                         $getRoom[$k]['status'] = 1;
                     }
@@ -582,14 +600,23 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         }else{
             array_unshift($getRoom,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
         }
-        //阶段
+        return $getRoom;
+    }
+    /**
+     * 阶段
+     * @param int $stage
+     * @param mixed
+     * @return string
+     * @author: al
+     */
+    public function stageSplicing($stage= 0){
         $jieduan = getLinkMenuCache(25);
-        if($param['jieduan']!=''){
-            $param['jieduan'] = explode(",",$param['jieduan']);
-            $param['jieduan'] = array_unique($param['jieduan']);
+        if($stage !=''){
+            $stage = explode(",",$stage);
+            $stage = array_unique($stage);
             foreach($jieduan as $k=>$v){
                 $jieduan[$k]['status'] = 0;
-                foreach($param['jieduan'] as $ks=>$vs){
+                foreach($stage as $ks=>$vs){
                     if($v['id']==$vs) {
                         $jieduan[$k]['status'] = 1;
                     }
@@ -602,7 +629,7 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             }
             array_unshift($jieduan,Array('id'=>0,'pid'=>0,'name'=>'全部','alias'=>'quanbu','status'=>1));
         }
-        return array('jieduan'=>$jieduan,'huxing'=>$getRoom,'types'=>$types,'house_type'=>$house_type);
+        return $jieduan;
     }
     /**
      *    组合url路径

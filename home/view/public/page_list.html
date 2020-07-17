@@ -230,13 +230,13 @@
                 "exists":1,
             },
             success:function (result) {
+                console.log(result);
                 if (result.code == 1){
                     layer.msg('验证码发送成功，请注意查收',{icon:1});
                     times = setInterval(timer,1000);
                 }else {
-                    layer.msg(data.msg,{icon:2});
+                    layer.msg(result.msg,{icon:2});
                 }
-
             }
         });
     }

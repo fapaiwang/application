@@ -218,6 +218,7 @@
             layer.msg('请填写正确的手机号码',{icon:2});
             return false;
         }
+        var token     = $("input[name='__token__']").val();
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -225,13 +226,14 @@
             data: {
                 "mobile":mobile,
                 "exists":1,
+                "__token__":token
             },
             success:function (result) {
                 if (result.code == 1){
                     layer.msg('验证码发送成功，请注意查收',{icon:1});
                     times = setInterval(timer,1000);
                 }else {
-                    layer.msg(data.msg,{icon:2});
+                    layer.msg(result.msg,{icon:2});
                 }
 
             }

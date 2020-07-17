@@ -17,12 +17,14 @@ class SecondHouse extends Controller
     protected $Index_Server;
     protected $cityInfo;
     protected $server;
+    protected $second;
 
     
     public function __construct(SecondServer $Second_Server,IndexServer $Index_Server,server $server)
     {
         $this->Second_Server = $Second_Server;
         $this->Index_Server = $Index_Server;
+        $this->server = $server;
         $this->server = $server;
     }
 
@@ -176,6 +178,9 @@ class SecondHouse extends Controller
      */
     public function houseList()
     {
+        $info = $this->Second_Server->getLists();
+        return $this->success_o($info);
+//        return 1;
         $time    = time();
         $where   = $this->search();
         $sort    = input('param.sort/d',0);
@@ -455,6 +460,16 @@ class SecondHouse extends Controller
         }
         return $this->success_o(getLinkMenuCache($id));
     }
+
+    /**
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function getStage(){
+        $info = $this->Second_Server->roomSplicing();
+        return $this->success_o($info);
+    }
     
     /**
      * @description
@@ -505,7 +520,8 @@ class SecondHouse extends Controller
      * 如：一室、二室、三室
      */
     public function getRoom() {
-        return $this->success_o(getRoom());
+        $info = $this->Second_Server->roomSplicing();
+        return $this->success_o($info);
     }
     
     /**

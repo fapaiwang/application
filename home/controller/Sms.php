@@ -142,7 +142,11 @@ class Sms
     public function sendSms(){
         $mobile = input('post.mobile');
         $exists = input('post.exists/d',0);
+        $token = input('post.token');
         $return['code'] = 0;
+        if(session('__token__')!==$token){
+            $return['msg'] = '操作失败T';
+        }
         if(!is_mobile($mobile)){
             $return['msg'] = '手机号码格式不正确！';
         }elseif($exists == 2 && !checkMobileIsExists($mobile)){
