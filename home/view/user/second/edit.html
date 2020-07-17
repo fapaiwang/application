@@ -9,7 +9,7 @@
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
 
-                <div class="layui-form-item" style="pointer-events:none;">
+                <div class="layui-form-item">
 
                     <div class="layui-inline">
 
@@ -32,115 +32,89 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-
                         <label class="layui-form-label"><span class="layui-form-alert">*</span>面积 </label>
-
                         <div class="layui-input-inline" style="width:95px;">
-
-                            <input type="text" class="layui-input" lay-verify="acreage" id="acreage"  placeholder="122"  autocomplete="off" value="{$info.acreage}" >
-
+                            <input type="text" class="layui-input" lay-verify="acreage" id="acreage" name="acreage"  placeholder="122"  autocomplete="off" value="{$info.acreage}" onchange="acreage_ckprice_price()">
                         </div>
-
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;">㎡ 市场价<a href="javascript:;" data-title="不填写价格或填写0前台显示为待定" class="layui-icon layui-icon-tips alert" style="display:none"></a></div>
                         <div class="layui-input-inline" style="width:80px;">
-                            <input type="text" class="layui-input" lay-verify="price" id="price"  placeholder="122"  autocomplete="off" value="{$info->getData('price')}" >
+                            <input type="text" class="layui-input" lay-verify="price" id="price" name="price"  placeholder="122"  autocomplete="off" value="{$info->getData('price')}" onchange="acreage_ckprice_price()">
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
-
                     </div>
                 </div>
 
-
-                <div class="layui-form-item" style="pointer-events:none;">
-
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">参考价 </label>
                         <div class="layui-input-inline" style="width:80px;">
-                            <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice"  placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" >
+                            <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice" name="ckprice"  placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" onchange="acreage_ckprice_price()">
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
                     </div>
-
                     <div class="layui-inline">
-
                         <label class="layui-form-label">楼层 </label>
-
                         <div class="layui-input-inline" style="width:100px;">
-
-                            <select >
+                            <select name="floor">
                                 <option value="">-请选择-</option>
                                 {for start="-2" end="71"}
                                 <option value="{$i}" {if condition="$info.floor eq $i"}selected="selected"{/if}>{$i}</option>
                                 {/for}
                             </select>
-
                         </div>
-
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:20px;"> 共</div>
-
                         <div class="layui-input-inline" style="width:110px;">
-
-                            <select >
+                            <select name="total_floor">
                                 {for start="-2" end="71"}
                                 <option value="{$i}" {if condition="$info.total_floor eq $i"}selected="selected"{/if}>{$i}</option>
                                 {/for}
                             </select>
                         </div>
-
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"> 层</div>
-
                     </div>
-
-
-
                     <div class="layui-inline">
-
                         <label class="layui-form-label">朝向 </label>
-
                         <div class="layui-input-inline">
-
                             {:getLinkMenu(4,'orientations','select',$info['orientations'])}
-
                         </div>
-
                     </div>
                 </div>
-
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">电梯情况 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="elevator" lay-verify="elevator" id="elevator" placeholder="" value="{$info.elevator}">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-
+                    <div class="layui-inline" style="pointer-events:none;">
                         <label class="layui-form-label">编号 </label>
-
-                        <div class="layui-input-inline">
-
-                            <input type="text" class="layui-input" name="bianhao" value="{$info.bianhao}" id="bianhao" placeholder="">
-
+                        <div class="layui-input-inline" >
+                            <input type="text" class="layui-input"  value="{$info.bianhao}">
                         </div>
                     </div>
-
                     <div class="layui-inline">
-
-                        <label class="layui-form-label">房源瑕疵 </label>
-
-                        <div class="layui-input-inline">
-
-                            <input type="text" class="layui-input" name="xiaci" value="{$info.xiaci}" id="xiaci" placeholder="">
-
+                        <div class="layui-inline">
+                            <label class="layui-form-label">电梯 </label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="elevator_status" id="elevator_status" name="elevator_status">
+                                    <option value="1" {if condition="$info.elevator_status eq 1"}selected{/if}>有</option>
+                                    <option value="2" {if condition="$info.elevator_status eq 2"}selected{/if}>无</option>
+                                </select>
+                            </div>
                         </div>
-
                     </div>
-
+                    <div class="layui-inline elevator_status" {if condition="$info.elevator_status eq 2"}style="display:none;"{/if}>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">电梯情况 </label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input"  name="elevator" id="elevator"  value="{$info.elevator}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房源瑕疵 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="xiaci" value="{$info.xiaci}" id="xiaci" placeholder="">
+                        </div>
+                    </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">欠费情况 </label>
-
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="qianfei" value="{$info.qianfei}" id="qianfei" placeholder="">
                         </div>
@@ -151,15 +125,14 @@
                             <input type="text" class="layui-input" name="enforcement" lay-verify="enforcement" id="enforcement" placeholder="" value="{$info.enforcement}">
                         </div>
                     </div>
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">行政限制 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="land_purpose" lay-verify="land_purpose" id="land_purpose" placeholder="" value="{$info.land_purpose}">
                         </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-
                     <div class="layui-inline">
                         <label class="layui-form-label">户口占用情况 </label>
                         <div class="layui-input-inline">
@@ -172,86 +145,103 @@
                             <input type="text" class="layui-input" name="property_no" lay-verify="property_no" id="property_no" placeholder="" value="{$info.property_no}">
                         </div>
                     </div>
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">房屋用途 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="house_purpse" lay-verify="house_purpse" id="house_purpse" placeholder="" value="{$info.house_purpse}">
+                            <select name="house_purpse" id="house_purpse">
+                                <option value="1" {if condition="$info.house_purpse eq 1"}selected{/if}>住宅</option>
+                                <option value="2" {if condition="$info.house_purpse eq 2"}selected{/if}>公寓</option>
+                                <option value="3" {if condition="$info.house_purpse eq 3"}selected{/if}>商业</option>
+                                <option value="4" {if condition="$info.house_purpse eq 4"}selected{/if}>土地</option>
+                                <option value="5" {if condition="$info.house_purpse eq 5"}selected{/if}>厂房</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-
                     <div class="layui-inline">
                         <label class="layui-form-label">经营情况 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="management" lay-verify="management" id="management" placeholder="" value="{$info.management}">
+                            <select name="management" id="management">
+                                <option value="2" {if condition="$info.management eq 2"}selected{/if}>无</option>
+                                <option value="1" {if condition="$info.management eq 1"}selected{/if}>有</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">租赁情况 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="lease" lay-verify="lease" id="lease" placeholder="" value="{$info.lease}">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">抵押情况 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="mortgage" lay-verify="mortgage" id="mortgage" placeholder="" value="{$info.mortgage}">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-
                     <div class="layui-inline">
                         <label class="layui-form-label">查封情况 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="sequestration" lay-verify="sequestration" id="sequestration" placeholder="" value="{$info.sequestration}">
                         </div>
                     </div>
-
-                    <div class="layui-inline">
-                        <label class="layui-form-label">腾退情况 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="vacate" lay-verify="vacate" id="vacate" placeholder="" value="{$info.vacate}">
-                        </div>
-                    </div>
-
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">周边交通通勤 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="traffic" lay-verify="traffic" id="traffic" placeholder="" value="{$data.traffic}">
                         </div>
                     </div>
-
+                    <div class="layui-inline">
+                        <label class="layui-form-label">租赁情况 </label>
+                        <div class="layui-input-inline">
+                            <select name="lease" id="lease" lay-filter="lease">
+                                <option value="1" {if condition="$info.lease eq 1"}selected{/if}>有</option>
+                                <option value="2" {if condition="$info.lease eq 2"}selected{/if}>无</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline lease" {if condition="$info.lease eq 2"}style="display:none;"{/if}>
+                        <label class="layui-form-label">租赁期限 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="lease_term" lay-verify="lease_term" id="lease_term" placeholder="" value="{$data.lease_term}">
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item">
-
+                    <div class="layui-inline">
+                        <label class="layui-form-label">抵押情况 </label>
+                        <div class="layui-input-inline">
+                            <select name="mortgage" id="mortgage">
+                                <option value="1" {if condition="$info.mortgage eq 1"}selected{/if}>有</option>
+                                <option value="2" {if condition="$info.mortgage eq 2"}selected{/if}>无</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">腾退情况 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="vacate" lay-verify="vacate" id="vacate" placeholder="" value="{$info.vacate}">
+                        </div>
+                    </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">教育 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="education" lay-verify="education" id="education" placeholder="" value="{$data.education}">
                         </div>
                     </div>
-
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">医疗 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="medical_care" lay-verify="medical_care" id="medical_care" placeholder="" value="{$data.medical_care}">
                         </div>
                     </div>
-
                     <div class="layui-inline">
                         <label class="layui-form-label">商超 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="shangchao" lay-verify="shangchao" id="shangchao" placeholder="" value="{$data.shangchao}">
                         </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">供暖费用 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item">
-
-
-
                     <div class="layui-inline">
                         <label class="layui-form-label">临街 </label>
                         <div class="layui-input-inline">
@@ -264,7 +254,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="layui-inline">
                         <label class="layui-form-label">双气 </label>
                         <div class="layui-input-inline">
@@ -293,19 +282,24 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="layui-form-item">
-
-
-
                     <div class="layui-inline">
                         <label class="layui-form-label">房屋性质 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="nature" lay-verify="nature" id="nature" placeholder="" value="{$data.nature}">
+                            <select name="nature" id="nature">
+                                <option value="1" {if condition="$data.nature eq 1"}selected{/if}>商品房</option>
+                                <option value="2" {if condition="$data.nature eq 2"}selected{/if}>公房</option>
+                                <option value="3" {if condition="$data.nature eq 3"}selected{/if}>央产房</option>
+                                <option value="4" {if condition="$data.nature eq 4"}selected{/if}>军产房</option>
+                                <option value="5" {if condition="$data.nature eq 5"}selected{/if}>一类经适房</option>
+                                <option value="6" {if condition="$data.nature eq 6"}selected{/if}>二类经适房（回迁）</option>
+                                <option value="7" {if condition="$data.nature eq 7"}selected{/if}>央产经适房</option>
+                                <option value="8" {if condition="$data.nature eq 8"}selected{/if}>平房私产</option>
+                                <option value="9" {if condition="$data.nature eq 9"}selected{/if}>平房使用</option>
+                            </select>
                         </div>
                     </div>
-
                     <div class="layui-inline">
                         <label class="layui-form-label">建筑类型 </label>
                         <div class="layui-input-inline">
@@ -320,9 +314,14 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">供暖费用 </label>
+                        <label class="layui-form-label">供暖方式 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">
+                            <select name="heating_mode" id="heating_mode">
+                                <option value="1" {if condition="$data.heating_mode eq 1"}selected{/if}>集中供暖</option>
+                                <option value="2" {if condition="$data.heating_mode eq 2"}selected{/if}>自供暖</option>
+                                <option value="3" {if condition="$data.heating_mode eq 3"}selected{/if}>无供暖</option>
+                                <option value="4" {if condition="$data.heating_mode eq 4"}selected{/if}>不详</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -339,7 +338,6 @@
                                     <option value="3" {if condition="$data.electricity_type eq 3"}selected{/if}>工业用电</option>
                                 </select>
                             </div>
-
                         </div>
                     </div>
 
@@ -364,16 +362,22 @@
                 <div class="layui-form-item">
 
                     <div class="layui-inline">
-                        <label class="layui-form-label">遮挡 </label>
+                        <label class="layui-form-label">遮挡情况 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="occlusion" lay-verify="occlusion" id="occlusion" placeholder="" value="{$data.occlusion}">
+                            <select name="occlusion" id="occlusion">
+                                <option value="2" {if condition="$data.occlusion eq 2"}selected{/if}>无</option>
+                                <option value="1" {if condition="$data.occlusion eq 1"}selected{/if}>有</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="layui-inline">
                         <label class="layui-form-label">凶宅 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="haunted_house" lay-verify="haunted_house" id="haunted_house" placeholder="" value="{$data.haunted_house}">
+                            <select name="haunted_house" id="haunted_house">
+                                <option value="2" {if condition="$data.haunted_house eq 2"}selected{/if}>否</option>
+                                <option value="1" {if condition="$data.haunted_house eq 1"}selected{/if}>是</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -405,7 +409,11 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">学区名额使用情况 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="enrollment_quota" lay-verify="enrollment_quota" id="enrollment_quota" placeholder="" value="{$data.enrollment_quota}">
+                            <select name="enrollment_quota" id="enrollment_quota">
+                                <option value="2" {if condition="$data.enrollment_quota eq 2"}selected{/if}>无</option>
+                                <option value="1" {if condition="$data.enrollment_quota eq 1"}selected{/if}>有</option>
+                                <option value="3" {if condition="$data.enrollment_quota eq 3"}selected{/if}>不详</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -424,9 +432,8 @@
                             <div class="layui-input-inline" style="width:50px;">
                                 <select name="bidding_cycle" id="bidding_cycle">
                                     <option value="0">--请选择--</option>
-                                    {for start="1" end="30"}
-                                    <option value="{$i}" {if condition="$data.bidding_cycle eq $i"}selected{/if}>{$i}</option>
-                                    {/for}
+                                    <option value="1" {if condition="$data.bidding_cycle eq 1"}selected{/if}>24小时</option>
+                                    <option value="2" {if condition="$data.bidding_cycle eq 2"}selected{/if}>60天变卖</option>
                                 </select>
                             </div>
                         </div>
@@ -482,21 +489,12 @@
 
                 </div>
                 <div class="layui-form-item">
-
                     <div class="layui-inline">
                         <label class="layui-form-label">产权人姓名 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="property_owner" lay-verify="property_owner" id="property_owner" placeholder="" value="{$data.property_owner}">
                         </div>
                     </div>
-
-                    <div class="layui-inline">
-                        <label class="layui-form-label">租赁期限 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="lease_term" lay-verify="lease_term" id="lease_term" placeholder="" value="{$data.lease_term}">
-                        </div>
-                    </div>
-
                     <div class="layui-inline">
                         <label class="layui-form-label">是否有优先购买权 </label>
                         <div class="layui-input-inline">
@@ -508,7 +506,12 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房屋属性</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="house_property" lay-verify="house_property" id="house_property" placeholder="" value="{$data.house_property}">
+                        </div>
+                    </div>
                 </div>
                 <div class="layui-form-item">
 
@@ -523,7 +526,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="layui-inline">
                         <label class="layui-form-label">是否存在继承或赠与情况 </label>
                         <div class="layui-input-inline">
@@ -667,28 +669,7 @@
                             <input type="text" class="layui-input" name="second_suite" lay-verify="second_suite" id="second_suite" placeholder="" value="{$data.second_suite}">
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">房屋属性</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="house_property" lay-verify="house_property" id="house_property" placeholder="" value="{$data.house_property}">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
 
-
-                    <div class="layui-inline">
-                        <label class="layui-form-label">房屋朝向 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="house_orientation" lay-verify="house_orientation" id="house_orientation" placeholder="" value="{$data.house_orientation}">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">供暖方式 </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="heating_mode" lay-verify="heating_mode" id="heating_mode" placeholder="" value="{$data.heating_mode}">
-                        </div>
-                    </div>
                 </div>
 
 
@@ -703,25 +684,13 @@
                         </div>
                     </div>
                 </div>
-                <script src="/js/jquery.min.js" type="text/javascript"></script>
-                <div class="layui-form-item" style="margin-top:20px;">
-                    <label class="layui-form-label">尽调报告</label>
-                    <div class="layui-input-block">
-                        <div class="layui-upload">
-                            <input type="file" name="hxsimg" value="{$info.hxsimg}" >
-                            {if condition='$info.hxsimg neq ""'  }
-                            <div id="img_preview">
-                                <a href="{$info.hxsimg}" download="{$info.hxsimg}">已上传，点击下载</a>
-                            </div>
-                            {/if}
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
     <input type="hidden" name="back_url" value="{$back_url}" />
     <input type="hidden" name="years" value="{$years}" />
+    <input type="hidden" id="qipai" value="{$info['qipai']}" />
     <input type="hidden" name="developer" value="{$developer}" />
     <div class="layui-form-item" >
         <label class="layui-form-label">&nbsp;</label>
@@ -733,30 +702,37 @@
     </div>
 </form>
 <div style="padding-top: 100px"></div>
-<input type="hidden" id="uploadUrl" value="{:url('SecondHouse/ajaxUploadImg')}">
 
-<input type="hidden" id="deleteUrl" value="{:url('SecondHouse/deleteImg')}">
-
-<input type="hidden" id="deleteVideo" value="{:url('SecondHouse/deleteVideo')}" />
-
-{:hook('ueditor',['id'=>'info','upload'=>true])}
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="__JS__/option.js"></script>
 <script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.on('select(elevator_status)', function (data) {
+            var aa = $("#elevator_status").val();
+            if(aa==2){
+                $("#elevator").val('');
+                $(".elevator_status").hide();
+            }else if(aa==1){
+                $(".elevator_status").show();
+            }
+        });
+        form.on('select(lease)', function (data) {
+            var aa = $("#lease").val();
+            if(aa==2){
+                $("#lease_term").val('');
+                $(".lease").hide();
+            }else if(aa==1){
+                $(".lease").show();
+            }
+        });
+    });
     //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
     layui.use(['form','element'], function(){
         var $ = layui.jquery,element = layui.element,form = layui.form;
         //自定义验证规则
         form.verify({
-            title: function(value){
-                if(value.length == 0){
-                    return '请填写房源名称';
-                }
-            },
-            estate_name : function (value) {
-                if(value.length == 0){
-                    return '请选择小区';
-                }
-            },
             acreage : function(value){
                 if(!/\d+$/.test(value)){
                     return '请填写房源面积';
@@ -764,10 +740,39 @@
             },
             price : function (value) {
                 if(!/\d+$/.test(value)){
-                    return '请填写总价';
+                    return '请填写市场价';
+                }
+            },
+            ckprice : function (value) {
+                if(!/\d+$/.test(value)){
+                    return '请填写参考价';
                 }
             }
         });
     });
+    //修改面积和市场价更新契税第一套和第二套契税
+    function acreage_ckprice_price(){
+        var acreage = $("#acreage").val();
+        var ckprice = $("#ckprice").val();
+        var price = $("#price").val();
+        var qipai =  $("#qipai").val();
+        var jiage = 0;
+        if(ckprice>0){
+            jiage = ckprice;
+        }else if(price>0){
+            jiage = price;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/user.second/deen_tax",
+            data: {"acreage":acreage,"jiage":jiage,"qipai":qipai},
+            success:function (result) {
+                    $('#deed_tax').val(result.deed_tax);
+                    $('#first_suite').val(result.first_suite);
+                    $('#second_suite').val(result.second_suite);
+            }
+        });
+    }
 </script>
 {/block}
