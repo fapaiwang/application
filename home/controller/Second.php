@@ -802,9 +802,38 @@ class Second extends HomeBase{
         ]);
     }
     function sitemap(){
+        echo 'www.fangpaiwang.com';echo '<br/>';
         $arr = model('second_house')->field('id')->where('status','=',1)->select();
         foreach($arr as $k=>$v){
-            echo 'https://www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
+            echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
         }
     }
+    /* echo 'www.fangpaiwang.com';echo '<br/>';
+        $arr = model('second_house')->field('id')->where('status','=',1)->select();
+        foreach($arr as $k=>$v){
+            $url = 'https://www.fangpaiwang.com/erf-'.$v['id'].'.html';
+            $a = $this->curl_get($url);
+            if($a==200){
+                //echo 'https://www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
+            }else{
+echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
+    //}
+}
+     * function curl_get($url){
+        $ch = curl_init ();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 200);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_exec($ch);
+        $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return $httpCode;
+    }*/
 }
