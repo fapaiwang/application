@@ -35,6 +35,8 @@ class Show extends \think\Model
         'database' => 'www_fapaiwang_cn',
         'username' => 'www_fangpaiwang',
         'password' => 'zEHfdrxJ6nXMzamr',
+
+
         'hostport' => '',
         'params' => [],
         'charset' => 'utf8',

@@ -24,6 +24,7 @@ class Community extends \think\Model
 
         'password' => 'zEHfdrxJ6nXMzamr',
 
+
 //         'username' => 'root',
 
 //        'password' => 'root',

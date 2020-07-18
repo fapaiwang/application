@@ -23,12 +23,10 @@ class Send extends UserBase
         if(request()->isPost())
         {
             $data = input('post.');
-            unset($data['orientations']);unset($data['toilet']);
             $code   = 0;
             $msg    = '';
             $house_array = array();
             $house_array['elevator']         = $data['elevator'];
-            $house_array['bianhao']          = $data['bianhao'];
             $house_array['xiaci']            = $data['xiaci'];
             $house_array['qianfei']          = $data['qianfei'];
             $house_array['enforcement']      = $data['enforcement'];
@@ -41,6 +39,15 @@ class Send extends UserBase
             $house_array['sequestration']    = $data['sequestration'];
             $house_array['vacate']           = $data['vacate'];
             $house_array['mortgage']         = $data['mortgage'];
+            $house_array['elevator_status']  = $data['elevator_status'];
+            $house_array['toilet']  = $data['toilet'];
+            $house_array['acreage']  = $data['acreage'];
+            $house_array['price']  = $data['price'];
+            $house_array['ckprice']  = $data['ckprice'];
+            $house_array['floor']  = $data['floor'];
+            $house_array['total_floor']  = $data['total_floor'];
+            $house_array['orientations']  = $data['orientations'];
+
             if(isset($data['is_free'])){
                 $house_array['is_free']         = $data['is_free'];
                 unset($data['is_free']);
@@ -78,25 +85,18 @@ class Send extends UserBase
             }elseif($data['decoration']==3){
                 $decoration = '毛坯';
             }
-            $basic_info = array($data['house_property'],$data['years'],$data['house_orientation'],$decoration,$data['heating_mode'],
+
+            $basic_info = array($data['house_property'],$data['years'],$data['orientations'],$decoration,$data['heating_mode'],
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
             );
             $house_array['basic_info'] = implode('|',$basic_info);
-            unset($data['elevator']);unset($data['bianhao']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
+            unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
-            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);unset($data['developer']);
+            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);
             unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
+            unset($data['toilet']);unset($data['acreage']);unset($data['price']);unset($data['ckprice']);unset($data['floor']);
+            unset($data['total_floor']);unset($data['orientations']);unset($data['elevator_status']);unset($data['developer']);
             $broker_id = $this->userInfo['id'];
-            if(!empty($_FILES['hxsimg']['name'])) {
-                $hxsimg = request()->file('hxsimg');
-                if ($hxsimg) {
-                    $info = $hxsimg->move(env('root_path') . 'public/wj');
-                    if ($info) {
-                        $image = $info->getSaveName();
-                        $house_array['hxsimg'] = '/wj/' . $image;
-                    }
-                }
-            }
             $log_arr['operator'] = $broker_id;
             $log_arr['house_id'] = $house_id;
             $log_arr['type'] = 2;

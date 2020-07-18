@@ -146,9 +146,9 @@ $this->assign('fpy',$fpy);
         $var=explode(",",$str);
 // print_r($var);
 
-$this->assign('var',$var);
-$fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
-$this->assign('fpy',$fpy);
+        $this->assign('var',$var);
+        $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
+        $this->assign('fpy',$fpy);
 
         $this->assign('position_lists',$position_lists);
 
@@ -1934,25 +1934,25 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         }
         $url   = request()->server('HTTP_REFERER');
         $data = model('second_house_data')->where(['house_id'=>$id])->find();
+        if(empty($data)){
+            model('second_house_data')->insert(array('house_id'=>$id,'update_time'=>time()));
+            $data = model('second_house_data')->where(['house_id'=>$id])->find();
+        }
         $position_lists = model('position_cate')->where(['model'=>"second_house"])->field('id,title')->select();
         $house_position_cate_id = model('position')->where(['house_id' => $id, 'model' => 'second_house'])->column('cate_id');//获取该楼盘 所属的推荐位id
-        $datas = model('second_house')->where(['id'=>$id])->find();
-        $str=$datas['hximg'];
-        $var=explode(",",$str);
-        $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
         $info = model('second_house')->find($id);
-        $estate = model('estate')->where(['id'=>$datas['estate_id']])->field("years,data")->find();
+        $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
         if($data['bidding_cycle']==0){
             $data['bidding_cycle']=24;
         }
         $jiage  = 0;
-        $mianji = $datas['acreage'];
-        if($datas['ckprice']>0){
-            $jiage = $datas['ckprice'];
-        }elseif($datas['price']>0){
-            $jiage = $datas['price'];
+        $mianji = $info['acreage'];
+        if($info['ckprice']>0){
+            $jiage = $info['ckprice'];
+        }elseif($info['price']>0){
+            $jiage = $info['price'];
         }
-        if(empty($data['deed_tax'])&&!empty($datas['qipai'])){
+        if(empty($data['deed_tax'])&&!empty($info['qipai'])){
             $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
         }
         if(empty($data['first_suite'])&&!empty($jiage)){
@@ -1965,12 +1965,13 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $lending_rate = getSettingCache('tools');
             $data['lending_rate'] = $lending_rate['lilv'];
         }
+        if(empty($data['bidding_rules'])){
+            $data['bidding_rules'] = '至少一人报名且出价不低于变卖价，方可成交。';
+        }
         $this->assign('years',$estate['years']);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);
-        $this->assign('var',$var);
-        $this->assign('fpy',$fpy);
         $this->assign('position_lists',$position_lists);
         $this->assign('position_cate_id',$house_position_cate_id);
         $this->assign('data',$data);
@@ -1984,13 +1985,10 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if(request()->isPost())
         {
             $data = input('post.');
-            unset($data['orientations']);unset($data['toilet']);
             $code   = 0;
             $msg    = '';
-            $obj = model('second_house');
             $house_array = array();
             $house_array['elevator']         = $data['elevator'];
-            $house_array['bianhao']          = $data['bianhao'];
             $house_array['xiaci']            = $data['xiaci'];
             $house_array['qianfei']          = $data['qianfei'];
             $house_array['enforcement']      = $data['enforcement'];
@@ -2003,6 +2001,15 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['sequestration']    = $data['sequestration'];
             $house_array['vacate']           = $data['vacate'];
             $house_array['mortgage']         = $data['mortgage'];
+            $house_array['elevator_status']  = $data['elevator_status'];
+            $house_array['toilet']  = $data['toilet'];
+            $house_array['acreage']  = $data['acreage'];
+            $house_array['price']  = $data['price'];
+            $house_array['ckprice']  = $data['ckprice'];
+            $house_array['floor']  = $data['floor'];
+            $house_array['total_floor']  = $data['total_floor'];
+            $house_array['orientations']  = $data['orientations'];
+
             if(isset($data['is_free'])){
                 $house_array['is_free']         = $data['is_free'];
                 unset($data['is_free']);
@@ -2040,6 +2047,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             }elseif($data['decoration']==3){
                 $decoration = '毛坯';
             }
+
             $basic_info = array($data['house_property'],$data['years'],$data['house_orientation'],$decoration,$data['heating_mode'],
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
             );
