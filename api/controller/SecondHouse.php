@@ -20,12 +20,12 @@ class SecondHouse extends Controller
     protected $second;
 
     
-    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server,server $server)
+    public function __construct(SecondServer $Second_Server,IndexServer $Index_Server,server $server,\app\home\controller\Second $second)
     {
         $this->Second_Server = $Second_Server;
         $this->Index_Server = $Index_Server;
         $this->server = $server;
-        $this->server = $server;
+        $this->second = $second;//todo 非法调用控制器
     }
 
     /**
@@ -178,7 +178,7 @@ class SecondHouse extends Controller
      */
     public function houseList()
     {
-        $info = $this->Second_Server->getLists();
+        $info = $this->second->getLists();
         return $this->success_o($info);
 //        return 1;
         $time    = time();

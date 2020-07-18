@@ -288,7 +288,7 @@ class Second extends HomeBase{
      * @return array
      * 获取列表
      */
-    private function getLists(){
+    public function getLists(){
         $time    = time();
         $where_data   = $this->search();
         $where = $where_data['data'];
