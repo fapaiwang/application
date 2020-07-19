@@ -68,6 +68,8 @@ class Login extends HomeBase
         if($user['open_reg'] == 0)
         {
             $return['msg'] = '网站关闭注册功能！';
+        }elseif(session('__token__')!==$token) {
+            $return['msg'] = '操作失败t';
         }elseif(!is_mobile($mobile))
         {
             $return['msg'] = '手机号码格式不正确！';
@@ -132,6 +134,8 @@ class Login extends HomeBase
         if(!$user_name)
         {
             $return['msg'] = '请填写登录名！';
+        }elseif(session('__token__')!==$token){
+                $return['msg'] = '操作失败t';
         }else{
             $where['user_name|mobile'] = $user_name;
             $where['password']         = passwordEncode($password);
@@ -195,6 +199,8 @@ class Login extends HomeBase
         if(!is_mobile($mobile))
         {
             $return['msg'] = '手机号码格式不正确！';
+        }elseif(session('__token__')!==$token) {
+            $return['msg'] = '操作失败t';
         }elseif(!checkMobileIsExists($mobile)){
             $return['msg'] = '用户不存在！请确认手机号码输入是否正确！';
         }elseif(cache($mobile)!=$sms_code){
