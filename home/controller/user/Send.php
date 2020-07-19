@@ -90,6 +90,7 @@ class Send extends UserBase
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
             );
             $house_array['basic_info'] = implode('|',$basic_info);
+
             unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
             unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);

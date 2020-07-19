@@ -2047,25 +2047,17 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             }elseif($data['decoration']==3){
                 $decoration = '毛坯';
             }
-
-            $basic_info = array($data['house_property'],$data['years'],$data['house_orientation'],$decoration,$data['heating_mode'],
+            $basic_info = array($data['house_property'],$data['years'],$data['orientations'],$decoration,$data['heating_mode'],
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
             );
             $house_array['basic_info'] = implode('|',$basic_info);
-            unset($data['elevator']);unset($data['bianhao']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
+
+            unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
-            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);unset($data['developer']);
+            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);
             unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
-            if(!empty($_FILES['hxsimg']['name'])) {
-                $hxsimg = request()->file('hxsimg');
-                if ($hxsimg) {
-                    $info = $hxsimg->move(env('root_path') . 'public/wj');
-                    if ($info) {
-                        $image = $info->getSaveName();
-                        $house_array['hxsimg'] = '/wj/' . $image;
-                    }
-                }
-            }
+            unset($data['toilet']);unset($data['acreage']);unset($data['price']);unset($data['ckprice']);unset($data['floor']);
+            unset($data['total_floor']);unset($data['orientations']);unset($data['elevator_status']);unset($data['developer']);
             \think\Db::startTrans();
             try{
                 $a = model('second_house')->where(['id'=>$house_id])->update($house_array);
@@ -2091,6 +2083,19 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                 $this->error($msg,'second_house/report?id='.$house_id);
             }
         }
+    }
+    /**
+     *   修改面积和市场价更新契税第一套和第二套契税
+     */
+    function deen_tax(){
+        $acreage  = input('post.acreage');
+        $jiage = input('post.jiage');
+        $qipai = input('post.qipai');
+        $ToolsServer= new ToolsServer();
+        $data['deed_tax'] = $ToolsServer->deen_tax($qipai,$acreage);
+        $data['first_suite'] = $ToolsServer->deen_tax($jiage,$acreage);
+        $data['second_suite'] = $ToolsServer->deen_tax($jiage,$acreage,501);
+        return $data;
     }
     /**
     *   成交人记录，签单人记录，签单时间
