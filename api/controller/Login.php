@@ -61,45 +61,53 @@ class Login extends ApiBase
     /**
      * 用户注册
      */
-    public function register()
-    {
-        $mobile      = input('post.mobile');
-        $sms_code    = input('post.code');
-        $password    = input('post.password');
-        $user        = getSettingCache('user');
-        $return['code'] = 0;
-        if($user['open_reg'] == 0)
-        {
-            $return['msg'] = '注册功能已关闭！';
-        }elseif(!is_mobile($mobile))
-        {
-            $return['msg'] = '手机号格式错误！';
-        }elseif($user['reg_sms'] == 1 && (empty($sms_code) || cache($mobile)!=$sms_code)){
-            $return['msg'] = '短信验证码错误！';
-        }elseif(strlen($password)<6){
-            $return['msg'] = '密码至少6位！';
-        }elseif(checkMobileIsExists($mobile)){
-            $return['msg'] = '手机号已注册！';
-        }else{
-            $data['user_name'] = $data['nick_name'] = $mobile;
-            $data['password']  = $password;
-            $data['mobile']    = $mobile;
-            $data['login_time'] = time();
-            $data['model']      = 1;
-            \app\common\model\User::event('after_insert',function($obj){
-                $info_data = [];
-                $obj->userInfo()->save($info_data);
-            });
-            if(model('user')->allowField(true)->save($data))
+    public function register(){
+        try{
+            Db::startTrans();
+            $mobile      = input('post.mobile');
+            $sms_code    = input('post.code');
+            $password    = input('post.password');
+            $user        = getSettingCache('user');
+            $return['code'] = 0;
+            if($user['open_reg'] == 0)
             {
-                cache($mobile,null);
-                $return['code']   = 200;
-                $return['msg']    = '注册成功！';
+                $return['msg'] = '注册功能已关闭！';
+            }elseif(!is_mobile($mobile))
+            {
+                $return['msg'] = '手机号格式错误！';
+            }elseif($user['reg_sms'] == 1 && (empty($sms_code) || cache($mobile)!=$sms_code)){
+                $return['msg'] = '短信验证码错误！';
+            }elseif(strlen($password)<6){
+                $return['msg'] = '密码至少6位！';
+            }elseif(checkMobileIsExists($mobile)){
+                $return['msg'] = '手机号已注册！';
             }else{
-                $return['msg']    = '注册失败';
+                $data['user_name'] = $data['nick_name'] = $mobile;
+                $data['password']  = $password;
+                $data['mobile']    = $mobile;
+                $data['login_time'] = time();
+                $data['model']      = 1;
+                \app\common\model\User::event('after_insert',function($obj){
+                    $info_data = [];
+                    $obj->userInfo()->save($info_data);
+                });
+                if(model('user')->allowField(true)->save($data)) {
+                    cache($mobile,null);
+                    $return['code']   = 200;
+                    $return['msg']    = '注册成功！';
+                }else{
+                    $return['msg']    = '注册失败';
+                }
             }
+            Db::commit();
+            return json($return);
+        }catch(\Exception $e){
+            Db::rollback();
+            Log::write('用户注册'.$e->getMessage(),'error');
+            return json($return['msg']    = '注册失败');
         }
-        return json($return);
+
+
     }
     /**
      * @return \think\response\Json
