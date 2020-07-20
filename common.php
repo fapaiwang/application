@@ -251,7 +251,7 @@ function getLinkMenu($menuId, $field = 'field', $type = 'select', $selectId = 0,
     $str = '';
     switch ($type) {
         case 'select':
-            $str = '<select name="' . $field . '" id="' . $field . '">';
+            $str = '<select name="' . $field . '" id="' . $field . '" lay-verify="' . $field . '">';
             $strs = $menuId != 1 ? '<option value="0">--请选择--</option>' : '';
             $str .= $strs;
             if (!empty($lists)) {

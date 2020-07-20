@@ -1,5 +1,6 @@
 {extend name='user/public/layout' /}
 {block name='content'}
+
 <form class="layui-form" id="info_form" action="{:url('user.send/saveSecond')}" method="post" enctype="multipart/form-data">
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
@@ -46,8 +47,10 @@
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">参考价 </label>
-                        <div class="layui-input-inline" style="width:80px;">
+                        <label class="layui-form-label">参考价 <br>
+                            <font color="red" size="1">好卖的价格</font>
+                        </label>
+                        <div class="layui-input-inline" style="width:80px;" >
                             <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice" name="ckprice"  placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" onchange="acreage_ckprice_price()">
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
@@ -55,7 +58,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">楼层 </label>
                         <div class="layui-input-inline" style="width:100px;">
-                            <select name="floor">
+                            <select name="floor" lay-verify="floor">
                                 <option value="">-请选择-</option>
                                 {for start="-2" end="71"}
                                 <option value="{$i}" {if condition="$info.floor eq $i"}selected="selected"{/if}>{$i}</option>
@@ -64,7 +67,7 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:20px;"> 共</div>
                         <div class="layui-input-inline" style="width:110px;">
-                            <select name="total_floor">
+                            <select name="total_floor"  lay-verify="total_floor">
                                 {for start="-2" end="71"}
                                 <option value="{$i}" {if condition="$info.total_floor eq $i"}selected="selected"{/if}>{$i}</option>
                                 {/for}
@@ -81,7 +84,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-inline" style="pointer-events:none;">
-                        <label class="layui-form-label">编号 </label>
+                        <label class="layui-form-label layui-required">编号 </label>
                         <div class="layui-input-inline" >
                             <input type="text" class="layui-input"  value="{$info.bianhao}">
                         </div>
@@ -734,6 +737,11 @@
         var $ = layui.jquery,element = layui.element,form = layui.form;
         //自定义验证规则
         form.verify({
+            toilet : function(value){
+                if(value==0){
+                    return '请选择房型';
+                }
+            },
             acreage : function(value){
                 if(!/\d+$/.test(value)){
                     return '请填写房源面积';
@@ -747,6 +755,21 @@
             ckprice : function (value) {
                 if(!/\d+$/.test(value)){
                     return '请填写参考价';
+                }
+            },
+            floor : function (value) {
+                if(!/\d+$/.test(value)){
+                    return '请选择楼层';
+                }
+            },
+            total_floor : function (value) {
+                if(!/\d+$/.test(value)){
+                    return '请选择楼层';
+                }
+            },
+            orientations : function (value) {
+                if(value==0){
+                    return '请选择朝向';
                 }
             }
         });
