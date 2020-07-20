@@ -316,29 +316,14 @@
             <ul class="fangpai-detail-fangyuan-basic-list">
                 <li><span>拍卖阶段：</span>{$info.jieduan_name}</li>
                 {if condition="$login_user.model eq 4"}
-                <li><span>户口占用情况：</span>{$info.land_certificate|default="不详"}</li>
-                {else /}
-                <li><span>户口占用情况：</span><span style="color: #CF2924"> *** </span></li>
-                {/if}
-                {if condition="$login_user.model eq 4"}
                 <li><span>产权证号：</span>{$info.property_no|default="不详"}</li>
                 {else /}
                 <li><span>产权证号：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
                 {if condition="$login_user.model eq 4"}
-                <li><span>行政限制：</span>{$info.land_purpose|default="不详"}</li>
-                {else /}
-                <li><span>行政限制：</span><span style="color: #CF2924"> *** </span></li>
-                {/if}
-                {if condition="$login_user.model eq 4"}
                 <li><span>房屋用途：</span>{$info.house_purpse|default="不详"}</li>
                 {else /}
                 <li><span>房屋用途：</span><span style="color: #CF2924"> *** </span></li>
-                {/if}
-                {if condition="$login_user.model eq 4"}
-                <li><span>经营情况：</span>{$info.management|default="不详"}</li>
-                {else /}
-                <li><span>经营情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
                 {if condition="$login_user.model eq 4"}
                 <li><span>租赁情况：</span>{$info.lease|default="不详"}</li>
@@ -355,18 +340,14 @@
                 {else /}
                 <li><span>查封情况：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
-                {if condition="$login_user.model eq 4"}
-                <li><span>腾退情况：</span>{$info.vacate|default="不详"}</li>
-                {else /}
-                <li><span>腾退情况：</span><span style="color: #CF2924"> *** </span></li>
-                {/if}
             </ul>
         </div>
         <div class="fangpai-detail-fangyuan-basic">
             <p>欠费及瑕疵</p>
             <div class="fangpai-detail-fangyuan-qianfei">
                 {if condition="!empty($userInfo)"}
-                <p style="width: 480px">{$info.qianfei}{$info.xiaci}</p>
+                <li><span>欠费：</span>{$info.qianfei}</li>
+                <li><span>瑕疵：</span>{$info.xiaci}</li>
                 {else \}
                 <p style="width: 480px">注册登录可看<span class="is_register">立即注册</span> <span class="is_login">登录</span> </p>
                 {/if}

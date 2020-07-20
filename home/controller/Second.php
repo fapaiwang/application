@@ -59,7 +59,7 @@ class Second extends HomeBase{
         $this->assign('pages',$lists->render());
         $this->assign('top_lists',$result['top']);
         $this->assign('storage_open',getSettingCache('storage','open'));
-        $this->assign('search',$result['search']);
+        //$this->assign('search',$result['search']);
         $this->assign('jieduan',$result['jieduan']);
         $this->assign('huxing',$result['huxing']);
         $this->assign('types',$result['types']);
@@ -346,7 +346,7 @@ class Second extends HomeBase{
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
             }
-        return ['lists'=>$lists,'top'=>$top,'search'=>$where_data['search'],'jieduan'=>$where_data['jieduan'],'huxing'=>$where_data['huxing'],
+        return ['lists'=>$lists,'top'=>$top,'jieduan'=>$where_data['jieduan'],'huxing'=>$where_data['huxing'],
             'house_type'=>$where_data['house_type'],'types'=>$where_data['types'],'param'=>$where_data['param'],'keyword'=>$where_data['keyword'],
             'seo_array'=>$where_data['seo_array'],'parameter_json'=>$where_data['parameter_json'],'is_show_more'=>$where_data['is_show_more'],
             'start_time'=>$where_data['start_time'],'end_time'=>$where_data['end_time'],'rading'=>$where_data['rading'],'setSeo'=>$where_data['setSeo']];
@@ -615,7 +615,7 @@ class Second extends HomeBase{
         if(!empty($_GET['rec_position'])){
             $data[] = ['rec_position','eq',1];
         }
-        $search = $param;
+        //$search = $param;
         $setSeo = $secondSer->seo_data($seo_title,$title_area,$param['type']);
 
         //$seo_title && $this->setSeo($setSeo,'','');
@@ -627,8 +627,8 @@ class Second extends HomeBase{
         $column = $secondSer->column($param);
         //返回搜索条件
         $parameter_json = $secondSer->parameter_json($parameter,$keyword);
-        return array('data'=>$data, 'index_url_new'=>$index_url_new,'param'=>$param,'search'=>$search,'jieduan'=>$column['jieduan'],'huxing'=>$column['huxing'],
-            'types'=>$column['types'],'house_type'=>$column['house_type'],'param'=>$param,'keyword'=>$keyword,'seo_array'=>$seo_array,'parameter_json'=>$parameter_json,
+        return array('data'=>$data, 'index_url_new'=>$index_url_new,'param'=>$param,'jieduan'=>$column['jieduan'],'huxing'=>$column['huxing'],
+            'types'=>$column['types'],'house_type'=>$column['house_type'],'keyword'=>$keyword,'seo_array'=>$seo_array,'parameter_json'=>$parameter_json,
             'is_show_more'=>$is_show_more,'start_time'=>$start_time,'end_time'=>$end_time,'rading'=>$rading,'setSeo'=>$setSeo);
     }
     /**

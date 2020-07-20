@@ -86,6 +86,12 @@ class Second extends UserBase
         if($data['bidding_cycle']==0){
             $data['bidding_cycle']=24;
         }
+        if($info['qianfei']==''){
+            $info['qianfei']='无';
+        }
+        if($info['xiaci']==''){
+            $info['xiaci']='无';
+        }
         $jiage  = 0;
         $mianji = $info['acreage'];
         if($info['ckprice']>0){

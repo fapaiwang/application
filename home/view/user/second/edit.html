@@ -111,15 +111,19 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">房源瑕疵 </label>
+                        <label class="layui-form-label">房源瑕疵  <br>
+                            <font color="red" size="1">没有则填写无</font>
+                        </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="xiaci" value="{$info.xiaci}" id="xiaci" placeholder="">
+                            <input type="text" class="layui-input" name="xiaci" lay-verify="xiaci" value="{$info.xiaci}" id="xiaci" placeholder="">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">欠费情况 </label>
+                        <label class="layui-form-label">欠费情况   <br>
+                            <font color="red" size="1">没有则填写无</font>
+                        </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="qianfei" value="{$info.qianfei}" id="qianfei" placeholder="">
+                            <input type="text" class="layui-input" name="qianfei" lay-verify="qianfei" value="{$info.qianfei}" id="qianfei" placeholder="">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -770,6 +774,16 @@
             orientations : function (value) {
                 if(value==0){
                     return '请选择朝向';
+                }
+            },
+            xiaci : function (value) {
+                if(value==''){
+                    return '请填写瑕疵情况，没有则填写无';
+                }
+            },
+            qianfei : function (value) {
+                if(value==0){
+                    return '请填写欠费情况，没有则填写无';
                 }
             }
         });
