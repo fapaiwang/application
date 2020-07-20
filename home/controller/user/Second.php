@@ -95,6 +95,9 @@ class Second extends UserBase
         if($info['xiaci']==''){
             $info['xiaci']='无';
         }
+        if($info['lease']==''){
+            $info['lease']='无';
+        }
         $jiage  = 0;
         $mianji = $info['acreage'];
         if($info['ckprice']>0){

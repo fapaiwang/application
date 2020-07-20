@@ -1951,6 +1951,9 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if($info['xiaci']==''){
             $info['xiaci']='无';
         }
+        if($info['lease']==''){
+            $info['lease']='无';
+        }
         $jiage  = 0;
         $mianji = $info['acreage'];
         if($info['ckprice']>0){
