@@ -121,7 +121,32 @@ class SecondServer
         }
         return json_encode($arr,JSON_UNESCAPED_UNICODE);
     }
-
+    public function get_house_characteristic_obj($xsname,$jieduan,$marketprice=0,$is_commission=0,$is_school=0,$is_metro=0){
+        $arr = new class{};
+        if ($xsname != "变卖"){
+            $arr->xsname = $xsname;
+        }
+        $arr->jieduan = $jieduan;
+        if (!empty($is_commission)){
+            $arr->is_commission = "免佣金";
+        }
+        if (!empty($qp_price)){
+            $arr->marketprice = $marketprice;
+        }
+        if (!empty($marketprice) && ($marketprice >=4) ){
+            $arr->marketprice = "六折房源";
+        }
+        if ($xsname == "变卖"){
+            $arr->xsname = $xsname;
+        }
+        if (!empty($is_school)){
+            $arr->is_school = "学校周边";
+        }
+        if (!empty($is_metro)){
+            $arr->is_metro = "地铁沿线";
+        }
+        return $arr;
+    }
     /**
      * 获取一个特色标签用于拼接
      * @param $marketprice

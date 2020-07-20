@@ -149,8 +149,9 @@ class SecondHouse extends Controller
         }
         $houseRes['recommend_house'] = $recommend_house;
         //房源特色标签
-        $houseRes['house_tag'] = $SecondServer->get_house_characteristic($houseRes['xsname'],$houseRes['jieduan_name'],
+        $house_tag =$SecondServer->get_house_characteristic_obj($houseRes['xsname'],$houseRes['jieduan_name'],
             $houseRes['marketprice'],$houseRes['is_commission'],$houseRes['is_school'],$houseRes['is_metro']);
+        $houseRes['house_tag'] = $house_tag;
         //本小区拍卖套数
         $houseRes['estate_num']= $SecondServer->estate_second_num($id,$houseRes['estate_name']);
         //法拍专员点评/点评个数

@@ -283,6 +283,7 @@ class Second extends HomeBase{
      * 获取列表
      */
     public function getLists(){
+        $SecondServer = new SecondServer();
         $time    = time();
         $where_data   = $this->search();
         $where = $where_data['data'];
@@ -345,6 +346,8 @@ class Second extends HomeBase{
                 $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
+                $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
+                    $value['is_commission'],$value['is_school'],$value['is_metro']);
             }
         return ['lists'=>$lists,'top'=>$top,'search'=>$where_data['search'],'jieduan'=>$where_data['jieduan'],'huxing'=>$where_data['huxing'],
             'house_type'=>$where_data['house_type'],'types'=>$where_data['types'],'param'=>$where_data['param'],'keyword'=>$where_data['keyword'],
