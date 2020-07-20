@@ -123,6 +123,29 @@ class SecondServer
     }
 
     /**
+     * 获取一个特色标签用于拼接
+     * @param $marketprice
+     * @param $is_commission
+     * @param $is_school
+     * @param $is_metro
+     * @param mixed
+     * @author: al\
+     */
+    public function house_characteristic_one($marketprice,$is_commission,$is_school,$is_metro){
+        $characteristic_all = $this->get_house_characteristic(1,1,$marketprice,$is_commission,$is_school,$is_metro);
+        $characteristic_arr = json_decode($characteristic_all,true);
+        if (count($characteristic_arr) < 2){
+            return "";
+        }
+        $characteristic_real = array_slice($characteristic_arr,2);
+        if (reset($characteristic_real)){
+            return reset($characteristic_real);
+        }else{
+            return "";
+        }
+    }
+
+    /**
      * 根据 区域/小区 获取用户感兴趣的房源
      * @param $city_id 城市id
      * @param $house_id 房源id

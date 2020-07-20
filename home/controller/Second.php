@@ -127,6 +127,7 @@ class Second extends HomeBase{
                 //房源特色标签
                 $house_characteristic= $SecondServer->get_house_characteristic($info['xsname'],$info['jieduan_name'],$info['marketprice'],
                     $info['is_commission'],$info['is_school'],$info['is_metro']);
+
                 $this->assign('house_characteristic',$house_characteristic);
                 //用户信息
                 $infos = cookie('userInfo');
@@ -283,6 +284,7 @@ class Second extends HomeBase{
      * 获取列表
      */
     public function getLists(){
+        $SecondServer = new SecondServer();
         $time    = time();
         $where_data   = $this->search();
         $where = $where_data['data'];
@@ -296,7 +298,8 @@ class Second extends HomeBase{
         $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,
         s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,
         s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,
-        s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free,s.endtime,s.house_type";
+        s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free,s.endtime,s.house_type,
+        s.is_commission,s.is_school,is_metro";
         $obj     = model('second_house')->alias('s');
         //二手房列表
         if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
@@ -345,7 +348,11 @@ class Second extends HomeBase{
                 $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
+
+                $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
+                    $value['is_commission'],$value['is_school'],$value['is_metro']);
             }
+
         return ['lists'=>$lists,'top'=>$top,'search'=>$where_data['search'],'jieduan'=>$where_data['jieduan'],'huxing'=>$where_data['huxing'],
             'house_type'=>$where_data['house_type'],'types'=>$where_data['types'],'param'=>$where_data['param'],'keyword'=>$where_data['keyword'],
             'seo_array'=>$where_data['seo_array'],'parameter_json'=>$where_data['parameter_json'],'is_show_more'=>$where_data['is_show_more'],
