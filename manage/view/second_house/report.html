@@ -94,7 +94,7 @@
                             <div class="layui-input-inline">
                                 <select lay-filter="elevator_status" id="elevator_status" name="elevator_status">
                                     <option value="1" {if condition="$info.elevator_status eq 1"}selected{/if}>有</option>
-                                    <option value="2" {if condition="$info.elevator_status eq 2"}selected{/if}>无</option>
+                                    <option value="0" {if condition="$info.elevator_status eq 0"}selected{/if}>无</option>
                                 </select>
                             </div>
                         </div>
@@ -153,11 +153,11 @@
                     <label class="layui-form-label">房屋用途 </label>
                     <div class="layui-input-inline">
                         <select name="house_purpse" id="house_purpse">
-                            <option value="1" {if condition="$info.house_purpse eq 1"}selected{/if}>住宅</option>
-                            <option value="2" {if condition="$info.house_purpse eq 2"}selected{/if}>公寓</option>
-                            <option value="3" {if condition="$info.house_purpse eq 3"}selected{/if}>商业</option>
-                            <option value="4" {if condition="$info.house_purpse eq 4"}selected{/if}>土地</option>
-                            <option value="5" {if condition="$info.house_purpse eq 5"}selected{/if}>厂房</option>
+                            <option value="住宅" {if condition="$info.house_purpse eq '住宅'"}selected{/if}>住宅</option>
+                            <option value="公寓" {if condition="$info.house_purpse eq '公寓'"}selected{/if}>公寓</option>
+                            <option value="商业" {if condition="$info.house_purpse eq '商业'"}selected{/if}>商业</option>
+                            <option value="土地" {if condition="$info.house_purpse eq '土地'"}selected{/if}>土地</option>
+                            <option value="厂房" {if condition="$info.house_purpse eq '厂房'"}selected{/if}>厂房</option>
                         </select>
                     </div>
                 </div>
@@ -165,8 +165,8 @@
                     <label class="layui-form-label">经营情况 </label>
                     <div class="layui-input-inline">
                         <select name="management" id="management">
-                            <option value="2" {if condition="$info.management eq 2"}selected{/if}>无</option>
-                            <option value="1" {if condition="$info.management eq 1"}selected{/if}>有</option>
+                            <option value="无" {if condition="$info.management eq '无'"}selected{/if}>无</option>
+                            <option value="有" {if condition="$info.management eq '有'"}selected{/if}>有</option>
                         </select>
                     </div>
                 </div>
@@ -188,12 +188,12 @@
                     <label class="layui-form-label">租赁情况 </label>
                     <div class="layui-input-inline">
                         <select name="lease" id="lease" lay-filter="lease">
-                            <option value="1" {if condition="$info.lease eq 1"}selected{/if}>有</option>
-                            <option value="2" {if condition="$info.lease eq 2"}selected{/if}>无</option>
+                            <option value="无" {if condition="$info.lease eq '无'"}selected{/if}>无</option>
+                            <option value="有" {if condition="$info.lease eq '有'"}selected{/if}>有</option>
                         </select>
                     </div>
                 </div>
-                <div class="layui-inline lease" {if condition="$info.lease eq 2"}style="display:none;"{/if}>
+                <div class="layui-inline lease" {if condition="$info.lease eq '无'"}style="display:none;"{/if}>
                 <label class="layui-form-label">租赁期限 </label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" name="lease_term" lay-verify="lease_term" id="lease_term" placeholder="" value="{$data.lease_term}">
@@ -205,8 +205,8 @@
                 <label class="layui-form-label">抵押情况 </label>
                 <div class="layui-input-inline">
                     <select name="mortgage" id="mortgage">
-                        <option value="1" {if condition="$info.mortgage eq 1"}selected{/if}>有</option>
-                        <option value="2" {if condition="$info.mortgage eq 2"}selected{/if}>无</option>
+                        <option value="有" {if condition="$info.mortgage eq '有'"}selected{/if}>有</option>
+                        <option value="无" {if condition="$info.mortgage eq '无'"}selected{/if}>无</option>
                     </select>
                 </div>
             </div>
@@ -367,7 +367,7 @@
                 <label class="layui-form-label">遮挡情况 </label>
                 <div class="layui-input-inline">
                     <select name="occlusion" id="occlusion">
-                        <option value="2" {if condition="$data.occlusion eq 2"}selected{/if}>无</option>
+                        <option value="0" {if condition="$data.occlusion eq 0"}selected{/if}>无</option>
                         <option value="1" {if condition="$data.occlusion eq 1"}selected{/if}>有</option>
                     </select>
                 </div>
@@ -377,7 +377,7 @@
                 <label class="layui-form-label">凶宅 </label>
                 <div class="layui-input-inline">
                     <select name="haunted_house" id="haunted_house">
-                        <option value="2" {if condition="$data.haunted_house eq 2"}selected{/if}>否</option>
+                        <option value="0" {if condition="$data.haunted_house eq 0"}selected{/if}>否</option>
                         <option value="1" {if condition="$data.haunted_house eq 1"}selected{/if}>是</option>
                     </select>
                 </div>
@@ -412,9 +412,9 @@
                 <label class="layui-form-label">学区名额使用情况 </label>
                 <div class="layui-input-inline">
                     <select name="enrollment_quota" id="enrollment_quota">
-                        <option value="2" {if condition="$data.enrollment_quota eq 2"}selected{/if}>无</option>
+                        <option value="0" {if condition="$data.enrollment_quota eq 0"}selected{/if}>无</option>
                         <option value="1" {if condition="$data.enrollment_quota eq 1"}selected{/if}>有</option>
-                        <option value="3" {if condition="$data.enrollment_quota eq 3"}selected{/if}>不详</option>
+                        <option value="2" {if condition="$data.enrollment_quota eq 2"}selected{/if}>不详</option>
                     </select>
                 </div>
             </div>
