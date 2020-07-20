@@ -179,7 +179,11 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">查封情况 </label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="sequestration" lay-verify="sequestration" id="sequestration" placeholder="" value="{$info.sequestration}">
+                        <!--<input type="text" class="layui-input" name="sequestration" lay-verify="sequestration" id="sequestration" placeholder="" value="{$info.sequestration}">-->
+                        <select name="sequestration" id="sequestration">
+                            <option value="无" {if condition="$info.sequestration eq '无'"}selected{/if}>无</option>
+                            <option value="有" {if condition="$info.sequestration eq '有'"}selected{/if}>有</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -678,9 +682,33 @@
                     <input type="text" class="layui-input" name="second_suite" lay-verify="second_suite" id="second_suite" placeholder="" value="{$data.second_suite}">
                 </div>
             </div>
-
+            <div class="layui-inline">
+                <label class="layui-form-label">尾款支付期限 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="payment_period" lay-verify="payment_period" id="payment_period" placeholder="" value="{$data.payment_period}">
+                </div>
+            </div>
         </div>
-
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">户名 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="account_name" lay-verify="account_name" id="account_name" placeholder="" value="{$data.account_name}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">开户银行 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="bank_of_deposit" lay-verify="bank_of_deposit" id="bank_of_deposit" placeholder="" value="{$data.bank_of_deposit}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">账号 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="account_number" lay-verify="account_number" id="account_number" placeholder="" value="{$data.account_number}">
+                </div>
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <div class="layui-block">

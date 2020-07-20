@@ -2044,17 +2044,31 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['update_time'] = time();
             $house_id = $data['id'];
             $back_url = $data['back_url'];
-            if($data['decoration']==0){
-                $decoration = '';
-            }elseif($data['decoration']==1){
+            if($data['decoration']==1){
                 $decoration = '精装';
             }elseif($data['decoration']==2){
                 $decoration = '简装';
             }elseif($data['decoration']==3){
                 $decoration = '毛坯';
+            }elseif($data['decoration']==0){
+                $decoration = '不详';
             }
-            $basic_info = array($data['house_property'],$data['years'],$data['orientations'],$decoration,$data['heating_mode'],
-                $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'],$data['shangchao'],$data['traffic']
+            if($data['toilet']!=''){
+                $toilet = model('linkmenu')->where(['id'=>$data['toilet']])->value("name");
+            }else{
+                $toilet = "不详";
+            }
+            if($data['heating_mode']==1){
+                $heating_mode = '集中供暖';
+            }elseif($data['heating_mode']==2){
+                $heating_mode = '自供暖';
+            }elseif($data['heating_mode']==3){
+                $heating_mode = '无供暖';
+            }elseif($data['heating_mode']==4){
+                $heating_mode = '不详';
+            }
+            $basic_info = array($data['house_property'],$data['years'],$toilet,$decoration,$heating_mode,
+                $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'].$data['shangchao'],$data['traffic']
             );
             $house_array['basic_info'] = implode('|',$basic_info);
 
