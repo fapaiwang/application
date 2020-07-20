@@ -155,13 +155,7 @@ class Second extends HomeBase{
                 $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
                 $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
                 $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
-                //tdk
-                $seo['title'] = $info['title'].',北京法拍房-金铂顺昌房拍网';
-                $seo['keys']  = $info['title'].',北京法拍房,金铂顺昌房拍网';
-                $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$info['title'].'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
-
-                $this->assign('seo',$seo);
-
+                $this->tdk($info["title"],$info["house_type"]);
                 $this->assign('house_loan',json_encode($house_loan));
                 $this->assign('guanzhu',$guanzhu);
                 $this->assign('userInfo',$userInfo);
@@ -836,4 +830,25 @@ echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
         curl_close($ch);
         return $httpCode;
     }*/
+    /**
+     *
+     * @param $title
+     * @param mixed
+     * @author: al
+     */
+    public function tdk($title,$house_type=45){
+        if ($house_type == 48){
+            $seo['title'] = $title.',北京社会委托房源拍卖-金铂顺昌房拍网';
+            $seo['keys']  = $title.',北京二手房源,社会委托拍卖,金铂顺昌房拍网';
+            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】社会委托拍卖二手房源信息详情：费用价格、时间、流程、注意事项等服务信息，让您安心购便宜房！';
+        }else{
+            $seo['title'] = $title.',北京法拍房-金铂顺昌房拍网';
+            $seo['keys']  = $title.',北京法拍房,金铂顺昌房拍网';
+            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
+        }
+        $this->assign('seo',$seo);
+    }
+
+
+
 }
