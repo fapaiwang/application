@@ -368,7 +368,7 @@
                                 {volist name='lists' id='vo' empty='暂无数据'}
                                 <li data-id="{$vo.id}">
                                     <div class="fangpai-shu-list-img">
-                                        <img data-original="{$vo.img}" class="lazy" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                        <img src="{$vo.img}"  onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
                                         <div class="fangpai-shu-list-img-footer">
                                             <span>开拍时间：{$vo.kptime}</span>|<span>{$vo.types_name}</span>|<span>{$vo.jieduan_name}</span>
                                         </div>
@@ -433,7 +433,7 @@
                                 <li data-id="{$vo.id}">
                                     <span style="display: none">{$vo.id}</span>
                                     <div class="fangpai-lie-list-img">
-                                        <img  data-original="{$vo.img}" class="lazy" onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
+                                        <img  src="{$vo.img}"  onerror="javascript:this.src='/static/images/noimg.jpg'" alt="{$vo.title}">
                                     </div>
                                     <div class="fangpai-lie-list-content">
                                         <div class="fangpai-lie-list-content-title">
