@@ -177,93 +177,11 @@ class SecondHouse extends Controller
      * @throws \think\exception\DbException
      * @auther xiaobin
      */
-    public function houseList()
-    {
+    public function houseList(){
         $info = $this->second->getLists();
+//        $lists  = $info['lists'];
+//        return $this->success_o($lists);
         return $this->success_o($info);
-//        return 1;
-        $time    = time();
-        $where   = $this->search();
-        $sort    = input('param.sort/d',0);
-        $acreage = $this->Acreage('acreage',input('param.acreage',''));//房屋面积
-        $rooms = $this->getRooms(input('param.room',''));//户型多选
-        $qipai = $this->getPrice('qipai',input('param.qipai',''));//房屋价格多选
-        $jieduan = $this->familyType('jieduan',input('param.jieduan',''));//阶段多选
-        $types = $this->familyType('types',input('param.types',''));//房屋户型
-        $type = $this->familyType('house_type',input('param.type',''));//房屋类型
-        //todo 地铁
-        
-        $keyword = input('param.keyword');//搜索小区名称/房屋名称
-        $field   = "s.id,s.title,s.estate_id,s.estate_name,s.chajia,s.junjia,s.marketprice,s.city,s.video,s.total_floor,s.floor,s.img,s.qipai,s.pano_url,s.room,s.living_room,s.toilet,s.price,s.cjprice,s.average_price,s.tags,s.address,s.acreage,s.orientations,s.renovation,s.user_type,s.contacts,s.update_time,s.kptime,s.jieduan,s.fcstatus,s.types,s.onestime,s.oneetime,s.oneprice,s.twostime,s.twoetime,s.twoprice,s.bianstime,s.bianetime,s.bianprice,s.is_free";
-        $obj     = model('second_house')->alias('s');
-        if (!empty($type)) {//面积
-            $where[] = $type;
-        }
-        if (!empty($acreage)) {//面积
-            $where[] = $acreage;
-        }
-        if (!empty($keyword)) {//户型
-            $where[] = $acreage;
-        }
-        if (!empty($qipai)) {//总价多选
-            $where[] = $qipai;
-        }
-        if (!empty($jieduan)) {//阶段多选
-            $where[] = $jieduan;
-        }
-        if (!empty($types)) {//房屋户型
-            $where[] = $types;
-        }
-        if (!empty($rooms)) {//面积
-            $where[] = $rooms;
-        }
-        //二手房列表
-        if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
-            //查询地铁关联表
-            $field .= ',m.metro_name,m.station_name,m.distance';
-            $join  = [['metro_relation m','m.house_id = s.id']];
-            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-        } else {
-            
-            if($sort==8){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-            }else if($sort==7){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-            }else{
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['keyword'=>$keyword]]);
-            }
-        }
-        if($lists->currentPage() == 1){
-            //二手房置顶列表
-            $obj = $obj->removeOption()->alias('s');
-            //关联地铁表
-            if(isset($where['m.metro_id']) || isset($where['m.station_id'])){
-                $field .= ',m.metro_name,m.station_name,m.distance';
-                $join  = [['metro_relation m','m.house_id = s.id']];
-                $obj->join($join)->where('m.model','second_house')->group('s.id');
-            }
-        }
-        foreach ($lists as $key => $value) {
-            $estate_id=$lists[$key]['estate_id'];
-            $sql=model('estate')->where('id','eq',$estate_id)->alias('years')->find();
-            $years=$sql['years'];
-            $lists[$key]['years']=$years;
-            $city_id=$lists[$key]['city'];
-            $sqls = model('city')->field('id,pid,spid,name,alias')->where('id','eq',$city_id)->find();
-            $spid=$sqls['spid'];
-            $city_name=$sqls['name'];
-            if(substr_count($spid,'|')==2){
-                $listsss = model('city')->field('id,name')->where('id','eq',$sqls['pid'])->find();
-                $shi=$listsss['name'];
-                $lists[$key]['city']=$shi.$city_name;
-            }else{
-                $lists[$key]['city']=$city_name;
-            }
-            $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
-            $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
-            $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
-        }
-        return $this->success_o($lists);
     }
     
     /**

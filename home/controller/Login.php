@@ -124,18 +124,11 @@ class Login extends HomeBase
         $remember    = input('post.remember/d',0);
         $forward     = input('post.forward');
         $token       = input('post.__token__');
-        Log::write($user_name);
-        Log::write($password);
-        Log::write($remember);
-        Log::write($forward);
-        Log::write($token);
         $exipre      = 0;
         $return['code'] = 0;
         if(!$user_name)
         {
             $return['msg'] = '请填写登录名！';
-        }elseif(session('__token__')!==$token){
-                $return['msg'] = '操作失败t';
         }else{
             $where['user_name|mobile'] = $user_name;
             $where['password']         = passwordEncode($password);

@@ -284,53 +284,29 @@ class Ajax extends \think\Controller
 
      */
 
-    public function searchSecond($city_id = 0)
-
-    {
-
-        $keyword         = input('get.keyword');
-        $types           = input('get.types');
+    public function searchSecond($city_id = 0){
+        $keyword         = input('param.keyword');
+        $types           = input('param.types');
         $where['status'] = 1;
         if(!empty($types)){
             $where['types'] = $types;
         }
-
         $return['code']  = 0;
-
-if (!empty($keyword)) {
-
-        $keyword && $where[] = ['title|estate_name','like','%'.$keyword.'%'];
-        // $where[] = ['house_type',47];
-// print_r($where);exit();
-        $city = $this->getCityChild($city_id);
-
-        $city && $where[] = ['city','in',$city];
-
-        $where[] = ['timeout','gt',time()];
-
-        $lists = model('second_house')->where($where)->field('id,title,price,address')->order('create_time','desc')->limit(10)->select();
-
-        if(!$lists->isEmpty())
-
-        {
-
-            $return['code'] = 1;
-
-            foreach($lists as &$v)
-
-            {
-
-                $v['url'] = url('Second/detail',['id'=>$v['id']]);
-
-            }
-
+        if (!empty($keyword)) {
+                $keyword && $where[] = ['title|estate_name','like','%'.$keyword.'%'];
+                $city = $this->getCityChild($city_id);
+                $city && $where[] = ['city','in',$city];
+                $where[] = ['timeout','gt',time()];
+                $lists = model('second_house')->where($where)->field('id,title,price,address')->order('create_time','desc')->limit(10)->select();
+                if(!$lists->isEmpty()) {
+                    $return['code'] = 1;
+                    foreach($lists as &$v) {
+                        $v['url'] = url('Second/detail',['id'=>$v['id']]);
+                    }
+                }
         }
-	
-}
         $return['data'] = $lists;
-
         return json($return);
-
     }
 
     /**
