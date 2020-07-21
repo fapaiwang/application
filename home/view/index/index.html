@@ -24,7 +24,7 @@
         <div class="swiper-wrapper">
             {volist name='top_bunner' id='vo'}
             <div class="swiper-slide">
-                <img src="{$vo.fileurl}" data-original="{$vo.fileurl}" alt="{$vo.alt}" class="lazy">
+                <img src="{$vo.fileurl}" src="{$vo.fileurl}" alt="{$vo.alt}" >
             </div>
             {/volist}
         </div>
@@ -45,7 +45,7 @@
             <div class="header-search-input">
                 <input type="hidden" name="types" id="index_cid" value="0">
                 <input type="text" class="s-inp fl" id="keyword" name="keyword" placeholder="" autocomplete="off" placeholder="输入小区名称/房源名称/法拍专员名称" data-uri="{:url('Ajax/searchSecond')}" class="ipt"; onClick='showhidediv("baip")';>
-                <span class="header-search-button"> <img src="/homeStatic/img/search-button.png" data-original="/homeStatic/img/search-button.png" alt=""><a href="/map/second.html?mod5=6" style="text-decoration:none"> 地图找房</a> </span>
+                <span class="header-search-button"> <img src="/homeStatic/img/search-button.png" src="/homeStatic/img/search-button.png" alt=""><a href="/map/second.html?mod5=6" style="text-decoration:none"> 地图找房</a> </span>
                 <span class="header-search-button"><input type="submit" name="" class="s-btn fl" id="huiches" value="开始找房"></span>
             </div>
         </form>
@@ -69,7 +69,7 @@
         <div class="num-content">
             <ul class="num-ul">
                 <li>
-                    <img src="/homeStatic/img/jjpm.png" data-original="/homeStatic/img/jjpm.png" alt="">
+                    <img src="/homeStatic/img/jjpm.png" src="/homeStatic/img/jjpm.png" alt="">
                     <p class="num-detail">
                         <span class="num-a">{$statistics_num.soon_num}</span>套
                     </p>
@@ -79,7 +79,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/homeStatic/img/zzjx.png" data-original="/homeStatic/img/zzjx.png" alt="">
+                    <img src="/homeStatic/img/zzjx.png" src="/homeStatic/img/zzjx.png" alt="">
                     <p class="num-detail">
                         <span class="num-a">{$statistics_num.underway_num}</span>套
                     </p>
@@ -89,7 +89,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/homeStatic/img/jrxz.png" data-original="/homeStatic/img/jrxz.png" alt="">
+                    <img src="/homeStatic/img/jrxz.png" src="/homeStatic/img/jrxz.png" alt="">
                     <p class="num-detail">
                         <span class="num-a">{$statistics_num.add_num}</span>套
                     </p>
@@ -99,7 +99,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/homeStatic/img/jrcj.png" data-original="homeStatic/img/jrcj.png" alt="">
+                    <img src="/homeStatic/img/jrcj.png" src="homeStatic/img/jrcj.png" alt="">
                     <p class="num-detail">
                         <span class="num-a">{$statistics_num.deal_num}</span>套
                     </p>
@@ -124,7 +124,7 @@
                         {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
                             {if condition="getLinkMenuName(29,$vo['toilet'])"}
                             <p>
-                                <img src="/homeStatic/img/shi.png" data-original="/homeStatic/img/shi.png" alt="">
+                                <img src="/homeStatic/img/shi.png" src="/homeStatic/img/shi.png" alt="">
                                 <!--<span>2室</span>-->
                                 <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
                             </p>
@@ -133,32 +133,32 @@
                             {if condition="getLinkMenuName(29,$vo['toilet']) =='独栋' ||  getLinkMenuName(29,$vo['toilet']) =='多居' ||
                         getLinkMenuName(29,$vo['toilet']) =='土地' ||  getLinkMenuName(29,$vo['toilet']) =='厂房'"}
                                 <p>
-                                    <img src="/homeStatic/img/business.png" data-original="/homeStatic/img/business.png" alt="">
+                                    <img src="/homeStatic/img/business.png" src="/homeStatic/img/business.png" alt="">
                                     <!--<span>2室</span>-->
                                     <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
                                 </p>
                             {else}
                                 {if condition="mbsubstr($toilet,0,2)"}
                                 <p>
-                                    <img src="/homeStatic/img/shi.png" data-original="/homeStatic/img/shi.png" alt="">
+                                    <img src="/homeStatic/img/shi.png" src="/homeStatic/img/shi.png" alt="">
                                     <!--<span>2室</span>-->
                                     <span>{:mbsubstr($toilet,0,2)}</span>
                                 </p>
                                 {/if}
                                 {if condition="mbsubstr($toilet,2,4)"}
                                 <p>
-                                    <img src="/homeStatic/img/ting.png" alt="" data-original="/homeStatic/img/ting.png">
+                                    <img src="/homeStatic/img/ting.png" alt="" src="/homeStatic/img/ting.png">
                                     <span>{:mbsubstr($toilet,2,4)}</span>
                                 </p>
                                 {/if}
                             {/if}
                         {/if}
                         <p>
-                            <img src="/homeStatic/img/nanbei.png" data-original="/homeStatic/img/nanbei.png" alt="">
+                            <img src="/homeStatic/img/nanbei.png" src="/homeStatic/img/nanbei.png" alt="">
                             <span>{:getLinkMenuName(4,$vo['orientations'])}</span>
                         </p>
                         <p>
-                            <img src="/homeStatic/img/size.png" data-original="/homeStatic/img/size.png" alt="">
+                            <img src="/homeStatic/img/size.png" src="/homeStatic/img/size.png" alt="">
                             <span>{$vo.acreage}㎡</span>
                         </p>
                     </div>
@@ -188,7 +188,7 @@
             <span>更多推荐房源</span>
         </div>
         <div class="fapaidai">
-            <a href="{$waist_bunner.linkurl}"><img data-original="{$waist_bunner.fileurl}" class="lazy" alt="{$waist_bunner.alt}"></a>
+            <a href="{$waist_bunner.linkurl}"><img src="{$waist_bunner.fileurl}"  alt="{$waist_bunner.alt}"></a>
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">捡漏房源</h2>
@@ -199,12 +199,12 @@
                     <spam>
                         <span style="display: none">{$toilet = getLinkMenuName(29,$vo['toilet'])}</span>
                     </spam>
-                    <img class="lazy" data-original="{$vo.img}" alt="{$vo.title}">
+                    <img  src="{$vo.img}" alt="{$vo.title}">
                     <div class="tuijian-fangyuan-prompt">
                         {if condition="getLinkMenuName(29,$vo['toilet']) =='一室' ||  getLinkMenuName(29,$vo['toilet']) =='两室'"}
                             {if condition="getLinkMenuName(29,$vo['toilet'])"}
                             <p>
-                                <img src="/homeStatic/img/shi.png" data-original="/homeStatic/img/shi.png" alt="">
+                                <img src="/homeStatic/img/shi.png" src="/homeStatic/img/shi.png" alt="">
                                 <!--<span>2室</span>-->
                                 <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
                             </p>
@@ -213,32 +213,32 @@
                             {if condition="getLinkMenuName(29,$vo['toilet']) =='独栋' ||  getLinkMenuName(29,$vo['toilet']) =='多居' ||
                         getLinkMenuName(29,$vo['toilet']) =='土地' ||  getLinkMenuName(29,$vo['toilet']) =='厂房'"}
                                 <p>
-                                    <img src="/homeStatic/img/business.png" data-original="/homeStatic/img/business.png" alt="">
+                                    <img src="/homeStatic/img/business.png" src="/homeStatic/img/business.png" alt="">
                                     <!--<span>2室</span>-->
                                     <span>{:getLinkMenuName(29,$vo['toilet'])}</span>
                                 </p>
                             {else}
                                 {if condition="mbsubstr($toilet,0,2)"}
                                 <p>
-                                    <img src="/homeStatic/img/shi.png" data-original="/homeStatic/img/shi.png" alt="">
+                                    <img src="/homeStatic/img/shi.png" src="/homeStatic/img/shi.png" alt="">
                                     <!--<span>2室</span>-->
                                     <span>{:mbsubstr($toilet,0,2)}</span>
                                 </p>
                                 {/if}
                                 {if condition="mbsubstr($toilet,2,4)"}
                                 <p>
-                                    <img src="/homeStatic/img/ting.png" alt="" data-original="/homeStatic/img/ting.png">
+                                    <img src="/homeStatic/img/ting.png" alt="" src="/homeStatic/img/ting.png">
                                     <span>{:mbsubstr($toilet,2,4)}</span>
                                 </p>
                                 {/if}
                             {/if}
                         {/if}
                         <p>
-                            <img src="/homeStatic/img/nanbei.png" data-original="/homeStatic/img/nanbei.png" alt="">
+                            <img src="/homeStatic/img/nanbei.png" src="/homeStatic/img/nanbei.png" alt="">
                             <span>{:getLinkMenuName(4,$vo['orientations'])}</span>
                         </p>
                         <p>
-                            <img src="/homeStatic/img/size.png" data-original="/homeStatic/img/size.png" alt="">
+                            <img src="/homeStatic/img/size.png" src="/homeStatic/img/size.png" alt="">
                             <span>{$vo.acreage}㎡</span>
                         </p>
                     </div>
@@ -268,7 +268,7 @@
             <span>更多捡漏房源</span>
         </div>
         <div class="fapaidai">
-            <a href="{$waist_bunner.linkurl}"><img data-original="{$waist_bunner.fileurl}" class="lazy" alt="{$waist_bunner.alt}"></a>
+            <a href="{$waist_bunner.linkurl}"><img src="{$waist_bunner.fileurl}"  alt="{$waist_bunner.alt}"></a>
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">热门小区</h2>
@@ -280,7 +280,7 @@
                     <div class="swiper-slide">
                         <div class="mingxing-slide-detail">
                             <span style="display: none">{$vo.id}</span>
-                            <a href="{:url('Estate/detail',['id'=>$vo.id])}"><img src="{$vo.img}" data-original="{$vo.img}" class="lazy" alt="{$vo.title}"></a>
+                            <a href="{:url('Estate/detail',['id'=>$vo.id])}"><img src="{$vo.img}" src="{$vo.img}"  alt="{$vo.title}"></a>
                             <p>【{$vo.area_name}】 {$vo.title}</p>
                             <div class="mingxing-slide-detail-info">
                                 <span>拍卖房源<b>{$vo.second_total}</b>套 </span>
@@ -297,7 +297,7 @@
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">法拍房竞拍流程</h2>
             <div class="tuijian-fangyuan-info">30秒整体了解拍房流程</div>
-            <img data-original="{$flow_chart.fileurl}" alt="{$flow_chart.fileurl}" class="jingpailiucheng-img lazy">
+            <img src="{$flow_chart.fileurl}" alt="{$flow_chart.fileurl}" class="jingpailiucheng-img lazy">
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">特色法拍房源</h2>
@@ -306,19 +306,19 @@
         <div class="tese-img-list">
             <div class="img-list-left">
                 {volist name='ts_left_banner' id='vo'}
-                <a href="{$vo.linkurl}"><img data-original="{$vo.fileurl}" class="lazy" alt="{$vo.alt}"></a>
+                <a href="{$vo.linkurl}"><img src="{$vo.fileurl}"  alt="{$vo.alt}"></a>
                 {/volist}
             </div>
             <div class="img-list-right">
                 <div class="img-list-right-top">
                     {volist name='ts_right_banner' id='vo'}
-                    <a href="{$vo.linkurl}"><img data-original="{$vo['fileurl']}" class="lazy" alt="{$vo['alt']}"></a>
+                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}"  alt="{$vo['alt']}"></a>
 
                     {/volist}
                 </div>
                 <div class="img-list-right-bottom">
                     {volist name='ts_right_lower_banner' id='vo'}
-                    <a href="{$vo.linkurl}"><img data-original="{$vo['fileurl']}" class="lazy" alt="{$vo['alt']}"></a>
+                    <a href="{$vo.linkurl}"><img src="{$vo['fileurl']}"  alt="{$vo['alt']}"></a>
                     {/volist}
                 </div>
             </div>
@@ -331,28 +331,28 @@
         <div class="fangpai-youshi">
             <ul class="fangpai-youshi-list">
                 <li>
-                    <img data-original="/homeStatic/img/jingyan.png" alt="15年法拍房从业经验" class="lazy">
+                    <img src="/homeStatic/img/jingyan.png" alt="15年法拍房从业经验" >
                     <p class="fangpai-youshi-title">15年法拍房从业经验</p>
                     <div class="fangpai-youshi-info">
                         专业从事法拍行业15年，千套成交案例，为您规避各种风险
                     </div>
                 </li>
                 <li>
-                    <img  data-original="/homeStatic/img/jiaoyi.png" alt="专业二手房交易"  class="lazy">
+                    <img  src="/homeStatic/img/jiaoyi.png" alt="专业二手房交易"  >
                     <p class="fangpai-youshi-title">专业二手房交易</p>
                     <div class="fangpai-youshi-info">
                         专业拍卖经理，至少五年以上房拍经验，为您提供整套拍卖服务
                     </div>
                 </li>
                 <li>
-                    <img data-original="/homeStatic/img/renmai.png" alt="广阔的人脉关系" class="lazy">
+                    <img src="/homeStatic/img/renmai.png" alt="广阔的人脉关系" >
                     <p class="fangpai-youshi-title">广阔的人脉关系</p>
                     <div class="fangpai-youshi-info">
                         15年从业，良好相关部门沟通关系，标的报告更详细，客户资金安全更安全
                     </div>
                 </li>
                 <li>
-                    <img data-original="/homeStatic/img/jinrong.png" alt="法拍金融服务" class="lazy">
+                    <img src="/homeStatic/img/jinrong.png" alt="法拍金融服务" >
                     <p class="fangpai-youshi-title">法拍金融服务</p>
                     <div class="fangpai-youshi-info">
                         法拍贷、经营贷、应急贷等法拍金融服务，提供应急资金，解决后顾之忧
@@ -373,7 +373,7 @@
             </div>
             <div class="fapai-baige-tab-content">
                 <div class="fapai-baige-tab-item fapai-baige-tab-item-active">
-                    <a href="{:url('News/detail',['id'=>$article_show_img.id])}"><img src="{$article_show_img.img}" data-original="{$article_show_img.img}" alt=""></a>
+                    <a href="{:url('News/detail',['id'=>$article_show_img.id])}"><img src="{$article_show_img.img}" src="{$article_show_img.img}" alt=""></a>
                     <ul class="fapai-baige-tab-item-list">
                         {volist name='article_show_list' id='vo'}
                             <li>
@@ -384,11 +384,11 @@
                     </ul>
 
                     <div class="fapai-baige-tab-item-all">
-                        <a href="/news-8.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" data-original="/homeStatic/img/rightAll.png" alt="">
+                        <a href="/news-8.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
                     </div>
                 </div>
                 <div class="fapai-baige-tab-item ">
-                    <a href="{:url('News/detail',['id'=>$news_wd.id])}"><img src="{$news_wd.img}" data-original="{$news_wd.img}" alt=""></a>
+                    <a href="{:url('News/detail',['id'=>$news_wd.id])}"><img src="{$news_wd.img}" src="{$news_wd.img}" alt=""></a>
                     <ul class="fapai-baige-tab-item-list">
                         {volist name='news_wd_list' id='vo'}
                         <li>
@@ -398,11 +398,11 @@
                         {/volist}
                     </ul>
                     <div class="fapai-baige-tab-item-all">
-                        <a href="/news-10.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" data-original="/homeStatic/img/rightAll.png" alt="">
+                        <a href="/news-10.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
                     </div>
                 </div>
                 <div class="fapai-baige-tab-item">
-                    <a href="{:url('News/detail',['id'=>$news_strategy.id])}"><img src="{$news_strategy.img}" data-original="{$news_strategy.img}" alt=""></a>
+                    <a href="{:url('News/detail',['id'=>$news_strategy.id])}"><img src="{$news_strategy.img}" src="{$news_strategy.img}" alt=""></a>
                     <ul class="fapai-baige-tab-item-list">
                         {volist name='news_strategy_list' id='vo'}
                         <li>
@@ -412,7 +412,7 @@
                         {/volist}
                     </ul>
                     <div class="fapai-baige-tab-item-all">
-                        <a href="/news-9.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" data-original="/homeStatic/img/rightAll.png" alt="">
+                        <a href="/news-9.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
                     </div>
                 </div>
             </div>
@@ -422,19 +422,19 @@
             <div class="tuijian-fangyuan-info">每一块荣誉牌匾无不证明房拍网辉煌经历及高要求的准则</div>
         </div>
         <div class="fpw_content_rongyu_img" style="margin: 30px 0">
-            <img data-original="/uploads/manual/promote/ry_beipai.jpg" alt="北京拍卖行业协会" class="lazy">
-            <img data-original="/uploads/manual/promote/ry_fangcanxiehui.jpg" alt="中国房地产业协会" class="lazy">
-            <img data-original="/uploads/manual/promote/ry_fangzhong.jpg" alt="北京房地产中介行业协会" class="lazy">
-            <img data-original="/uploads/manual/promote/ry_hailun.jpg" alt="北京海伦律师事务所" class="lazy">
-            <img data-original="/uploads/manual/promote/ry_jingyun.jpg" alt="北京市景运律师事务所" class="lazy">
-            <img data-original="/uploads/manual/promote/ry_paimai.jpg" alt="拍卖经营批准证书" class="lazy">
+            <img src="/uploads/manual/promote/ry_beipai.jpg" alt="北京拍卖行业协会" >
+            <img src="/uploads/manual/promote/ry_fangcanxiehui.jpg" alt="中国房地产业协会" >
+            <img src="/uploads/manual/promote/ry_fangzhong.jpg" alt="北京房地产中介行业协会" >
+            <img src="/uploads/manual/promote/ry_hailun.jpg" alt="北京海伦律师事务所" >
+            <img src="/uploads/manual/promote/ry_jingyun.jpg" alt="北京市景运律师事务所" >
+            <img src="/uploads/manual/promote/ry_paimai.jpg" alt="拍卖经营批准证书" >
         </div>
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">十大安心承诺</h2>
             <div class="tuijian-fangyuan-info">解除您心中关于法拍房的各种忧虑，让您拍房更安心</div>
         </div>
         <div class="fangpai-chengnuo" id="fangpai-chengnuo-list">
-            <img src="/homeStatic/img/lunboLeft.png" alt="" data-original="/homeStatic/img/lunboLeft.png" class="fangpai-chengnuo-left">
+            <img src="/homeStatic/img/lunboLeft.png" alt="" src="/homeStatic/img/lunboLeft.png" class="fangpai-chengnuo-left">
             <div class="fangpai-chengnuo-list">
 
                 {volist name='promise_banner' id='vo'}
@@ -443,7 +443,7 @@
                 </div>
                 {/volist}
             </div>
-            <img src="/homeStatic/img/lunboRight.png" alt="" data-original="/homeStatic/img/lunboRight.png" class="fangpai-chengnuo-right">
+            <img src="/homeStatic/img/lunboRight.png" alt="" src="/homeStatic/img/lunboRight.png" class="fangpai-chengnuo-right">
         </div>
 
 
