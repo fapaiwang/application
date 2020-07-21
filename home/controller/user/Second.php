@@ -1,7 +1,10 @@
 <?php
 namespace app\home\controller\user;
 use app\common\controller\UserBase;
+use app\home\controller\Api;
+use app\home\service\SecondServer;
 use app\home\service\ToolsServer;
+use app\server;
 
 class Second extends UserBase
 
@@ -92,6 +95,9 @@ class Second extends UserBase
         if($info['xiaci']==''){
             $info['xiaci']='无';
         }
+        if($info['lease']==''){
+            $info['lease']='无';
+        }
         $jiage  = 0;
         $mianji = $info['acreage'];
         if($info['ckprice']>0){
@@ -154,35 +160,34 @@ class Second extends UserBase
      */
 
     private function search()
-
     {
-
         $status  = input('get.status');
-
         $keyword = input('get.keyword');
-
         $where   = [];
-
         $where['broker_id'] = $this->userInfo['id'];
-
         is_numeric($status) && $where['status'] = $status;
-
         $keyword && $where[] = ['title','like','%'.$keyword.'%'];
-
         $data = [
-
             'status' => $status,
-
             'keyword'=> $keyword
-
         ];
-
         $this->queryData = $data;
-
         $this->assign('search',$data);
-
         return $where;
-
+    }
+    /**
+     *  尽调报告
+     */
+    function report(){
+        $id = input('param.id/d',0);
+        if($id){
+            /*$server = new server();
+            $SecondServer = new SecondServer();
+            db('second_house')->where('id','=',$id)->setInc('weiguan');*/
+            return $this->fetch();
+        }else{
+            return $this->fetch('public/404');
+        }
     }
 
 }

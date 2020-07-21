@@ -161,6 +161,7 @@ class Second extends HomeBase{
                 $this->assign('userInfo',$userInfo);
                 $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
+                $this->assign('id',$second_house_id);
             }else{
                 return $this->fetch('public/404');
             }
