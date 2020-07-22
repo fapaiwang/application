@@ -2017,31 +2017,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['floor']  = $data['floor'];
             $house_array['total_floor']  = $data['total_floor'];
             $house_array['orientations']  = $data['orientations'];
-
-            if(isset($data['is_free'])){
-                $house_array['is_free']         = $data['is_free'];
-                unset($data['is_free']);
-            }else{
-                $house_array['is_free']         = 0;
-            }
-            if(isset($data['is_commission'])){
-                $house_array['is_commission']   = $data['is_commission'];
-                unset($data['is_commission']);
-            }else{
-                $house_array['is_commission']         = 0;
-            }
-            if(isset($data['is_school'])){
-                $house_array['is_school']        = $data['is_school'];
-                unset($data['is_school']);
-            }else{
-                $house_array['is_school']         = 0;
-            }
-            if(isset($data['is_metro'])){
-                $house_array['is_metro']         = $data['is_metro'];
-                unset($data['is_metro']);
-            }else{
-                $house_array['is_metro']         = 0;
-            }
+            
             $data['update_time'] = time();
             $house_array['update_time'] = time();
             $house_id = $data['id'];
