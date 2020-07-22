@@ -160,9 +160,10 @@
                             <select name="house_purpse" id="house_purpse">
                                 <option value="住宅" {if condition="$info.house_purpse eq '住宅'"}selected{/if}>住宅</option>
                                 <option value="公寓" {if condition="$info.house_purpse eq '公寓'"}selected{/if}>公寓</option>
-                                <option value="商业" {if condition="$info.house_purpse eq '商业'"}selected{/if}>商业</option>
+                                <option value="办公" {if condition="$info.house_purpse eq '办公'"}selected{/if}>办公</option>
                                 <option value="土地" {if condition="$info.house_purpse eq '土地'"}selected{/if}>土地</option>
                                 <option value="厂房" {if condition="$info.house_purpse eq '厂房'"}selected{/if}>厂房</option>
+
                             </select>
                         </div>
                     </div>
@@ -307,7 +308,8 @@
                                 <option value="6" {if condition="$data.nature eq 6"}selected{/if}>二类经适房（回迁）</option>
                                 <option value="7" {if condition="$data.nature eq 7"}selected{/if}>央产经适房</option>
                                 <option value="8" {if condition="$data.nature eq 8"}selected{/if}>平房私产</option>
-                                <option value="9" {if condition="$data.nature eq 9"}selected{/if}>平房使用</option>
+                                <option value="9" {if condition="$data.nature eq 9"}selected{/if}>平房使用权</option>
+                                <option value="10" {if condition="$data.nature eq 10"}selected{/if}>商办</option>
                             </select>
                         </div>
                     </div>
@@ -704,17 +706,6 @@
                         <label class="layui-form-label">账号 </label>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" name="account_number" lay-verify="account_number" id="account_number" placeholder="" value="{$data.account_number}">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-block">
-                        <label class="layui-form-label">推荐位 </label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="is_free" {if condition="$info.is_free eq 1"} checked="checked"{/if} value="1" title="自由购">
-                            <input  type="checkbox" name="is_commission" {if condition="$info.is_commission eq 1"} checked="checked"{/if} value="1" title="免佣金">
-                            <input type="checkbox" name="is_school"  {if condition="$info.is_school eq 1"} checked="checked"{/if} value="1" title="学校周边">
-                            <input type="checkbox" name="is_metro"  {if condition="$info.is_metro eq 1"} checked="checked"{/if} value="1" title="地铁沿线">
                         </div>
                     </div>
                 </div>

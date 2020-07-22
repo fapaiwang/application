@@ -109,7 +109,6 @@ class SecondHouse extends ManageBase
     }
 
     public function beforeAdd()
-
     {
 $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
 
@@ -1962,7 +1961,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $jiage = $info['price'];
         }
         if(empty($data['deed_tax'])&&!empty($info['qipai'])){
-            $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
+            $data['deed_tax'] = $ToolsServer->deen_tax($info['qipai'],$mianji);
         }
         if(empty($data['first_suite'])&&!empty($jiage)){
             $data['first_suite'] = $ToolsServer->deen_tax($jiage,$mianji);

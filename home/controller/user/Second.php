@@ -70,6 +70,7 @@ class Second extends UserBase
 
     public function edit()
     {
+        $info = Request::header();
         $ToolsServer= new ToolsServer();
         $id  = input('param.id/d',0);
         if(!$id)
@@ -106,7 +107,7 @@ class Second extends UserBase
             $jiage = $info['price'];
         }
         if(empty($data['deed_tax'])&&!empty($info['qipai'])){
-            $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
+            $data['deed_tax'] = $ToolsServer->deen_tax($info['qipai'],$mianji);
         }
         if(empty($data['first_suite'])&&!empty($jiage)){
             $data['first_suite'] = $ToolsServer->deen_tax($jiage,$mianji);
@@ -181,13 +182,24 @@ class Second extends UserBase
     function report(){
         $id = input('param.id/d',0);
         if($id){
-            /*$server = new server();
-            $SecondServer = new SecondServer();
-            db('second_house')->where('id','=',$id)->setInc('weiguan');*/
+            $data = model('second_house_data')->where(['house_id'=>$id])->find();
+            if(empty($data)){
+                model('second_house_data')->insert(array('house_id'=>$id,'update_time'=>time()));
+                $data = model('second_house_data')->where(['house_id'=>$id])->find();
+            }
+            $info = model('second_house')->find($id);
+            $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
+            $info['orientations'] = model('linkmenu')->where(['id'=>$info['orientations']])->value("name");
+            $info['toilet'] = model('linkmenu')->where(['id'=>$info['toilet']])->value("name");
+            if (!empty($info['qipai']) && $info['acreage']){
+                $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
+            }
+            $this->assign('info',$info);
+            $this->assign('data',$data);
+            $this->assign('estate',$estate);
             return $this->fetch();
         }else{
             return $this->fetch('public/404');
         }
     }
-
 }
