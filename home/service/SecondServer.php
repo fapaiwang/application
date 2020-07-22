@@ -26,7 +26,6 @@ class SecondServer
      * @throws \think\exception\DbException
      */
     public function second_house_user_comment($second_house_id,$limit=2,$is_rand=0){
-
         $obj     = model('fydp')->alias('s');
         $fydp =$obj->join([['user m','m.id = s.user_id']])->join([['user_info info','info.user_id = s.user_id']])
             ->field('s.id,s.user_id,s.house_name,s.house_id,m.nick_name,m.lxtel,info.history_complate,m.kflj')

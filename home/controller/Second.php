@@ -113,7 +113,7 @@ class Second extends HomeBase{
                 $user["user_id"] = $user["id"];
                 $user["history_complate"] = $user_info->history_complate ?? 0;
                 $second_house_business= [];
-                if (!empty($second_house_business)){
+                if (empty($second_house_business)){
                     $second_house_business[0]= $user->toArray();
                 }
                 $second_house_user_comment_list = $SecondServer->second_house_user_comment_list($second_house_id,$info['broker_id']);

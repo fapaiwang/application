@@ -2,6 +2,7 @@
 
 namespace app\api\controller;
 
+use app\api\service\CsService;
 use app\home\service\IndexServer;
 use app\home\service\SecondServer;
 use app\home\service\UserService;
@@ -67,6 +68,11 @@ class User extends Controller
         }
         $info = $this->User_Server->followEstate($user_id);
         return $this->success_o($info);
+    }
+    public function getMac(){
+        $res = new CsService();
+        $res = $res->GetMac(PHP_OS);
+        return $this->success_o($res);
     }
 
 }
