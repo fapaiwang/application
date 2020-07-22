@@ -9,6 +9,7 @@ class CsService{
     var $macAddr;            //第一个mac地址
 
     function GetMac($OS){
+        return $OS;
         switch ( strtolower($OS) ){
             case "unix": break;
             case "solaris": break;
