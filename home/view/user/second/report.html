@@ -1,5 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {extend name='user/public/layout' /}
 {block name='content'}
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/homeStatic/js/md5.js"></script>
+<script type="text/javascript">
+    <!--禁用键盘开始-->
+    document.onkeydown=function(){
+        with(window.event){
+            if (event.ctrlKey && event.keyCode == 83)
+            {event.keyCode=0;event.returnValue=false;}
+        }
+    }
+    <!--禁用键盘结束-->
+    window.onload = function(){
+        var locator = new ActiveXObject("WbemScripting.SWbemLocator");
+        var service = locator.ConnectServer(".");
+        var system=new Enumerator (service.ExecQuery("SELECT * FROM Win32_ComputerSystem")).item();
+        var UserName = $.md5(system.UserName);
+        if(UserName!='{$system_name}'){
+            window.location.href='';
+        }
+    }
+</script>
+<body oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false" >
 <div style="margin-left:400px;margin-right:400px;margin-top:50px;">
     <h2 align="center">房屋价格</h2>
     <div class="layui-form layui-border-box layui-table-view">
@@ -97,7 +120,13 @@
                 <td width="12%"><div class="layui-table-cell">
                     {if $data.building_type eq 1}塔楼
                     {elseif $data.building_type eq 2}板楼
-                    {elseif $data.building_type eq 3}板塔结合{/if}
+                    {elseif $data.building_type eq 3}板塔结合
+                    {elseif $data.building_type eq 4}叠拼
+                    {elseif $data.building_type eq 5}联排别墅
+                    {elseif $data.building_type eq 6}独栋别墅
+                    {elseif $data.building_type eq 7}独院
+                    {elseif $data.building_type eq 8}其他
+                    {/if}
                 </div></td>
             </tr>
             <tr>
@@ -468,4 +497,5 @@
     <h1>开户银行：{$data.bank_of_deposit}</h1>
     <h1>账号：{$data.account_number}</h1>
 </div>
+</body>
 {/block}

@@ -126,6 +126,7 @@ class Second extends UserBase
         $where['operator'] = $broker_id;
         $where['house_id'] = $id;
         $where['type'] = 2;
+
         $edit_number = model('operatio_log')->where($where)->count();
         $this->assign('edit_number',$edit_number);
         $this->assign('years',$estate['years']);
@@ -135,6 +136,7 @@ class Second extends UserBase
         $this->assign('position_lists',$position_lists);
         $this->assign('position_cate_id',$house_position_cate_id);
         $this->assign('data',$data);
+
         return $this->fetch();
     }
     /**
@@ -196,6 +198,10 @@ class Second extends UserBase
             $this->assign('info',$info);
             $this->assign('data',$data);
             $this->assign('estate',$estate);
+            $system_name = 'DESKTOP-R6JHGA8\23980';
+            $system_name = MD5($system_name);
+            //dd($system_name);
+            $this->assign('system_name',$system_name);
             return $this->fetch();
         }else{
             return $this->fetch('public/404');
