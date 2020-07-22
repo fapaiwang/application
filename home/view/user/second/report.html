@@ -95,7 +95,8 @@
                     {if $data.structure eq 1}砖混
                     {elseif $data.structure eq 2}混凝土
                     {elseif $data.structure eq 3}钢结构
-                    {elseif $data.structure eq 4}其他{/if}
+                    {elseif $data.structure eq 4}其他
+                    {elseif $data.structure eq 5}钢混{/if}
                 </div></td>
             </tr>
             <tr>
@@ -241,8 +242,8 @@
                 <td width="12%" colspan="2"><div class="layui-table-cell">{$info.kptime}</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">竞价周期</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">
-                    {if $data.bidding_cycle eq 0}24小时
-                    {elseif $data.bidding_cycle eq 1}60天变卖{/if}
+                    {if $data.bidding_cycle eq 1}24小时
+                    {elseif $data.bidding_cycle eq 2}72天变卖{/if}
                 </div></td>
             </tr>
             <tr>
@@ -402,7 +403,7 @@
             <tr>
                 <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">标的物税费预估</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">契税</div></td>
-                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.deed_tax}万元</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{if $data.deed_tax neq ''}{$data.deed_tax}万元{/if}</div></td>
             </tr>
             <tr>
                 <td width="12%" colspan="2"><div class="layui-table-cell"></div></td>

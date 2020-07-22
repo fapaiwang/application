@@ -1941,8 +1941,11 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         $house_position_cate_id = model('position')->where(['house_id' => $id, 'model' => 'second_house'])->column('cate_id');//获取该楼盘 所属的推荐位id
         $info = model('second_house')->find($id);
         $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
-        if($data['bidding_cycle']==0){
-            $data['bidding_cycle']=24;
+        if($data['bidding_cycle']==0||$data['bidding_cycle']==''){
+            $data['bidding_cycle']=1;
+        }
+        if($data['decoration']==0||$data['decoration']==''){
+            $data['decoration']=2;
         }
         if($info['qianfei']==''){
             $info['qianfei']='无';
@@ -1952,6 +1955,9 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         }
         if($info['lease']==''){
             $info['lease']='无';
+        }
+        if($data['influence_factor']==''){
+            $data['influence_factor']='无';
         }
         $jiage  = 0;
         $mianji = $info['acreage'];
