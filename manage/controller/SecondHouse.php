@@ -1959,6 +1959,18 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if($data['influence_factor']==''){
             $data['influence_factor']='无';
         }
+        if($data['gas_cost']==0||$data['gas_cost']==''){
+            $data['gas_cost']='2.63元/立方米';
+        }
+        if($data['parking_information']==''){
+            $data['parking_information']=$estate['data']['parking_space'];
+        }
+        if($info['years']==''){
+            $info['years']=$estate['years'];
+        }
+        if($data['property_fee']==''){
+            $data['property_fee']=$estate['data']['property_fee'];
+        }
         $jiage  = 0;
         $mianji = $info['acreage'];
         if($info['ckprice']>0){
@@ -1982,7 +1994,6 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if(empty($data['bidding_rules'])){
             $data['bidding_rules'] = '至少一人报名且出价不低于变卖价，方可成交。';
         }
-        $this->assign('years',$estate['years']);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);

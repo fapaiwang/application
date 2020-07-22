@@ -101,8 +101,20 @@ class Second extends UserBase
         if($info['lease']==''){
             $info['lease']='无';
         }
+        if($data['gas_cost']==0||$data['gas_cost']==''){
+            $data['gas_cost']='2.63元/立方米';
+        }
         if($data['influence_factor']==''){
             $data['influence_factor']='无';
+        }
+        if($data['parking_information']==''){
+            $data['parking_information']=$estate['data']['parking_space'];
+        }
+        if($info['years']==''){
+            $info['years']=$estate['years'];
+        }
+        if($data['property_fee']==''){
+            $data['property_fee']=$estate['data']['property_fee'];
         }
         $jiage  = 0;
         $mianji = $info['acreage'];
@@ -135,7 +147,6 @@ class Second extends UserBase
 
         $edit_number = model('operatio_log')->where($where)->count();
         $this->assign('edit_number',$edit_number);
-        $this->assign('years',$estate['years']);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);

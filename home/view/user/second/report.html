@@ -116,7 +116,7 @@
                 <td width="12%"><div class="layui-table-cell">户型</div></td>
                 <td width="12%"><div class="layui-table-cell">{$info.toilet}</div></td>
                 <td width="12%"><div class="layui-table-cell">建筑年代</div></td>
-                <td width="12%"><div class="layui-table-cell">{if $estate.years neq ''}{$estate.years}年{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $info.years neq ''}{$info.years}年{/if}</div></td>
                 <td width="12%"><div class="layui-table-cell">建筑类型</div></td>
                 <td width="12%"><div class="layui-table-cell">
                     {if $data.building_type eq 1}塔楼
@@ -151,7 +151,7 @@
                 <td width="12%"><div class="layui-table-cell">燃气费用</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">{$data.gas_cost}</div></td>
                 <td width="12%"><div class="layui-table-cell">物业费</div></td>
-                <td width="12%" colspan="2"><div class="layui-table-cell">{$estate.data.property_fee}</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.property_fee}</div></td>
                 <td width="12%"><div class="layui-table-cell">用水类型</div></td>
                 <td width="12%"><div class="layui-table-cell">
                     {if $data.water_type eq 1}居民用水

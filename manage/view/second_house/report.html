@@ -265,7 +265,14 @@
             <div class="layui-inline">
                 <label class="layui-form-label">供暖费用 </label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">
+                    <!--<input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">-->
+                    <select name="heating_cost" id="heating_cost">
+                        <option value="">--请选择--</option>
+                        <option value="24元/平米/年" {if condition="$data.heating_cost eq '24元/平米/年'"}selected{/if}>24元/平米/年</option>
+                        <option value="30元/平米/年" {if condition="$data.heating_cost eq '30元/平米/年'"}selected{/if}>30元/平米/年</option>
+                        <option value="40元/平米/年" {if condition="$data.heating_cost eq '40元/平米/年'"}selected{/if}>40元/平米/年</option>
+                        <option value="无" {if condition="$data.heating_cost eq '无'"}selected{/if}>无</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -735,12 +742,25 @@
                 </div>
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">建筑年份 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="years"  id="years" placeholder="" value="{$info.years}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">物业费 </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="property_fee"  id="property_fee" placeholder="" value="{$data.bank_of_deposit}">
+                </div>
+            </div>
+        </div>
 
     </div>
     </div>
     </div>
     <input type="hidden" name="back_url" value="{$back_url}" />
-    <input type="hidden" name="years" value="{$years}" />
     <input type="hidden" id="qipai" value="{$info['qipai']}" />
     <input type="hidden" name="developer" value="{$developer}" />
     <div class="layui-form-item" >

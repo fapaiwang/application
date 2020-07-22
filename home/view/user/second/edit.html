@@ -265,7 +265,14 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">供暖费用 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">
+                            <!--<input type="text" class="layui-input" name="heating_cost" lay-verify="heating_cost" id="heating_cost" placeholder="" value="{$data.heating_cost}">-->
+                            <select name="heating_cost" id="heating_cost">
+                                <option value="">--请选择--</option>
+                                <option value="24元/平米/年" {if condition="$data.heating_cost eq '24元/平米/年'"}selected{/if}>24元/平米/年</option>
+                                <option value="30元/平米/年" {if condition="$data.heating_cost eq '30元/平米/年'"}selected{/if}>30元/平米/年</option>
+                                <option value="40元/平米/年" {if condition="$data.heating_cost eq '40元/平米/年'"}selected{/if}>40元/平米/年</option>
+                                <option value="无" {if condition="$data.heating_cost eq '无'"}selected{/if}>无</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -498,7 +505,6 @@
                             <input type="text" class="layui-input" name="parking_information" lay-verify="parking_information" id="parking_information" placeholder="" value="{$data.parking_information}">
                         </div>
                     </div>
-
                 </div>
                 <div class="layui-form-item">
 
@@ -686,7 +692,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">契税 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="deed_tax" lay-verify="deed_tax" id="deed_tax" placeholder="" value="{$data.deed_tax}">
+                            <input type="text" class="layui-input" name="deed_tax"  id="deed_tax" placeholder="" value="{$data.deed_tax}">
 
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
@@ -697,21 +703,21 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">第一套房税费 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="first_suite" lay-verify="first_suite" id="first_suite" placeholder="" value="{$data.first_suite}">
+                            <input type="text" class="layui-input" name="first_suite"  id="first_suite" placeholder="" value="{$data.first_suite}">
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">第二套房税费 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="second_suite" lay-verify="second_suite" id="second_suite" placeholder="" value="{$data.second_suite}">
+                            <input type="text" class="layui-input" name="second_suite"  id="second_suite" placeholder="" value="{$data.second_suite}">
                         </div>
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">尾款支付期限 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="payment_period" lay-verify="payment_period" id="payment_period" placeholder="" value="{$data.payment_period}">
+                            <input type="text" class="layui-input" name="payment_period"  id="payment_period" placeholder="" value="{$data.payment_period}">
                         </div>
                     </div>
                 </div>
@@ -719,28 +725,40 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">户名 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="account_name" lay-verify="account_name" id="account_name" placeholder="" value="{$data.account_name}">
+                            <input type="text" class="layui-input" name="account_name"  id="account_name" placeholder="" value="{$data.account_name}">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">开户银行 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="bank_of_deposit" lay-verify="bank_of_deposit" id="bank_of_deposit" placeholder="" value="{$data.bank_of_deposit}">
+                            <input type="text" class="layui-input" name="bank_of_deposit"  id="bank_of_deposit" placeholder="" value="{$data.bank_of_deposit}">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">账号 </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="account_number" lay-verify="account_number" id="account_number" placeholder="" value="{$data.account_number}">
+                            <input type="text" class="layui-input" name="account_number"  id="account_number" placeholder="" value="{$data.account_number}">
                         </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">建筑年份 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="years"  id="years" placeholder="" value="{$info.years}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物业费 </label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="property_fee"  id="property_fee" placeholder="" value="{$data.bank_of_deposit}">
+                        </div>
+                    </div>
+                </div>
+    </div>
+    </div>
     </div>
     <input type="hidden" name="back_url" value="{$back_url}" />
-    <input type="hidden" name="years" value="{$years}" />
     <input type="hidden" id="qipai" value="{$info['qipai']}" />
     <input type="hidden" name="developer" value="{$developer}" />
     <div class="layui-form-item" >

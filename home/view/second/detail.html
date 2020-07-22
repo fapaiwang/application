@@ -162,7 +162,7 @@
                     </li>
                     <li>
                         <p><b>{$info.acreage}{:config('filter.acreage_unit')}</b></p>
-                        <p>{$estate.years}年</p>
+                        <p>{$info.years}年</p>
                     </li>
                 </ul>
                 <div class="fangpai-detail-header-right-people">
@@ -301,7 +301,7 @@
                 {else /}
                 <li><span>供暖情况：</span>{$info.basic_info.4}</li>
                 {/empty}
-                <li><span>车位情况：</span>{$estate.data.parking_space}</li>
+                <li><span>车位情况：</span>{$info.parking_space}</li>
                 {empty name="$info.basic_info.6"}
                 <li><span>物业情况：</span>{$estate.data.property_company}</li>
                 {else /}

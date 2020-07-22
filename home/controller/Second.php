@@ -94,7 +94,7 @@ class Second extends HomeBase{
                 updateHits($info['id'],'second_house');
                 //小区详情
                 $estate = $server->estate($info['estate_id']);
-                $this->assign('info',$info);
+
                 //法拍专员信息
                 $user = $server->user($second_house_id,$info['broker_id']);
                 $user_info = $server->user_info($second_house_id,$info['broker_id']);
@@ -155,6 +155,12 @@ class Second extends HomeBase{
                 $house_loan['shoufu'] =   $house_loan_s['info']['shoufu'];
                 $house_loan['qishui'] =   $house_loan_s['info']['qishui_price'];
                 $house_loan['daikuan'] =   $house_loan_s['info']['dakuan_price'];
+                if($info['years']==''){
+                    $info['years']=$estate['years'];
+                }
+                if($info['parking_space']==''){
+                    $info['parking_space']=$estate['data']['parking_space'];
+                }
                 $this->tdk($info["title"],$info["house_type"]);
                 $this->assign('house_loan',json_encode($house_loan));
                 $this->assign('guanzhu',$guanzhu);
@@ -162,6 +168,7 @@ class Second extends HomeBase{
                 $this->assign('recommend_house',$recommend_house);
                 $this->assign('estate',$estate);
                 $this->assign('id',$second_house_id);
+                $this->assign('info',$info);
             }else{
                 return $this->fetch('public/404');
             }
