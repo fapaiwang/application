@@ -1,43 +1,471 @@
 {extend name='user/public/layout' /}
 {block name='content'}
-
-<table lay-filter="demo">
-    <thead>
-    <tr>
-        <th lay-data="{field:'username', width:100}">昵称</th>
-        <th lay-data="{field:'experience', width:80, sort:true}">积分</th>
-        <th lay-data="{field:'sign'}">签名</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>贤心1</td>
-        <td>66</td>
-        <td>人生就像是一场修行a</td>
-    </tr>
-    <tr>
-        <td>贤心2</td>
-        <td>88</td>
-        <td>人生就像是一场修行b</td>
-    </tr>
-    <tr>
-        <td>贤心3</td>
-        <td>33</td>
-        <td>人生就像是一场修行c</td>
-    </tr>
-    </tbody>
-</table>
-<div style="padding-top: 100px"></div>
-<script src="./js/echarts.min.js"></script>
-<script>
-    var table = layui.table;
-
-    //执行渲染
-    table.render({
-        elem: '#demo' //指定原始表格元素选择器（推荐id选择器）
-        ,height: 315 //容器高度
-        ,cols: [{}] //设置表头
-        //,…… //更多参数参考右侧目录：基本参数选项
-    });
-</script>
+<div style="margin-left:400px;margin-right:400px;margin-top:50px;">
+    <h2 align="center">房屋价格</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td><div class="layui-table-cell">起拍价</div></td>
+                <td colspan="2"><div class="layui-table-cell">{if $info.qipai neq ''}{$info.qipai}万元{/if}</div></td>
+                <td><div class="layui-table-cell">评估价</div></td>
+                <td colspan="2"><div class="layui-table-cell">{if $info.price neq ''}{$info.price}万元{/if}</div></td>
+                <td><div class="layui-table-cell">建议价格</div></td>
+                <td colspan="2"><div class="layui-table-cell">{if $info.ckprice neq ''}{$info.ckprice}万元{/if}</div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">房屋坐落及信息</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td colspan="2"><div class="layui-table-cell">房屋地理位置</div></td>
+                <td colspan="6"><div class="layui-table-cell">{$info.address}</div></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="layui-table-cell">开发商</div></td>
+                <td colspan="6"><div class="layui-table-cell">{$estate.data.developer}</div></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="layui-table-cell">小区物业管理</div></td>
+                <td colspan="6"><div class="layui-table-cell">{$estate.data.property_company}</div></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="layui-table-cell">小区周边环境</div></td>
+                <td colspan="6"><div class="layui-table-cell">{$estate.neighborhood}</div></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="layui-table-cell">周边交通通勤</div></td>
+                <td colspan="6"><div class="layui-table-cell">{$data.traffic}</div></td>
+            </tr>
+            <tr>
+                <td width="25%" rowspan="3" colspan="2"><div class="layui-table-cell">其他配套</div></td>
+                <td width="30%" colspan="2"><div class="layui-table-cell">教育</div></td>
+                <td width="40%" colspan="4"><div class="layui-table-cell">{$data.education}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">医疗</div></td>
+                <td width="40%" colspan="4"><div class="layui-table-cell">{$data.medical_care}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">商超</div></td>
+                <td width="40%" colspan="4"><div class="layui-table-cell">{$data.shangchao}</div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">楼层</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $info.floor neq ''}{$info.floor}层{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">总楼层</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $info.total_floor neq ''}{$info.total_floor}层{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">总栋数</div></td>
+                <td width="12%"><div class="layui-table-cell">***</div></td>
+                <td width="12%"><div class="layui-table-cell">建筑面积</div></td>
+                <td width="12%"><div class="layui-table-cell">{$estate.data.area_build}</div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">临街</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $data.kerbside eq 1}是{elseif $data.kerbside eq 2}否{else}不详{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">双气</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $data.shuangqi eq 1}是{elseif $data.shuangqi eq 2}否{else}不详{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">朝向</div></td>
+                <td width="12%"><div class="layui-table-cell">{$info['orientations']}</div></td>
+                <td width="12%"><div class="layui-table-cell">结构</div></td>
+                <td width="12%"><div class="layui-table-cell">
+                    {if $data.structure eq 1}砖混
+                    {elseif $data.structure eq 2}混凝土
+                    {elseif $data.structure eq 3}钢结构
+                    {elseif $data.structure eq 4}其他{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">房屋性质</div></td>
+                <td width="12%"><div class="layui-table-cell">
+                    {if $data.nature eq 1}商品房
+                    {elseif $data.nature eq 2}公房
+                    {elseif $data.nature eq 3}央产房
+                    {elseif $data.nature eq 4}军产房
+                    {elseif $data.nature eq 5}一类经适房
+                    {elseif $data.nature eq 6}二类经适房（回迁）
+                    {elseif $data.nature eq 7}央产经适房
+                    {elseif $data.nature eq 8}平房私产
+                    {elseif $data.nature eq 9}平房使用权
+                    {elseif $data.nature eq 10}商办{/if}
+                </div></td>
+                <td width="12%"><div class="layui-table-cell">户型</div></td>
+                <td width="12%"><div class="layui-table-cell">{$info.toilet}</div></td>
+                <td width="12%"><div class="layui-table-cell">建筑年代</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $estate.years neq ''}{$estate.years}年{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">建筑类型</div></td>
+                <td width="12%"><div class="layui-table-cell">
+                    {if $data.building_type eq 1}塔楼
+                    {elseif $data.building_type eq 2}板楼
+                    {elseif $data.building_type eq 3}板塔结合{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">供暖情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.heating_mode eq 1}集中供暖
+                    {elseif $data.heating_mode eq 2}自供暖
+                    {elseif $data.heating_mode eq 3}无供暖
+                    {elseif $data.heating_mode eq 4}不详{/if}
+                </div></td>
+                <td width="12%"><div class="layui-table-cell">供暖费用</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.heating_cost}</div></td>
+                <td width="12%"><div class="layui-table-cell">用电类型</div></td>
+                <td width="12%"><div class="layui-table-cell">
+                    {if $data.electricity_type eq 1}居民用电
+                    {elseif $data.electricity_type eq 2}商业用电
+                    {elseif $data.electricity_type eq 3}工业用电{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">燃气费用</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.gas_cost}</div></td>
+                <td width="12%"><div class="layui-table-cell">物业费</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$estate.data.property_fee}</div></td>
+                <td width="12%"><div class="layui-table-cell">用水类型</div></td>
+                <td width="12%"><div class="layui-table-cell">
+                    {if $data.water_type eq 1}居民用水
+                    {elseif $data.water_type eq 2}商业用水
+                    {elseif $data.water_type eq 3}工业用水{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%"><div class="layui-table-cell">电梯情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.elevator_status eq 0}无
+                    {elseif $data.elevator_status eq 1}{$data.elevator}{/if}
+                </div></td>
+                <td width="12%"><div class="layui-table-cell">遮挡</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{if $data.occlusion eq 0}无{elseif $data.occlusion eq 1}有{/if}</div></td>
+                <td width="12%"><div class="layui-table-cell">凶宅</div></td>
+                <td width="12%"><div class="layui-table-cell">{if $data.haunted_house eq 0}否{elseif $data.haunted_house eq 1}是{/if}</div></td>
+            </tr>
+            <tr>
+                <td width="15%" colspan="1"><div class="layui-table-cell">装修情况</div></td>
+                <td width="85%" colspan="7"><div class="layui-table-cell">
+                    {if $data.decoration eq 1}精装
+                    {elseif $data.decoration eq 2}简装
+                    {elseif $data.decoration eq 3}毛坯{/if}
+                </div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">房屋现状</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">占用情况</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.vacate}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">欠费情况</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.qianfei}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">瑕疵说明</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.xiaci}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">其他影响交付因素</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$data.influence_factor}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">户口情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.land_certificate}</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">学区名额使用情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.enrollment_quota eq 0}无
+                    {elseif $data.enrollment_quota eq 1}有
+                    {elseif $data.enrollment_quota eq 2}不详{/if}
+                </div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">拍卖公告信息</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">房屋名称</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.title}</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">规划用途</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.house_purpse}</div></tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">起拍价</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.qipai}万元</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">评估价</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.price}万元</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">保证金</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.baozheng}万元</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">加价幅度</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.price_increase_range}元</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">起拍单价</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.junjia}元/㎡</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">房屋面积</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{if $info.acreage neq ''}{$info.acreage}㎡{/if}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">起拍时间</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.kptime}</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">竞价周期</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.bidding_cycle eq 0}24小时
+                    {elseif $data.bidding_cycle eq 1}60天变卖{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">参拍网站</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">
+                    {if $data.auction_website eq 1}淘宝网
+                    {elseif $data.auction_website eq 2}京东网
+                    {elseif $data.auction_website eq 3}公拍网
+                    {elseif $data.auction_website eq 4}中拍网
+                    {elseif $data.auction_website eq 5}人民法院诉讼资产网
+                    {elseif $data.auction_website eq 6}工商银行融e购
+                    {elseif $data.auction_website eq 7}北京产权交易所
+                    {elseif $data.auction_website eq 8}其他{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">竞价规则</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$data.bidding_rules}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">执行法院</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$data.court_execution}</div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">权属信息</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">房屋强制司法拍卖执行原因</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$data.reason}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">产权人姓名</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$data.property_owner}</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">权属证号</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.property_no}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" rowspan="8" colspan="2"><div class="layui-table-cell">房屋产权清洁状况</div></td>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">租赁</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">是否存在租赁</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.lease}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">租赁期限</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.lease_term}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">优先购买权</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">是否有优先购买权</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.preemptive_right eq 2}否
+                    {elseif $data.preemptive_right eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">优先购买权人是否书面承诺放弃优先权</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.waiver eq 2}否
+                    {elseif $data.waiver eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">继承&赠与</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">是否存在继承或赠与情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.donation eq 2}否
+                    {elseif $data.donation eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">所有权继承或赠与份额</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.grant_share eq 2}否
+                    {elseif $data.grant_share eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">抵押情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">抵押权</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.mortgages eq 2}否
+                    {elseif $data.mortgages eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">抵押权人</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.mortgagee eq 2}否
+                    {elseif $data.mortgagee eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" rowspan="2" colspan="2"><div class="layui-table-cell">房屋产权所有状况</div></td>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">共有情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">共有情况</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.co_ownership eq 2}无
+                    {elseif $data.co_ownership eq 1}有{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">共有人是否成年</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    {if $data.adult_or_not eq 2}否
+                    {elseif $data.adult_or_not  eq 1}是{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">限制登记信息</div></td>
+                <td width="12%" colspan="4"><div class="layui-table-cell">登记单位</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.registration_unit}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">执行法院</div></td>
+                <td width="12%" colspan="6"><div class="layui-table-cell">{$data.court_execution}</div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">标的物费用信息预估及指</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">房屋欠费</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell"></div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"  rowspan="4"><div class="layui-table-cell">贷款评估</div></td>
+                <td width="70%" colspan="2"><div class="layui-table-cell">房屋可否贷款</div></td>
+                <td width="70%" colspan="4"><div class="layui-table-cell">
+                    {if $data.housing_loan eq 2}不可以
+                    {elseif $data.housing_loan eq 1}可以{/if}
+                </div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">最高贷款金额</div></td>
+                <td width="70%" colspan="4"><div class="layui-table-cell">***</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">贷款利率范围</div></td>
+                <td width="12%" colspan="4"><div class="layui-table-cell">{$data.lending_rate}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">最高贷款年限</div></td>
+                <td width="12%" colspan="4"><div class="layui-table-cell">{$data.maximum_loan_life}年</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="4"><div class="layui-table-cell">房屋税费预估</div></td>
+                <td width="12%" colspan="6"><div class="layui-table-cell">司法拍卖房屋所有税费全部由竞拍人支付</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="6"><div class="layui-table-cell"></div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="2"><div class="layui-table-cell">标的物税费预估</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">契税</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.deed_tax}万元</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell"></div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell"></div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2" rowspan="4"><div class="layui-table-cell">标的物价格指导</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">预估成交价</div></td>
+                <td width="12%" colspan="4"><div class="layui-table-cell">{if $info.ckprice neq ''}{$info.ckprice}万元{/if}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"rowspan="3"><div class="layui-table-cell">预估税费</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">第一套房</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{if $data.first_suite neq ''}{$data.first_suite}万元{/if}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">第二套房</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{if $data.second_suite neq ''}{$data.second_suite}万元{/if}</div></td>
+            </tr>
+            <tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">第三套房</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell"></div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">北京市房屋税收政策</h2>
+    <h4 align="center">注：根据竞拍公告，本竞拍标的物税费均由买方承担。</h4>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="30%" colspan="1" rowspan="2"><div class="layui-table-cell">买方身份</div></td>
+                <td width="30%" colspan="3"><div class="layui-table-cell">买房所需承担税费</div></td>
+                <td width="40%" colspan="4"><div class="layui-table-cell">卖方所需承担税费（注：卖方税费是由买方承担以法院公告为准）</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">契税</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">印花税</div></td>
+                <td width="12%"><div class="layui-table-cell">增值税及附加</div></td>
+                <td width="12%"><div class="layui-table-cell">个人所得税</div></td>
+                <td width="12%"><div class="layui-table-cell">土地增值税</div></td>
+                <td width="12%"><div class="layui-table-cell">印花税</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="1"><div class="layui-table-cell">个人</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">
+                    1、首次购房90㎡以下1%征收
+                    2、首次购房90㎡以上1.5%征收
+                    3、二套购房3%征收
+                </div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="1"><div class="layui-table-cell">企业</div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">3%</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">0.05%</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">0.84%</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+                <td width="12%" colspan="1"><div class="layui-table-cell">无</div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">标的物及周边市场分析</h2>
+    <div class="layui-form layui-border-box layui-table-view">
+        <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">同小区在售房源均价</div></td>
+                <td width="70%" colspan="2"><div class="layui-table-cell">万元/平方米</div></td>
+                <td width="70%" colspan="2"><div class="layui-table-cell">同户型在售房源均价</div></td>
+                <td width="70%" colspan="2"><div class="layui-table-cell">万元/平方米</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">在售房源最高价</div></td>
+                <td width="30%" colspan="6"><div class="layui-table-cell">万元/平方米</div></td>
+            </tr>
+            <tr>
+                <td width="30%" colspan="2"><div class="layui-table-cell">同地段小区房屋均价</div></td>
+                <td width="30%" colspan="2"><div class="layui-table-cell">万元/平方米</div></td>
+                <td width="30%" colspan="2"><div class="layui-table-cell">同地段拍卖房屋成交均价</div></td>
+                <td width="30%" colspan="2"><div class="layui-table-cell">万元/平方米</div></td>
+            </tr>
+        </table>
+    </div>
+    <h2 align="center">竞拍尾款支付方式及期限</h2>
+    <h3>竞拍尾款支付方式：根据法院在竞买公告中的说明直接通过银行卡汇款给法院</h3>
+    <h3>本次竞拍尾款支付期限，拍卖余款应在拍卖成交后起 {$data.payment_period} 支付给法院指定账户。</h3>
+    <h1>户名：{$data.account_name}</h1>
+    <h1>开户银行：{$data.bank_of_deposit}</h1>
+    <h1>账号：{$data.account_number}</h1>
+</div>
 {/block}

@@ -109,7 +109,6 @@ class SecondHouse extends ManageBase
     }
 
     public function beforeAdd()
-
     {
 $fpy = db('user')->where(['model'=>4])->cache('user_name_asc')->order('reg_time asc')->select();
 
@@ -1962,7 +1961,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $jiage = $info['price'];
         }
         if(empty($data['deed_tax'])&&!empty($info['qipai'])){
-            $data['deed_tax'] = $ToolsServer->deen_tax($jiage,$mianji);
+            $data['deed_tax'] = $ToolsServer->deen_tax($info['qipai'],$mianji);
         }
         if(empty($data['first_suite'])&&!empty($jiage)){
             $data['first_suite'] = $ToolsServer->deen_tax($jiage,$mianji);
@@ -2019,30 +2018,6 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['total_floor']  = $data['total_floor'];
             $house_array['orientations']  = $data['orientations'];
 
-            if(isset($data['is_free'])){
-                $house_array['is_free']         = $data['is_free'];
-                unset($data['is_free']);
-            }else{
-                $house_array['is_free']         = 0;
-            }
-            if(isset($data['is_commission'])){
-                $house_array['is_commission']   = $data['is_commission'];
-                unset($data['is_commission']);
-            }else{
-                $house_array['is_commission']         = 0;
-            }
-            if(isset($data['is_school'])){
-                $house_array['is_school']        = $data['is_school'];
-                unset($data['is_school']);
-            }else{
-                $house_array['is_school']         = 0;
-            }
-            if(isset($data['is_metro'])){
-                $house_array['is_metro']         = $data['is_metro'];
-                unset($data['is_metro']);
-            }else{
-                $house_array['is_metro']         = 0;
-            }
             $data['update_time'] = time();
             $house_array['update_time'] = time();
             $house_id = $data['id'];
