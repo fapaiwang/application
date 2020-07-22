@@ -2017,7 +2017,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['floor']  = $data['floor'];
             $house_array['total_floor']  = $data['total_floor'];
             $house_array['orientations']  = $data['orientations'];
-            
+
             $data['update_time'] = time();
             $house_array['update_time'] = time();
             $house_id = $data['id'];

@@ -70,7 +70,6 @@ class Second extends UserBase
 
     public function edit()
     {
-        $info = Request::header();
         $ToolsServer= new ToolsServer();
         $id  = input('param.id/d',0);
         if(!$id)
