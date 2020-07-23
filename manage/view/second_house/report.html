@@ -48,8 +48,7 @@
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">参考价 <br>
-                            <font color="red" size="1">好卖的价格</font>
+                        <label class="layui-form-label" style="color:red;">参考价 <i class="layui-icon layui-icon-survey" style="color:red;" title="好卖的价格"></i>
                         </label>
                         <div class="layui-input-inline" style="width:80px;">
                             <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice" name="ckprice"  placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" onchange="acreage_ckprice_price()">
@@ -57,7 +56,7 @@
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:1px;">万</div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">楼层 </label>
+                        <label class="layui-form-label" style="color:red;">楼层 </label>
                         <div class="layui-input-inline" style="width:100px;">
                             <select name="floor" lay-verify="floor">
                                 <option value="">-请选择-</option>
@@ -77,7 +76,7 @@
                         <div class="layui-form-mid layui-word-aux layui-fl" style="margin-left:10px;"> 层</div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">朝向 </label>
+                        <label class="layui-form-label" style="color:red;">朝向 </label>
                         <div class="layui-input-inline">
                             {:getLinkMenu(4,'orientations','select',$info['orientations'])}
                         </div>
@@ -123,8 +122,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">房源瑕疵  <br>
-                        <font color="red" size="1">没有则填写无</font>
+                    <label class="layui-form-label">房源瑕疵  <i class="layui-icon layui-icon-survey" style="color:red;" title="没有则填写无"></i>
                     </label>
                     <div class="layui-input-inline">
                         <select lay-filter="xiaci_status" id="xiaci_status" name="xiaci_status">
@@ -151,8 +149,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">房源欠费   <br>
-                        <font color="red" size="1">没有则填写无</font>
+                    <label class="layui-form-label">房源欠费  <i class="layui-icon layui-icon-survey" style="color:red;" title="没有则填写无"></i>
                     </label>
                     <div class="layui-input-inline">
                         <select lay-filter="qianfei_status" id="qianfei_status" name="qianfei_status">
@@ -250,7 +247,7 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">腾退情况 </label>
+                <label class="layui-form-label"  style="color:red;">腾退情况 </label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" name="vacate" lay-verify="vacate" id="vacate" placeholder="" value="{$info.vacate}">
                 </div>
@@ -326,7 +323,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">房屋性质 </label>
+                <label class="layui-form-label" style="color:red;">房屋性质 </label>
                 <div class="layui-input-inline">
                     <select name="nature" id="nature">
                         <option value="1" {if condition="$data.nature eq 1"}selected{/if}>商品房</option>
@@ -405,7 +402,7 @@
         <div class="layui-form-item">
 
             <div class="layui-inline">
-                <label class="layui-form-label">遮挡情况 </label>
+                <label class="layui-form-label"  style="color:red;">遮挡情况 </label>
                 <div class="layui-input-inline">
                     <select name="occlusion" id="occlusion">
                         <option value="0" {if condition="$data.occlusion eq 0"}selected{/if}>无</option>
@@ -415,7 +412,7 @@
             </div>
 
             <div class="layui-inline">
-                <label class="layui-form-label">凶宅 </label>
+                <label class="layui-form-label" style="color:red;">凶宅 </label>
                 <div class="layui-input-inline">
                     <select name="haunted_house" id="haunted_house">
                         <option value="0" {if condition="$data.haunted_house eq 0"}selected{/if}>否</option>
@@ -447,7 +444,7 @@
             </div>
 
             <div class="layui-inline">
-                <label class="layui-form-label">学区名额使用情况 </label>
+                <label class="layui-form-label" style="color:red;">学区名额使用情况 </label>
                 <div class="layui-input-inline">
                     <select name="enrollment_quota" id="enrollment_quota">
                         <option value="0" {if condition="$data.enrollment_quota eq 0"}selected{/if}>无</option>
@@ -527,7 +524,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">户口占用情况 </label>
+                <label class="layui-form-label"  style="color:red;">户口占用情况 </label>
                 <div class="layui-input-inline">
                     <!--<input type="text" class="layui-input" name="land_certificate" lay-verify="land_certificate" id="land_certificate" placeholder="" value="{$info.land_certificate}">-->
                     <select name="land_certificate" id="land_certificate">
@@ -733,7 +730,42 @@
                     <input type="text" class="layui-input" name="property_fee"  id="property_fee" placeholder="" value="{$data.property_fee}">
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">同小区在售房源均价</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="txqzsfyjj"  id="txqzsfyjj" placeholder="" value="{$data.txqzsfyjj}">
+                </div>
+            </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">同户型在售房源均价</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="thxzsfyjj"  id="thxzsfyjj" placeholder="" value="{$data.thxzsfyjj}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">在售房源最高价</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="zsfyzgj"  id="zsfyzgj" placeholder="" value="{$data.zsfyzgj}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">同地段小区房屋均价</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="tddxqfwjj"  id="tddxqfwjj" placeholder="" value="{$data.tddxqfwjj}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">同地段拍卖房屋成交均价</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="tddpmfwcjjj"  id="tddpmfwcjjj" placeholder="" value="{$data.tddpmfwcjjj}">
+                </div>
+            </div>
+        </div>
+
 
     </div>
     </div>
@@ -840,6 +872,11 @@
             orientations : function (value) {
                 if(value==0){
                     return '请选择朝向';
+                }
+            },
+            vacate : function (value) {
+                if(value==0){
+                    return '请填写腾退情况';
                 }
             }
         });

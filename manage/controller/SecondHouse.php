@@ -2105,7 +2105,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                     $msg = '编辑房源信息成功';
                     \think\Db::commit();
                 }else{
-                    $code = 1;
+                    $code = 0;
                     $msg = '编辑房源信息失败';
                     \think\Db::rollback();
                 }
@@ -2143,6 +2143,9 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         {
             $data = input('post.');
             $data['create_time'] = time();
+            if($data['set_time']==''){
+                $this->error('未选择操作时间');
+            }
             $c = model('operatio_log')->insert($data);
             if($c)
             {
@@ -2155,7 +2158,50 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $user = model('user')->field('id,nick_name')->where('model',4)->select();
             $this->assign('user_info',$user);
             $this->assign('id',$id);
+            $this->assign('set_time',date('Y-m-d H:i:s'));
             return $this->fetch();
         }
+    }
+    /**
+     *   成交人记录，签单人记录，签单时间
+     */
+    public function operation_list(){
+        $type  = input('param.type/d');
+        $set_time  = input('param.set_time');
+        $keyword  = input('param.keyword');
+        $operator  = input('param.operator');
+        $search = array('type'=>$type,'set_time'=>$set_time,'keyword'=>$keyword);
+        $where = array();
+        $where['u.model'] = 4;
+        if($type!=''){
+            $where['o.type'] = $type;
+        }else{
+            $where[] = array('o.type','in','3,4');
+        }
+        if($set_time!=''){
+            $start_time = $set_time.' 00:00:00';
+            $end_time = date('Y-m-d H:i:s',strtotime($set_time)+3600*24);
+            $where[] = ['o.set_time','>=',$start_time];
+            $where[] = ['o.set_time','<',$end_time];
+        }
+        if($keyword!=''){
+            $where[] = array('h.title','like','%'.$keyword.'%');
+        }
+        if($operator!=''){
+            $where['o.operator'] = $operator;
+        }
+        $join1 = [['operatio_log o','h.id=o.house_id']];
+        $join2 = [['user u','u.id=o.operator']];
+        $list = model('second_house')->alias('h')->join($join1)->join($join2)
+            ->field("h.id,h.title,o.type,o.set_time,u.nick_name")->where($where)
+            //->fetchSql(true)->select();dd($list);
+            ->paginate(20,false,['query'=>$search]);
+        $pages = $list->render();
+        $user = model('user')->field('id,nick_name')->where('model',4)->select();
+        $this->assign('user_info',$user);
+        $this->assign('list',$list);
+        $this->assign('search',$search);
+        $this->assign('pages',$pages);
+        return $this->fetch();
     }
 }

@@ -1,0 +1,107 @@
+{extend name="public/layout" /}
+{block name='content'}
+<div class="layui-form">
+    <form name="layui-form" class="search-form" action="{:url('SecondHouse/operation_list')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline" style="width:100px;">
+                        <select name="type">
+                            <option value="">-所有-</option>
+                            <option value="3" {eq name="search['type']" value="3"}selected="selected"{/eq}>成交</option>
+                            <option value="4" {eq name="search['type']" value="4"}selected="selected"{/eq}>签单</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">时间查找</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="set_time" name="set_time" style="width:200px" value="{$search.set_time}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">法拍经理</label>
+                    <div class="layui-input-inline">
+                        <select name="operator" >
+                            <option value="">-所有-</option>
+                            {volist name="user_info" id="val"}
+                            <option value="{$val.id}" >{$val.nick_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" type="text" placeholder="输入关键词搜索" class="layui-input" size="25" value="{$search.keyword}" />
+                    </div>
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('SecondHouse/ajaxEdit')}">
+            <colgroup>
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+            </colgroup>
+            <thead>
+            <tr>
+                <style>
+                    .layui-table-cell{padding:0 8px;!important}
+                </style>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>房源id</span></div>
+                </th>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>房源标题</span></div>
+                </th>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>操作类型</span></div>
+                </th>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>操作人</span></div>
+                </th>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>操作时间</span></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="val"}
+            <tr>
+                <td><div class="layui-table-cell">{$val.id}</div></td>
+                <td><div class="layui-table-cell">{$val.title}</div></td>
+                <td><div class="layui-table-cell">{eq name="$val.type" value="3"}成交{else/}签单{/eq}</div></td>
+                <td><div class="layui-table-cell">{$val.nick_name}</div></td>
+                <td> <div class="layui-table-cell">{$val.set_time}</div></td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#set_time', //指定元素
+            type: 'date'//时间格式
+        });
+    });
+</script>
+{/block}
+
