@@ -234,15 +234,6 @@
                     </div>
                     {/if}
                 </div>
-                <div class="fangpai-detail-header-right-begin-baoming">
-                    <div class="fangpai-detail-header-right-begin-baoming-left">
-                        {if condition="$userInfo.model" eq 4}
-                        <a href="/jdbg-{$id}" style="color:red;">查看尽调报告</a>
-                       
-                        {/if}
-
-                    </div>
-                </div>
                 <div class="fangpai-detail-fixed">
                     <div class="fangpai-detail-fixed-header">
                         <h4>法拍专员</h4>
@@ -309,10 +300,11 @@
                 {/empty}
                 {empty name="$login_user.model.4"}
                     {if condition='$info.hxsimg neq ""'  }
-                        <li><span>尽调报告：</span><a href="{$info.hxsimg}" download="{$info.hxsimg}">已上传，点击下载</a></li>
+
+                         <a href="/jdbg-{$id}" style="color:red;">查看尽调报告</a>
                     {/if}
                 {else /}
-                     <li><span>尽调报告：</span><span style="color: #CF2924"> *** </span></li>
+                     
                 {/empty}
                 {if condition="$login_user.model eq 4"}
                     <li><span>页面分享：</span><a href="{:url('Second/detail_sharing',['id'=>$info.id])}">分享页</a></li>
