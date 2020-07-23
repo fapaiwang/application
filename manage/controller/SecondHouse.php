@@ -2017,6 +2017,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['xiaci']            = $data['xiaci'];
             $house_array['xiaci_status']     = $data['xiaci_status'];
             $house_array['qianfei']          = $data['qianfei'];
+            $house_array['qianfei_status']   = $data['qianfei_status'];
             $house_array['enforcement']      = $data['enforcement'];
             $house_array['land_purpose']     = $data['land_purpose'];
             $house_array['land_certificate'] = $data['land_certificate'];
@@ -2091,7 +2092,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             $house_array['basic_info'] = implode('|',$basic_info);
             unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);unset($data['years']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
-            unset($data['property_no']);unset($data['management']);unset($data['lease']);unset($data['xiaci_status']);
+            unset($data['property_no']);unset($data['management']);unset($data['lease']);unset($data['xiaci_status']);unset($data['qianfei_status']);
             unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
             unset($data['toilet']);unset($data['acreage']);unset($data['price']);unset($data['ckprice']);unset($data['floor']);
             unset($data['total_floor']);unset($data['orientations']);unset($data['elevator_status']);unset($data['developer']);
