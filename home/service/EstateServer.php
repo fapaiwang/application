@@ -81,8 +81,87 @@ class EstateServer
         }
         return $info;
     }
+    public function estate_list($area,$price,$sort,$keyword,$limit=30){
+        $info = $this->search($area,$price,$sort);
+        $where = $info["data"];
+        $field   = 'id,title,img,pano_url,house_type,years,address,price,complate_num';
+        //统计二手房和出租房数量 where条件里需要替换estate_id为estate表每条记录的id, 不能用字符(会被转成 0)所以用9999代替替换
+        $second_sql = model('second_house')->where('estate_id','9999')->where('status',1)->field('count(id) as second_total')->buildSql();
+        $field .= ','.$second_sql.' as second_total';
+        $field  = str_replace('9999','e.id',$field);
+        $lists      = model('estate')
+            ->alias('e')
+            ->where($where)
+            ->field($field)
+            ->order($this->getSort($sort))
+            ->paginate($limit,false,['query'=>['keyword'=>$keyword]]);
 
+        return ["search"=>$info["search"],"lists"=>$lists];
 
+    }
+    public function search($area,$price,$sort){
+        $param['area']       = $area;
+        $param['price']      = $price;
+        $param['sort']       = $sort;//排序
+        $param['rading']     = 0;
+        $data['status']      = 1;
+        $param['area'] == 0 && $param['area'] = 39;
+        $keyword = input('get.keyword');
+        if($keyword){
+            $param['keyword'] = $keyword;
+            $data[] = ['title','like','%'.$keyword.'%'];
+        }
+        if(!empty($param['area'])){
+            $data[] = ['city','in',getCityChild($param['area'])];
+            $rading = getRadingByAreaId($param['area']);
+            //读取商圈
+            $param['rading'] = 0;
+            if($rading && array_key_exists($param['area'],$rading))
+            {
+                $param['rading']  = $param['area'];
+                $param['area']    = $rading[$param['area']]['pid'];
+            }
+        }
+        if(!empty($param['price'])){
+            $data[] = getEstatePrice($param['price']);
+        }
+        if(!empty($param['type'])){
+            $data['house_type'] = $param['type'];
+        }
+        $arr["search"] =$param;
+        $arr["data"] =$data;
+        return $arr;
+    }
 
+    /**
+     * @param $sort
+     * @return array
+     * 排序
+     */
+    private function getSort($sort)
+    {
+        switch($sort)
+        {
+            case 0:
+                $order = ['second_total'=>'desc','ordid'=>'asc','id'=>'desc'];
+                break;
+            case 1:
+                $order = ['price'=>'asc','id'=>'desc'];
+                break;
+            case 2:
+                $order = ['price'=>'desc','id'=>'desc'];
+                break;
+            case 3:
+                $order = ['hits'=>'desc','id'=>'desc'];
+                break;
+            case 4:
+                $order = ['hits'=>'asc','id'=>'desc'];
+                break;
+            default:
+                $order = ['ordid'=>'asc','id'=>'desc'];
+                break;
+        }
+        return $order;
+    }
 
 }

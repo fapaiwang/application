@@ -511,9 +511,27 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
                 $param['zmianji2'] = $v['keyword'];
             }elseif($v['letter']=='x'){
                 $param['keyword'] = $v['keyword'];
+            }elseif($v['letter']=='y'){
+                $this->given_decompose($v['keyword']);
             }
         }
         return $param;
+    }
+    protected function given_decompose($num,$k){
+        switch ($num) {
+            case 1://重点房源
+                return $param['rec_position'] = 1;
+                break;
+            case 2://六折房源
+                return $param['marketprice'] =$k;
+                break;
+            case 3://学区房
+                return $param['is_school'] = 1;
+                break;
+
+        }
+
+
     }
     /**
      *    搜索参数转换为json串
@@ -782,6 +800,12 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             $seo_array = array();
         }
         return array('data'=>$data,'seo_title'=>$seo_title,'seo_array'=>$seo_array,'zmianji1'=>$zmianji1,'zmianji2'=>$zmianji2);
+    }
+    public function characteristic_detail($extension_name){
+        $field ="info,img,seo_title,seo_keys,seo_desc";
+        $where = [['title','=',$extension_name],['status','=',1]];
+        $second_house_extension =  model('second_house_extension')->field($field)->where($where)->find();
+        return $second_house_extension;
     }
 
 

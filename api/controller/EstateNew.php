@@ -74,5 +74,24 @@ class EstateNew extends Controller
         return $estate_house;
     }
 
+    /**
+     * 小区均价
+     * @param mixed
+     * @return array|mixed
+     * @author: al
+     */
+    public function averagePrice(){
+        return $this->success_o(getEstatePrice());
+    }
+    public function estateList(){
+        $area= input('param.area/d',39);
+        $price      = input('param.price',0);
+        $sort       = input('param.sort/d');//排序 3人气倒叙 4 人气正序
+        $keyword       = input('param.keyword');//搜索字段
+        $limit       = input('param.limit');//搜索条数
+        $search = $this->estate_service->estate_list($area,$price,$sort,$keyword,$limit);
+        return json($search);
+    }
+
 
 }

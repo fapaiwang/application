@@ -183,122 +183,6 @@ class SecondHouse extends Controller
 //        return $this->success_o($lists);
         return $this->success_o($info);
     }
-    
-    /**
-     * @description 搜索条件
-     * @return array
-     * @auther xiaobin
-     */
-    public function search() {
-        $estate_id     = input('param.estate_id/d',0);//小区id
-        $param['area'] = input('param.area/d', $this->cityInfo['id']);
-        $param['rading']     = 0;
-        $param['tags']       = input('param.tags/d',0);
-        $param['qipai']      = input('param.qipai',0);
-        $param['room']       = input('param.room',0);//户型
-//        $param['types']       = input('param.types',0);//户型
-//        $param['jieduan']       = input('param.jieduan',0);//户型
-        $param['fcstatus']       = input('param.fcstatus',0);//状态
-//        $param['type']       = input('param.type',0);//物业类型
-        $param['renovation'] = input('param.renovation',0);//装修情况
-        $param['metro']      = input('param.metro/d',0);//地铁线
-        $param['metro_station'] = input('param.metro_station/d',0);//地铁站点
-        $param['sort']          = input('param.sort/d',0);//排序
-        $param['is_free']          = input('param.is_free/d',0);//自由购
-        $param['orientations']  = input('param.orientations/d',0);//朝向
-        $param['user_type']  = input('param.user_type/d',0);//1个人房源  2中介房源
-        $param['area'] == 0 && $param['area'] = $this->cityInfo['id'];
-        $param['search_type']   = input('param.search_type/d',1);//查询方式 1按区域查询 2按地铁查询
-        $data['s.status']    = 1;
-        
-        $keyword = input('param.keyword');//搜索小区名称/房屋名称
-        //显示街道时
-        if ($param['area']  > 57){
-            $param['street'] =$param['area'];
-        }
-        $zprice1 =0;
-        $param['zprice1']=$_GET['zprice1'] ??"";
-        $param['zprice2']=$_GET['zprice2'] ?? "";
-        $param['zmianji1']=$_GET['zmianji1'] ?? "";
-        $param['zmianji2']=$_GET['zmianji2'] ?? "";
-        if(!empty($_GET['zprice1'])){
-            $zprice1=$_GET['zprice1'];
-        }
-        if(!empty($_GET['zprice2'])){
-            $zprice2=$_GET['zprice2'];
-        }
-        $zmianji1 =0;
-        if(!empty($_GET['zmianji1'])){
-            $zmianji1=$_GET['zmianji1'];
-        }
-        if(!empty($_GET['zmianji2'])){
-            $zmianji2=$_GET['zmianji2'];
-        }
-        if($estate_id) {
-            $data['s.estate_id'] = $estate_id;
-        }
-//        if(!empty($param['type'])){
-//            $data['s.house_type'] = $param['type'];
-//        }
-        if(!empty($param['user_type'])){
-            $data['s.user_type'] = $param['user_type'];
-        }
-        if(!empty($param['orientations'])){
-            $data['s.orientations'] = $param['orientations'];
-        }
-        if($param['renovation']){
-            $data['s.renovation'] = $param['renovation'];
-        }
-        if($keyword){
-            $data[] = ['s.title','like','%'.$keyword.'%'];
-        }
-        
-        if ($param['search_type'] == 2) {
-            if (!empty($param['metro'])){
-                $data['m.metro_id'] = $param['metro'];
-            } else {
-                $data[] = ['s.city','in',$this->getCityChild()];
-            }
-            if (!empty($param['metro_station'])) {
-                $data['m.station_id'] = $param['metro_station'];
-            }
-        } else {
-            if (!empty($param['area'])) {
-                $data[] = ['s.city','in',$this->getCityChild($param['area'])];
-            }
-        }
-       
-//        if (!empty($param['types'])) {
-//            $data['s.types'] = $param['types'];
-//        }
-//        if (!empty($param['jieduan'])) {
-//            $data['s.jieduan'] = $param['jieduan'];
-//        }
-        if (!empty($param['fcstatus'])) {
-            $data['s.fcstatus'] = $param['fcstatus'];
-        }
-
-        if (!empty($param['tags'])) {
-            $data[] = ['','exp',\think\Db::raw("find_in_set({$param['tags']},s.tags)")];
-        }
-        $data[] = ['s.timeout','gt',time()];
-        //是否是自由购
-        if(!empty($param['is_free'])){
-            $data['s.is_free'] = $param['is_free'];
-        }
-        if(!empty($_GET['zprice2'])){
-            $data[] = ['s.qipai','between',[$zprice1,$zprice2]];
-        }
-        if(!empty($_GET['rec_position'])){
-            $data[] = ['rec_position','eq',1];
-        }
-        if(!empty($_GET['zmianji2'])){
-            $data[] = ['s.acreage','between',[$zmianji1,$zmianji2]];
-        }
-        $data = array_filter($data);
-        return $data;
-    }
-    
 
     /**
      * @description 获取指定城市id下的所有区域
@@ -624,6 +508,21 @@ class SecondHouse extends Controller
         $res[1]["img"]=$this->Index_Server->get_home_banner(21);
         return $this->success_o($res);
     }
+
+    /**
+     * 特色房源详情
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function characteristicHouseInfo(){
+        $extension_name = input('param.name');
+        if (empty($extension_name)){
+            return $this->error_o("名称不能为空");
+        }
+        $second_house_extension = $this->Second_Server->characteristic_detail($extension_name);
+        return $this->success_o($second_house_extension);
+    }
     /**
      * 获取当前房源的小区拍卖总数
      * @param mixed
@@ -631,8 +530,8 @@ class SecondHouse extends Controller
      * @author: al
      */
     public function second_estate_num(){
-        $second_house_id = input('get.second_house_id');
-        $estate_name = input('get.estate_name');
+        $second_house_id = input('param.second_house_id');
+        $estate_name = input('param.estate_name');
         if (empty($second_house_id)){
             return $this->error_o("房源id不能为空");
         }

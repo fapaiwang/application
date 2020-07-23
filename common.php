@@ -1341,3 +1341,43 @@ function fa_option_type($id){
     }
     return $result[$id];
 }
+/**
+ * @return bool
+ * 获取指定城市id下的所有区域
+ */
+function getCityChild($city_id = 0){
+    $city_id = $city_id ? $city_id : $this->cityInfo['id'];
+    if($city_id) {
+        $city_ids = cache('city_all_child_'.$city_id);
+        if(!$city_ids){
+            $city_ids = model('city')->get_child_ids($city_id,true);
+            cache('city_all_child_'.$city_id,$city_ids,7200);
+        }
+        return $city_ids;
+    }
+    return false;
+}
+
+/**
+ * 获取区域下的商圈
+ * @param $area_id
+ * @param mixed
+ * @return array
+ * @author: al
+ */
+function getRadingByAreaId($area_id){
+    $city        = getCity();
+    $city_cate   = getCity('cate');
+    $rading      = [];
+    $city_id     = 39;
+    if(array_key_exists($area_id,$city_cate)) {
+        $pid = $city_cate[$area_id]['pid'];
+        if($pid == $city_id)//如果 父级id==城市id  说明当前选择的是区域   否则当前选择的是商圈
+        {
+            $rading = isset($city[$pid]['_child'][$area_id]['_child']) ? $city[$pid]['_child'][$area_id]['_child'] : [];
+        }else{
+            $rading = isset($city[$city_id]['_child'][$pid]['_child']) ? $city[$city_id]['_child'][$pid]['_child'] : [];
+        }
+    }
+    return $rading;
+}

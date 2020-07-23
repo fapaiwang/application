@@ -463,6 +463,7 @@ class Second extends HomeBase{
         $parameter = input('param.a');
         $estate_id     = input('param.estate_id/d',0);//小区id
         $param = $secondSer->decompose($parameter,$this->cityInfo['id']);
+//        dd($param);
         $time_frame  = $param['time_frame'];//查询时间
         $mod_type  = input('param.mod',0);//传值
         $data['s.status']    = 1;
