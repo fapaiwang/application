@@ -209,6 +209,7 @@ class Second extends UserBase
             $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
             $info['orientations'] = model('linkmenu')->where(['id'=>$info['orientations']])->value("name");
             $info['toilet'] = model('linkmenu')->where(['id'=>$info['toilet']])->value("name");
+            $info['types'] = model('linkmenu')->where(['id'=>$info['types']])->value("name");
             if (!empty($info['qipai']) && $info['acreage']){
                 $info['junjia']=sprintf("%.2f",intval($info['qipai'])/intval($info['acreage'])*10000);
             }

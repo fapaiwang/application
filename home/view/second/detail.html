@@ -347,7 +347,7 @@
                 {if condition="$login_user.model eq 4"}
                 <li><span>查封情况：</span>{$info.sequestration|default="不详"}</li>
                 {else /}
-                <li><span>查封情况：</span><span style="color: #CF2924"> *** </span></li>
+                <li><span>查封情况：</span><span style="color: #cf2924"> *** </span></li>
                 {/if}
             </ul>
         </div>
@@ -355,8 +355,8 @@
             <p>欠费及瑕疵</p>
             <div class="fangpai-detail-fangyuan-qianfei">
                 {if condition="!empty($userInfo)"}
-                <li><span>欠费：</span>{$info.qianfei}</li>
-                <li><span>瑕疵：</span>{$info.xiaci}</li>
+                <li><span>欠费：</span>{if condition="$info.qianfei_status eq 1"}有{else /}无{/if}</li>
+                <li><span>瑕疵：</span>{if condition="$info.xiaci_status eq 1"}有{else /}无{/if}</li>
                 {else \}
                 <p style="width: 480px">注册登录可看<span class="is_register">立即注册</span> <span class="is_login">登录</span> </p>
                 {/if}

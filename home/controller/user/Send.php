@@ -28,12 +28,14 @@ class Send extends UserBase
             $house_array = array();
             $house_array['elevator']         = $data['elevator'];
             $house_array['xiaci']            = $data['xiaci'];
+            $house_array['xiaci_status']     = $data['xiaci_status'];
             $house_array['qianfei']          = $data['qianfei'];
+            $house_array['qianfei_status']   = $data['qianfei_status'];
             $house_array['enforcement']      = $data['enforcement'];
             $house_array['land_purpose']     = $data['land_purpose'];
             $house_array['land_certificate'] = $data['land_certificate'];
             $house_array['property_no']      = $data['property_no'];
-            $house_array['house_purpse']     = $data['house_purpse'];
+            //$house_array['house_purpse']     = $data['house_purpse'];
             $house_array['management']       = $data['management'];
             $house_array['lease']            = $data['lease'];
             $house_array['sequestration']    = $data['sequestration'];
@@ -76,13 +78,35 @@ class Send extends UserBase
             }elseif($data['heating_mode']==4){
                 $heating_mode = '不详';
             }
-            $basic_info = array($data['house_property'],$data['years'],$toilet,$decoration,$heating_mode,
+            $nature = '';
+            if($data['nature']==1){
+                $nature = '商品房';
+            }elseif($data['nature']==2){
+                $nature = '公房';
+            }elseif($data['nature']==3){
+                $nature = '央产房';
+            }elseif($data['nature']==4){
+                $nature = '军产房';
+            }elseif($data['nature']==5){
+                $nature = '一类经适房';
+            }elseif($data['nature']==6){
+                $nature = '二类经适房（回迁）';
+            }elseif($data['nature']==7){
+                $nature = '央产经适房';
+            }elseif($data['nature']==8){
+                $nature = '平房私产';
+            }elseif($data['nature']==9){
+                $nature = '平房使用权';
+            }elseif($data['nature']==10){
+                $nature = '商办';
+            }
+            $basic_info = array($nature,$data['years'],$toilet,$decoration,$heating_mode,
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'].$data['shangchao'],$data['traffic']
             );
             $house_array['basic_info'] = implode('|',$basic_info);
             unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);unset($data['years']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
-            unset($data['property_no']);unset($data['house_purpse']);unset($data['management']);unset($data['lease']);
+            unset($data['property_no']);unset($data['management']);unset($data['lease']);unset($data['xiaci_status']);unset($data['qianfei_status']);
             unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
             unset($data['toilet']);unset($data['acreage']);unset($data['price']);unset($data['ckprice']);unset($data['floor']);
             unset($data['total_floor']);unset($data['orientations']);unset($data['elevator_status']);unset($data['developer']);

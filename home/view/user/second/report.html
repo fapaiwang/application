@@ -189,7 +189,11 @@
             </tr>
             <tr>
                 <td width="30%" colspan="2"><div class="layui-table-cell">欠费情况</div></td>
-                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.qianfei}</div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">
+                    {if $info.qianfei_status eq 0}无
+                    {elseif $info.qianfei_status eq 1}有
+                    {/if}
+                </div></td>
             </tr>
             <tr>
                 <td width="30%" colspan="2"><div class="layui-table-cell">瑕疵说明</div></td>
@@ -218,7 +222,7 @@
                 <td width="12%" colspan="2"><div class="layui-table-cell">房屋名称</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">{$info.title}</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">规划用途</div></td>
-                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.house_purpse}</div></tr>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$info.types}</div></tr>
             <tr>
                 <td width="12%" colspan="2"><div class="layui-table-cell">起拍价</div></td>
                 <td width="12%" colspan="2"><div class="layui-table-cell">{$info.qipai}万元</div></td>
@@ -334,10 +338,7 @@
             </tr>
             <tr>
                 <td width="12%" colspan="2"><div class="layui-table-cell">抵押权人</div></td>
-                <td width="12%" colspan="2"><div class="layui-table-cell">
-                    {if $data.mortgagee eq 2}否
-                    {elseif $data.mortgagee eq 1}是{/if}
-                </div></td>
+                <td width="12%" colspan="2"><div class="layui-table-cell">{$data.mortgagee}</div></td>
             </tr>
             <tr>
                 <td width="12%" rowspan="2" colspan="2"><div class="layui-table-cell">房屋产权所有状况</div></td>
@@ -371,7 +372,7 @@
         <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
             <tr>
                 <td width="30%" colspan="2"><div class="layui-table-cell">房屋欠费</div></td>
-                <td width="70%" colspan="6"><div class="layui-table-cell"></div></td>
+                <td width="70%" colspan="6"><div class="layui-table-cell">{$info.qianfei}</div></td>
             </tr>
             <tr>
                 <td width="30%" colspan="2"  rowspan="4"><div class="layui-table-cell">贷款评估</div></td>
