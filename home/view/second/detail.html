@@ -236,9 +236,11 @@
                 </div>
                 <div class="fangpai-detail-header-right-begin-baoming">
                     <div class="fangpai-detail-header-right-begin-baoming-left">
-                        {empty name="$login_user.model.4"}
+                        {if condition="!empty($userInfo)"}
+                        {empty name="$userInfo.model.4"}
                          <a href="/jdbg-{$id}" style="color:red;">查看尽调报告</a>
                         {/empty}
+                        {/if}
                     </div>
                 </div>
                 <div class="fangpai-detail-fixed">
