@@ -236,8 +236,8 @@
                 </div>
                 <div class="fangpai-detail-header-right-begin-baoming">
                     <div class="fangpai-detail-header-right-begin-baoming-left">
-                        {if condition="$login_user.model eq 4"}
-                        <a target="_blank" href="/jdbg-{$id}.html" style="color:red;">查看尽调报告</a>
+                        {if $login_user.model == 4 and ($info.audit_status==1 or $info.audit_status==3 or $info.audit_status==4)}
+                        <a target="_blank" href="/jdbg-{$id}.html" style="color:#ff0000;">查看尽调报告</a>
                         {/if}
                     </div>
                 </div>
@@ -328,7 +328,7 @@
                 <li><span>产权证号：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}
                 {if condition="$login_user.model eq 4"}
-                <li><span>房屋用途：</span>{$info.house_purpse|default="不详"}</li>
+                <li><span>房屋用途：</span>{$info.xsname}</li>
                 {else /}
                 <li><span>房屋用途：</span><span style="color: #CF2924"> *** </span></li>
                 {/if}

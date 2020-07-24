@@ -770,22 +770,63 @@
     </div>
     </div>
     </div>
+
     <input type="hidden" name="back_url" value="{$back_url}" />
     <input type="hidden" id="qipai" value="{$info['qipai']}" />
     <input type="hidden" name="developer" value="{$developer}" />
     <div class="layui-form-item" >
         <label class="layui-form-label">&nbsp;</label>
         <input type="hidden" name="id" id="id" value="{$id}">
+        <input type="hidden" id="audit_notes" value="{$info.audit_notes}">
         <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
-
+        {if $info.audit_status==1 }
+        <span class="layui-btn btn-submit w200 layui-bg-red" onclick="audit_status(2)">驳回</span>
+        <span class="layui-btn btn-submit w200 layui-bg-blue" onclick="audit_status(3)">合格</span>
+        <span class="layui-btn btn-submit w200 layui-bg-orange" onclick="audit_status(4)">不合格</span>
+        {elseif $info.audit_status==3}
+        <span class="layui-btn btn-submit w200 layui-bg-orange" onclick="audit_status(4)">不合格</span>
+        {elseif $info.audit_status==4}
+        <span class="layui-btn btn-submit w200 layui-bg-blue" onclick="audit_status(3)">合格</span>
+        {/if}
     </div>
 </form>
 <div style="padding-top: 100px"></div>
-
 <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="__JS__/option.js"></script>
 <script>
+    function audit_status(e){
+        var id = $("#id").val();
+        var audit_notes = $("#audit_notes").val();
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({
+                formType: 2,
+                value: audit_notes,
+                title: '审核备注',
+                maxlength: 250,
+                area: ['400px', '230px'] //自定义文本域宽高
+            }, function(value, index, elem){
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "/second_house/audit_status",
+                    data: {"id":id,"audit_status":e,"audit_notes":value},
+                    success:function (result) {
+                        if(result){
+                            window.location.reload();
+                        }else{
+                            alert('操作失败');
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+
+
+        });
+    }
+
     layui.use(['form'], function () {
         var form = layui.form;
         form.on('select(elevator_status)', function (data) {

@@ -28,7 +28,7 @@ class Second extends UserBase
 
         $where = $this->search();
 
-        $field = "id,title,estate_name,img,room,living_room,price,acreage,status,update_time,top_time,timeout";
+        $field = "id,title,estate_name,img,room,living_room,price,acreage,status,update_time,top_time,timeout,audit_status";
 
         $lists = model('second_house')->where($where)->field($field)->order(['top_time'=>'desc','id'=>'desc'])->paginate(15,false,['query'=>$this->queryData]);
 
@@ -156,7 +156,6 @@ class Second extends UserBase
         $this->assign('position_lists',$position_lists);
         $this->assign('position_cate_id',$house_position_cate_id);
         $this->assign('data',$data);
-
         return $this->fetch();
     }
     /**
@@ -212,6 +211,9 @@ class Second extends UserBase
                 return $this->fetch('public/404');
             }
             $info = model('second_house')->find($id);
+            if($info['audit_status']==0 or $info['audit_status']==2){
+                return $this->fetch('public/404');
+            }
             $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
             $info['orientations'] = model('linkmenu')->where(['id'=>$info['orientations']])->value("name");
             $info['toilet'] = model('linkmenu')->where(['id'=>$info['toilet']])->value("name");
@@ -222,13 +224,13 @@ class Second extends UserBase
             $this->assign('info',$info);
             $this->assign('data',$data);
             $this->assign('estate',$estate);
-            $system_name = 'DESKTOP-R6JHGA8\23980';
+            $system_name = 'DESKTOP-R6JHGA8\239801';
             $system_name = MD5($system_name);
-            //dd($system_name);
             $this->assign('system_name',$system_name);
             return $this->fetch();
         }else{
             return $this->fetch('public/404');
         }
     }
+
 }

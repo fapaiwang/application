@@ -776,14 +776,12 @@
     <div class="layui-form-item" >
         <label class="layui-form-label">&nbsp;</label>
         <input type="hidden" name="id" id="id" value="{$info.id}">
-        {if condition='$edit_number lt 3'}
-        <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+        {if ($info.audit_status==0 or $info.audit_status==2) and $edit_number<3 }
+            <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
         {/if}
-
     </div>
 </form>
-<div style="padding-top: 100px"></div>
-
+<div style="padding-top:50px;padding-bottom:50px;padding-left:50px;width:800px">{$info.audit_notes}</div>
 <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="__JS__/option.js"></script>

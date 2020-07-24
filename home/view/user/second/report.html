@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {extend name='user/public/layout' /}
 {block name='content'}
+<meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta name="360-site-verification" content="13ebc55a743ed85f4ec6a1d47337f154">
@@ -20,14 +21,15 @@
     //    var service = locator.ConnectServer(".");
     //    var system=new Enumerator (service.ExecQuery("SELECT * FROM Win32_ComputerSystem")).item();
     //    var UserName = $.md5(system.UserName);
-    //    if(UserName!='{$system_name}'){
-    //        window.location.href='';
-    //    }
+    //    if(UserName=='{$system_name}'){
+     //       //$("#div").show();
+     //   }
     //}
 </script>
+<body oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false">
 
-<body oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false" >
 <div style="padding-left:300px;padding-right:300px;padding-top:50px;padding-bottom:50px;">
+    {if $info.audit_status==1 }<p style="text-align:right;color:red;">审核中</p>{/if}
     <div class="layui-form layui-border-box layui-table-view">
         <table class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
             <tr>

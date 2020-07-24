@@ -70,7 +70,8 @@
 
                 <col width="10%">
 
-                <col width="10%">
+                <col width="5%">
+                <col width="5%">
 
                 <col width="15%">
 
@@ -118,6 +119,9 @@
 
                     <div class="layui-table-cell"><span>状态</span></div>
 
+                </th>
+                <th>
+                    <div class="layui-table-cell"><span>审核状态</span></div>
                 </th>
 
                 <th>
@@ -218,6 +222,18 @@
 
                         {/if}
 
+                    </div>
+
+                </td>
+                <td class="kaifazhe-switch">
+                    <div class="layui-table-cell">
+                        {if $val.audit_status==1 }<span style="color:#ff0000;">待审</span>
+                        {elseif $val.audit_status==2 /}<span style="color:#ff0000;">驳回</span>
+                        {elseif $val.audit_status==3 /}<span style="color:#ff0000;">合格</span>
+                        {elseif $val.audit_status==4 /}<span style="color:#ff0000;">不合格</span>
+                        {else /}
+                        未提交
+                        {/if}
                     </div>
 
                 </td>

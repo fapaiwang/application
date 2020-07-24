@@ -218,9 +218,14 @@
                 <col width="4%">
 
                 <col width="5%">
-              <col width="4%">
-              <col width="4%">
-<col width="12%">
+
+                <col width="4%">
+
+                <col width="4%">
+
+                <col width="4%">
+
+                <col width="12%">
             </colgroup>
 
             <thead>
@@ -302,9 +307,15 @@
                 </th>
                 <th style="text-align:center;">
 
+                    <div class="layui-table-cell"><span>尽调审核状态</span></div>
+
+                </th>
+                <th style="text-align:center;">
+
                     <div class="layui-table-cell"><span>审核状态</span></div>
 
                 </th>
+
                 <!--  <th style="text-align:center;">
 
                     <div class="layui-table-cell"><span>开拍时间</span></div>
@@ -448,7 +459,17 @@
                     </div>
 
                 </td>
-
+                <td>
+                    <div class="layui-table-cell">
+                        {if $val.audit_status==1 }<span style="color:#ff0000;">待审</span>
+                        {elseif $val.audit_status==2 /}<span style="color:#ff0000;">驳回</span>
+                        {elseif $val.audit_status==3 /}<span style="color:#ff0000;">合格</span>
+                        {elseif $val.audit_status==4 /}<span style="color:#ff0000;">不合格</span>
+                        {else /}
+                        未提交
+                        {/if}
+                    </div>
+                </td>
                 <td class="kaifazhe-switch">
 
                     <div class="layui-table-cell">
@@ -458,6 +479,7 @@
                     </div>
 
                 </td>
+
                      <!-- <td>
 
                     <div class="layui-table-cell">

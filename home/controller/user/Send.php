@@ -115,11 +115,14 @@ class Send extends UserBase
             $log_arr['house_id'] = $house_id;
             $log_arr['type'] = 2;
             $log_arr['create_time'] = time();
+            //修改状态为待审核
+            $house_array['audit_status'] = 1;
             \think\Db::startTrans();
             try{
                 $a = model('second_house')->where(['id'=>$house_id,'broker_id'=>$broker_id])->update($house_array);
                 $b = model('second_house_data')->where(['house_id'=>$house_id])->update($data);
                 $c = model('operatio_log')->insert($log_arr);
+                //记录剩余操作次数
                 if($a&&$b&&$c){
                     $code = 1;
                     $msg = '编辑房源信息成功';

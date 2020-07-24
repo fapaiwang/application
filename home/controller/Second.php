@@ -75,7 +75,6 @@ class Second extends HomeBase{
         $this->setSeo($result['setSeo'],'','');
         return $this->fetch();
     }
-
     public function detail(){
         $second_house_id = input('param.id/d',0);
         if($second_house_id){

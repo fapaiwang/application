@@ -2204,4 +2204,19 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         $this->assign('pages',$pages);
         return $this->fetch();
     }
+    /**
+    *  尽调报告审核
+     */
+    public function audit_status(){
+        $id = input('post.id');
+        $data['audit_status'] = input('post.audit_status');
+        $data['audit_notes'] = input('post.audit_notes');
+        $code = model('second_house')->where(array('id'=>$id))->update($data);
+        if($code)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
