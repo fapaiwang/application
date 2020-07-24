@@ -125,7 +125,7 @@ class Send extends UserBase
                     $msg = '编辑房源信息成功';
                     \think\Db::commit();
                 }else{
-                    $code = 1;
+                    $code = 0;
                     $msg = '编辑房源信息失败';
                     \think\Db::rollback();
                 }

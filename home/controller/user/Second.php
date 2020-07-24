@@ -70,6 +70,10 @@ class Second extends UserBase
 
     public function edit()
     {
+        $userInfo = $this->userInfo;
+        if($userInfo['model']!=4){
+            return $this->fetch('public/404');
+        }
         $ToolsServer= new ToolsServer();
         $id  = input('param.id/d',0);
         if(!$id)
@@ -144,7 +148,6 @@ class Second extends UserBase
         $where['operator'] = $broker_id;
         $where['house_id'] = $id;
         $where['type'] = 2;
-
         $edit_number = model('operatio_log')->where($where)->count();
         $this->assign('edit_number',$edit_number);
         $this->assign('developer',$estate['data']['developer']);
@@ -198,12 +201,15 @@ class Second extends UserBase
      *  尽调报告
      */
     function report(){
+        $userInfo = $this->userInfo;
+        if($userInfo['model']!=4){
+            return $this->fetch('public/404');
+        }
         $id = input('param.id/d',0);
         if($id){
             $data = model('second_house_data')->where(['house_id'=>$id])->find();
             if(empty($data)){
-                model('second_house_data')->insert(array('house_id'=>$id,'update_time'=>time()));
-                $data = model('second_house_data')->where(['house_id'=>$id])->find();
+                return $this->fetch('public/404');
             }
             $info = model('second_house')->find($id);
             $estate = model('estate')->where(['id'=>$info['estate_id']])->field("years,data")->find();
