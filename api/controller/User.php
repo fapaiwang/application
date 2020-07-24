@@ -70,9 +70,18 @@ class User extends Controller
         return $this->success_o($info);
     }
     public function getMac(){
+        return  $mip=file_get_contents("http://city.ip138.com/city0.asp");
+        return $this->get_onlineip();
         $res = new CsService();
         $res = $res->GetMac(PHP_OS);
         return $this->success_o($res);
     }
-
+    function get_onlineip(){
+        $mip= file_get_contents("http://city.ip138.com/city0.asp");
+        if ($mip){
+            preg_match("/\[.*\]/",$mip,$sip);
+            $p= array("/\[/","/\]/");
+            return preg_replace($p,"",$sip[0]);
+        }
+    }
 }

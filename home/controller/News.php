@@ -41,7 +41,7 @@ class News extends HomeBase
         if ($keyword != "") {
             $where[] = ['title','like','%' . $keyword . '%'];
         }
-        $order = "ordid asc,id desc";
+        $order = "ordid asc,create_time desc,id desc";
         if ($hits != "" && $hits == 'hot') {
             $order = "hits desc";
         }

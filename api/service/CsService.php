@@ -4,11 +4,14 @@ namespace app\api\service;
 
 
 class CsService{
+
+
+
     var $result   = array();
     var $macAddrs = array(); //所有mac地址
     var $macAddr;            //第一个mac地址
 
-    function GetMac($OS){
+function GetMac($OS){
         switch ( strtolower($OS) ){
             case "unix": break;
             case "solaris": break;
