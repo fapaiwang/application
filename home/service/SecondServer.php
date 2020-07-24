@@ -512,26 +512,16 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
             }elseif($v['letter']=='x'){
                 $param['keyword'] = $v['keyword'];
             }elseif($v['letter']=='y'){
-                $this->given_decompose($v['keyword']);
+                if ($v['keyword'] == 1){
+                    $param['rec_position'] = 1;//
+                }elseif ($v['keyword'] == 2 ){
+                    $param['marketprice'] ='3,4';
+                }elseif ($v['keyword'] == 3){
+                    $param['is_school'] = 1;
+                }
             }
         }
         return $param;
-    }
-    protected function given_decompose($num,$k){
-        switch ($num) {
-            case 1://重点房源
-                return $param['rec_position'] = 1;
-                break;
-            case 2://六折房源
-                return $param['marketprice'] =$k;
-                break;
-            case 3://学区房
-                return $param['is_school'] = 1;
-                break;
-
-        }
-
-
     }
     /**
      *    搜索参数转换为json串
