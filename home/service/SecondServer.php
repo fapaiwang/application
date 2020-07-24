@@ -513,10 +513,10 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
                 $param['keyword'] = $v['keyword'];
             }elseif($v['letter']=='y'){
                 if ($v['keyword'] == 1){
-                    $param['rec_position'] = 1;//
+                    $param['rec_position'] = 1;//重点推荐
                 }elseif ($v['keyword'] == 2 ){
-                    $param['marketprice'] ='3,4';
-                }elseif ($v['keyword'] == 3){
+                    $param['marketprice'] ='3,4';//六折房源
+                }elseif ($v['keyword'] == 3){//学校
                     $param['is_school'] = 1;
                 }
             }

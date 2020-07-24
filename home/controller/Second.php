@@ -627,6 +627,15 @@ class Second extends HomeBase{
         if(!empty($_GET['rec_position'])){
             $data[] = ['rec_position','eq',1];
         }
+        if(!empty($param['rec_position'])){
+            $data[] = ['rec_position','eq',1];
+        }
+        if(!empty($param['marketprice'])){
+            $data[] = ['marketprice','in',$param['marketprice']];
+        }
+        if(!empty($param['is_school'])){
+            $data[] = ['rec_position','eq',$param['is_school']];
+        }
         $search = $param;
         $setSeo = $secondSer->seo_data($seo_title,$title_area,$param['type']);
 
