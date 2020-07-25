@@ -30,11 +30,11 @@ class Second extends ApiBase
 
         $return['code'] = 0;
 
-        $page           = input('get.page/d',1);
+        $page           = input('param.page/d',1);
 
         $where   = $this->search();
 
-        $sort    = input('get.sort/d',0);
+        $sort    = input('param.sort/d',0);
 
         $field   = "id,title,city,estate_name,img,room,living_room,price,tags,address,acreage,renovation";
 

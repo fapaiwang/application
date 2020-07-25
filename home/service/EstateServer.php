@@ -163,5 +163,8 @@ class EstateServer
         }
         return $order;
     }
-
+    public function estateDealHouse($estate_id){
+        $jilu1 =  model('transaction_record')->where('estate_id',$estate_id)->cache("transaction_record_".$estate_id,84000)->select();
+        return $jilu1;
+    }
 }
