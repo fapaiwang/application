@@ -94,10 +94,11 @@ class EstateNew extends Controller
     }
     public function dealHouse(){
         $estate_id = input("param.estate_id");
+        $limit = input("param.limit");
         if (empty($estate_id)){
             return $this->error_o("小区id不能为空");
         }
-        $info =$this->estate_service->estateDealHouse($estate_id);
+        $info =$this->estate_service->estateDealHouse($estate_id,$limit);
         return $this->success_o($info);
     }
 
