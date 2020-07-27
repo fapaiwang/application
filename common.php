@@ -1300,6 +1300,9 @@ function login_user(){
 function loginUser($user_id){
     $cache = "user_info_".$user_id;
     $infos = cache($cache);
+    if (!$infos){
+        return "";
+    }
     $infos = \org\Crypt::decrypt($infos);
     return $infos;
 }

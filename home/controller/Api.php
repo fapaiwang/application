@@ -423,10 +423,17 @@ class Api
      * 关注楼盘
      */
     public function follow(){
-        $house_id = input('post.house_id/d',0);
-        $model    = input('post.model');
+        $house_id = input('param.house_id/d',0);
+        $model    = input('param.model');
+        $user_id    = input('param.user_id');
         $userInfo = $this->getUserInfo();
         $return['code'] = 0;
+        if (empty($userInfo)){
+            if (empty($user_id)){
+                return $return['msg']  = '用户id不能为空';
+            }
+            $userInfo = loginUser($user_id);
+        }
         if(!$userInfo) {
             $return['msg'] = '请登录后再关注';
         }elseif(!$house_id){
