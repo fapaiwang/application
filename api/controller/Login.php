@@ -203,12 +203,13 @@ class Login extends ApiBase
 
                 $data['id']  = model('user')->id;
                 $data['img']      = getAvatar($data['id'],90,90);
+                $user_info = $data;
                 $info = \org\Crypt::encrypt(json_encode($data));
                 cache("user_info_".$data['id'],$info,2592000);
                 cookie('userInfo',$info);
 //todo 清除token
 //                session('__token__',null);//清除token
-               return $this->success_o("恭喜您！注册成功！");
+               return $this->success_o($user_info,"恭喜您！注册成功！");
             }else{
                 return $this->error_o("注册失败");
             }
