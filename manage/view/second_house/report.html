@@ -798,6 +798,7 @@
     function audit_status(e){
         var id = $("#id").val();
         var audit_notes = $("#audit_notes").val();
+        audit_notes = audit_notes+' ';
         layui.use('layer', function(){
             var layer = layui.layer;
             layer.prompt({
