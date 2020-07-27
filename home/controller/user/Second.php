@@ -184,13 +184,16 @@ class Second extends UserBase
     {
         $status  = input('get.status');
         $keyword = input('get.keyword');
+        $audit_status = input('get.audit_status');
         $where   = [];
         $where['broker_id'] = $this->userInfo['id'];
         is_numeric($status) && $where['status'] = $status;
         $keyword && $where[] = ['title','like','%'.$keyword.'%'];
+        is_numeric($audit_status) && $where['audit_status'] = $audit_status;
         $data = [
             'status' => $status,
-            'keyword'=> $keyword
+            'keyword'=> $keyword,
+            'audit_status'=> $audit_status
         ];
         $this->queryData = $data;
         $this->assign('search',$data);

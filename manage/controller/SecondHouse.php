@@ -74,7 +74,7 @@ class SecondHouse extends ManageBase
 
         $user = input('get.user');
 
-
+        $audit_status = input('get.audit_status');
 
         $rec_position = input('get.rec_position');
 
@@ -86,7 +86,7 @@ class SecondHouse extends ManageBase
         is_numeric($fcstatus) && $where['fcstatus'] = $fcstatus;
         is_numeric($rec_position) && $where['rec_position'] = $rec_position;
         is_numeric($user) && $where['broker_id'] = $user;
-
+        is_numeric($audit_status) && $where['audit_status'] = $audit_status;
 
         $keyword && $where[] = ['title','like','%'.$keyword.'%'];
 
@@ -97,7 +97,8 @@ class SecondHouse extends ManageBase
             'types'=> $types,
             'fcstatus'=> $fcstatus,
             'rec_position'=> $rec_position,
-            'jieduan'=> $jieduan
+            'jieduan'=> $jieduan,
+            'audit_status'=> $audit_status
         ];
 
         $this->queryData = $data;
