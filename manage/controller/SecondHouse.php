@@ -1995,6 +1995,10 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if(empty($data['bidding_rules'])){
             $data['bidding_rules'] = '至少一人报名且出价不低于变卖价，方可成交。';
         }
+        $operatio_log_where['house_id'] = $id;
+        $operatio_log_where['type'] = 2;
+        $edit_number = model('operatio_log')->where($operatio_log_where)->count();
+        $this->assign('edit_number',$edit_number);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);

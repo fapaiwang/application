@@ -780,7 +780,9 @@
         <input type="hidden" id="audit_notes" value="{$info.audit_notes}">
         <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
         {if $info.audit_status==1 }
-        <span class="layui-btn btn-submit w200 layui-bg-red" onclick="audit_status(2)">驳回</span>
+            {if $edit_number<3}
+                 <span class="layui-btn btn-submit w200 layui-bg-red" onclick="audit_status(2)">驳回</span>
+            {/if}
         <span class="layui-btn btn-submit w200 layui-bg-blue" onclick="audit_status(3)">合格</span>
         <span class="layui-btn btn-submit w200 layui-bg-orange" onclick="audit_status(4)">不合格</span>
         {elseif $info.audit_status==3}
