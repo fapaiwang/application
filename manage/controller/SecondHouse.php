@@ -2090,6 +2090,8 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                 $nature = '平房使用权';
             }elseif($data['nature']==10){
                 $nature = '商办';
+            }elseif($data['nature']==11){
+                $nature = '限价商品房';
             }
             $basic_info = array($nature,$data['years'],$toilet,$decoration,$heating_mode,
                 $data['parking_information'],$data['developer'],$data['education'].$data['medical_care'].$data['shangchao'],$data['traffic']

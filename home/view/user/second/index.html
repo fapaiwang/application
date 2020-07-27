@@ -38,6 +38,7 @@
                         <select name="audit_status">
 
                             <option value="">-所有-</option>
+                            <option value="0" {eq name="search['audit_status']" value="0"}selected="selected"{/eq}>未提交</option>
 
                             <option value="1" {eq name="search['audit_status']" value="1"}selected="selected"{/eq}>待审核</option>
 
