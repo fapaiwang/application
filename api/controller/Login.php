@@ -246,11 +246,12 @@ class Login extends ApiBase
                 $info  = $info->toArray();
                 $info['model'] = $model;
                 $info['img'] = getAvatar($user_id,90,90);
+                $data  = $info;
                 $info = \org\Crypt::encrypt(json_encode($info));
                 cookie('userInfo',$info);
                 cache("user_info_".$user_id,$info,2592000);
                 // session('__token__',null);//清除token
-                return $this->success_o("登录成功");
+                return $this->success_o($data);
             }else{
                 return   $this->error_o("用户不存在,请先注册！");
             }
@@ -287,11 +288,12 @@ class Login extends ApiBase
                 $info  = $info->toArray();
                 $info['model'] = $model;
                 $info['img'] = getAvatar($user_id,90,90);
+                $data  = $info;
                 $info = \org\Crypt::encrypt(json_encode($info));
                 cookie('userInfo',$info);
                 cache("user_info_".$user_id,$info,2592000);
 //                session('__token__',null);//清除token
-                return $this->success_o("登录成功");
+                return $this->success_o($data);
             }else{
                 return $this->success_o("用户不存在或账号密码不正确！");
             }
