@@ -29,6 +29,29 @@
                     </div>
 
                 </div>
+                <div class="layui-inline">
+
+                    <label class="layui-form-label">审核状态</label>
+
+                    <div class="layui-input-inline" style="width:100px;">
+
+                        <select name="audit_status">
+
+                            <option value="">-所有-</option>
+
+                            <option value="1" {eq name="search['audit_status']" value="1"}selected="selected"{/eq}>待审核</option>
+
+                            <option value="2" {eq name="search['audit_status']" value="2"}selected="selected"{/eq}>驳回</option>
+
+                            <option value="3" {eq name="search['audit_status']" value="3"}selected="selected"{/eq}>合格</option>
+
+                            <option value="4" {eq name="search['audit_status']" value="4"}selected="selected"{/eq}>不合格</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
 
                 <div class="layui-inline">
 

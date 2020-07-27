@@ -74,7 +74,7 @@ class SecondHouse extends ManageBase
 
         $user = input('get.user');
 
-
+        $audit_status = input('get.audit_status');
 
         $rec_position = input('get.rec_position');
 
@@ -86,7 +86,7 @@ class SecondHouse extends ManageBase
         is_numeric($fcstatus) && $where['fcstatus'] = $fcstatus;
         is_numeric($rec_position) && $where['rec_position'] = $rec_position;
         is_numeric($user) && $where['broker_id'] = $user;
-
+        is_numeric($audit_status) && $where['audit_status'] = $audit_status;
 
         $keyword && $where[] = ['title','like','%'.$keyword.'%'];
 
@@ -97,7 +97,8 @@ class SecondHouse extends ManageBase
             'types'=> $types,
             'fcstatus'=> $fcstatus,
             'rec_position'=> $rec_position,
-            'jieduan'=> $jieduan
+            'jieduan'=> $jieduan,
+            'audit_status'=> $audit_status
         ];
 
         $this->queryData = $data;
@@ -1994,6 +1995,10 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
         if(empty($data['bidding_rules'])){
             $data['bidding_rules'] = '至少一人报名且出价不低于变卖价，方可成交。';
         }
+        $operatio_log_where['house_id'] = $id;
+        $operatio_log_where['type'] = 2;
+        $edit_number = model('operatio_log')->where($operatio_log_where)->count();
+        $this->assign('edit_number',$edit_number);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);
