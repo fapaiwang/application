@@ -155,7 +155,14 @@ class SecondHouse extends Controller
         //本小区拍卖套数
         $houseRes['estate_num']= $SecondServer->estate_second_num($id,$houseRes['estate_name']);
         //法拍专员点评/点评个数
-        $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);;
+        $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);
+        //公告处理
+        if ($houseRes["info"]){
+            $info = strip_tags($houseRes["info"]);
+            $info = mb_substr($info,0,200);
+            $info = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/", " ", strip_tags($info));
+            $houseRes["info"] = $info;
+        }
         return $this->success_o($houseRes);
     }
 
@@ -559,6 +566,18 @@ class SecondHouse extends Controller
             return $this->error_o("房源id不能为空");
         }
         $info = $this->Second_Server->second_house_user_comment($house_id,$limit,$is_rand);
+        return $this->success_o($info);
+    }
+    public function houseSingleField(){
+        $second_house_id = input('param.house_id',0);
+        $house_field = input('param.house_field');
+        if(empty($second_house_id)){
+            return $this->error_o("房源id不能为空");
+        }
+        $info = $this->Second_Server->single($second_house_id,$house_field);
+        if(empty($info)){
+            return $this->error_o("未找到当前房源");
+        }
         return $this->success_o($info);
     }
 
