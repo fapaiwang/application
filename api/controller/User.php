@@ -35,6 +35,7 @@ class User extends Controller
         if (empty($user_id)){
             return $this->error_o("用户id不能为空");
         }
+        return $this->success_o($user_id);
         if (empty(loginUser($user_id))){
             return $this->error_o("请登录后再操作");
         }
