@@ -25,8 +25,7 @@ class Users extends Controller
      * @author: al
      */
     public function followHouse(){
-        return 1111;
-        $user_id = input("param.user_id");
+        $user_id = input('param.user_id');
         if (empty($user_id)){
             return $this->error_o("用户id不能为空");
         }
@@ -63,20 +62,5 @@ class Users extends Controller
         }
         $info = $this->User_Server->followEstate($user_id);
         return $this->success_o($info);
-    }
-    public function getMac(){
-        return  $mip=file_get_contents("http://city.ip138.com/city0.asp");
-        return $this->get_onlineip();
-        $res = new CsService();
-        $res = $res->GetMac(PHP_OS);
-        return $this->success_o($res);
-    }
-    function get_onlineip(){
-        $mip= file_get_contents("http://city.ip138.com/city0.asp");
-        if ($mip){
-            preg_match("/\[.*\]/",$mip,$sip);
-            $p= array("/\[/","/\]/");
-            return preg_replace($p,"",$sip[0]);
-        }
     }
 }
