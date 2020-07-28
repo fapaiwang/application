@@ -1,25 +1,4 @@
 <?php
-
-/**
-
- * 海南俱进科技有限公司
-
- * TPHOUSE房产系统
-
- * User: junyv QQ:1074857902
-
- * Date: 2018/3/20
-
- * Time: 14:16
-
- * Sms.php
-
- * version:v1.0.0
-
- */
-
-
-
 namespace app\home\controller;
 
 
@@ -115,7 +94,7 @@ class Sms
 
             $return['data'] = $result->Message;
 
-            $return['msg']  = '验证码发送成功，请注意查收！';
+            $return['msg']  = $data;
 
         }else{
 
