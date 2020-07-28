@@ -207,7 +207,7 @@ class IndexServer
     public function article_show($cate_id,$limit){
         $cache_name = 'article_show'.$cate_id.$limit;
         $article =  model('article')
-            ->field('id,title,img,create_time')
+            ->field('id,title,img,create_time,description')
             ->where([['status','=',1],['cate_id','=',$cate_id]])
             ->order("ordid desc, create_time desc")
             ->limit($limit)
