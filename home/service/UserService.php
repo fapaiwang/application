@@ -22,7 +22,7 @@ class UserService
      * @return \think\Paginator
      * @author: al
      */
-    public function followHouse($user_id){
+    public function getFollowHouse($user_id){
         $field = "distinct(h.id),h.title,h.estate_name,h.img,h.room,h.living_room,h.toilet,h.price,h.average_price,h.tags,h.address,h.acreage,h.orientations,h.renovation";
         $lists = $this->getFollowLists('second_house',$field,$user_id);
         return $lists;

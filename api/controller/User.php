@@ -38,7 +38,7 @@ class User extends Controller
         if (empty(loginUser($user_id))){
             return $this->error_o("请登录后再操作");
         }
-        $info = $this->User_Server->followHouse($user_id);
+        $info = $this->User_Server->getFollowHouse($user_id);
         return $this->success_o($info);
     }
     /**
