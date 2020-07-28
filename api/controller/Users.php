@@ -3,20 +3,14 @@
 namespace app\api\controller;
 
 use app\api\service\CsService;
-use app\home\service\IndexServer;
-use app\home\service\SecondServer;
 use app\home\service\UserService;
-use app\server;
 use app\tools\ApiResult;
 use app\tools\RequestResult;
 use think\Controller;
-use think\Db;
 
-//……
 class Users extends Controller
 {
     use ApiResult;
-    use RequestResult;
     protected $User_Server;
 
     public function __construct(UserService $User_Server)
@@ -31,15 +25,16 @@ class Users extends Controller
      * @author: al
      */
     public function followHouse(){
+        return 1111;
         $user_id = input("param.user_id");
         if (empty($user_id)){
             return $this->error_o("用户id不能为空");
         }
-        if (empty(loginUser($user_id))){
-            return $this->error_o("请登录后再操作");
-        }
-        $info = $this->User_Server->getFollowHouse($user_id);
-        return $this->success_o($info);
+//        if (empty(loginUser($user_id))){
+//            return $this->error_o("请登录后再操作");
+//        }
+//        $info = $this->User_Server->getFollowHouse($user_id);
+//        return $this->success_o($info);
     }
     /**
      * 获取预约房源
