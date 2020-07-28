@@ -29,11 +29,11 @@ class Users extends Controller
         if (empty($user_id)){
             return $this->error_o("用户id不能为空");
         }
-//        if (empty(loginUser($user_id))){
-//            return $this->error_o("请登录后再操作");
-//        }
-//        $info = $this->User_Server->getFollowHouse($user_id);
-//        return $this->success_o($info);
+        if (empty(loginUser($user_id))){
+            return $this->error_o("请登录后再操作");
+        }
+        $info = $this->User_Server->getFollowHouse($user_id);
+        return $this->success_o($info);
     }
     /**
      * 获取预约房源
