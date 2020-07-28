@@ -798,5 +798,20 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         return $second_house_extension;
     }
 
+    /**
+     * 查询房源页单个字段
+     * @param $second_house_id
+     * @param mixed
+     * @return array|null|\PDOStatement|string|\think\Model
+     * @author: al
+     */
+    public function single($second_house_id,$field="info"){
+        $where['house_id']     = $second_house_id;
+        $obj  = model('second_house_data');
+        $info = $obj
+            ->field($field)->where($where)->find();
+        return $info;
+    }
+
 
 }
