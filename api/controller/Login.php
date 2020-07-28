@@ -296,7 +296,7 @@ class Login extends ApiBase
 //                session('__token__',null);//清除token
                 return $this->success_o($data);
             }else{
-                return $this->success_o("用户不存在或账号密码不正确！");
+                return $this->error_o("用户不存在或账号密码不正确！");
             }
         }
     }
