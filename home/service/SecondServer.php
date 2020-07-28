@@ -808,8 +808,7 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
     public function single($second_house_id,$field="info"){
         $where['house_id']     = $second_house_id;
         $obj  = model('second_house_data');
-        $info = $obj
-            ->field($field)->where($where)->find();
+        $info = $obj->field($field)->where($where)->find();
         return $info;
     }
 

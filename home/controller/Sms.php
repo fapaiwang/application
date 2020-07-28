@@ -67,7 +67,7 @@ class Sms
 
             $return['code'] = 1;
 
-            $return['data'] = '';
+            $return['data'] = $contentParam;
 
             $return['msg']  = '验证码发送成功，请注意查收！';
 
@@ -113,7 +113,7 @@ class Sms
 
             $return['code'] = 1;
 
-            $return['data'] = $result->Message;
+            $return['data'] = $data;
 
             $return['msg']  = '验证码发送成功，请注意查收！';
 
