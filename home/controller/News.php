@@ -150,4 +150,20 @@ class News extends HomeBase
             "msg" => $msg,
         ));
     }
+    /**
+    *  成交故事
+     */
+    public function  deal_story(){
+        $id  = input('get.id');
+        if(empty($id)){
+            $id = model("deal_story")->max("id");
+        }
+        $data['top'] = model("deal_story")->where(array('id'=>$id))->find();
+        if(empty($data['top'])){
+            return $this->fetch('public/404');
+        }
+        $data['list'] = model("deal_story")->order("create_time desc")->field("id,img,customer_name,community")->select();
+        $this->assign('data',$data);
+        return $this->fetch();
+    }
 }
