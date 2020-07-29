@@ -69,8 +69,8 @@ class Index extends HomeNewBase
         //问答
         $news_wd =$IndexServer->article_show(10,3);
         $this->assign('news_wd',$news_wd);
-        //攻略
-        $news_strategy =$IndexServer->article_show(9,3);
+        //百科
+        $news_strategy =$IndexServer->article_show(3,3);
         $this->assign('news_strategy',$news_strategy);
        //$info['news_strategy_list']  =$IndexServer->article_show(9,5);
 
