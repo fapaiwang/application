@@ -716,13 +716,14 @@ class Api
      */
 
     public function fydp(){
-        $data['house_id']  = input('post.house_id/d',0);
-        $data['model']     = input('post.model');
-        $data['type']      = input('post.type/d',1);
-        $data['house_name']= input('post.house_name');
-        $data['broker_id'] = input('post.broker_id/d',0);
-        $token             = input('post.__token__');
-        $userInfo          = $this->getUserInfo();
+        $data['house_id']  = input('param.house_id/d',0);
+        $data['model']     = input('param.model');
+        $data['type']      = input('param.type/d',1);
+        $data['house_name']= input('param.house_name');
+        $data['broker_id'] = input('param.broker_id/d',0);
+        $data['user_id'] = input('param.user_id');
+        $token             = input('param.__token__');
+        $userInfo          = $this->getUserInfo($data['user_id']);
         $userInfo && $data['user_id'] = $userInfo['id'];
         $data['user_name']=$userInfo['user_name'];
         $data['mobile']=$userInfo['mobile'];
@@ -1488,14 +1489,15 @@ class Api
 
      */
 
-    private function getUserInfo()
-
-    {
-
+    private function getUserInfo($user_id=""){
         $info = cookie('userInfo');
-
         $info = \org\Crypt::decrypt($info);
-
+        if (empty($userInfo)){
+            if (empty($user_id)){
+                return "";
+            }
+            $info = loginUser($user_id);
+        }
         return $info;
 
     }

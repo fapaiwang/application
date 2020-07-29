@@ -1,88 +1,36 @@
 <?php
-
-/**
-
- * 海南俱进科技有限公司
-
- * TPHOUSE房产系统
-
- * User: junyv QQ:1074857902
-
- * Date: 2018/3/20
-
- * Time: 14:16
-
- * Sms.php
-
- * version:v1.0.0
-
- */
-
-
-
 namespace app\home\controller;
-
-
-
-
 
 use think\facade\Log;
 
 class Sms
-
 {
-
     /**
-
      * @param $config
-
      * @param $mobile
-
      * @param $contentParam
-
      * @return mixed
-
      * 云信
-
      */
-
     public function yunXinSms($config,$mobile,$contentParam){
         $api = new \org\Sms();
-
         //变量模板ID
-
         $template = $config['verify'];
-
         //发送变量模板短信
         Log::write('-======短信通道-云信======='.\GuzzleHttp\json_encode($mobile));
         Log::write('-======短信通道-云信======='.\GuzzleHttp\json_encode($contentParam));
         Log::write('-======短信通道-云信======='.\GuzzleHttp\json_encode($template));
         $result = $api->send($mobile,$contentParam,$template);
-
-
-// print_r($mobile);exit();
-        if($result['stat']=='100')
-
-        {
-
+        if($result['stat']=='100'){
             $return['code'] = 1;
-
             $return['data'] = $contentParam;
-
             $return['msg']  = '验证码发送成功，请注意查收！';
-
         }else{
-
             //echo '发送失败:'.$result['stat'].'('.$result['message'].')';
-
             $return['data'] = $result;
-
             $return['msg']  = '短信发送失败';
-
         }
-
         return $return;
-
     }
 
 
@@ -129,20 +77,17 @@ class Sms
 
     }
 
-
-
     /**
-
      * @return \think\response\Json
-
      * 发送短信验证码
-
      */
-
     public function sendSms(){
-        $mobile = input('post.mobile');
-        $exists = input('post.exists/d',0);
-        $token = input('post.token');
+        $mobile = input('param.mobile');
+        $exists = input('param.exists/d',0);
+        $token = input('param.token');
+        if(empty($this->set_sms_ip($mobile))){
+            return "";
+        }
         $return['code'] = 0;
         if(session('__token__')!==$token){
             $return['msg'] = '操作失败T';
@@ -170,6 +115,28 @@ class Sms
             }
         }
         return  json($return);
+    }
+
+    /**
+     * 防盗刷短信
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
+    public function set_sms_ip($mobile){
+        $ip_01 = request()->ip();
+        $ip = $_SERVER["REMOTE_ADDR"];
+        $sms_recode =model("sms_recode")->where("ip",$ip)->count();
+        if ($sms_recode >= 5){
+            return 0;
+        }
+        $info = [
+            "model" =>$mobile,
+            "info" => json_encode($_SERVER),
+            "ip" => $ip,
+            "ip_01" => $ip_01,
+        ];
+        return model("sms_recode")->insert($info);
     }
 
     public function sendSmsGet(){

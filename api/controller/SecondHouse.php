@@ -580,5 +580,8 @@ class SecondHouse extends Controller
         }
         return $this->success_o($info);
     }
+    public function houseCommentAdd(){
+        return action('home/Api/fydp');
+    }
 
 }

@@ -9,7 +9,7 @@ class Sms extends \think\Controller
         return action('home/Sms/sendSms');
     }
     public function sendSms(){
-        return action('home/Sms/sendSmsGet');
+        return action('home/Sms/sendSms');
     }
 
 }
