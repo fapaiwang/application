@@ -716,22 +716,24 @@ class Api
      */
 
     public function fydp(){
-        $data['house_id']  = input('post.house_id/d',0);
-        $data['model']     = input('post.model');
-        $data['type']      = input('post.type/d',1);
-        $data['house_name']= input('post.house_name');
-        $data['broker_id'] = input('post.broker_id/d',0);
-        $token             = input('post.__token__');
-        $userInfo          = $this->getUserInfo();
+        $data['house_id']  = input('param.house_id/d',0);
+        $data['model']     = input('param.model');
+        $data['type']      = input('param.type/d',1);
+        $data['house_name']= input('param.house_name');
+        $data['broker_id'] = input('param.broker_id/d',0);
+        $data['user_id'] = input('param.user_id');
+        $token             = input('param.__token__');
+        $userInfo          = $this->getUserInfo($data['user_id']);
+        $return['code'] = 0;
+        if(!$userInfo) {
+           $return['msg'] = '请登录后再点评';
+           return json($return);
+        }
         $userInfo && $data['user_id'] = $userInfo['id'];
         $data['user_name']=$userInfo['user_name'];
         $data['mobile']=$userInfo['mobile'];
-        $setting        = getSettingCache('user');
-        $return['code'] = 0;
-        if(request()->isAjax()) {
-            if(!$userInfo) {
-                $return['msg'] = '请登录后再点评';
-            }
+//        if(request()->isAjax()) {
+
             $where['house_id']  = $data['house_id'];
             $where['broker_id'] = $data['broker_id'];
             $where['user_id']    = $data['user_id'] ?? 1;
@@ -748,11 +750,11 @@ class Api
                 action('home/Sms/sendNoticeSms',['data'=>$data]);
                 $return['code'] = 1;
                 $return['msg']  = '提交成功';
-            }else{
-                $return['msg']  = '保存失败';
-            }
+//            }else{
+//                $return['msg']  = '保存失败';
+//            }
         }else{
-            $return['msg']  = '提交成功';
+            $return['msg']  = '保存失败';
         }
         return json($return);
     }
@@ -1488,14 +1490,15 @@ class Api
 
      */
 
-    private function getUserInfo()
-
-    {
-
+    private function getUserInfo($user_id=""){
         $info = cookie('userInfo');
-
         $info = \org\Crypt::decrypt($info);
-
+        if (empty($info)){
+            if (empty($user_id)){
+                return "";
+            }
+            $info = loginUser($user_id);
+        }
         return $info;
 
     }
