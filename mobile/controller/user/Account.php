@@ -23,16 +23,22 @@ class Account extends UserBase
      */
     public function edit()
     {
-        $where['id'] = $this->userInfo['id'];
-        $nick_name   = input('post.nick_name');
-        $email       = input('post.email');
+        $nick_name   = input('param.nick_name');
+        $email       = input('param.email');
+        $id = $this->userInfo['id'] ?? input('param.id');
+        $where['id'] = $id;
+        $return['code']    = 0;
+        if (empty($id)){
+            $return['msg']  = '用户id不能为空';
+            return json($return);
+        }
         $data['nick_name'] = $nick_name;
         $data['email']     = $email;
-        $return['code']    = 0;
         if(model('user')->save($data,$where))
         {
             $return['code'] = 1;
             $return['msg']  = '修改成功';
+            $return['data']  = $data;
         }else{
             $return['msg']  = '请修改后再提交';
         }
