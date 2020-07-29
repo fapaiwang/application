@@ -54,13 +54,26 @@ class Index extends HomeNewBase
         $this->assign('article_show_img',$article_show_img);
         $info['article_show_list']  =$IndexServer->article_show(8,5);
         //问答
-        $news_wd =$IndexServer->article_show(10,1);
-        $this->assign('news_wd',$news_wd);
-        $info['news_wd_list']  =$IndexServer->article_show(10,5);
+        //$news_wd =$IndexServer->article_show(10,1);
+        //$this->assign('news_wd',$news_wd);
+       // $info['news_wd_list']  =$IndexServer->article_show(10,5);
         //攻略
-        $news_strategy =$IndexServer->article_show(9,1);
+        //$news_strategy =$IndexServer->article_show(9,1);
+        //$this->assign('news_strategy',$news_strategy);
+        //获取成交案例
+        $transaction_cases =$IndexServer->article_show(12,3);
+        $this->assign('transaction_cases',$transaction_cases);
+        //获取资讯
+        $real_time_info =$IndexServer->article_show(8,3);
+        $this->assign('real_time_info',$real_time_info);
+        //问答
+        $news_wd =$IndexServer->article_show(10,3);
+        $this->assign('news_wd',$news_wd);
+        //百科
+        $news_strategy =$IndexServer->article_show(3,3);
         $this->assign('news_strategy',$news_strategy);
-        $info['news_strategy_list']  =$IndexServer->article_show(9,5);
+       //$info['news_strategy_list']  =$IndexServer->article_show(9,5);
+
         $this->assign('page_t',1);
         return $this->fetch('index/index',$info);
     }

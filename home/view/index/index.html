@@ -1,6 +1,9 @@
 {extend name='public/page_list' /}
 {block name='css'}
-    <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">{/block}
+    <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
+    <link rel="stylesheet"  href="/homeStatic/css/home_baike.css">
+{/block}
+
 {block name='js'}
     <script src="/homeStatic/js/swiper.jquery.min.js"></script>
     <script src="/homeStatic/js/swiper.min.js"></script>
@@ -364,61 +367,69 @@
             <h2 class="tuijian-fangyuan-title">法拍房百科</h2>
             <div class="tuijian-fangyuan-info">了解最新法拍房资讯，掌握更多法拍房攻略</div>
         </div>
-        
 
-        <div class="fapai-baige-tab">
-            <div class="fapai-baige-tab-nav">
-                <div class="fapai-baige-tab-nav-tap active">资讯</div>
-                <div class="fapai-baige-tab-nav-tap">问答</div>
-                <div class="fapai-baige-tab-nav-tap">攻略</div>
-                <!--<div class="fapai-baige-tab-nav-tap">更多</div>-->
+        <div class="fapai-baike-tab-one">
+                <div class="baike-one active"><span class="baike-two">成交案例</span></div>
+                <div class="baike-one"><span class="baike-two">法拍资讯</span></div>
+                <div class="baike-one"><span class="baike-two">法拍问答</span></div>
+                <div class="baike-one"><span class="baike-two">法拍百科</span></div>
+        </div>
+
+
+        <div class="fapai-baike-tab-two">
+            <div class="fapai-baike-list-tag fapai-baike-list-tag-active">
+                {volist name='transaction_cases' id='vo'}
+                <a href="{:url('News/detail',['id'=>$vo['id']])}">
+                    <div class="fapai-baike-list">
+                        <img src="{$vo.img}" alt="" class="img">
+                        <div class="title-one"><p class="wenzi">{$vo.title}</p><span class="spanclass"></span></div>
+                        <div class="title-two">{$vo.description}</div>
+                        <div class="title-detail">查看详情</div>
+                    </div></a>
+                {/volist}
             </div>
-            <div class="fapai-baige-tab-content">
-                <div class="fapai-baige-tab-item fapai-baige-tab-item-active">
-                    <a href="{:url('News/detail',['id'=>$article_show_img.id])}"><img src="{$article_show_img.img}" src="{$article_show_img.img}" alt=""></a>
-                    <ul class="fapai-baige-tab-item-list">
-                        {volist name='article_show_list' id='vo'}
-                            <li>
-                                <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
-                                <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
-                            </li>
-                        {/volist}
-                    </ul>
-
-                    <div class="fapai-baige-tab-item-all">
-                        <a href="/news-8.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
-                    </div>
-                </div>
-                <div class="fapai-baige-tab-item ">
-                    <a href="{:url('News/detail',['id'=>$news_wd.id])}"><img src="{$news_wd.img}" src="{$news_wd.img}" alt=""></a>
-                    <ul class="fapai-baige-tab-item-list">
-                        {volist name='news_wd_list' id='vo'}
-                        <li>
-                            <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
-                            <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
-                        </li>
-                        {/volist}
-                    </ul>
-                    <div class="fapai-baige-tab-item-all">
-                        <a href="/news-10.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
-                    </div>
-                </div>
-                <div class="fapai-baige-tab-item">
-                    <a href="{:url('News/detail',['id'=>$news_strategy.id])}"><img src="{$news_strategy.img}" src="{$news_strategy.img}" alt=""></a>
-                    <ul class="fapai-baige-tab-item-list">
-                        {volist name='news_strategy_list' id='vo'}
-                        <li>
-                            <p><a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}" target="_blank" style="text-decoration: none;">{$vo.title}</a></p>
-                            <p class="fapai-baige-tab-item-list-time">{$vo['create_time']|date="Y-m-d"}</p>
-                        </li>
-                        {/volist}
-                    </ul>
-                    <div class="fapai-baige-tab-item-all">
-                        <a href="/news-9.html" rel="nofollow" target="_blank" style="text-decoration:none;">更多</a><img src="/homeStatic/img/rightAll.png" src="/homeStatic/img/rightAll.png" alt="">
-                    </div>
-                </div>
+            <div class="fapai-baike-list-tag">
+                {volist name='real_time_info' id='vo'}
+                <a href="{:url('News/detail',['id'=>$vo['id']])}">
+                <div class="fapai-baike-list">
+                    <img src="{$vo.img}" alt="" class="img">
+                    <div class="title-one"><p class="wenzi">{$vo.title}</p><span class="spanclass"></span></div>
+                    <div class="title-two">{$vo.description}</div>
+                    <div class="title-detail">查看详情</div>
+                </div></a>
+                {/volist}
+            </div>
+            <div class="fapai-baike-list-tag">
+                {volist name='news_wd' id='vo'}
+                <a href="{:url('News/detail',['id'=>$vo['id']])}">
+                    <div class="fapai-baike-list">
+                        <img src="{$vo.img}" alt="" class="img">
+                        <div class="title-one"><p class="wenzi">{$vo.title}</p><span class="spanclass"></span></div>
+                        <div class="title-two">{$vo.description}</div>
+                        <div class="title-detail">查看详情</div>
+                    </div></a>
+                {/volist}
+            </div>
+            <div class="fapai-baike-list-tag">
+                {volist name='news_strategy' id='vo'}
+                <a href="{:url('News/detail',['id'=>$vo['id']])}">
+                    <div class="fapai-baike-list">
+                        <img src="{$vo.img}" alt="" class="img">
+                        <div class="title-one"><p class="wenzi">{$vo.title}</p><span class="spanclass"></span></div>
+                        <div class="title-two">{$vo.description}</div>
+                        <div class="title-detail">查看详情</div>
+                    </div></a>
+                {/volist}
             </div>
         </div>
+
+        <a href="/news.html">
+            <div class="gengduo">
+                 <span>更多资讯内容</span>
+            </div>
+        </a>
+
+
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">企业荣誉</h2>
             <div class="tuijian-fangyuan-info">每一块荣誉牌匾无不证明房拍网辉煌经历及高要求的准则</div>
