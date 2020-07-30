@@ -94,19 +94,27 @@ class Tools extends Controller
     function test()
     {
         $url = input('get.url');//estate/20200729
+        $type = input('get.type');//1
         $data = scandir('../public/uploads/'.$url.'/');
-        foreach($data as $k=>$v){
-            $a=strpos($v, '.png');
-            $b=strpos($v, '.jpg');
-            if(!$a&&!$b){
-                unset($data[$k]);
+        if($type==1){
+            return $this->success_o($data);
+        }else{
+            foreach($data as $k=>$v){
+                $a=strpos($v, '.png');
+                $b=strpos($v, '.jpg');
+                if(!$a&&!$b){
+                    unset($data[$k]);
+                }
+            }
+            if(!empty($data)){
+                foreach($data as $k=>$v){
+                    $image = \think\Image::open('../public/uploads/'.$url.'/'.$v);
+                    $image->water('../public/shuiyin2.png',\think\Image::WATER_CENTER,100)->save('../public/uploads/'.$url.'/'.$v);
+                }
+                return $this->success_o($data);
             }
         }
-        foreach($data as $k=>$v){
-            $image = \think\Image::open('../public/uploads/'.$url.'/'.$v);
-            $image->water('../public/shuiyin2.png',\think\Image::WATER_CENTER,100)->save('../public/uploads/'.$url.'/'.$v);
-        }
-        return $this->success_o($data);
+
     }
 
 }
