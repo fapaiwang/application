@@ -316,8 +316,6 @@ class Login extends HomeBase
         }else{
             return $this->success_o("信息添加失败");
         }
-
-
     }
 
 }

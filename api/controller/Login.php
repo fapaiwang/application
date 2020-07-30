@@ -352,6 +352,21 @@ class Login extends ApiBase
 
         return $agreement;
     }
-
+    public function userInfoSave(){
+        $nick_name   = input('param.nick_name');
+        $email       = input('param.email');
+        $id = input('param.id');
+        $where['id'] = $id;
+        if (empty($id)){
+            return $this->error_o('用户id不能为空');
+        }
+        $data['nick_name'] = $nick_name;
+        $data['email']     = $email;
+        if(model('user')->save($data,$where)){
+            return $this->success_o($data);
+        }else{
+            return $this->error_o('请修改后再提交');
+        }
+    }
 
 }
