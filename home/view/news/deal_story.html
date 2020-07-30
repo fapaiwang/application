@@ -36,39 +36,29 @@
         <div class="qtgj-two">
             {volist name='data.list' id='vo'}
             <a href="/dealstory.html?id={$vo.id}">
-                <div class="qtgj-three"><img src="{$vo.img}" alt="{$vo.title}"></div>
+                <div class="qtgj-three">
+                    <img src="{$vo.img}" alt="{$vo.title}">
+                    <div class="qtgj-five">
+                        <span>A牌公寓</span>
+                        <span>客户：崔先生</span>
+                        <span>点击查看详情</span>
+                    </div>
+                </div>
             </a>
-            <<!--div class="login-page" style="display: none;">
-                <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-                <span class="close">1111111111111111111111111X</span>
-            </div>-->
             {/volist}
         </div>
         <div class="qtgj-four"><span>所有照片及评论均获得用户本人独家授权，请勿转载!</span></div>
     </div>
 </div>
 
-<!--<div class="mask">
 
-</div>
-<button>登录</button>-->
-<!--<script>
-    var loginBtn = document.querySelector('button');
-    var mask = document.querySelector(".mask");
-    var loginPage = document.querySelector(".login-page")
-    var close = document.querySelector('.close')
-
-    loginBtn.onclick = function() {
-        mask.style.display = "block";
-        loginPage.style.display = "block"
-    }
-
-    close.addEventListener('click', closePage);
-    mask.addEventListener('click', closePage)
-    function closePage() {
-        mask.style.display = "none";
-        loginPage.style.display = "none"
-    }
-</script>-->
+<script>
+    $('.qtgj-three').mouseenter(function() {
+        $(this).children($('.qtgj-five')).show()
+    })
+    $('.qtgj-three').mouseleave(function() {
+        $('.qtgj-five').hide()
+    })
+</script>
 {/block}
 
