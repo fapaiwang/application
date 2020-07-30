@@ -1,0 +1,100 @@
+{extend name="public/layout" /}
+{block name='content'}
+<!--文章列表-->
+<div class="layui-form" >
+    <form name="layui-form" class="search-form" action="{:url('deal_story/index')}" method="get" >
+        <div class="layui-elem-quote">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input name="keyword" type="text" placeholder="输入关键词搜索" class="layui-input" size="25" value="{$search.keyword}" />
+                    </div>
+                    <button class="layui-btn layui-btn-normal">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form layui-border-box layui-table-view">
+        <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="18%">
+                    <col width="18%">
+                    <col width="18%">
+                    <col width="18%">
+                    <col width="18%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="layui-table-cell"><span>ID</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>客户名称</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>法拍经理</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>小区</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>成交较</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>差价</span></div>
+                    </th>
+                    <th>
+                        <div class="layui-table-cell"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="val"}
+                <tr>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.id}
+                        </div>
+                    </td>
+                    <td data-field="title" date-edit="true">
+                        {$val.customer_name}
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.fapai_manager}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.community}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.price}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="layui-table-cell">
+                            {$val.save_money}
+                        </div>
+                    </td>
+                    <td>
+                            <a href="/deal_story/edit/id/{$val['id']}" class="layui-btn layui-btn-xs layui-bg-blue">详情</a>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+    </div>
+    <div class="kaifazhe-fix-bottom layui-clear">
+        <div id="pages" class="layui-layout-right">
+            {$pages|raw}
+        </div>
+    </div>
+</form>
+{/block}

@@ -1,7 +1,7 @@
 {extend name='public/page_list' /}
 {block name='css'}
     <link rel="stylesheet"  href="/homeStatic/css/swiper.min.css">
-    <link rel="stylesheet"  href="/homeStatic/css/home_baike.css">
+    <link rel="stylesheet"  href="/homeStatic/css/home_baike.css?v={:time()}">
 {/block}
 
 {block name='js'}
@@ -363,6 +363,30 @@
                 </li>
             </ul>
         </div>
+
+        <div class="tuijian-fangyuan">
+            <h2 class="tuijian-fangyuan-title">成交故事</h2>
+            <div class="tuijian-fangyuan-info">十五载春秋，精益求精臻于至善</div>
+        </div>
+        <div class="cjgs-div-one">
+            {volist name='deal_story' id='vo'}
+            <a href="/dealstory.html?id={$vo.id}">
+                <div class="cjgs-div-two">
+                    <div class="cjgs-div-three"><img src="{$vo.img}" class="cjgs-img"></div>
+                    <div class="cjgs-div-four">
+                        <div class="cjgs-title-wenzi">{$vo.customer_name}</div>
+                        <div class="cjgs-title-wenzi2">成交价<span>{$vo.price}</span>万&nbsp;&nbsp;&nbsp;&nbsp;低于市场价<span>{$vo.save_money}</span>万</div>
+                        <div class="cjgs-title-wenzi3">{$vo.description}</div>
+                        <div class="cjgs-title-wenzi4"><span class="span-left">购买小区: {$vo.community}</span><span class="span-right">法拍经理: {$vo.fapai_manager}</span></div>
+                    </div>
+                </div>
+            </a>
+            {/volist}
+        </div>
+        <a href="/dealstory.html"><div class="gengduo ">
+            <span>更多今日成交</span>
+        </div></a>
+
         <div class="tuijian-fangyuan">
             <h2 class="tuijian-fangyuan-title">法拍房百科</h2>
             <div class="tuijian-fangyuan-info">了解最新法拍房资讯，掌握更多法拍房攻略</div>
