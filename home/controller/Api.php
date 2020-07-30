@@ -431,6 +431,7 @@ class Api
         if (empty($userInfo)){
             if (empty($user_id)){
                 return $return['msg']  = '用户id不能为空';
+
             }
             $userInfo = loginUser($user_id);
         }
