@@ -152,6 +152,7 @@ class Login extends ApiBase
         if (empty(loginUser($id))){
             return $this->error_o("当前用户未登录");
         }
+        $info["mobile"] =mobileEncryption($info["mobile"]);
         return $this->success_o($info);
     }
 
@@ -370,7 +371,9 @@ class Login extends ApiBase
         $data['nick_name'] = $nick_name;
         $data['email']     = $email;
         if(model('user')->save($data,$where)){
-            return $this->success_o($data);
+            $info = model('user')->where($where)->field('id,model,user_name,mobile,nick_name')->find()->toArray();
+            $info['img'] = getAvatar($id,90,90);
+            return $this->success_o($info);
         }else{
             return $this->error_o('请修改后再提交');
         }

@@ -1384,3 +1384,8 @@ function getRadingByAreaId($area_id){
     }
     return $rading;
 }
+function mobileEncryption($mobile){
+    $xing = substr($mobile,3,4);  //获取手机号中间四位
+    $info = str_replace($xing,'****',$mobile);
+    return $info;
+}
