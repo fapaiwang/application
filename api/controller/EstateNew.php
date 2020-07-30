@@ -101,5 +101,4 @@ class EstateNew extends Controller
         $info =$this->estate_service->estateDealHouse($estate_id,$limit);
         return $this->success_o($info);
     }
-
 }
