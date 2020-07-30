@@ -91,6 +91,22 @@ class Tools extends Controller
         rsort($arr);
         return $this->success_o($arr);
     }
-
+    function test()
+    {
+        $url = input('get.url');//estate/20200729
+        $data = scandir('../public/uploads/'.$url.'/');
+        foreach($data as $k=>$v){
+            $a=strpos($v, '.png');
+            $b=strpos($v, '.jpg');
+            if(!$a&&!$b){
+                unset($data[$k]);
+            }
+        }
+        foreach($data as $k=>$v){
+            $image = \think\Image::open('../public/uploads/'.$url.'/'.$v);
+            $image->water('../public/shuiyin2.png',\think\Image::WATER_CENTER,100)->save('../public/uploads/'.$url.'/'.$v);
+        }
+        return $this->success_o($data);
+    }
 
 }
