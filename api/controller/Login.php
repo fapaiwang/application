@@ -352,6 +352,13 @@ class Login extends ApiBase
 
         return $agreement;
     }
+
+    /**
+     * 编辑用户信息
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
     public function userInfoSave(){
         $nick_name   = input('param.nick_name');
         $email       = input('param.email');

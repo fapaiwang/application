@@ -595,7 +595,7 @@
     var time=60,times='';
 
     function getCode(){
-
+        var token = $("input[name='__token__']").val();
         if(time<60) return false;
 
         var mobile=$("#mobile").val(),reg = /^1[3456789][0-9]{9}$/;
@@ -608,7 +608,7 @@
 
         }
 
-        $.post("{:url('Api/sendSms')}",{'mobile':mobile,'exists':1},function(data){
+        $.post("{:url('Api/sendSms')}",{'mobile':mobile,'exists':1,'token':token},function(data){
 
             if(data.code==1){
 
