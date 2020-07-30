@@ -126,7 +126,7 @@ class Sms
     public function set_sms_ip($mobile){
         $ip_01 = request()->ip();
         $ip = $_SERVER["REMOTE_ADDR"];
-        $sms_recode =model("sms_recode")->where("ip",$ip)->count();
+        $sms_recode =model("sms_recode")->where("ip_01",$ip_01)->count();
         if ($sms_recode >= 5){
             return 0;
         }
