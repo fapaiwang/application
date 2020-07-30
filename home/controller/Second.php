@@ -873,5 +873,4 @@ echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
     }
 
 
-
 }
