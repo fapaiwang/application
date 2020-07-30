@@ -433,7 +433,7 @@ class Api
                 return $return['msg']  = '用户id不能为空';
 
             }
-            $userInfo = loginUser($user_id);
+            $userInfo["id"] = $user_id;
         }
         if(!$userInfo) {
             $return['msg'] = '请登录后再关注';
