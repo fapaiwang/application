@@ -73,7 +73,9 @@ class Index extends HomeNewBase
         $news_strategy =$IndexServer->article_show(3,3);
         $this->assign('news_strategy',$news_strategy);
        //$info['news_strategy_list']  =$IndexServer->article_show(9,5);
-
+        //成交故事
+        $deal_story = model("deal_story")->order("create_time desc")->limit(4)->select();
+        $this->assign('deal_story',$deal_story);
         $this->assign('page_t',1);
         return $this->fetch('index/index',$info);
     }
