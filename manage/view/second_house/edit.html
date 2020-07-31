@@ -928,6 +928,8 @@
 
                             <input type="hidden" name="img" value="{$info.img}" id="img_txt">
 
+                            <input type="hidden" name="img_check" value="{$info.img}">
+
                             <button type="button" class="layui-btn" id="img">上传图片</button>
 
                             <div id="img_preview">
@@ -981,7 +983,7 @@
                                     {/volist}
 
                                 </ul>
-
+                                <input type="hidden" value="{$data.check_file}" name="check_file">
                             </div>
 
                         </div>
@@ -1033,15 +1035,11 @@
       </table>
     </fieldset>
 	
-	
-                              {volist name="var" id="vo"}
+	{volist name="var" id="vo"}
 <div style="float:left; margin-left:8px;">							
 <img class='layui-upload-hximg' src="{$vo}" alt="" width="100"  />{if !(empty($vo))}<div style=" color:#FF0000; font-size:12px; width:80px;" onclick="delhximg('{$vo}','{$info.id}')">删除</div>{/if}
-
  </div>  
-	                            {/volist}
-								
-							
+	{/volist}
 								
 								
 								
