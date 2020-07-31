@@ -75,11 +75,22 @@ class Index extends HomeNewBase
        //$info['news_strategy_list']  =$IndexServer->article_show(9,5);
         //成交故事
         $deal_story = model("deal_story")->order("create_time desc")->limit(4)->select();
+        foreach($deal_story as $k=>$v){
+            $deal_story[$k]['description'] = $this->substr_format($v['description'],50);
+        }
         $this->assign('deal_story',$deal_story);
         $this->assign('page_t',1);
         return $this->fetch('index/index',$info);
     }
 
+    function substr_format($text, $length, $replace='...', $encoding='UTF-8')
+    {
+        if ($text && mb_strlen($text, $encoding)>$length)
+        {
+            return mb_substr($text, 0, $length, $encoding).$replace;
+        }
+        return $text;
+    }
 
     public function extension_activities(){
         $this->assign('page_t',1);
