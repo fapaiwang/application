@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\api\service\CsService;
+use app\home\service\SecondServer;
 use app\home\service\UserService;
 use app\tools\ApiResult;
 use app\tools\RequestResult;
@@ -12,10 +13,12 @@ class Users extends Controller
 {
     use ApiResult;
     protected $User_Server;
+    protected $Second;
 
-    public function __construct(UserService $User_Server)
+    public function __construct(UserService $User_Server,\app\home\controller\Second $Second)
     {
         $this->User_Server = $User_Server;
+        $this->Second = $Second;
     }
 
     /**
@@ -32,7 +35,8 @@ class Users extends Controller
         if (empty(loginUser($user_id))){
             return $this->error_o("请登录后再操作");
         }
-        $info = $this->User_Server->getFollowHouse($user_id);
+        $user_ids = $this->User_Server->getFollowHouseId($user_id);
+        $info = $this->Second->getLists("","",$user_ids);
         return $this->success_o($info);
     }
     /**

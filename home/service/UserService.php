@@ -27,6 +27,11 @@ class UserService
         $lists = $this->getFollowLists('second_house',$field,$user_id);
         return $lists;
     }
+    public function getFollowHouseId($user_id){
+        $obj = model('follow');
+        $ids = $obj->where("user_id",$user_id)->column('house_id');
+        return $ids;
+    }
 
     /**
      * 关注的小区

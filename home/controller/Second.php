@@ -21,7 +21,10 @@ class Second extends HomeBase{
      * @throws \think\exception\DbException
      */
     public function index(){
-        $result = $this->getLists();
+        $parameter = input('param.a');
+        $estate_id     = input('param.estate_id/d',0);//小区id
+        $ids  = input('param.ids');//房源批量id(,)
+        $result = $this->getLists($parameter,$estate_id,$ids);
         $lists  = $result['lists'];
         $IndexServer= new IndexServer();
         $SecondServer= new SecondServer();
@@ -290,10 +293,10 @@ class Second extends HomeBase{
      * @return array
      * 获取列表
      */
-    public function getLists(){
+    public function getLists($parameter="",$estate_id="",$ids=[]){
         $SecondServer = new SecondServer();
         $time    = time();
-        $where_data   = $this->search();
+        $where_data   = $this->search($parameter,$estate_id,$ids);
         $where = $where_data['data'];
         $index_url = $where_data['index_url_new'];
         $param = $where_data['param'];
@@ -460,15 +463,15 @@ class Second extends HomeBase{
      * @return array
      * 搜索条件
      */
-    private function search(){
+    private function search($parameter,$estate_id,$ids){
         $secondSer = new SecondServer();
-        $parameter = input('param.a');
-        $estate_id     = input('param.estate_id/d',0);//小区id
         $param = $secondSer->decompose($parameter,$this->cityInfo['id']);
-//        dd($param);
         $time_frame  = $param['time_frame'];//查询时间
         $mod_type  = input('param.mod',0);//传值
         $data['s.status']    = 1;
+        if (!empty($ids)){
+            $data[] =["s.id","in",$ids];
+        }
         $area_id = $param['area'];
         $is_show_more = 0;
         //seo优化

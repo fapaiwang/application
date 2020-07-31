@@ -185,7 +185,10 @@ class SecondHouse extends Controller
      * @auther xiaobin
      */
     public function houseList(){
-        $info = $this->second->getLists();
+        $parameter = input('param.a');
+        $estate_id     = input('param.estate_id/d',0);//小区id
+        $ids  = input('param.ids');//房源批量id(,)
+        $info = $this->second->getLists($parameter,$estate_id,$ids);
 //        $lists  = $info['lists'];
 //        return $this->success_o($lists);
         return $this->success_o($info);

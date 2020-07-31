@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="/homeStatic/css/huizong.css">
     <style>
         .fangpai-huizong {
-            width: 750px;
-            background: {$color.background|default='#ffffff'}; /*整体背景色*/
+            width: 800px;
+            background: {$color.background|default='#fff'}; /*整体背景色*/
             padding: 30px;
         }
         .fangpai-huizong-table-content table tbody tr {
-            background: {$color.one_line|default='#ffffff'}; /*单行色*/
+            background: {$color.one_line|default='#fff'}; /*单行色*/
         }
         .fangpai-huizong-table-content table tbody tr:nth-child(even) {
-            background: {$color.double_row|default='#FFFFFF'}; /*双行色*/
+            background: {$color.double_row|default='#fff'}; /*双行色*/
         }
 
     </style>
@@ -44,7 +44,8 @@
             </div>
         </div>
         <div class="fangpai-huizong-banner">
-            <img src="{$color.pc_logo_white}" alt="" width="690px" height="800px" class="fangpai-huizong-banner-bigimg">
+            <!--<img src="/homeStatic/img/111.png" class="fangpai-huizong-banner-bigimg">-->
+            <img src="{$color.pc_logo_white}" class="fangpai-huizong-banner-bigimg">
             <img src="{$site.weixin_qrcode}" alt="" width="124px" height="124px" class="fangpai-huizong-banner-smallimg">
         </div>
         <div class="fangpai-huizong-table-header">
@@ -59,6 +60,7 @@
                 <td width="200">小区名</td>
                 <td width="72">用途</td>
                 <td width="78">面积</td>
+                <td width="88">评估价</td>
                 <td width="88">起拍价</td>
                 <td width="80">保证金</td>
                 <td width="90">结束日期</td>
@@ -74,6 +76,7 @@
                             <td>{$re.name}</td>
                             <td>{$re.type}</td>
                             <td>{$re.mianji}</td>
+                            <td>{$re.pgprice}</td>
                             <td>{$re.price}</td>
                             <td>{$re.bjprice}</td>
                             <td>{$re.end_time}</td>
@@ -84,6 +87,7 @@
                             <td>{$re.name}</td>
                             <td>{$re.type}</td>
                             <td>{$re.mianji}</td>
+                            <td>{$re.pgprice}</td>
                             <td>{$re.price}</td>
                             <td>{$re.bjprice}</td>
                             <td>{$re.end_time}</td>
