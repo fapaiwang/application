@@ -10,6 +10,7 @@ use app\manage\service\Synchronization;
 use think\Config;
 use think\Db;
 use think\facade\Log;
+use app\common\service\ImageServer;
 
 
 class SecondHouse extends ManageBase
@@ -142,6 +143,7 @@ $this->assign('fpy',$fpy);
 
         $datas = model('second_house')->where(['id'=>$id])->find();
         $str=$datas['hximg'];
+
         // print_r($str);
         $var=explode(",",$str);
 // print_r($var);
@@ -154,6 +156,7 @@ $this->assign('fpy',$fpy);
 
         $this->assign('position_cate_id',$house_position_cate_id);
 
+        $data['check_file'] = json_encode($data['file']);
         $this->assign('data',$data);
 
     }
@@ -169,6 +172,22 @@ $this->assign('fpy',$fpy);
 
     {
         $data = input('post.');
+        //给图片打水印star
+        $ImageServer = new ImageServer();
+        //缩略图
+        if($data['img']!=''){
+            $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+        }
+        //房源图片
+        if(isset($data['pic'])){
+            if(!empty($data['pic'])){
+                foreach($data['pic'] as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+            }
+        }
+        //给图片打水印end
+
         //同步到法拍网
         $hr_tid =$data['bianhao'] ?? "";
         $fa_tags =$data['tags'] ?? "";
@@ -304,7 +323,7 @@ $this->assign('fpy',$fpy);
         $obj = model('second_house');
 
 
-$data['fabutimes']=strtotime($data['fabutime'] ?? "");
+         $data['fabutimes']=strtotime($data['fabutime'] ?? "");
 
 
 
@@ -425,73 +444,63 @@ $data['fabutimes']=strtotime($data['fabutime'] ?? "");
 
 
           }
-if(empty($data['fabutime'])){
-  // echo "12333";exit();
-  $data['fabutime']=date("Y-m-d h:i:s",time());
-}
-         if(!empty($data['shu'])){
-        $aaa=$data['shu']+1;
+
+        if(empty($data['fabutime'])){
+          // echo "12333";exit();
+          $data['fabutime']=date("Y-m-d h:i:s",time());
+        }
+        if(!empty($data['shu'])){
+            $aaa=$data['shu']+1;
             for ($n=0; $n<$aaa; $n++) {
                 $hximg[] = request()->file('row'.$n);
             }
-
-
             foreach ($hximg as $key => $hximgs) {
+                 $info = $hximgs->move(env('root_path'). 'public/uploads/secondhouse');
+                 if($info){
 
-                         $info = $hximgs->move(env('root_path'). 'public/uploads/secondhouse');
-                         if($info){
-
-                              $image= $info->getSaveName();
-                              $bbb[]='/uploads/secondhouse/'.$image;
-                         }
-                     }
-
-if($aaa=='1'){
-
-    $bbb=$bbb[0];
-
-}
-if($aaa=='2'){
-
-    $bbb=$bbb[0].','.$bbb[1];
-
-}
-if($aaa=='3'){
-
-    $bbb=$bbb[0].','.$bbb[1].','.$bbb[2];
-
-}
-if($aaa=='4'){
-
-    $bbb=$bbb[0].','.$bbb[1].','.$bbb[2].','.$bbb[3];
-
-}
-if($aaa=='5'){
-
-    $bbb=$bbb[0].','.$bbb[1].','.$bbb[2].','.$bbb[3].','.$bbb[4];
-
-}
-
-$data['hximg']=$bbb;
-        }
-               // print_r($bbb);
-                  // print_r(11111);
-
-
-            if (!empty($_FILES['hxsimg']['name'])) {
-
-               $hxsimg = request()->file('hxsimg');
-
-              if($hxsimg){
-                     $info = $hxsimg->move(env('root_path'). 'public/wj');
-                     if($info){
-                          $image= $info->getSaveName();
-                        $data['hxsimg']='/wj/'.$image;
-                     }
-
+                      $image= $info->getSaveName();
+                      $bbb[]='/uploads/secondhouse/'.$image;
                  }
-             }
-
+            }
+            if($aaa=='1'){
+                $bbb=$bbb[0];
+            }
+            if($aaa=='2'){
+                $bbb=$bbb[0].','.$bbb[1];
+            }
+            if($aaa=='3'){
+                $bbb=$bbb[0].','.$bbb[1].','.$bbb[2];
+            }
+            if($aaa=='4'){
+                $bbb=$bbb[0].','.$bbb[1].','.$bbb[2].','.$bbb[3];
+            }
+            if($aaa=='5'){
+                $bbb=$bbb[0].','.$bbb[1].','.$bbb[2].','.$bbb[3].','.$bbb[4];
+            }
+                $data['hximg']=$bbb;
+        }
+        //给图片打水印star
+        //户型图
+        if(isset($data['hximg'])){
+            if(!empty($data['hximg'])){
+                $water_hximg = explode(",",$data['hximg']);
+                foreach($water_hximg as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+            }
+        }
+        //给图片打水印end
+              //  dd($data['hximg']);
+        if (!empty($_FILES['hxsimg']['name'])) {
+            $hxsimg = request()->file('hxsimg');
+            if($hxsimg){
+                 $info = $hxsimg->move(env('root_path'). 'public/wj');
+                 if($info){
+                      $image= $info->getSaveName();
+                    $data['hxsimg']='/wj/'.$image;
+                 }
+            }
+        }
 
 
 
@@ -524,9 +533,10 @@ $data['hximg']=$bbb;
                 if($data['qipai']>0 && $data['acreage']>0)
 
                 {
-$data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acreage'])*10000);
+                 $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acreage'])*10000);
 
                 }
+
                 //同步管理员 //默认管理员
                 $fa_admin =2;
                 if (!empty($fpys['user_name'])) {
@@ -535,6 +545,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                     }
                     $fa_admin=Db::connect('db2')->name('admin')->where('username',$fpys['user_name'])->find();
                 }
+
                 //户型图 新添加的户型图
                 $fa_hximg ="";
                 if (!empty($data['hximg'])){
@@ -542,6 +553,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                     $fa_hximg =$ex_hximg[0];
                     $this->fa_mv_img($fa_hximg[0]);
                 }
+
                 if($obj->allowField(true)->save($data))
                 {
                     $house_id = $obj->id;
@@ -600,6 +612,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                         'is_free'=>$data['is_free']  ?? 2,//是否自由购
 
                     ];
+
                     model('show')->allowField(true)->save($arr);
 
 
@@ -670,6 +683,43 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
 
     {
         $data = input('post.');
+        //给图片打水印star
+        $ImageServer = new ImageServer();
+        //缩略图
+        if($data['img']!=''){
+            if($data['img_check']==''||$data['img_check']!=$data['img']){
+                $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+            }
+        }
+        unset($data['img_check']);
+        //房源图片
+        $check_file = array();
+        if($data['check_file']!=''){
+            $check_file = json_decode($data['check_file'],true);
+            if(!empty($check_file)){
+                foreach($check_file as $k=>$v){
+                    $check_file[$k] = $v['url'];
+                }
+            }
+        }
+        if(isset($data['pic'])){
+            if(!empty($data['pic'])){
+                $data_pic = $data['pic'];
+                if(!empty($check_file)){
+                    foreach($data_pic as $k=>$v){
+                        if(in_array($v['pic'],$check_file)){
+                            unset($data_pic[$k]);
+                        }
+                    }
+                }
+                foreach($data_pic as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+            }
+        }
+        unset($data['check_file']);
+        //给图片打水印end
+
 
         if (strpos($data['refer'],'?')){
             $data['refer'] = substr($data['refer'],0,strripos($data['refer'],"?"));
@@ -896,7 +946,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
 
 		//exit();
 
-
+        //户型图上传
         if(!empty($data['shu'])){
             $aaa=$data['shu'];
             for ($n=0; $n<$aaa; $n++) {
@@ -927,6 +977,17 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
             }
             $data['hximg']=$bbb;
         }
+        //给图片打水印star
+        //户型图
+        if(isset($data['hximg'])){
+            if(!empty($data['hximg'])){
+                $water_hximg = explode(",",$data['hximg']);
+                foreach($water_hximg as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+            }
+        }
+        //给图片打水印end
 
              if (!empty($_FILES['hxsimg']['name'])) {
 
@@ -1019,8 +1080,7 @@ $data['average_price'] =sprintf("%.2f",intval($data['qipai'])/intval($data['acre
                         $h_map = $fa_show_new['h_map'];
                     }
                 }
-
-                //同步
+               //同步
                 if($obj->allowField(true)->save($data,['id'=>$data['id']]))
                 {
                     $fa_qianmfei =$data['qianfei'] ?? "";
