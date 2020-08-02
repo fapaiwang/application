@@ -272,10 +272,10 @@ class Login extends ApiBase
         if(!$user_name) {
             return $this->error_o("请填写登录名！");
         }else{
-            $where['mobile'] = $user_name;
-            $where['password']         = passwordEncode($password);
+            $where['user_name|mobile'] = $user_name;
+            $where['password'] = passwordEncode($password);
             $where['status']           = 1;
-            $uinfo = model('user')->field('password')->where('user_name',$user_name)->find();
+            $uinfo = model('user')->field('password')->where('user_name|mobile',$user_name)->find();
             if(empty($uinfo)){
                 return $this->error_o("账号为快捷登录！");
             }
