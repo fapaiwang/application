@@ -615,97 +615,39 @@ class Api
 
      */
 
-    public function subscribe()
-
-    {
-        $data['house_id']  = input('post.house_id/d',0);
-        $data['model']     = input('post.model');
-
-        // $data['mobile']    = input('post.mobile');
-
-        $data['type']      = input('post.type/d',1);
-
-        $data['house_name']= input('post.house_name');
-
-        // $data['check_sms'] = input('post.check_sms','yes');
-
-        $data['broker_id'] = input('post.broker_id/d',0);
-
-        // $sms_code          = input('post.sms_code');//短信验证码
-
-        $token             = input('post.__token__');
-
+    public function subscribe(){
+        $data['house_id']  = input('param.house_id/d',0);
+        $data['model']     = input('param.model');
+        $data['type']      = input('param.type/d',1);
+        $data['house_name']= input('param.house_name');
+        $data['broker_id'] = input('param.broker_id/d',0);
+        $data['user_id'] = input('param.user_id/d',0);
+        $token             = input('param.__token__');
         $userInfo          = $this->getUserInfo();
-
         $userInfo && $data['user_id'] = $userInfo['id'];
         $data['user_name']=$userInfo['user_name'];
         $data['mobile']=$userInfo['mobile'];
         $setting        = getSettingCache('user');
-
         $return['code'] = 0;
-
-        if(request()->isAjax())
-
-        {
-
-
-        if(!$userInfo)
-
-        {
-
+        $subscribe = model("subscribe")->where($data)->find();
+        if ($subscribe){
+            $return['msg']  = '请勿重复预约';
+            return json($return);
+        }
+        if(!$userInfo){
             $return['msg'] = '请登录后再预约';
-
-        }
-
-            // if($setting['subscribe_sms'] == 1 && $data['check_sms'] == 'yes' && $sms_code != cache($data['mobile']))
-
-            // {
-
-            //     $return['msg'] = '短信验证码不正确！';
-
-            // }elseif($token && session('__token__')!== $token){
-
-            //     $return['msg'] = '操作失败';
-
-            // }else{
-
-
-                else if(model('subscribe')->allowField(true)->save($data))
-
-                {
-
-                    if($data['type'] == 4)
-
-                    {
-
-                        model('group')->where('house_id',$data['house_id'])->where('status',1)->setInc('sign_num');
-
-                    }
-
-                    session('__token__',null);
-
-                    action('home/Sms/sendNoticeSms',['data'=>$data]);
-
-                    $return['code'] = 1;
-
-                    $return['msg']  = '提交成功';
-
-                }else{
-
-                    $return['msg']  = '保存失败';
-
-                }
-
-            // }
-
-        }else{
-
+        } else if(model('subscribe')->allowField(true)->save($data)) {
+            if($data['type'] == 4) {
+                model('group')->where('house_id',$data['house_id'])->where('status',1)->setInc('sign_num');
+            }
+            session('__token__',null);
+            action('home/Sms/sendNoticeSms',['data'=>$data]);
+            $return['code'] = 1;
             $return['msg']  = '提交成功';
-
+        }else{
+            $return['msg']  = '保存失败';
         }
-
         return json($return);
-
     }
 
    /**

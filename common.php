@@ -1292,9 +1292,15 @@ function debx($dkm,$dkTotal,$dknl){
  * @return mixed|string
  * @author: al
  */
-function login_user(){
+function login_user($user_id = ""){
     $infos = cookie('userInfo');
     $infos = \org\Crypt::decrypt($infos);
+    if (empty($infos)){
+        if (empty($user_id)){
+            return "";
+        }
+        $infos = loginUser($user_id);
+    }
     return $infos;
  }
 function loginUser($user_id){

@@ -79,9 +79,9 @@ class UserService
      */
     public function subscribeHouse($user_id)
     {
-        $field = "h.id,h.title,h.estate_name,h.img,h.room,h.living_room,h.toilet,h.price,h.average_price,h.city,h.address,h.acreage,h.orientations,h.renovation";
-        $lists = $this->getSubscribeLists('second_house',$field,$user_id);
-        return $lists;
+        $obj = model('subscribe');
+        $ids = $obj->where("user_id",$user_id)->column('house_id');
+        return $ids;
     }
 
     private function getSubscribeLists($model,$field,$user_id){

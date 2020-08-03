@@ -50,10 +50,11 @@ class Users extends Controller
         if (empty($user_id)){
             return $this->error_o("用户id不能为空");
         }
-        if (empty(loginUser($user_id))){
+        if (empty(login_user($user_id))){
             return $this->error_o("请登录后再操作");
         }
-        $info = $this->User_Server->subscribeHouse($user_id);
+        $user_ids = $this->User_Server->subscribeHouse($user_id);
+        $info = $this->Second->getLists("","",$user_ids);
         return $this->success_o($info);
     }
     public function followEstate(){
