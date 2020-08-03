@@ -100,6 +100,7 @@ class Tools extends Controller
         $mulu = scandir('../public/uploads/'.$url.'/');
         unset($mulu[0]);unset($mulu[1]);
         $accc = array_chunk($mulu, 10);
+        dd($accc[$num]);
         foreach($accc[$num] as $k=>$v){
             $return[$v]['code'] = 1;
             $data = scandir('../public/uploads/'.$url.'/'.$v.'/');
