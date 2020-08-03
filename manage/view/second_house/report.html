@@ -48,7 +48,7 @@
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label" style="color:red;">参考价 <i class="layui-icon layui-icon-survey" style="color:red;" title="好卖的价格"></i>
+                        <label class="layui-form-label" style="color:red;">参考价 <i class="layui-icon layui-icon-survey" style="color:red;" title="参考价为真实市场价，如若参考价与市场价相同，需把市场价调高一下"></i>
                         </label>
                         <div class="layui-input-inline" style="width:80px;">
                             <input type="text" class="layui-input" lay-verify="ckprice" id="ckprice" name="ckprice"  placeholder="122"  autocomplete="off" value="{$info->getData('ckprice')}" onchange="acreage_ckprice_price()">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">房源瑕疵  <i class="layui-icon layui-icon-survey" style="color:red;" title="没有则填写无"></i>
+                    <label class="layui-form-label">房源瑕疵  <i class="layui-icon layui-icon-survey" style="color:red;" title="房源瑕疵选为有的话，需要填写瑕疵情况"></i>
                     </label>
                     <div class="layui-input-inline">
                         <select lay-filter="xiaci_status" id="xiaci_status" name="xiaci_status">
@@ -247,7 +247,7 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"  style="color:red;">腾退情况 </label>
+                <label class="layui-form-label"  style="color:red;">腾退情况 <i class="layui-icon layui-icon-survey" style="color:red;" title="如果该房有占用，房源瑕疵应选为‘有’"></i></label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" name="vacate" lay-verify="vacate" id="vacate" placeholder="" value="{$info.vacate}">
                 </div>
