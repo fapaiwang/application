@@ -99,10 +99,8 @@ class Tools extends Controller
         $num = input('get.num');
         $mulu = scandir('../public/uploads/'.$url.'/');
         unset($mulu[0]);unset($mulu[1]);
-        $accc = array_chunk($mulu, 10);
-        $accc = array(20191204,20191205);
-        //dd($accc);
-        foreach($accc as $k=>$v){
+        $accc = array_chunk($mulu, 5);
+        foreach($accc[$num] as $k=>$v){
             $return[$v]['code'] = 1;
             $data = scandir('../public/uploads/'.$url.'/'.$v.'/');
             foreach($data as $ki=>$vi){
