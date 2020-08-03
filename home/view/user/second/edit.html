@@ -782,11 +782,24 @@
         {/if}
     </div>
 </form>
-<div style="padding-top:50px;padding-bottom:50px;padding-left:50px;width:800px">{$info.audit_notes}</div>
+<input type="hidden" id="audit_status" value="{$info.audit_status}" />
+<input type="hidden" id="audit_notes" value="{$info.audit_notes2}" />
+<div style="padding-top:50px;padding-bottom:50px;padding-left:50px;width:800px;white-space: pre-line;">{$info.audit_notes}</div>
 <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="__JS__/option.js"></script>
 <script>
+    var status = $("#audit_status").val();
+    var audit_notes = $("#audit_notes").val();
+    if(status==2){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                title: '审核状态'
+                ,content: audit_notes
+            });
+        });
+    }
     layui.use(['form'], function () {
         var form = layui.form;
         form.on('select(elevator_status)', function (data) {

@@ -589,6 +589,7 @@ function getCate($model='articleCate',$field='cate')
             }
             $tree = list_to_tree($temp);//树形列表
             $cate = ['cate'=>$temp,'tree'=>$tree];
+
             cache($model,$cate,3600);
         }
     }

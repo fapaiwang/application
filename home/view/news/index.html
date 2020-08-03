@@ -25,8 +25,12 @@
             <a href="javascript:;" rel="nofollow">您的位置：</a>
 
             <a href="{:url('Index/index')}">房拍网</a> &gt;
+            {if $cate_id==0}
+            法拍百科
+           {else /}
+            <a href="javascript:void(0);" title="{:getCateName('articleCate',$cate_id)}">{:getCateName('articleCate',$cate_id)}</a>
+            {/if}
 
-            <a href="javascript:void(0);">房源列表</a>
         </div>
         <div class="sub_nav">
             <ul>
