@@ -149,6 +149,7 @@ class Second extends UserBase
         $where['house_id'] = $id;
         $where['type'] = 2;
         $edit_number = model('operatio_log')->where($where)->count();
+        $info['audit_notes2'] = str_replace("\r\n","<br>",$info['audit_notes']);
         $this->assign('edit_number',$edit_number);
         $this->assign('developer',$estate['data']['developer']);
         $this->assign('back_url',$url);
