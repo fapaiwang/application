@@ -355,6 +355,7 @@ class Second extends HomeBase{
                     $lists[$key]['city']=$city_name;
                  }
                 $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
+                $lists[$key]['fcstatus_name']=getLinkMenuName(27,$lists[$key]['jieduan']);;
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['orientations_name'] =getLinkMenuName(4,$lists[$key]['orientations']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
