@@ -9,6 +9,7 @@ use \app\common\controller\ManageBase;
 use app\manage\service\Synchronization;
 use think\Db;
 use think\facade\Log;
+use app\common\service\ImageServer;
 
 class Estate extends ManageBase
 
@@ -232,7 +233,33 @@ class Estate extends ManageBase
 
         });
 
-        parent::addDo();
+       // parent::addDo();
+        $obj = model('estate');
+        if (request()->isPost()) {
+            $data = input('post.');
+            //给图片打水印star
+            $ImageServer = new ImageServer();
+            //缩略图
+            if($data['img']!=''){
+                $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+            }
+            //房源图片
+            if(isset($data['pic'])){
+                if(!empty($data['pic'])){
+                    foreach($data['pic'] as $k=>$v){
+                        $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                    }
+                }
+            }
+            //给图片打水印end
+            if ($obj->allowField(true)->save($data)) {
+                $msg = $this->errMsg ? $this->errMsg : '添加成功';
+                $this->success($msg);
+            } else {
+                $msg = $this->errMsg ? $this->errMsg : '添加失败';
+                $this->error($msg);
+            }
+        }
 
     }
 
@@ -299,7 +326,57 @@ class Estate extends ManageBase
 
         });
 
-        parent::editDo();
+        //parent::editDo();
+        $obj = model('estate');
+        $url = null;
+        if (request()->isPost()) {
+            $data = input('post.');
+            isset($data['refer']) && $url = $data['refer'];
+            if (!isset($data['id']) || empty($data['id'])) {
+                $this->error('参数错误');
+            }
+            //给图片打水印star
+            $ImageServer = new ImageServer();
+            //缩略图
+            if($data['img']!=''){
+                if($data['img_ckeck']!=''){
+                     if($data['img']!=$data['img_ckeck']){
+                         $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+                     }
+                }
+            }
+            if(isset($data['file'])){
+                if(!empty($data['file'])){
+                    foreach($data['file'] as $k=>$v){
+                        if(isset($v['check'])){
+                             unset($data['file']);
+                        }else{
+                            $ImageServer->ImageWater('../public'.$v['url'],'../public/static/shuiyin/ppshuiyin.png',10);
+                        }
+                    }
+                }
+            }
+            if(isset($data['pic'])){
+                if(!empty($data['pic'])){
+                    foreach($data['pic'] as $k=>$v){
+                        if(isset($v['check'])){
+                            unset($data['pic'][$k]['check']);
+                        }else{
+                            $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                        }
+                    }
+                }
+            }
+            //给图片打水印end
+            //allowField 过滤非数据表字段
+            if ($obj->allowField(true)->save($data, ['id' => $data['id']]) || $this->errMsg == true) {
+                $msg = $this->errMsg ? $this->errMsg : '编辑成功';
+                $this->success($msg,$url);
+            } else {
+                $msg = $this->errMsg ? $this->errMsg : '请修改后再提交！';
+                $this->error($msg,$url);
+            }
+        }
 
     }
 
