@@ -139,7 +139,7 @@ class SecondHouse extends Controller
         $houseRes['user_info'] = $houseRes['user_info'] && $houseRes['user_info']['lxtel_zhuan'] ? $houseRes['user_info']['lxtel_zhuan'] : '';
         $houseRes['pinglun'] = model('user')->where('id',$houseRes['broker_id'])->find();//客服
         $user = login_user();
-        $houseRes['is_guanzhu'] = $house->is_guanzhu($houseRes['id'],$user['id']);
+        $houseRes['is_guanzhu'] = 0;
         $houseRes['user_id'] = $user['id'];
         $SecondServer = new SecondServer();
         //推荐房源
