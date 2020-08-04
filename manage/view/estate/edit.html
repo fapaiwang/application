@@ -199,6 +199,7 @@
 						<div class="layui-upload">
 
 							<input type="hidden" name="img" value="{$info.img}" id="img_txt">
+							<input type="hidden" name="img_ckeck" value="{$info.img}">
 
 							<button type="button" class="layui-btn" id="img">上传图片</button>
 
@@ -243,6 +244,7 @@
 										<img width="113" height="113" alt="{$vo.title}" src="{$vo.url}">
 
 										<input type="hidden" value="{$vo.url}" name="pic[{$key+100}][pic]">
+										<input type="hidden" value="1" name="pic[{$key+100}][check]">
 
 										<input type="text" class="imgtitletxt" value="{$vo.title}" name="pic[{$key+100}][alt]">
 
