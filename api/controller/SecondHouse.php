@@ -113,6 +113,7 @@ class SecondHouse extends Controller
     public function houseDetail()
     {
         $id = input('param.id',0);
+        $user_id = input('param.user_id/d',0);
         if(empty($id)){
             return $this->error_o("房源id不能为空");
         }
@@ -138,9 +139,12 @@ class SecondHouse extends Controller
         $houseRes['user_info'] = $house->user($id,$houseRes['broker_id']);
         $houseRes['user_info'] = $houseRes['user_info'] && $houseRes['user_info']['lxtel_zhuan'] ? $houseRes['user_info']['lxtel_zhuan'] : '';
         $houseRes['pinglun'] = model('user')->where('id',$houseRes['broker_id'])->find();//客服
-        $user = login_user();
+        $user = login_user($user_id);
         $houseRes['is_guanzhu'] = 0;
-        $houseRes['user_id'] = $user['id'];
+        if ($user){
+            $houseRes['is_guanzhu'] = $house->is_guanzhu($houseRes['id'],$user['id']);
+            $houseRes['user_id'] = $user['id'];
+        }
         $SecondServer = new SecondServer();
         //推荐房源
         $recommend_house = $SecondServer->get_recommend_house($houseRes['city'],$id,$houseRes['estate_id']);

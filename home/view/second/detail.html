@@ -51,7 +51,7 @@
     </div>
     <div class="fangpai-detail-header">
         <div class="fangpai-detail-header-title">
-            <h2>{$info.title}</h2>
+            <h2 class="fangpai-house-title">{$info.title}</h2>
             <div class="fangpai-detail-header-right-bianhao">
                 <div class="fangpai-detail-header-right-bianhao-yuyue look">
                     <img src="./homeStatic/img/shizhong20.png" alt="">
@@ -82,6 +82,7 @@
             <div class="fangpai-detail-header-left">
                 <div class="fangpai-detail-header-left-top">
                     <img src="{$info.img}" alt="{$info.title}" onerror="javascript:this.src='/static/images/noimg.jpg';" class="fangpai-detail-header-left-top-img">
+                    <input type="hidden" id="fangpai-house-img" value="{$info.img}">
                 </div>
                 <div class="fangpai-detail-header-left-bottom">
                     <div class="fangpai-detail-header-left-bottom-list">
