@@ -228,7 +228,7 @@
 
 						<div class="layui-upload">
 
-							<script id="uploadpic" name="uploadpic" type="text/plain"></script>
+							<div id="uploadpic" style="display: none"></div>
 
 							<button type="button" class="layui-btn" onclick="upImage();">选择图片</button>
 
@@ -570,7 +570,7 @@
 
 <input type="hidden" id="deleteUrl" value="{:url('Estate/deleteImg')}">
 
-{:hook('ueditor',['id'=>'info','upload'=>true])}
+{:hook('ueditor',['id'=>'uploadpic','upload'=>true])}
 
 <script src="__JS__/option.js"></script>
 
