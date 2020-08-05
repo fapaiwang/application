@@ -83,6 +83,14 @@ class EstateNew extends Controller
     public function averagePrice(){
         return $this->success_o(getEstatePrice());
     }
+
+    /**
+     * 5000以下 1  5000-8000元 2   8000-10000元 3   10000-12000元 4
+        12000-15000元 5    15000-20000元 6    20000-30000元 7    30000以上 8
+     * @param mixed
+     * @return \think\response\Json
+     * @author: al
+     */
     public function estateList(){
         $area= input('param.area/d',39);
         $price      = input('param.price',0);

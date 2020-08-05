@@ -875,6 +875,12 @@ echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
         }
         $this->assign('seo',$seo);
     }
+    public function houseNotice(){
+        $house_id = input("param.house_id");
+        $second_house_data = model("second_house_data")->field("info")->where('house_id',$house_id)->find();
+        $this->assign('second_house_data',$second_house_data);
+        return $this->fetch();
+    }
 
 
 }
