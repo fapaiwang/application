@@ -74,6 +74,10 @@ class News extends HomeBase
             if(!$info){
                 return $this->fetch('public/404');
             }
+            if($info['label']){
+                $info['label'] = explode(',',$info['label']);
+            }
+
             if($info['house_id']){
                 //获取楼盘信息
                $house_info = model('house')->where('id',$info['house_id'])->where('status',1)->field('id,img,title,unit,price,sale_phone,address,city')->find();

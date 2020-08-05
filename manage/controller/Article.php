@@ -54,7 +54,7 @@ class Article extends ManageBase
     }
     protected function beforeEdit(){
         $id = input('param.id/d');
-        $article = $this->mod->withTrashed()->field('id,house_id,cate_id')->where(['id'=>$id])->find();
+        $article = $this->mod->withTrashed()->field('id,house_id,cate_id,label')->where(['id'=>$id])->find();
         $spid = $this->_cate_mod->where(['id'=>$article['cate_id']])->value('spid');
         if( $spid==0 ){
             $spid = $article['cate_id'];
@@ -62,6 +62,13 @@ class Article extends ManageBase
             $spid .= $article['cate_id'];
         }
         $house_info = model('house')->getHouseInfo(['id'=>$article['house_id']]);
+        if($article['label']){
+            $label_list = explode(',',$article['label']);
+        }else{
+            $label_list = array();
+        }
+        $this->assign('label_list',$label_list);
+        $this->assign('label_num',count($label_list));
         $this->assign('house_info',$house_info);
         $this->assign('selected_ids',$spid);
     }
@@ -96,6 +103,9 @@ class Article extends ManageBase
                 }
             }
             //给图片打水印end
+            if(!empty($obj->label)){
+                $obj->label = implode(',',$obj->label);
+            }
         });
         parent::editDo();
     }
@@ -119,6 +129,9 @@ class Article extends ManageBase
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
                 }
                 //给图片打水印end
+            }
+            if(!empty($obj->label)){
+                $obj->label = implode(',',$obj->label);
             }
         });
         parent::addDo();

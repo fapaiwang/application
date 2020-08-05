@@ -137,6 +137,16 @@
                     </div>
 
                 </div>
+                <div class="f_share clearfix">
+
+                    <div class="fl">
+                        <p>关键词：
+                            {volist name="info.label" id="vo"}
+                            {$vo}&nbsp;&nbsp;&nbsp;&nbsp;
+                            {/volist}
+                        </p>
+                    </div>
+                </div>
                 <section class="news_img clearfix">
                     {volist name="bottomPic" id="pic" }
                         <a href="{$pic.setting['linkurl']}"><img src="{$pic.setting['fileurl']}" alt="{$pic.setting['alt']}"></a>
