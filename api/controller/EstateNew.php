@@ -89,7 +89,8 @@ class EstateNew extends Controller
         $sort       = input('param.sort/d');//排序 3人气倒叙 4 人气正序
         $keyword       = input('param.keyword');//搜索字段
         $limit       = input('param.limit');//搜索条数
-        $search = $this->estate_service->estate_list($area,$price,$sort,$keyword,$limit);
+        $type       = input('param.type');//类型 45  法拍房源  46  国有资产  47  涉诉房产  48  社会委托
+        $search = $this->estate_service->estate_list($area,$price,$sort,$keyword,$limit,$type);
         return json($search);
     }
     public function dealHouse(){
