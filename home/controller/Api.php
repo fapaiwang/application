@@ -623,10 +623,15 @@ class Api
         $data['broker_id'] = input('param.broker_id/d',0);
         $data['user_id'] = input('param.user_id/d',0);
         $token             = input('param.__token__');
-        $userInfo          = $this->getUserInfo();
+        $userInfo          = $this->getUserInfo($data['user_id']);
+        if (empty($userInfo)){
+            $return['msg']  = '该用户未登录';
+            return json($return);
+        }
         $userInfo && $data['user_id'] = $userInfo['id'];
         $data['user_name']=$userInfo['user_name'];
         $data['mobile']=$userInfo['mobile'];
+
         $setting        = getSettingCache('user');
         $return['code'] = 0;
         $subscribe = model("subscribe")->where($data)->find();
