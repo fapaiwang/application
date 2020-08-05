@@ -2,6 +2,8 @@
 
 namespace app\manage\controller;
 use app\common\controller\ManageBase;
+use app\common\service\ImageServer;
+
 class Article extends ManageBase
 {
 //前置操作定义
@@ -73,6 +75,27 @@ class Article extends ManageBase
                 $obj->description = addslashes($obj->description);
             }
             $obj->cate_alias = $article->_cate_mod->getCateAlias($obj->cate_id);
+            //给图片打水印star
+            $ImageServer = new ImageServer();
+            $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+            preg_match_all($pattern,$obj->info,$match);
+            if(!empty($match[1])){
+                $info = model('article')->where(['id'=>$obj->id])->value('info');
+                preg_match_all($pattern,$info,$match2);
+                if(!empty($match2[1])){
+                    foreach($match[1] as $k=>$v){
+                        foreach($match2[1] as $ki=>$vi){
+                            if($v==$vi){
+                                unset($match[1][$k]);
+                            }
+                        }
+                    }
+                }
+                foreach($match[1] as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+            }
+            //给图片打水印end
         });
         parent::editDo();
     }
@@ -86,6 +109,17 @@ class Article extends ManageBase
                 $obj->description = addslashes($obj->description);
             }
             $obj->cate_alias = $article->_cate_mod->getCateAlias($obj->cate_id);
+
+            $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+            preg_match_all($pattern,$obj->info,$match);
+            if(!empty($match[1])){
+                //给图片打水印star
+                $ImageServer = new ImageServer();
+                foreach($match[1] as $k=>$v){
+                    $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                }
+                //给图片打水印end
+            }
         });
         parent::addDo();
     }
