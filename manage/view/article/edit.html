@@ -88,7 +88,7 @@
 
 
 
-				</div>
+				</div>foreach as
 
 				<div class="layui-form-item">
 
@@ -101,7 +101,19 @@
 					</div>
 
 				</div>
-
+				<div class="layui-form-item">
+					<label class="layui-form-label">标签</label>
+					<div class="layui-input-block label_list" style="width:880px;">{foreach $label_list as $k=>$v}<span onclick="label_del({$k})" id="{$k}">{if $k>0}|{/if}&nbsp;{$v}<input type="hidden" name="label[]" value="{$v}">&nbsp;</span>{/foreach}</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label"></label>
+					<div class="layui-input-inline">
+						<input type="text" id="label_key" placeholder="标签" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						<input type="button" value="添加标签" class="layui-btn btn-submit w50 label_add">
+					</div>
+				</div>
 
 
 				<div class="layui-form-item">
@@ -233,9 +245,27 @@
 </form>
 
 {:hook('ueditor',['id'=>'info'])}
-
+<input type="hidden" id="num" value="{$label_num}">
 <script>
-
+	$(".label_add").on('click',function(){
+		var label_key = $("#label_key").val();
+		var num = $("#num").val();
+		if(label_key==''){
+			return false;
+		}
+		var label_list = $(".label_list").html();
+		if(label_list!=''){
+			label_list += '<span onclick="label_del('+num+')" id="'+num+'">|&nbsp;'+label_key+'<input type="hidden" name="label[]" value="'+label_key+'">&nbsp;<\/span>';
+		}else{
+			label_list += '<span onclick="label_del('+num+')" id="'+num+'">&nbsp;'+label_key+'<input type="hidden" name="label[]" value="'+label_key+'">&nbsp;<\/span>';
+		}
+		num++;
+		$("#num").val(num);
+		$(".label_list").html(label_list);
+	});
+	function label_del(e){
+		$("#"+e).remove();
+	}
 	var uploadUrl = "{:url('Article/ajaxUploadImg')}",deleteImgUrl = "{:url('Article/deleteImg')}";
 
 	//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
