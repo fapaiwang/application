@@ -10,6 +10,7 @@ use app\tools\Constant;
 use think\Controller;
 use think\facade\Request;
 use think\Log;
+use think\Db;
 
 class Tools extends Controller
 {
@@ -130,6 +131,41 @@ class Tools extends Controller
         $arr = $ImageServer->ImageWater('../public/1/4.jpg','../public/static/shuiyin/ppshuiyin.png',10);
         dd($arr);*/
     }
-
+    /*function sitemap_api(){
+        $arr = Db::name("sitemap")->where(['status'=>1])->limit(15000,21855)->order("id asc")->field("parm")->select();
+        foreach($arr as $k=>$v){
+            echo 'https://www.fangpaiwang.com/erf.html?a=' . $v['parm'];
+            echo '<br>';
+        }
+        die;
+        ignore_user_abort(); // 后台运行
+        set_time_limit(0); //取消脚本运行时间的超时上限
+        $arr = Db::name("sitemap")->where(['status'=>0])->limit(800)->order("id asc")->field("id,parm")->select();
+        foreach($arr as $k=>$v) {
+            $json = file_get_contents('https://www.fangpaiwang.com/api/second/houseList?a=' . $v['parm']);
+            $json = json_decode($json, true);
+            if ($json['data']['lists']['total'] > 0) {
+                Db::name("sitemap")->where(['id' => $v['id']])->update(array('status' => 1));
+            } else {
+                Db::name("sitemap")->where(['id' => $v['id']])->update(array('status' => 2));
+            }
+        }
+        echo 'ok';
+    }
+    function sitemap_api2(){
+        ignore_user_abort(); // 后台运行
+        set_time_limit(0); //取消脚本运行时间的超时上限
+        $arr = Db::name("sitemap")->where(['status'=>0])->limit(800)->order("id desc")->field("id,parm")->select();
+        foreach($arr as $k=>$v) {
+            $json = file_get_contents('https://www.fangpaiwang.com/api/second/houseList?a=' . $v['parm']);
+            $json = json_decode($json, true);
+            if ($json['data']['lists']['total'] > 0) {
+                Db::name("sitemap")->where(['id' => $v['id']])->update(array('status' => 1));
+            } else {
+                Db::name("sitemap")->where(['id' => $v['id']])->update(array('status' => 2));
+            }
+        }
+        echo 'ok';
+    }*/
 
 }
