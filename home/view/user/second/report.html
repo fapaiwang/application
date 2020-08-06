@@ -170,8 +170,8 @@
             <tr>
                 <td><div class="layui-table-cell">电梯情况</div></td>
                 <td colspan="2"><div class="layui-table-cell">
-                    {if $data.elevator_status eq 0}无
-                    {elseif $data.elevator_status eq 1}{$data.elevator}{/if}
+                    {if $info.elevator_status eq 0}无
+                    {elseif $info.elevator_status eq 1}{$info.elevator}{/if}
                 </div></td>
                 <td><div class="layui-table-cell">遮挡</div></td>
                 <td colspan="2"><div class="layui-table-cell">{if $data.occlusion eq 0}无{elseif $data.occlusion eq 1}有{/if}</div></td>
