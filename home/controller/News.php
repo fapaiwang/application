@@ -167,7 +167,19 @@ class News extends HomeBase
             return $this->fetch('public/404');
         }
         $data['list'] = model("deal_story")->order("create_time desc")->field("id,img,customer_name,community")->select();
+        $i = 0;
+        $list = array();
+        foreach($data['list'] as$k=>$v){
+            if(!isset($list[$i])) $list[$i] = array();
+                if(count($list[$i])==3){
+                    $list[$i][] = $v;
+                    $i++;
+                }else{
+                    $list[$i][] = $v;
+                }
+        }
         $this->assign('data',$data);
+        $this->assign('list',$list);
         return $this->fetch();
     }
 }

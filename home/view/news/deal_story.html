@@ -33,8 +33,9 @@
             </div>
         </div>
         <div class="qtgj-one">其它成交故事</div>
+        {volist name='list' id='vi'}
         <div class="qtgj-two">
-            {volist name='data.list' id='vo'}
+            {volist name='vi' id='vo'}
             <a href="/dealstory.html?id={$vo.id}">
                 <div class="qtgj-three">
                     <img src="{$vo.img}" alt="{$vo.title}">
@@ -47,6 +48,7 @@
             </a>
             {/volist}
         </div>
+        {/volist}
         <div class="qtgj-four"><span>所有照片及评论均获得用户本人独家授权，请勿转载!</span></div>
     </div>
 </div>
