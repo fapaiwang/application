@@ -1830,7 +1830,7 @@ $this->assign('fpy',$fpy);
     public function detail(){
         $id = input('param.id/d');
         $lists = model('operatio_log')->alias('o')->join('user u','u.id = o.operator')->where('o.house_id',$id)->where('o.type','in','3,4')
-            ->field('o.id,o.type,o.create_time,u.nick_name')->order('o.create_time desc')->paginate(30,false,['query'=>['id'=>$id]]);
+            ->field('o.id,o.type,o.set_time,u.nick_name')->order('o.set_time desc')->paginate(30,false,['query'=>['id'=>$id]]);
         $this->assign('id',$id);
         $this->assign('lists',$lists);
         $this->assign('pages',$lists->render());
@@ -2225,7 +2225,7 @@ $this->assign('fpy',$fpy);
             $user = model('user')->field('id,nick_name')->where('model',4)->select();
             $this->assign('user_info',$user);
             $this->assign('id',$id);
-            $this->assign('set_time',date('Y-m-d H:i:s'));
+            $this->assign('set_time',date('Y-m-d'));
             return $this->fetch();
         }
     }

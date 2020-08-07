@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">操作类型</label>
+            <label class="layui-form-label">操作时间</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" id="set_time" name="set_time" style="width:200px" value="{$set_time}">
             </div>
@@ -57,7 +57,7 @@
         //执行一个laydate实例
         laydate.render({
             elem: '#set_time', //指定元素
-            type: 'datetime'//时间格式
+            type: 'date'//时间格式
         });
     });
 </script>
