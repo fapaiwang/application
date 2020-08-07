@@ -65,7 +65,7 @@ class Banner extends Controller
         if (!$banner_1->isEmpty() &&  !$banner_2->isEmpty()){
             $arr[0]["img"] =$banner_1[0]['setting'];
             $arr[1]["img"] =$banner_2[0]['setting'];
-            $arr[2]["img"] =$banner_2[0]['setting'];
+            $arr[2]["img"] =$banner_2[1]['setting'];
         }
         if ($arr){
             return $this->success_o($arr);

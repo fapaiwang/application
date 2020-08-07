@@ -163,7 +163,7 @@ class SecondHouse extends Controller
         //公告处理
         if ($houseRes["info"]){
             $info = strip_tags($houseRes["info"]);
-            $info = mb_substr($info,0,200);
+            $info = mb_substr($info,0,150);
             $info = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/", " ", strip_tags($info));
             $houseRes["info"] = $info;
         }
