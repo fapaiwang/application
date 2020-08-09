@@ -363,6 +363,7 @@ class Second extends HomeBase{
                     $value['is_commission'],$value['is_school'],$value['is_metro']);
                 if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
                     $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
+                    $lists[$key]['is_app'] ="111";
                 }
 
             }
