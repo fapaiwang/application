@@ -534,7 +534,7 @@ class SecondHouse extends Controller
         if (empty($extension_name)){
             return $this->error_o("名称不能为空");
         }
-        $second_house_extension = $this->Second_Server->characteristic_detail($extension_name);
+        $second_house_extension = $this->Second_Server->characteristic_detail($extension_name,1);
         return $this->success_o($second_house_extension);
     }
     /**

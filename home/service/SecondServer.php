@@ -791,9 +791,9 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         }
         return array('data'=>$data,'seo_title'=>$seo_title,'seo_array'=>$seo_array,'zmianji1'=>$zmianji1,'zmianji2'=>$zmianji2);
     }
-    public function characteristic_detail($extension_name){
+    public function characteristic_detail($extension_name,$exhibition=""){
         $field ="info,img,seo_title,seo_keys,seo_desc";
-        $where = [['title','=',$extension_name],['status','=',1]];
+        $where = [['title','=',$extension_name],['status','=',1],['exhibition','=',1]];
         $second_house_extension =  model('second_house_extension')->field($field)->where($where)->find();
         return $second_house_extension;
     }
