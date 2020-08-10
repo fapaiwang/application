@@ -22,7 +22,7 @@
             <div class="cjgs-two">
                 <img src="{$data.top.img}" class="cjgs-three">
                 <div class="cjgs-four">
-                    <div class="cjgs-wenzi">客户:{$data.top.customer_name}&nbsp;&nbsp;&nbsp;&nbsp;购买小区:{$data.top.community}</div>
+                    <div class="cjgs-wenzi"><div class="cjgs-wenzi_left">{$data.top.customer_name}</div><div class="cjgs-wenzi_right">小区:{$data.top.community}</div></div>
                     <div class="cjgs-wenzi2">成交价<span>{$data.top.price}</span>万&nbsp;&nbsp;&nbsp;&nbsp;低于市场价<span>{$data.top.save_money}</span>万</div>
                     <div class="cjgs-wenzi3">{$data.top.description}</div>
                     <div class="cjgs-wenzi4">
@@ -41,7 +41,7 @@
                     <img src="{$vo.img}" alt="{$vo.title}">
                     <div class="qtgj-five">
                         <span class="qtgj-span-one">{$vo.community}</span>
-                        <span class="qtgj-span-one">客户：{$vo.customer_name}</span>
+                        <span class="qtgj-span-one">法拍经理：{$vo.fapai_manager}</span>
                         <span class="qtgj-span-two">点击查看详情</span>
                     </div>
                 </div>

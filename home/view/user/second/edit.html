@@ -779,6 +779,7 @@
         <input type="hidden" name="id" id="id" value="{$info.id}">
         {if ($info.audit_status==0 or $info.audit_status==2) and $edit_number<3 }
             <button type="submit" lay-submit="" class="layui-btn btn-submit w200">提交</button>
+            <!--<input type="button"  onclick="bccg()" class="layui-btn btn-submit w200 layui-bg-blue" value="保存草稿" />-->
         {/if}
     </div>
 </form>
@@ -789,6 +790,7 @@
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="__JS__/option.js"></script>
 <script>
+   
     var status = $("#audit_status").val();
     var audit_notes = $("#audit_notes").val();
     if(status==2){
