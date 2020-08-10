@@ -166,7 +166,7 @@ class News extends HomeBase
         if(empty($data['top'])){
             return $this->fetch('public/404');
         }
-        $data['list'] = model("deal_story")->order("create_time desc")->field("id,img,customer_name,community")->select();
+        $data['list'] = model("deal_story")->order("create_time desc")->field("id,img,fapai_manager,community")->select();
         $i = 0;
         $list = array();
         foreach($data['list'] as$k=>$v){
