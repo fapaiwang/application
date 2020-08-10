@@ -354,16 +354,16 @@ class Second extends HomeBase{
                  }else{
                     $lists[$key]['city']=$city_name;
                  }
-                $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);;
-                $lists[$key]['fcstatus_name']=getLinkMenuName(27,$lists[$key]['fcstatus']);;
+                $lists[$key]['jieduan_name']=getLinkMenuName(25,$lists[$key]['jieduan']);
+                $lists[$key]['fcstatus_name']=getLinkMenuName(27,$lists[$key]['fcstatus']);
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['orientations_name'] =getLinkMenuName(4,$lists[$key]['orientations']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
                 $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
                     $value['is_commission'],$value['is_school'],$value['is_metro']);
                 if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
-                    $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
-                    $lists[$key]['is_app'] ="111";
+//                    $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
+                    $lists[$key]['img'] = "";
                 }
 
             }
