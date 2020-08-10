@@ -359,8 +359,10 @@ class Second extends HomeBase{
                 $lists[$key]['types_name'] =getLinkMenuName(26,$lists[$key]['types']);
                 $lists[$key]['orientations_name'] =getLinkMenuName(4,$lists[$key]['orientations']);
                 $lists[$key]['chajia']=intval($lists[$key]['price'])-intval($lists[$key]['qipai']);
-                $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
-                    $value['is_commission'],$value['is_school'],$value['is_metro']);
+                if (empty($lists[$key]['is_free']) && ($lists[$key]['house_type'] != 48)){
+                    $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
+                        $value['is_commission'],$value['is_school'],$value['is_metro']);//标签
+                }
                 if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
 //                    $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
                     $lists[$key]['img'] = "";
