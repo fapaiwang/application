@@ -793,7 +793,7 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
     }
     public function characteristic_detail($extension_name,$exhibition=""){
         $field ="info,img,seo_title,seo_keys,seo_desc";
-        $where = [['title','=',$extension_name],['status','=',1],['exhibition','=',1]];
+        $where = [['title','=',$extension_name],['status','=',1],['exhibition','=',$exhibition]];
         $second_house_extension =  model('second_house_extension')->field($field)->where($where)->find();
         return $second_house_extension;
     }

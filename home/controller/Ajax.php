@@ -292,6 +292,10 @@ class Ajax extends \think\Controller
             $where['types'] = $types;
         }
         $return['code']  = 0;
+        if (empty($keyword)){
+              $return['msg'] = "搜索字段不能为空";
+            return json($return);
+        }
         if (!empty($keyword)) {
                 $keyword && $where[] = ['title|estate_name','like','%'.$keyword.'%'];
                 $city = $this->getCityChild($city_id);
