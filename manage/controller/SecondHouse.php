@@ -729,12 +729,12 @@ $this->assign('fpy',$fpy);
         }
         $shs = new SecondHouseService();
         //添加房源的基本信息
-        $basic_info ="";
-        $data['basic_info_details'] =$data['basic_info'] ?? "";
-        if (!empty($data['basic_info'])){
+        //$basic_info ="";
+        //$data['basic_info_details'] =$data['basic_info'] ?? "";
+        /*if (!empty($data['basic_info'])){
             $basic_info =   $shs->basic_info($data['basic_info']);
         }
-        $data['basic_info'] =$basic_info;
+        $data['basic_info'] =$basic_info;*/
 
 
 
