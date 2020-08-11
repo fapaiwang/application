@@ -8,7 +8,9 @@ use app\home\controller\Poster;
 use function GuzzleHttp\debug_resource;
 use think\console\command\make\Model;
 use think\facade\Cache;
+//use think\facade\Log;
 use think\Log;
+
 
 class server
 {
@@ -31,7 +33,7 @@ class server
             h.bmrs,h.weiguan,h.img,h.basic_info,h.oneetime,h.twoetime,h.oneprice,h.twoprice,h.elevator,h.auction_attr,h.enforcement,
             h.land_purpose,h.land_certificate,h.property_no,h.house_purpse,h.management,h.lease,h.mortgage,h.sequestration,
             h.vacate,h.is_commission,h.is_school,h.is_metro,h.xiaci,h.xiaci_status,h.qianfei,h.qianfei_status,h.lng,h.lat,h.estate_name,h.rec_position,h.fcstatus
-            ,h.fcstatus,h.is_free,h.house_type,h.cjprice,h.endtime,h.hxsimg,h.ckprice,d.parking_information parking_space,h.audit_status";
+            ,h.fcstatus,h.is_free,h.house_type,h.cjprice,h.endtime,h.hxsimg,h.ckprice,d.parking_information parking_space,h.audit_status,h.years";
         $obj  = model('second_house');
         $join = [['second_house_data d','h.id=d.house_id']];
         $info = $obj->alias('h')
@@ -158,7 +160,44 @@ class server
             ->find();
         return $user;
     }
+    /**
 
+     * @param $mobile
 
+     * @param $data
+
+     * @return mixed
+
+     * 阿里云短信
+
+     */
+
+    public function aliSms($mobile,$data,$templateCode)
+
+    {
+        Log::write('-======短信通道-aly======='.\GuzzleHttp\json_encode($mobile));
+        Log::write('-======短信通道-aly======='.\GuzzleHttp\json_encode($data));
+
+        $result       = \org\AliSms::sendSms($mobile,$data,$templateCode);
+
+        if($result->Code == 'OK')
+
+        {
+
+            $return['code'] = 1;
+
+            $return['data'] = $data;
+
+            $return['msg']  = '验证码发送成功，请注意查收！';
+
+        }else{
+
+            $return['data'] = $result;
+
+            $return['msg']  = '短信发送失败';
+
+        }
+        return $return;
+    }
 
 }

@@ -4,6 +4,7 @@ namespace app\home\controller\user;
 use app\common\controller\UserBase;
 
 use app\common\service\PublishCount;
+use think\Db;
 
 class Send extends UserBase
 {
@@ -126,6 +127,7 @@ class Send extends UserBase
                 $c = model('operatio_log')->insert($log_arr);
                 //记录剩余操作次数
                 if($a&&$b&&$c){
+                    Db::name('second_house_data_draft')->where(['houseid'=>$house_id])->delete();
                     $code = 1;
                     $msg = '编辑房源信息成功';
                     \think\Db::commit();

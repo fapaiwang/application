@@ -467,11 +467,12 @@
             <div class="layui-inline">
                 <label class="layui-form-label">竞价周期 </label>
                 <div class="layui-input-inline">
-                        <select name="bidding_cycle" id="bidding_cycle">
-                            <option value="0">--请选择--</option>
-                            <option value="1" {if condition="$data.bidding_cycle eq 1"}selected{/if}>24小时</option>
-                            <option value="2" {if condition="$data.bidding_cycle eq 2"}selected{/if}>72小时</option>
-                        </select>
+                    <select name="bidding_cycle" id="bidding_cycle" lay-filter="bidding_cycle">
+                        <option value="0">--请选择--</option>
+                        <option value="1" {if condition="$data.bidding_cycle eq 1"}selected{/if}>24小时</option>
+                        <option value="2" {if condition="$data.bidding_cycle eq 2"}selected{/if}>72小时</option>
+                        <option value="3" {if condition="$data.bidding_cycle eq 3"}selected{/if}>其他</option>
+                    </select>
                 </div>
             </div>
 
@@ -497,6 +498,13 @@
                     <input type="text" class="layui-input" name="parking_information" lay-verify="parking_information" id="parking_information" placeholder="" value="{$data.parking_information}">
                 </div>
             </div>
+
+            <div class="layui-inline bidding_cycle" {if condition="$data.bidding_cycle < 3"}style="display:none;"{/if}>
+            <label class="layui-form-label">竞价周期 </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="bidding_period" lay-verify="bidding_period" id="bidding_period" value="{$data.bidding_period}">
+            </div>
+        </div>
 
         </div>
         <div class="layui-form-item">
@@ -877,6 +885,15 @@
                 $(".mortgages").hide();
             }else if(aa==1){
                 $(".mortgages").show();
+            }
+        });
+        form.on('select(bidding_cycle)', function (data) {
+            $("#bidding_period").val('');
+            var aa = $("#bidding_cycle").val();
+            if(aa==3){
+                $(".bidding_cycle").show();
+            }else{
+                $(".bidding_cycle").hide();
             }
         });
     });
