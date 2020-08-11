@@ -735,6 +735,7 @@ $this->assign('fpy',$fpy);
             $basic_info =   $shs->basic_info($data['basic_info']);
         }
         $data['basic_info'] =$basic_info;*/
+        $data['basic_info_details'] = '';
 
 
 
