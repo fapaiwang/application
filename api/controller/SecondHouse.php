@@ -192,7 +192,8 @@ class SecondHouse extends Controller
         $parameter = input('param.a');
         $estate_id     = input('param.estate_id/d',0);//小区id
         $ids  = input('param.ids');//房源批量id(,)
-        $info = $this->second->getLists($parameter,$estate_id,$ids);
+        $limit = input('param.limit');
+        $info = $this->second->getLists($parameter,$estate_id,$ids,$limit);
 //        $lists  = $info['lists'];
 //        return $this->success_o($lists);
         return $this->success_o($info);

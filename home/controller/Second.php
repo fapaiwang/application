@@ -293,7 +293,7 @@ class Second extends HomeBase{
      * @return array
      * 获取列表
      */
-    public function getLists($parameter="",$estate_id="",$ids=[]){
+    public function getLists($parameter="",$estate_id="",$ids=[],$limit=30){
         $SecondServer = new SecondServer();
         $time    = time();
         $where_data   = $this->search($parameter,$estate_id,$ids);
@@ -315,14 +315,14 @@ class Second extends HomeBase{
             //查询地铁关联表
             $field .= ',m.metro_name,m.station_name,m.distance';
             $join  = [['metro_relation m','m.house_id = s.id']];
-            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
+            $lists = $obj->join($join)->where($where)->where('m.model','second_house')->where('s.top_time','lt',$time)->field($field)->group('s.id')->order($this->getSort($sort))->paginate($limit,false,['query'=>['a'=>$index_url]]);
         }else{
             if($sort==8){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','neq',169)->field($field)->order($this->getSort($sort))->paginate($limit,false,['query'=>['a'=>$index_url]]);
             }else if($sort==7){
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->where('s.fcstatus','eq',170)->field($field)->order($this->getSort($sort))->paginate($limit,false,['query'=>['a'=>$index_url]]);
             }else{
-                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate(30,false,['query'=>['a'=>$index_url]]);
+                $lists   = $obj->where($where)->where('s.top_time','lt',$time)->field($field)->order($this->getSort($sort))->paginate($limit,false,['query'=>['a'=>$index_url]]);
             }
         }
         if($lists->currentPage() == 1){
