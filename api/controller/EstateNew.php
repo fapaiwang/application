@@ -98,7 +98,8 @@ class EstateNew extends Controller
         $keyword       = input('param.keyword');//搜索字段
         $limit       = input('param.limit');//搜索条数
         $type       = input('param.type');//类型 45  法拍房源  46  国有资产  47  涉诉房产  48  社会委托
-        $search = $this->estate_service->estate_list($area,$price,$sort,$keyword,$limit,$type);
+        $years = input('param.years',0);//房龄
+        $search = $this->estate_service->estate_list($area,$price,$sort,$keyword,$limit,$type,$years);
         return json($search);
     }
     public function dealHouse(){
@@ -110,4 +111,8 @@ class EstateNew extends Controller
         $info =$this->estate_service->estateDealHouse($estate_id,$limit);
         return $this->success_o($info);
     }
+    public function floorYears(){
+        return $this->success_o(getYears());
+    }
+
 }

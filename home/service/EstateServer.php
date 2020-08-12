@@ -81,8 +81,8 @@ class EstateServer
         }
         return $info;
     }
-    public function estate_list($area,$price,$sort,$keyword,$limit=30,$type){
-        $info = $this->search($area,$price,$sort,$type);
+    public function estate_list($area,$price,$sort,$keyword,$limit=30,$type,$years){
+        $info = $this->search($area,$price,$sort,$type,$years);
         $where = $info["data"];
         $field   = 'id,title,img,pano_url,house_type,years,address,price,complate_num';
         //统计二手房和出租房数量 where条件里需要替换estate_id为estate表每条记录的id, 不能用字符(会被转成 0)所以用9999代替替换
@@ -99,10 +99,11 @@ class EstateServer
         return ["search"=>$info["search"],"lists"=>$lists];
 
     }
-    public function search($area,$price,$sort,$type){
+    public function search($area,$price,$sort,$type,$years){
         $param['area']       = $area;
         $param['price']      = $price;
         $param['sort']       = $sort;//排序
+        $param['years']       = $years;//楼龄
         if ($type){
             $data['house_type']       = $type;//物业类型
         }
@@ -130,6 +131,10 @@ class EstateServer
         }
         if(!empty($param['type'])){
             $data['house_type'] = $param['type'];
+        }
+        if(!empty($param['years']))
+        {
+            $data[] = getYears($param['years']);
         }
         $arr["search"] =$param;
         $arr["data"] =$data;
