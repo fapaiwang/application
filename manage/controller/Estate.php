@@ -11,6 +11,7 @@ use think\Db;
 use think\facade\Log;
 use app\common\service\ImageServer;
 
+
 class Estate extends ManageBase
 
 {
@@ -69,12 +70,11 @@ class Estate extends ManageBase
         ];
 
     }
-
+    /**
+    *  添加小区
+     */
     public function beforeAdd()
-
     {
-
-
 
         $position_lists = \app\manage\service\Position::lists($this->model);
 
