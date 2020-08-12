@@ -2060,7 +2060,7 @@ $this->assign('fpy',$fpy);
         $operatio_log_where['type'] = 2;
         $edit_number = model('operatio_log')->where($operatio_log_where)->count();
         $this->assign('edit_number',$edit_number);
-        $this->assign('developer',$estate['data']['developer']);
+        $this->assign('developer',$estate['data']['property_company']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);
         $this->assign('position_lists',$position_lists);
@@ -2233,12 +2233,52 @@ $this->assign('fpy',$fpy);
     /**
      *   成交人记录，签单人记录，签单时间
      */
+    public function operation_edit(){
+        if(request()->isPost())
+        {
+            $data = input('post.');
+            $data['create_time'] = time();
+            if($data['set_time']==''){
+                $this->error('未选择操作时间');
+            }
+            $id = $data['id'];
+            $c = model('operatio_log')->where(['id'=>$id])->update($data);
+            if($c)
+            {
+                $this->success('修改成功');
+            }else{
+                $this->error('修改失败');
+            }
+        }else{
+            $id  = input('param.id/d',0);
+            $user = model('user')->field('id,nick_name')->where('model',4)->select();
+            $this->assign('user_info',$user);
+            $this->assign('id',$id);
+            $list = model('operatio_log')->where(['id'=>$id])->find();
+            $this->assign('list',$list);
+            return $this->fetch();
+        }
+    }
+    public function operation_del(){
+        $id = input('get.id');
+        $c = model('operatio_log')->where(['id'=>$id])->delete();
+        if($c)
+        {
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+    /**
+     *   成交人记录，签单人记录，签单时间
+     */
     public function operation_list(){
         $type  = input('param.type/d');
-        $set_time  = input('param.set_time');
+        $star_time  = input('param.star_time');
+        $end_time  = input('param.end_time');
         $keyword  = input('param.keyword');
         $operator  = input('param.operator');
-        $search = array('type'=>$type,'set_time'=>$set_time,'keyword'=>$keyword);
+        $search = array('type'=>$type,'star_time'=>$star_time,'end_time'=>$end_time,'keyword'=>$keyword);
         $where = array();
         $where['u.model'] = 4;
         if($type!=''){
@@ -2246,11 +2286,11 @@ $this->assign('fpy',$fpy);
         }else{
             $where[] = array('o.type','in','3,4');
         }
-        if($set_time!=''){
-            $start_time = $set_time.' 00:00:00';
-            $end_time = date('Y-m-d H:i:s',strtotime($set_time)+3600*24);
-            $where[] = ['o.set_time','>=',$start_time];
-            $where[] = ['o.set_time','<',$end_time];
+        if($star_time!=''){
+            $where[] = ['o.set_time','>=',$star_time];
+        }
+        if($end_time!=''){
+            $where[] = ['o.set_time','<=',$end_time];
         }
         if($keyword!=''){
             $where[] = array('h.title','like','%'.$keyword.'%');
@@ -2261,7 +2301,7 @@ $this->assign('fpy',$fpy);
         $join1 = [['operatio_log o','h.id=o.house_id']];
         $join2 = [['user u','u.id=o.operator']];
         $list = model('second_house')->alias('h')->join($join1)->join($join2)
-            ->field("h.id,h.title,o.type,o.set_time,u.nick_name")->where($where)
+            ->field("o.id,h.title,o.type,o.set_time,u.nick_name,o.house_id")->where($where)
             //->fetchSql(true)->select();dd($list);
             ->paginate(20,false,['query'=>$search]);
         $pages = $list->render();
@@ -2282,6 +2322,19 @@ $this->assign('fpy',$fpy);
         $code = model('second_house')->where(array('id'=>$id))->update($data);
         if($code)
         {
+            if($data['audit_status']==2){
+                $house_info = model('second_house')->where(array('id'=>$id))->field("title,broker_id")->find();
+                $user_info = model('user')->where(array('id'=>$house_info['broker_id']))->field("user_name,mobile")->find();
+                $url = 'http://web.daiyicloud.com/asmx/smsservice.aspx?';
+                $title = '亲爱的'.$user_info['user_name'].'，你提交的'.$house_info['title'].'的尽调报告被驳回了，请您查看。';
+                $url .= "name=jinboshunchang&pwd=8A942079379EB096ED6E517DB464&content=".$title."&mobile=".$user_info['mobile']."&stime=&sign=房拍网&type=pt&extno=";
+                $con= substr( file_get_contents($url), 0, 1 );
+                if($con == '0'){
+                    //发送成功!
+                }else{
+                    //发送失败!
+                }
+            }
             return true;
         }else{
             return false;

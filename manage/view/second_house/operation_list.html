@@ -17,7 +17,11 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">时间查找</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" id="set_time" name="set_time" style="width:200px" value="{$search.set_time}">
+                        <input type="text" class="layui-input" id="star_time" name="star_time" style="width:200px" value="{$search.star_time}">
+                    </div>
+                    -
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="end_time" name="end_time" style="width:200px" value="{$search.end_time}">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -46,11 +50,12 @@
     <div class="layui-form layui-border-box layui-table-view">
         <table id="tree-table" class="layui-table list-table" cellspacing="0" cellpadding="0" border="0" data-uri="{:url('SecondHouse/ajaxEdit')}">
             <colgroup>
+                <col width="10%">
                 <col width="20%">
                 <col width="20%">
                 <col width="20%">
                 <col width="20%">
-                <col width="20%">
+                <col width="10%">
             </colgroup>
             <thead>
             <tr>
@@ -72,16 +77,25 @@
                 <th style="text-align:center;">
                     <div class="layui-table-cell"><span>操作时间</span></div>
                 </th>
+                <th style="text-align:center;">
+                    <div class="layui-table-cell"><span>操作</span></div>
+                </th>
             </tr>
             </thead>
             <tbody>
             {volist name="list" id="val"}
             <tr>
                 <td><div class="layui-table-cell">{$val.id}</div></td>
-                <td><div class="layui-table-cell">{$val.title}</div></td>
+                <td><div class="layui-table-cell">
+                    <a href="{:url('Second/detail@www',['id'=>$val['house_id']])}" target="_blank">{$val.title}</a>
+                </div></td>
                 <td><div class="layui-table-cell">{eq name="$val.type" value="3"}成交{else/}签单{/eq}</div></td>
                 <td><div class="layui-table-cell">{$val.nick_name}</div></td>
                 <td> <div class="layui-table-cell">{$val.set_time}</div></td>
+                <td>
+                    <a data-uri="/second_house/operation_del?id={$val['id']}" data-msg="确定要删除该记录吗？" class="J_confirm layui-btn layui-btn-xs layui-btn-danger" href="javascript:;">删除</a>
+                    <a data-height="600" data-width="600" data-id="add" data-uri="/second_house/operation_edit/id/{$val['id']}" data-title="房源 - 操作 修改" class="J_showDialog layui-btn layui-btn-xs layui-btn-normal" href="javascript:;">操作</a>
+                </td>
             </tr>
             {/volist}
             </tbody>
@@ -98,8 +112,14 @@
         var laydate = layui.laydate;
         //执行一个laydate实例
         laydate.render({
-            elem: '#set_time', //指定元素
-            type: 'date'//时间格式
+            elem: '#star_time', //指定元素
+            type: 'date',//时间格式
+            min: '2018-1-1'
+        });
+        laydate.render({
+            elem: '#end_time', //指定元素
+            type: 'date',//时间格式
+            min: '2018-1-1'
         });
     });
 </script>
