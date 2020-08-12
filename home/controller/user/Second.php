@@ -71,10 +71,6 @@ class Second extends UserBase
 
     public function edit()
     {
-        /*use app\server;
-        $Server= new Server();
-        $sms_code = $Server->aliSms('18518472310',array('name'=>'孙涵','title'=>'中国尊','status'=>'驳回了'),'SMS_199202557');
-        dd($sms_code);*/
         $userInfo = $this->userInfo;
         if($userInfo['model']!=4){
             return $this->fetch('public/404');
@@ -238,7 +234,7 @@ class Second extends UserBase
             }
         }
         $this->assign('edit_number',$edit_number);
-        $this->assign('developer',$estate['data']['developer']);
+        $this->assign('developer',$estate['data']['property_company']);
         $this->assign('back_url',$url);
         $this->assign('info', $info);
         $this->assign('position_lists',$position_lists);
