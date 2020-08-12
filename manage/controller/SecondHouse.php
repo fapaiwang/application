@@ -2278,7 +2278,7 @@ $this->assign('fpy',$fpy);
         $end_time  = input('param.end_time');
         $keyword  = input('param.keyword');
         $operator  = input('param.operator');
-        $search = array('type'=>$type,'star_time'=>$star_time,'end_time'=>$end_time,'keyword'=>$keyword);
+        $search = array('type'=>$type,'star_time'=>$star_time,'end_time'=>$end_time,'keyword'=>$keyword,'operator'=>$operator);
         $where = array();
         $where['u.model'] = 4;
         if($type!=''){

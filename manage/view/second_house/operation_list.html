@@ -30,7 +30,7 @@
                         <select name="operator" >
                             <option value="">-所有-</option>
                             {volist name="user_info" id="val"}
-                            <option value="{$val.id}" >{$val.nick_name}</option>
+                            <option value="{$val.id}" {eq name="search['operator']" value=$val.id}selected="selected"{/eq}>{$val.nick_name}</option>
                             {/volist}
                         </select>
                     </div>
