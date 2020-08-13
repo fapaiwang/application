@@ -60,7 +60,11 @@ class Article extends Controller
         $res =$this->news_service->details($article_id);
         return $res;
     }
-
+    public function dealStory(){
+        $limit = input('param.limit');
+        $info = $this->news_service->dealStorydealStory($limit);
+        return $this->success_o($info);
+    }
 
 
 }

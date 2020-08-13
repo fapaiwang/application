@@ -812,5 +812,4 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         return $info;
     }
 
-
 }

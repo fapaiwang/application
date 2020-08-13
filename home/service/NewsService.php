@@ -180,4 +180,25 @@ class NewsService
             "msg" => $msg,
         ));
     }
+    /**
+     *  成交故事
+     * @param string $limit
+     * @param mixed
+     * @return mixed|\think\db\Query
+     * @author: al
+     */
+    public function dealStorydealStory($limit=""){
+        $cache_name = "deal_story_".$limit;
+        $info = cache($cache_name);
+        if (!$info){
+            $info = model("deal_story")->order("create_time desc");
+            if ($limit){
+                $info = $info->limit($limit)->select();
+            }else{
+                $info = $info->select();
+            }
+            cache($cache_name,$info);
+        }
+        return $info;
+    }
 }
