@@ -965,24 +965,14 @@
                             <div id="imageList">
 
                                 <ul class="list clearfix">
-                                    {if !(empty(data.file))}
                                     {volist name="data.file" id="vo"}
-
-                                    <li>
-
-                                        <img width="113" height="113" alt="{$vo.title}" src="{$vo.url}">
-
-                                        <input type="hidden" value="{$vo.url}" name="pic[{$i+100}][pic]">
-
-                                        <input type="text" class="imgtitletxt" value="{$vo.title}" name="pic[{$i+100}][alt]">
-
-                                        <div class="delbox"><span class="del">删除</span></div>
-
-                                    </li>
-
+                                        <li>
+                                            <img width="113" height="113" alt="{$vo.title}" src="{$vo.url}">
+                                            <input type="hidden" value="{$vo.url}" name="pic[{$i+100}][pic]">
+                                            <input type="text" class="imgtitletxt" value="{$vo.title}" name="pic[{$i+100}][alt]">
+                                            <div class="delbox"><span class="del">删除</span></div>
+                                        </li>
                                     {/volist}
-                                    {/if}
-
                                 </ul>
                                 <input type="hidden" value="{$data.check_file}" name="check_file">
                             </div>
