@@ -141,4 +141,13 @@
 		});
 	});
 </script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#cjtime', //指定元素
+            type: 'date'//时间格式
+        });
+    });
+</script>
 {/block}
