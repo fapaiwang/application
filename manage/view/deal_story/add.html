@@ -38,6 +38,13 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="layui-form-alert">*</span>成交时间</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" name="cjtime" id="cjtime" placeholder="">
+
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<label class="layui-form-label">缩略图</label>
 					<div class="layui-input-block">
 						<div class="layui-upload">
@@ -131,5 +138,14 @@
 			});
 		});
 	});
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#cjtime', //指定元素
+            type: 'date'//时间格式
+        });
+    });
 </script>
 {/block}
