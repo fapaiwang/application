@@ -196,6 +196,16 @@ class Second extends HomeBase{
         if($second_house_id) {
             $server = new server();
             $info = $server->second_model($second_house_id);
+            if($info['fcstatus']==175){
+                $chajia = $info['qp_price']-$info['cjprice'];
+                if(!is_int($chajia)){
+                    $info['chajia'] = number_format($chajia,2,".","");
+                }else{
+                    $info['chajia'] = $chajia;
+                }
+            }else{
+                $info['chajia'] = 0;
+            }
             $this->assign('info', $info);
             //房源分享图片处理
             $fenxiang_img[0] = $info["file"][1]["url"] ?? $info["img"];
@@ -211,6 +221,7 @@ class Second extends HomeBase{
             $user = model('user')->field('share_img')->where('id',$userInfo["id"])->find();
             $userInfo["qr_code"] = $user->share_img ?? "";
             $this->assign('login_user',$userInfo);
+           // dd($info['fcstatus']);175
         }else{
             return $this->fetch('public/404');
         }
