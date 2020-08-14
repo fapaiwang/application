@@ -189,7 +189,7 @@ class NewsService
      */
     public function dealStorydealStory($limit=""){
         $cache_name = "deal_story_".$limit;
-        $info = cache($cache_name);
+        $info = "";
         if (!$info){
             $info = model("deal_story")->order("create_time desc");
             if ($limit){
@@ -197,7 +197,7 @@ class NewsService
             }else{
                 $info = $info->select();
             }
-            cache($cache_name,$info);
+            cache($cache_name,$info,7200);
         }
         return $info;
     }
