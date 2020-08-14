@@ -48,14 +48,14 @@
                 <img src="{$fenxiang_img[4]}" alt="">
             </div>
             <div class="fangyaun-share-content-info">
-                <p class="title-one">{$info.title}
-                {if $info.is_free==1 }<span class="ziyougou"><span class="ziyougou2">自由购</span> </span>{/if}
-                </p>
+                <h2>{$info.title}
+                {if $info.is_free==0 }<span class="ziyougou"><span class="ziyougou2">自由购</span> </span>{/if}
+                </h2>
                 <div class="chae">
                         <div class="chae1">
                             <p>差</p><p>额</p>
                         </div>
-                        <div class="chae2"><?php echo $info['qp_price']-$info['cjprice'];?><span class="chae3">万</span></div>
+                       <div class="chae2">{$info.chajia}<span class="chae3">万</span></div>
                 </div>
                 <div class="jiage">
                     <div class="jiage1">
