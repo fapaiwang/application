@@ -136,7 +136,9 @@ $this->assign('fpy',$fpy);
         }
 
         $data = model('second_house_data')->where(['house_id'=>$id])->find();
-
+        if (empty($data)){
+            dd("second_house_data = 缺少数据");
+        }
         $position_lists = \app\manage\service\Position::lists($this->model);
 
         $house_position_cate_id = \app\manage\service\Position::getPositionIdByHouseId($id,$this->model);
@@ -335,10 +337,8 @@ $this->assign('fpy',$fpy);
 
         }else{
 
-            \think\Db::startTrans();
-
+            Db::startTrans();
             try{
-
                 !empty($data['map']) && $location = explode(',',$data['map']);
 
                // $data['house_type'] = isset($data['house_type']) ? implode(',',$data['house_type']) : 0;
@@ -352,12 +352,6 @@ $this->assign('fpy',$fpy);
                 $data['average_price'] = 0;
 
                 $data['online_consulting']=$data['online_consulting'];
-
-
-                //$data['marketprice']=$data['price'];
-
-
-
             $marketprices=$data['price'];
             $qipaiprice=$data['qipai'];
             $jlzs=round($marketprices/$qipaiprice,1);
@@ -553,11 +547,9 @@ $this->assign('fpy',$fpy);
                     $fa_hximg =$ex_hximg[0];
                     $this->fa_mv_img($fa_hximg[0]);
                 }
-
-                if($obj->allowField(true)->save($data))
-                {
+                $second_house_save = $obj->allowField(true)->save($data);
+                if($second_house_save){
                     $house_id = $obj->id;
-
                     $fa_qianmfei =$data['qianfei'] ?? "";
                     $fa_xiaci = $data['xiaci'] ?? "";
                     $fa_qianmfei_xiaci = $fa_qianmfei."".$fa_xiaci;
@@ -567,9 +559,6 @@ $this->assign('fpy',$fpy);
                         'simg'=>$data['img'] ?? "", //列表图片 = 缩略图
                         'ord'=>$data['ordid'] ?? 10,//权重
                         'is_recom'=>$data['rec_position'] ?? 0 ,
-//            'seoTitle'=>$data['seo_title'],//seo
-//            'seoKeyword'=>$data['seo_keys'],
-//            'setDescription'=>$data['position'],
                         'addtime'=>strtotime(date($data['fabutime'])) ?? time(),
                         'imgs'=>$fang_pic_serialize ?? "", //图片集 == 房源图片
                         'price'=>$data['qipai'] ?? "",
@@ -643,13 +632,13 @@ $this->assign('fpy',$fpy);
 
                 }
 
-                \think\Db::commit();
+                Db::commit();
 
             }catch(\Exception $e){
 
                 \think\facade\Log::record('添加房源信息出错：'.$e->getFile().$e->getLine().$e->getMessage());
 
-                \think\Db::rollback();
+                Db::rollback();
 
                  $msg = $e->getMessage();
 

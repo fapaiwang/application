@@ -963,9 +963,8 @@
                             <button type="button" class="layui-btn" onclick="upImage();">选择图片</button>
 
                             <div id="imageList">
-
                                 <ul class="list clearfix">
-                                    {volist name="data.file" id="vo"}
+                                    {volist name="data.file" id="vo" empty=""}
                                         <li>
                                             <img width="113" height="113" alt="{$vo.title}" src="{$vo.url}">
                                             <input type="hidden" value="{$vo.url}" name="pic[{$i+100}][pic]">
