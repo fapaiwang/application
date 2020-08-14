@@ -199,7 +199,7 @@ class Second extends HomeBase{
             if($info['fcstatus']==175){
                 $chajia = $info['qp_price']-$info['cjprice'];
                 if(!is_int($chajia)){
-                    $info['chajia'] = number_format($chajia,2);
+                    $info['chajia'] = floor($chajia,2);
                 }else{
                     $info['chajia'] = $chajia;
                 }
