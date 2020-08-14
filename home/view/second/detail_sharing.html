@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="./homeStatic/css/fangyaunShare.css">
+    <link rel="stylesheet" href="./homeStatic/css/fangyaunShare.css?v={:time();}">
 </head>
 <body>
 <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
@@ -15,6 +15,108 @@
 <script type="text/javascript" src="/share/js/html2canvas.js"></script>
 
 <script language="javascript" src="//scripts.easyliao.com/js/easyliao.js"></script>
+{if $info.fcstatus==175 }
+<div class="fang_tuijian">
+    <div><input type="button" id="SaveDownload" value="生成图片"></div>
+    <div><img class="imgDiv_img" src="" /></div>
+    <div class="fangyaun-share_chengjiao" id="body">
+        <div class="fangyaun-share-header">
+            <img src="{:getAvatar($login_user.id,90)}" data-original="{:getAvatar($login_user.id,90)}" alt="" class="fangyaun-share-header-touxiang lazy">
+            <div class="fangyaun-share-header-phone">
+                <h1>{$login_user.user_name}为您推荐</h1>
+                <p>联系方式：<span>{$login_user.mobile}</span></p>
+            </div>
+            <div class="fangyaun-share-header-code">
+                <img src="{$login_user.qr_code}" alt="">
+            </div>
+        </div>
+        <div class="fangyaun-share-content" style="position:relative;">
+            <div style="position:absolute; left:0px; top:0px;">
+                <img src="homeStatic/img/yichengjiao7.png" alt="" width="150px" height="150px">
+            </div>
+            <div class="fangyaun-share-content-buju">
+                <div class="fangyaun-share-content-buju-left">
+                    <img src="{$fenxiang_img[0]}" alt="">
+                </div>
+                <div class="fangyaun-share-content-buju-right">
+                    <img src="{$fenxiang_img[1]}" alt="">
+                    <img src="{$fenxiang_img[2]}" alt="">
+                </div>
+            </div>
+            <div class="fangyaun-share-content-address">
+                <img src="{$fenxiang_img[3]}" alt="">
+                <img src="{$fenxiang_img[4]}" alt="">
+            </div>
+            <div class="fangyaun-share-content-info">
+                <p class="title-one">{$info.title}
+                {if $info.is_free==1 }<span class="ziyougou"><span class="ziyougou2">自由购</span> </span>{/if}
+                </p>
+                <div class="chae">
+                        <div class="chae1">
+                            <p>差</p><p>额</p>
+                        </div>
+                        <div class="chae2"><?php echo $info['qp_price']-$info['cjprice'];?><span class="chae3">万</span></div>
+                </div>
+                <div class="jiage">
+                    <div class="jiage1">
+                        <li>
+                            <span>成交价:</span>
+                            <b class="shichangjia"><span>{$info.cjprice}</span>万</b>
+                        </li>
+                    </div>
+                    <div class="jiage2" style="background-image:url('homeStatic/img/jiagebg2.png');">
+                        <li class="jiage22">
+                            <span>市场价:</span>
+                            <b class="shichangjia">{$info.qp_price}万</b>
+                        </li>
+                    </div>
+                </div>
+                <ul>
+                    <li>
+                        <span>小区名称：</span>
+                        <b>{$estate.title}</b>
+                    </li>
+                    <li>
+                        <span>所在区域：</span>
+                        <b>{$estate.area_name}</b>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="fangyaun-share-content-huxing-chengjiao">
+                <p>
+                    户型：<span>{:getLinkMenuName(29,$info['toilet'])}</span>
+                </p>
+                <p>
+                    面积：<span>{$info.acreage}㎡</span>
+                </p>
+                <p>
+                    阶段：<span>{$info.jieduan_name}</span>
+                </p>
+                <p>
+                    {$info.floor}层/共{$info.total_floor}层
+                </p>
+            </div>
+            <div class="fangyaun-share-content-time-chengjiao">
+                成交时间：<span>{$info.endtime}</span>
+            </div>
+            <div class="fangyaun-share-content-dashed">
+                <div class="fangyaun-share-content-dashed-left"></div>
+                <div class="fangyaun-share-content-dashed-center"></div>
+                <div class="fangyaun-share-content-dashed-right"></div>
+            </div>
+            <div class="fangyaun-share-content-footer">
+                <img src="/static/home/images/fuwuhao.jpg" alt="">
+                <div class="fangyaun-share-content-footer-line"></div>
+                <div class="fangyaun-share-content-footer-info">
+                    <h2>微信长按识别二维码</h2>
+                    <p>查看更多房源信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{else /}
 <div class="fang_tuijian">
     <div><input type="button" id="SaveDownload" value="生成图片"></div>
     <div><img class="imgDiv_img" src="" /></div>
@@ -107,6 +209,8 @@
         </div>
     </div>
 </div>
+{/if}
+
 <script>
     $("#SaveDownload").click(function () //点击"保存下载控件"
     {
