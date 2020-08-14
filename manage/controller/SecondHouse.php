@@ -2290,7 +2290,7 @@ $this->assign('fpy',$fpy);
         $join1 = [['operatio_log o','h.id=o.house_id']];
         $join2 = [['user u','u.id=o.operator']];
         $list = model('second_house')->alias('h')->join($join1)->join($join2)
-            ->field("o.id,h.title,o.type,o.set_time,u.nick_name,o.house_id")->where($where)
+            ->field("o.id,h.title,o.type,o.set_time,u.nick_name,o.house_id")->where($where)->order("o.set_time desc")
             //->fetchSql(true)->select();dd($list);
             ->paginate(20,false,['query'=>$search]);
         $pages = $list->render();
