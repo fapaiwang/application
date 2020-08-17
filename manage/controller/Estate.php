@@ -9,7 +9,6 @@ use \app\common\controller\ManageBase;
 use app\manage\service\Synchronization;
 use think\Db;
 use think\facade\Log;
-use app\common\service\ImageServer;
 
 
 class Estate extends ManageBase

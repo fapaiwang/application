@@ -76,6 +76,23 @@ class Second extends HomeBase{
         $this->assign('end_time',$result['end_time']);
         $this->assign('rading',$result['rading']);
         $this->setSeo($result['setSeo'],'','');
+        $REQUEST_URI = $_SERVER['REQUEST_URI'];
+        if($REQUEST_URI=='/judicial'){
+            $seo_s['title'] = '司法拍卖房产,北京法拍房源信息-金铂顺昌房拍网';
+            $seo_s['keys'] = '司法拍卖房产,北京法拍房源信息,金铂顺昌房拍网';
+            $seo_s['desc'] = '金铂顺昌房拍网官网专注北京法拍房15年,平台汇集北京最新二手法拍房源信息.公司以规避法拍房风险、解决购买法拍房后顾之忧为己任,在司法拍卖房产行业中得到新老客户的认可.更多司法拍卖房产信息，请到金铂顺昌房拍网！';
+            $this->assign('seo',$seo_s);
+        }elseif($REQUEST_URI=='/residence'){
+            $seo_s['title'] = '住宅,公寓,北京法拍房源信息-金铂顺昌房拍网';
+            $seo_s['keys'] = '住宅,公寓,北京法拍房源信息,金铂顺昌房拍网';
+            $seo_s['desc'] = '金铂顺昌房拍网官网专注北京法拍房15年,平台汇集北京最新二手法拍房源信息.公司以规避法拍房风险、解决购买法拍房后顾之忧为己任,在司法拍卖房产行业中得到新老客户的认可.更多司法拍卖房产信息，请到金铂顺昌房拍网！';
+            $this->assign('seo',$seo_s);
+        }elseif($REQUEST_URI=='/entrust'){
+            $seo_s['title'] = '社会委托二手房源信息,北京二手房委托拍卖房源-金铂顺昌房拍网';
+            $seo_s['keys'] = '社会委托,北京二手房委托拍卖,二手房房源,金铂顺昌房拍网';
+            $seo_s['desc'] = '金铂顺昌房拍网全新打造社会不良房产交易体系新模式。金铂顺昌利用互联网大数据，通过阿里巴巴、京东及自身平台房拍网、法拍网等渠道低价起拍的方式实现快速交易变现目的。如果您有二手房，并且急需变现请选择我们。深耕行业15年，因为专注，所以专业!';
+            $this->assign('seo',$seo_s);
+        }
         return $this->fetch();
     }
     public function detail(){
