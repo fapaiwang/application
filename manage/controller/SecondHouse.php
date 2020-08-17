@@ -338,6 +338,8 @@ $this->assign('fpy',$fpy);
         }else{
 
             Db::startTrans();
+
+
             try{
                 !empty($data['map']) && $location = explode(',',$data['map']);
 
@@ -2317,7 +2319,7 @@ $this->assign('fpy',$fpy);
                 $user_info = model('user')->where(array('id'=>$house_info['broker_id']))->field("user_name,mobile")->find();
                 $url = 'http://web.daiyicloud.com/asmx/smsservice.aspx?';
                 $title = '亲爱的'.$user_info['user_name'].'，你提交的'.$house_info['title'].'的尽调报告被驳回了，请您查看。';
-                $url .= "name=jinboshunchang&pwd=8A942079379EB096ED6E517DB464&content=".$title."&mobile=".$user_info['mobile']."&stime=&sign=房拍网&type=pt&extno=";
+                $url .= "name=jinboshunchang&pwd=".config('third_party.pwd')."&content=".$title."&mobile=".$user_info['mobile']."&stime=&sign=房拍网&type=pt&extno=";
                 $con= substr( file_get_contents($url), 0, 1 );
                 if($con == '0'){
                     //发送成功!
