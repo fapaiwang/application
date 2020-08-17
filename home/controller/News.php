@@ -178,6 +178,10 @@ class News extends HomeBase
                     $list[$i][] = $v;
                 }
         }
+        $seo_s['title'] = $data['top']['customer_name'].'-北京法拍房成交案例-金铂顺昌房拍网';
+        $seo_s['keys'] = $data['top']['customer_name'].',北京法拍房成交案例,金铂顺昌房拍网';
+        $seo_s['desc'] = $data['top']['customer_name'].'成交价'.$data['top']['price'].'，低于市场价'.$data['top']['save_money'].', 小区:'.$data['top']['community'].'。金铂顺昌专注北京法拍房15年，千套成交案例。';
+        $this->assign('seo',$seo_s);
         $this->assign('data',$data);
         $this->assign('list',$list);
         return $this->fetch();
