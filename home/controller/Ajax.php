@@ -297,7 +297,7 @@ class Ajax extends \think\Controller
             return json($return);
         }
         if (!empty($keyword)) {
-                $keyword && $where[] = ['title|estate_name','like','%'.$keyword.'%'];
+                $keyword && $where[] = ['title|estate_name|contacts','like','%'.$keyword.'%'];
                 $city = $this->getCityChild($city_id);
                 $city && $where[] = ['city','in',$city];
                 $where[] = ['timeout','gt',time()];
