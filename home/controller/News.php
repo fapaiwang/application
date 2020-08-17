@@ -55,6 +55,16 @@ class News extends HomeBase
         $this->assign('hotArticle',$news->get_new_list(5));
         $this->assign('hotAns',$news->get_ans_list(5));
         $this->assign('smallPic',$news->get_banner(17));
+        if($cate_id==0){
+            $seo_s['title'] = '法拍房行业资讯新闻,百科,问答,公司动态及成交案例等信息-金铂顺昌房拍网';
+            $seo_s['keys'] = '法拍房百科,行业资讯新闻,问答,公司动态,成交案例';
+            $seo_s['desc'] = '金铂顺昌房拍网为您提供法拍房行业资讯新闻、法拍房问答、百科知识及金铂顺昌公司动态及成交案例等信息。';
+        }elseif($cate_id>0){
+            $seo_s['title'] = $info['name'].',法拍房-金铂顺昌房拍网';
+            $seo_s['keys'] = $info['name'].',法拍房-金铂顺昌房拍网';
+            $seo_s['desc'] = '金铂顺昌房拍网为您提供'.$info['name'].'。金铂顺昌从事法拍房15年，积累千套成交案例。要买便宜房就到金铂顺昌房拍网。';
+        }
+        $this->assign('seo',$seo_s);
         return $this->fetch();
     }
 
