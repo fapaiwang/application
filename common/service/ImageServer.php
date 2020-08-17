@@ -17,10 +17,10 @@ class ImageServer
         return true;
     }
     function qiniu_image($key){
-        require'../extend/phpsdk7.2.10/autoload.php';
+        require'../vendor/qiniu/php-sdk/autoload.php';
         // 用于签名的公钥和私钥
-        $accessKey = 'SNUJ22xykiKlZVQUeRdGUWnrPo7qlJWq_1q4DDV7';
-        $secretKey = 'HDWSB5NzcbNx5C-JOQI-dQ2WACxYFtgxC5BNG0UY';
+        $accessKey = config('third_party.accessKey');
+        $secretKey = config('third_party.secretKey');
         $bucket = "fangpaiwang";
         // 初始化签权对象
         $auth = new Auth($accessKey, $secretKey);

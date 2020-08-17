@@ -6,6 +6,7 @@ use app\common\controller\HomeNewBase;
 use app\home\service\IndexServer;
 use app\manage\service\SecondHouseService;
 use think\facade\Cache;
+use app\common\service\ImageServer;
 
 class Index extends HomeNewBase
 {
