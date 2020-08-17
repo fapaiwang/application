@@ -297,8 +297,8 @@ class Login extends HomeBase
      * @author: al
      */
     function add_user(){
-        $mobile =input('post.mobile');
-        $request = Request::post();
+        $mobile =input('param.mobile');
+        $request =input('param.');
 
         if (empty($mobile) ){
             return $this->error_o("手机号不能为空");
