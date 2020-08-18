@@ -1,7 +1,7 @@
 
 {extend name='public/page_list' /}
 {block name='css'}
-<link rel="stylesheet" href="./homeStatic/css/detail.css">
+<link rel="stylesheet" href="./homeStatic/css/detail.css?v={:time()}">
 <link rel="stylesheet" href="./homeStatic/css/kf.css">
 <link rel="stylesheet" href="./homeStatic/css/common_orig.css">
 <link rel="stylesheet" href="./homeStatic/css/color_orig.css">
@@ -12,7 +12,7 @@
 <script src="./homeStatic/js/swiper.min.js"></script>
 <script src="./homeStatic/js/jquery.waypoints.min.js"></script>
 <script src="./homeStatic/js/zhezhaoTab.js"></script>
-<script src="./homeStatic/js/detail.js"></script>
+<script src="./homeStatic/js/detail.js?v={:time()}"></script>
 <script src="__STATIC__/js/layer/layer.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 {/block}
@@ -162,7 +162,13 @@
                         <p>{$info.xsname}</p>
                     </li>
                     <li>
-                        <p><b>{$info.acreage}{:config('filter.acreage_unit')}</b></p>
+                        <p>
+                            <b>{$info.acreage}{:config('filter.acreage_unit')}</b>
+                            <b><img src="./homeStatic/img/tishi.png" class="fangpai-detail-header-right-detail-unit-tips" alt="提示" title=""
+                                    onmouseover="document.getElementById('fangpai-detail-header-right-detail-unit-title').style.display = 'block';"
+                                    onmouseout="document.getElementById('fangpai-detail-header-right-detail-unit-title').style.display = 'none';"></b>
+                            <p id="fangpai-detail-header-right-detail-unit-title" style="display: none">面积说明：该数据为此房屋建筑面积大小</p>
+                        </p>
                         <p>{$info.years}年</p>
                     </li>
                 </ul>
