@@ -9,6 +9,7 @@ use \app\common\controller\ManageBase;
 use app\manage\service\Synchronization;
 use think\Db;
 use think\facade\Log;
+use app\common\service\ImageServer;
 
 
 class Estate extends ManageBase
@@ -41,7 +42,6 @@ class Estate extends ManageBase
     }
 
     public function beforeIndex()
-
     {
         //小区数据同步
 //        $sy = new Synchronization();
@@ -74,7 +74,6 @@ class Estate extends ManageBase
      */
     public function beforeAdd()
     {
-
         $position_lists = \app\manage\service\Position::lists($this->model);
 
         $this->assign('position_lists',$position_lists);
@@ -158,60 +157,32 @@ class Estate extends ManageBase
     }
 
     public function addDo(){
-
+        $ImageServer = new ImageServer();
         \app\common\model\Estate::event('before_insert',function(Estate $estate,$obj){
-
             if($obj->checkTitleExists($obj->title))
-
             {
-
                 $estate->errMsg = '该小区已存在!';
-
                 return false;
-
             }
-
-
-
-
             $map       = explode(',',input('post.map'));
-
             $obj->lat  = isset($map[1])?$map[1]:0;
-
             $obj->lng  = isset($map[0])?$map[0]:0;
-
             if (empty($obj->seo_title)) {
-
                 $obj->seo_title = $obj->title;
-
             }
-
             if (empty($obj->seo_keys)) {
-
                 $obj->seo_keys = $estate->setSeo($obj->title);
-
             }
-
             $images = $estate->getPic();
-
             if($images){
-
                 $obj->file = $images;
-
             }
-
             if (isset($_POST['position'])) {
-
                 $data['rec_position'] = 1;
-
             }
-
             return true;
-
         });
-
         \app\common\model\Estate::event('after_insert',function($obj){
-
             //同步小区
             $data = input('post.');
             //查询小区
@@ -223,30 +194,25 @@ class Estate extends ManageBase
                 model('community')->allowField(true)->save($arr);
             }
             //结束同步
-
             \app\manage\service\Position::option($obj->id,'estate');
-
             \org\Relation::addSchool('estate',$obj->lng,$obj->lat,$obj->id,$obj->city);
-
             \org\Relation::addMetro('estate',$obj->lng,$obj->lat,$obj->id,$obj->city);
-
         });
-
        // parent::addDo();
         $obj = model('estate');
         if (request()->isPost()) {
             $data = input('post.');
-            //给图片打水印star
-            $ImageServer = new ImageServer();
             //缩略图
             if($data['img']!=''){
                 $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+                $ImageServer->QiniuImage($data['img']);
             }
             //房源图片
             if(isset($data['pic'])){
                 if(!empty($data['pic'])){
                     foreach($data['pic'] as $k=>$v){
                         $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                        $ImageServer->QiniuImage($v['pic']);
                     }
                 }
             }
@@ -263,16 +229,12 @@ class Estate extends ManageBase
     }
 
     public function editDo(){
+        $ImageServer = new ImageServer();
         \app\common\model\Estate::event('before_update',function(Estate $estate,$obj){
-
             if($obj->checkTitleExists($obj->title,$obj->id))
-
             {
-
                 $estate->errMsg = '该小区已存在!';
-
                 return false;
-
             }
             //同步小区
             $data = input('post.');
@@ -285,47 +247,25 @@ class Estate extends ManageBase
                 model('community')->allowField(true)->save($arr,['id'=>$fa_community_id]);
             }
             //结束同步
-
-
             $map       = explode(',',input('post.map'));
-
             $obj->lat  = isset($map[1])?$map[1]:0;
-
             $obj->lng  = isset($map[0])?$map[0]:0;
-
             $images = $estate->getPic();
-
             if($images){
-
                 $obj->file = $images;
-
             }
-
             if (!isset($_POST['position'])) {
-
                 $obj->rec_position = 0;
-
             } else {
-
                 $obj->rec_position = 1;
-
             }
-
             return true;
-
         });
-
         \app\common\model\Estate::event('after_update',function($obj){
-
             \app\manage\service\Position::option($obj->id,'estate');
-
             \org\Relation::addSchool('estate',$obj->lng,$obj->lat,$obj->id,$obj->city);
-
             \org\Relation::addMetro('estate',$obj->lng,$obj->lat,$obj->id,$obj->city);
-
         });
-
-        //parent::editDo();
         $obj = model('estate');
         $url = null;
         if (request()->isPost()) {
@@ -334,13 +274,12 @@ class Estate extends ManageBase
             if (!isset($data['id']) || empty($data['id'])) {
                 $this->error('参数错误');
             }
-            //给图片打水印star
-            $ImageServer = new ImageServer();
             //缩略图
             if($data['img']!=''){
                 if($data['img_ckeck']!=''){
                      if($data['img']!=$data['img_ckeck']){
                          $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+                         $ImageServer->QiniuImage($data['img']);
                      }
                 }
             }
@@ -351,6 +290,7 @@ class Estate extends ManageBase
                              unset($data['file']);
                         }else{
                             $ImageServer->ImageWater('../public'.$v['url'],'../public/static/shuiyin/ppshuiyin.png',10);
+                            $ImageServer->QiniuImage($v['url']);
                         }
                     }
                 }
@@ -362,6 +302,7 @@ class Estate extends ManageBase
                             unset($data['pic'][$k]['check']);
                         }else{
                             $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                            $ImageServer->QiniuImage($v['pic']);
                         }
                     }
                 }

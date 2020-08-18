@@ -100,6 +100,7 @@ class Article extends ManageBase
                 }
                 foreach($match[1] as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v);
                 }
             }
             //给图片打水印end
@@ -127,6 +128,7 @@ class Article extends ManageBase
                 $ImageServer = new ImageServer();
                 foreach($match[1] as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v);
                 }
                 //给图片打水印end
             }

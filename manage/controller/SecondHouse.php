@@ -179,12 +179,14 @@ $this->assign('fpy',$fpy);
         //缩略图
         if($data['img']!=''){
             $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+            $ImageServer->QiniuImage($data['img']);
         }
         //房源图片
         if(isset($data['pic'])){
             if(!empty($data['pic'])){
                 foreach($data['pic'] as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v['pic']);
                 }
             }
         }
@@ -297,9 +299,9 @@ $this->assign('fpy',$fpy);
             $fa_hr_tid = $this->fa_hr_tid($hr_tid);
         }
         //列表图片移动
-        if(!empty($img_url)){
+        /*if(!empty($img_url)){
             $this->fa_mv_img($img_url);
-        }
+        }*/
 //        static/pics/
         //图片集移动
         $fang_pic_serialize ="";
@@ -309,7 +311,7 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                //copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
@@ -445,6 +447,7 @@ $this->assign('fpy',$fpy);
           // echo "12333";exit();
           $data['fabutime']=date("Y-m-d h:i:s",time());
         }
+        //户型图
         if(!empty($data['shu'])){
             $aaa=$data['shu']+1;
             for ($n=0; $n<$aaa; $n++) {
@@ -482,12 +485,13 @@ $this->assign('fpy',$fpy);
                 $water_hximg = explode(",",$data['hximg']);
                 foreach($water_hximg as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v);
                 }
             }
         }
         //给图片打水印end
-              //  dd($data['hximg']);
-        if (!empty($_FILES['hxsimg']['name'])) {
+              //尽调报告图 -  该功能自作废
+/*        if (!empty($_FILES['hxsimg']['name'])) {
             $hxsimg = request()->file('hxsimg');
             if($hxsimg){
                  $info = $hxsimg->move(env('root_path'). 'public/wj');
@@ -496,7 +500,7 @@ $this->assign('fpy',$fpy);
                     $data['hxsimg']='/wj/'.$image;
                  }
             }
-        }
+        }*/
 
 
 
@@ -547,7 +551,7 @@ $this->assign('fpy',$fpy);
                 if (!empty($data['hximg'])){
                     $ex_hximg = explode(',',$data['hximg']);
                     $fa_hximg =$ex_hximg[0];
-                    $this->fa_mv_img($fa_hximg[0]);
+                   // $this->fa_mv_img($fa_hximg[0]);
                 }
                 $second_house_save = $obj->allowField(true)->save($data);
                 if($second_house_save){
@@ -680,6 +684,7 @@ $this->assign('fpy',$fpy);
         if($data['img']!=''){
             if($data['img_check']==''||$data['img_check']!=$data['img']){
                 $ImageServer->ImageWater('../public'.$data['img'],'../public/static/shuiyin/ppshuiyin.png',10);
+                $ImageServer->QiniuImage($data['img']);
             }
         }
         unset($data['img_check']);
@@ -705,6 +710,7 @@ $this->assign('fpy',$fpy);
                 }
                 foreach($data_pic as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v['pic'],'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v['pic']);
                 }
             }
         }
@@ -856,9 +862,9 @@ $this->assign('fpy',$fpy);
 //            $fa_hr_tid = $this->fa_hr_tid($hr_tid);
 //        }
         //列表图片移动
-        if(!empty($img_url)){
+       /* if(!empty($img_url)){
             $this->fa_mv_img($img_url);
-        }
+        }*/
 //        static/pics/
         //图片集移动
         $fang_pic_serialize ="";
@@ -868,7 +874,7 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                //copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
@@ -976,12 +982,13 @@ $this->assign('fpy',$fpy);
                 $water_hximg = explode(",",$data['hximg']);
                 foreach($water_hximg as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
+                    $ImageServer->QiniuImage($v);
                 }
             }
         }
         //给图片打水印end
 
-             if (!empty($_FILES['hxsimg']['name'])) {
+            /* if (!empty($_FILES['hxsimg']['name'])) {
 
                $hxsimg = request()->file('hxsimg');
 
@@ -995,7 +1002,7 @@ $this->assign('fpy',$fpy);
                      }
 
                  }
-             }
+             }*/
   if (!empty($data['toilet'])) {
              $yyy= model('linkmenu')->field('name')->where('id',$data['toilet'])->where('menuid',29)->find();
              // print_r($yyy);
@@ -1063,7 +1070,7 @@ $this->assign('fpy',$fpy);
                 if (!empty($data['hximg'])){
                     $fa_hximg = explode(',',$data['hximg']);
                     if (!empty($fa_hximg[0])){
-                        $this->fa_mv_img($fa_hximg[0]);
+                        //$this->fa_mv_img($fa_hximg[0]);
                         $h_map = $fa_hximg[0];
                     }
                 }else{
