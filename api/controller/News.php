@@ -53,8 +53,11 @@ class News extends ApiBase
         $where['pid']    = 0;
         $return['code']  = 0;
         $lists = model('article_cate')->field('id,name')->where($where)->order(['ordid'=>'asc','id'=>'asc'])->select();
+        $list_append = ["id"=>0,"name"=>"全部"];
         if(!$lists->isEmpty())
         {
+            $lists = $lists->toArray();
+            array_unshift($lists,$list_append);
             $return['code'] = 200;
             $return['data'] = $lists;
         }
