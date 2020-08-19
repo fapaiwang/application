@@ -311,7 +311,9 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                if(file_exists($fang_img_url)){
+                    copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                }
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
@@ -874,7 +876,9 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                if(file_exists($fang_img_url)) {
+                    copy($fang_img_url, '../../www.fapaiwang.cn/static/pics/' . $fang_pic_name);
+                }
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
