@@ -86,9 +86,9 @@ class Synchronization
             'addtime'=>time(),
         ];
         //20200818改版，图片全部存储在七牛云，本地不在同步图片
-        /*if ($data['img']){
+        if ($data['img']){
             $this->fa_mv_img($data['img'],24);
-        }*/
+        }
         return $arr;
     }
 

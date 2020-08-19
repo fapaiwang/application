@@ -299,9 +299,9 @@ $this->assign('fpy',$fpy);
             $fa_hr_tid = $this->fa_hr_tid($hr_tid);
         }
         //列表图片移动
-        /*if(!empty($img_url)){
+        if(!empty($img_url)){
             $this->fa_mv_img($img_url);
-        }*/
+        }
 //        static/pics/
         //图片集移动
         $fang_pic_serialize ="";
@@ -311,7 +311,7 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                //copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
@@ -551,7 +551,7 @@ $this->assign('fpy',$fpy);
                 if (!empty($data['hximg'])){
                     $ex_hximg = explode(',',$data['hximg']);
                     $fa_hximg =$ex_hximg[0];
-                   // $this->fa_mv_img($fa_hximg[0]);
+                    $this->fa_mv_img($fa_hximg[0]);
                 }
                 $second_house_save = $obj->allowField(true)->save($data);
                 if($second_house_save){
@@ -862,9 +862,9 @@ $this->assign('fpy',$fpy);
 //            $fa_hr_tid = $this->fa_hr_tid($hr_tid);
 //        }
         //列表图片移动
-       /* if(!empty($img_url)){
+        if(!empty($img_url)){
             $this->fa_mv_img($img_url);
-        }*/
+        }
 //        static/pics/
         //图片集移动
         $fang_pic_serialize ="";
@@ -874,7 +874,7 @@ $this->assign('fpy',$fpy);
                 $fang_pic_name =substr($value['pic'],24);
                 $fang_pic[$k] =$fang_pic_name;
                 $fang_img_url =substr($value['pic'],1);
-                //copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
+                copy($fang_img_url,'../../www.fapaiwang.cn/static/pics/'.$fang_pic_name);
             }
             $fang_pic_serialize = serialize($fang_pic);
         }
@@ -1070,7 +1070,7 @@ $this->assign('fpy',$fpy);
                 if (!empty($data['hximg'])){
                     $fa_hximg = explode(',',$data['hximg']);
                     if (!empty($fa_hximg[0])){
-                        //$this->fa_mv_img($fa_hximg[0]);
+                        $this->fa_mv_img($fa_hximg[0]);
                         $h_map = $fa_hximg[0];
                     }
                 }else{
@@ -2327,7 +2327,7 @@ $this->assign('fpy',$fpy);
                 $url = 'http://web.daiyicloud.com/asmx/smsservice.aspx?';
                 $title = '亲爱的'.$user_info['user_name'].'，你提交的'.$house_info['title'].'的尽调报告被驳回了，请您查看。';
                 $url .= "name=jinboshunchang&pwd=".config('third_party.pwd')."&content=".$title."&mobile=".$user_info['mobile']."&stime=&sign=房拍网&type=pt&extno=";
-                $con= substr( file_get_contents($url), 0, 1 );
+                $con= substr(file_get_contents($url),0,1);
                 if($con == '0'){
                     //发送成功!
                 }else{

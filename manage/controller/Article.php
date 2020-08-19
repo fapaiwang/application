@@ -84,6 +84,9 @@ class Article extends ManageBase
             $obj->cate_alias = $article->_cate_mod->getCateAlias($obj->cate_id);
             //给图片打水印star
             $ImageServer = new ImageServer();
+            if($obj->img!=''){
+                $ImageServer->QiniuImage($obj->img);
+            }
             $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
             preg_match_all($pattern,$obj->info,$match);
             if(!empty($match[1])){
@@ -112,6 +115,7 @@ class Article extends ManageBase
     }
     //添加前置事件
     public function addDo(){
+
         \app\common\model\Article::event('before_insert',function(Article $article,$obj){
             //自动提取摘要
             if($obj->description == '' && isset($obj->info)) {
@@ -120,12 +124,14 @@ class Article extends ManageBase
                 $obj->description = addslashes($obj->description);
             }
             $obj->cate_alias = $article->_cate_mod->getCateAlias($obj->cate_id);
-
+            //给图片打水印star
+            $ImageServer = new ImageServer();
+            if($obj->img!=''){
+                $ImageServer->QiniuImage($obj->img);
+            }
             $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
             preg_match_all($pattern,$obj->info,$match);
             if(!empty($match[1])){
-                //给图片打水印star
-                $ImageServer = new ImageServer();
                 foreach($match[1] as $k=>$v){
                     $ImageServer->ImageWater('../public'.$v,'../public/static/shuiyin/ppshuiyin.png',10);
                     $ImageServer->QiniuImage($v);
