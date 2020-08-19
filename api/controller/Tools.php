@@ -121,6 +121,14 @@ class Tools extends Controller
         }
         return $this->success_o($return);
     }
+    public function getTdk(){
+        $info  = input('param.type');
+        if (empty($info)){
+            return $this->error_o("类型不能为空");
+        }
+        $tdk = $this->ToolsService->Tdk($info);
+        return $this->success_o($tdk);
+    }
     function test2(){
         //$num = input('get.num');
         //$url = input('get.url');//estate

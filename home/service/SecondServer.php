@@ -811,5 +811,24 @@ where  fcstatus=170 and status =1 and id != ".$house_id." ORDER BY distance ASC 
         $info = $obj->field($field)->where($where)->find();
         return $info;
     }
+    /**
+     * 详情页tdk
+     * @param $title
+     * @param mixed
+     * @author: al
+     */
+    public function tdk($title,$house_type=45){
+        if ($house_type == 48){
+            $seo['title'] = $title.',北京社会委托房源拍卖-金铂顺昌房拍网';
+            $seo['keys']  = $title.',北京二手房源,社会委托拍卖,金铂顺昌房拍网';
+            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】社会委托拍卖二手房源信息详情：费用价格、时间、流程、注意事项等服务信息，让您安心购便宜房！';
+        }else{
+            $seo['title'] = $title.',北京法拍房-金铂顺昌房拍网';
+            $seo['keys']  = $title.',北京法拍房,金铂顺昌房拍网';
+            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
+        }
+        return $seo;
+
+    }
 
 }

@@ -181,7 +181,8 @@ class Second extends HomeBase{
                 if($info['parking_space']==''){
                     $info['parking_space']=$estate['data']['parking_space'];
                 }
-                $this->tdk($info["title"],$info["house_type"]);
+                $seo = $SecondServer->tdk($info["title"],$info["house_type"]);
+                $this->assign('seo',$seo);
                 $this->assign('house_loan',json_encode($house_loan));
                 $this->assign('guanzhu',$guanzhu);
                 $this->assign('userInfo',$userInfo);
@@ -891,30 +892,14 @@ echo 'www.fangpaiwang.com/erf-'.$v['id'].'.html';echo '<br/>';
         curl_close($ch);
         return $httpCode;
     }*/
-    /**
-     *
-     * @param $title
-     * @param mixed
-     * @author: al
-     */
-    public function tdk($title,$house_type=45){
-        if ($house_type == 48){
-            $seo['title'] = $title.',北京社会委托房源拍卖-金铂顺昌房拍网';
-            $seo['keys']  = $title.',北京二手房源,社会委托拍卖,金铂顺昌房拍网';
-            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】社会委托拍卖二手房源信息详情：费用价格、时间、流程、注意事项等服务信息，让您安心购便宜房！';
-        }else{
-            $seo['title'] = $title.',北京法拍房-金铂顺昌房拍网';
-            $seo['keys']  = $title.',北京法拍房,金铂顺昌房拍网';
-            $seo['desc']  = '金铂顺昌房拍网为您提供北京【'.$title.'】法拍房源信息详情：拍卖价格、公告、时间、流程、注意事项及风险评估等服务内容，让您安心购房！';
-        }
-        $this->assign('seo',$seo);
-    }
+
     public function houseNotice(){
         $house_id = input("param.house_id");
         $second_house_data = model("second_house_data")->field("info")->where('house_id',$house_id)->find();
         $this->assign('second_house_data',$second_house_data);
         return $this->fetch();
     }
+
 
 
 }

@@ -209,6 +209,7 @@ class Login extends ApiBase
                 cache("user_info_".$data['id'],$info,2592000);
                 cookie('userInfo',$info);
 //todo 清除token
+                $user_info["nick_name"] = hideStr($user_info["nick_name"]);
 //                session('__token__',null);//清除token
                return $this->success_o($user_info,"恭喜您！注册成功！");
             }else{
@@ -252,6 +253,7 @@ class Login extends ApiBase
                 $info = \org\Crypt::encrypt(json_encode($info));
                 cookie('userInfo',$info);
                 cache("user_info_".$user_id,$info,2592000);
+                $data["nick_name"] = hideStr($data["nick_name"]);
                 // session('__token__',null);//清除token
                 return $this->success_o($data);
             }else{
@@ -295,6 +297,7 @@ class Login extends ApiBase
                 cookie('userInfo',$info);
                 cache("user_info_".$user_id,$info,2592000);
 //                session('__token__',null);//清除token
+                $data["nick_name"] = hideStr($data["nick_name"]);
                 return $this->success_o($data);
             }else{
                 return $this->error_o("用户不存在或账号密码不正确！");

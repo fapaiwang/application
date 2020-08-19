@@ -102,6 +102,30 @@ class ToolsServer
         }
         return intval($price);
     }
+    public function Tdk($type = ""){
+        switch ($type)
+        {
+            case 'index': //首页
+                return $this->tdkNav("home/Index");
+                break;
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * nav 表的tdk
+     * @param mixed
+     * @return array|\PDOStatement|string|\think\Collection
+     * @author: al
+     */
+    public function tdkNav($model_action ="home/Index"){
+        $footer_nav = model('nav')->field('title,url,action,seo_title,seo_keys,seo_desc')
+            ->where(['status'=>1,'model_action'=>$model_action])
+            ->cache('86400')
+            ->select();
+        return $footer_nav;
+    }
 
 
 }

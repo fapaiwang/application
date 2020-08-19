@@ -161,6 +161,7 @@ class SecondHouse extends Controller
         $houseRes['estate_num']= $SecondServer->estate_second_num($id,$houseRes['estate_name']);
         //法拍专员点评/点评个数
         $houseRes['second_house_user_comment'] = $SecondServer->second_house_user_comment($id);
+        $houseRes['seo'] = $this->Second_Server->tdk($houseRes["title"],$houseRes["house_type"]);
         //公告处理
         if ($houseRes["info"]){
             $info = strip_tags($houseRes["info"]);
