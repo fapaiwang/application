@@ -40,7 +40,7 @@ class ImageServer
         } else {
             if(file_exists($key))
             {
-                unlink($key);
+                //unlink($key);
             }
             return $ret;
         }
