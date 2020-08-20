@@ -322,7 +322,7 @@ class Second extends HomeBase{
      * @return array
      * 获取列表
      */
-    public function getLists($parameter="",$estate_id="",$ids=[],$limit=30){
+    public function getLists($parameter="",$estate_id="",$ids=[],$limit=30,$is_img_processing=0){
         $SecondServer = new SecondServer();
         $time    = time();
         $where_data   = $this->search($parameter,$estate_id,$ids);
@@ -392,9 +392,8 @@ class Second extends HomeBase{
                     $lists[$key]['characteristic_name'] = $SecondServer->house_characteristic_one($value['marketprice'],
                         $value['is_commission'],$value['is_school'],$value['is_metro']);//标签
                 }
-                if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
-//                    $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
-                    $lists[$key]['img'] = "";
+                if ($is_img_processing) {
+                    $lists[$key]['img'] = thumb($lists[$key]['img'],240,149);
                 }
 
             }
