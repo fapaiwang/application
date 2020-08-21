@@ -467,9 +467,9 @@
                 <div class="layui-form-item">
 
                     <div class="layui-inline">
-                        <label class="layui-form-label">参拍网站 </label>
+                        <label class="layui-form-label" style="color:red;">参拍网站 </label>
                         <div class="layui-input-inline">
-                                <select name="auction_website" id="auction_website">
+                                <select name="auction_website" id="auction_website" lay-verify="auction_website">
                                     <option value="0">--请选择--</option>
                                     <option value="1" {if condition="$data.auction_website eq 1"}selected{/if}>淘宝网</option>
                                     <option value="2" {if condition="$data.auction_website eq 2"}selected{/if}>京东网</option>
@@ -957,6 +957,11 @@
                 var xiaci = $("#xiaci").val();
                 if(value==1&&xiaci==''){
                     return '请填写瑕疵情况';
+                }
+            },
+            auction_website : function (value) {
+                if(value==0){
+                    return '请选择参拍网站';
                 }
             },
         });
