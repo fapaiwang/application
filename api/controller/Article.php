@@ -31,10 +31,10 @@ class Article extends Controller
      * @author: al
      */
     public function index(){
-        $cate_id = input('get.cate/d',0);
-        $page    = input('get.page/d',1);
-        $hits    = input('get.hits',1);
-        $keyword    = input('get.keyword',1);
+        $cate_id = input('param.cate/d',0);
+        $page    = input('param.page/d',1);
+        $hits    = input('param.hits');
+        $keyword    = input('param.keyword');
         $res =$this->news_service->article($cate_id,$hits,$keyword,$page);
         return $this->success_o($res);
     }

@@ -80,7 +80,7 @@ class SecondServer
     public function get_today_add(){
         $time    = time();
         $field ="id,title";
-        $list = "";
+        $list = cache("second_house_today_add");
         if (!$list){
             $list =model('second_house')->field($field)->where([['status','=',1],["timeout",'>',$time]])
                 ->order("fabutime desc")
