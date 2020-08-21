@@ -80,9 +80,14 @@ class SecondServer
     public function get_today_add(){
         $time    = time();
         $field ="id,title";
-        $house =model('second_house')->field($field)->where([['status','=',1],["timeout",'>',$time]])
-            ->cache("second_house_today_add",3600)->limit(20)->select();
-        return $house;
+        $list = "";
+        if (!$list){
+            $list =model('second_house')->field($field)->where([['status','=',1],["timeout",'>',$time]])
+                ->order("fabutime desc")
+                ->limit(20)->select();
+            cache("second_house_today_add",$list,3600);
+        }
+        return $list;
     }
     /**
      * @param $xsname 房屋属性(住宅,商业..)
