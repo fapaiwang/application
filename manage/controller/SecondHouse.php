@@ -2328,15 +2328,18 @@ $this->assign('fpy',$fpy);
             if($data['audit_status']==2){
                 $house_info = model('second_house')->where(array('id'=>$id))->field("title,broker_id")->find();
                 $user_info = model('user')->where(array('id'=>$house_info['broker_id']))->field("user_name,mobile")->find();
-                $url = 'http://web.daiyicloud.com/asmx/smsservice.aspx?';
-                $title = '亲爱的'.$user_info['user_name'].'，你提交的'.$house_info['title'].'的尽调报告被驳回了，请您查看。';
-                $url .= "name=jinboshunchang&pwd=".config('third_party.pwd')."&content=".$title."&mobile=".$user_info['mobile']."&stime=&sign=房拍网&type=pt&extno=";
-                $con= substr(file_get_contents($url),0,1);
-                if($con == '0'){
-                    //发送成功!
-                }else{
-                    //发送失败!
-                }
+                $url_data = array('name'=>'jinboshunchang',
+                    'pwd'=>config('third_party.pwd'),
+                    'content'=>'亲爱的'.$user_info['user_name'].'，你提交的'.$house_info['title'].'的尽调报告被驳回了，请您查看。',
+                    'mobile'=>$user_info['mobile'],
+                    'stime'=>'',
+                    'sign'=>'房拍网',
+                    'type'=>'pt',
+                    'extno'=>''
+                );
+                $rescult = http_build_query($url_data);
+                $url = 'http://web.daiyicloud.com/asmx/smsservice.aspx?'.$rescult;
+                file_get_contents($url);
             }
             return true;
         }else{
