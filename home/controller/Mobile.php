@@ -10,7 +10,7 @@ class Mobile extends \think\Controller
      * @return mixed
      * 新闻详细
      */
-    public function new_detail()
+    public function newDetail()
     {
 
         $id = input('param.id/d', 0);
@@ -53,7 +53,6 @@ class Mobile extends \think\Controller
         $info["lng"] = input("param.lng");
         $info["lat"] = input("param.lat");
         $info["title"] = input("param.title");
-        $info["estate_name"] = input("param.name");
         if (empty($info["lng"]) || empty($info["lat"])){
             return "经纬度为空";
         }

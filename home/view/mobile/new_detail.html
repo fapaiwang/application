@@ -50,7 +50,7 @@
                 <ul>
                     {volist name='relation' id='vo'}
                     <li>
-                        <a href="{:url('News/detail',['id'=>$vo['id']])}" title="{$vo.title}">
+                        <a href="new_details?id={$vo['id']}" title="{$vo.title}">
                             <span class="l_con ">
                               <h4 class="art_tit">{$vo.title}</h4>
                               <div class="ft">
