@@ -48,6 +48,19 @@ class Mobile extends \think\Controller
         }
         return $this->fetch();
     }
+    public function secondDetailMap(){
+        $seo['title'] = $seo['keys'] = $seo['desc']  = "周边地图";
+        $info["lng"] = input("param.lng");
+        $info["lat"] = input("param.lat");
+        $info["title"] = input("param.title");
+        $info["estate_name"] = input("param.name");
+        if (empty($info["lng"]) || empty($info["lat"])){
+            return "经纬度为空";
+        }
+        $this->assign('info',$info);
+        $this->assign('seo', $seo);
+        return $this->fetch();
+    }
     private function relationArticle($cate_id,$num = 5)
     {
         $where['status']  = 1;
