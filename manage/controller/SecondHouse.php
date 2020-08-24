@@ -2104,7 +2104,8 @@ $this->assign('fpy',$fpy);
             $house_array['floor']  = $data['floor'];
             $house_array['total_floor']  = $data['total_floor'];
             $house_array['orientations']  = $data['orientations'];
-
+            $house_array['years']  = $data['years'];
+            
             $data['update_time'] = time();
             $house_array['update_time'] = time();
             $house_id = $data['id'];
@@ -2163,7 +2164,7 @@ $this->assign('fpy',$fpy);
             unset($data['elevator']);unset($data['xiaci']);unset($data['qianfei']);unset($data['back_url']);unset($data['years']);
             unset($data['enforcement']);unset($data['land_purpose']);unset($data['land_certificate']);unset($data['hxsimg']);
             unset($data['property_no']);unset($data['management']);unset($data['lease']);unset($data['xiaci_status']);unset($data['qianfei_status']);
-            unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);unset($data['years']);
+            unset($data['sequestration']);unset($data['vacate']);unset($data['mortgage']);unset($data['id']);
             unset($data['toilet']);unset($data['acreage']);unset($data['price']);unset($data['ckprice']);unset($data['floor']);
             unset($data['total_floor']);unset($data['orientations']);unset($data['elevator_status']);unset($data['developer']);
             \think\Db::startTrans();
